@@ -21,7 +21,8 @@
     "check:all": "npm run check && npm run build",
     "i18n:check": "tsx scripts/i18n-check.ts",
     "layout:check": "tsx scripts/layout-test.ts",
-    "seo:check": "tsx scripts/seo-check.ts"
+    "seo:check": "tsx scripts/seo-check.ts",
+    "features:check": "tsx scripts/feature-flags-check.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",

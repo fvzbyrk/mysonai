@@ -10,18 +10,19 @@ import { LanguageSwitcher } from './language-switcher'
 import { usePathname } from 'next/navigation'
 import { Locale, getLocaleFromPathname } from '@/lib/i18n'
 import { t } from '@/lib/translations'
+import { FeatureGuard } from './feature-guard'
 
 export function Header() {
   const pathname = usePathname()
   const locale = getLocaleFromPathname(pathname) || 'tr'
   
   const navigation = [
-    { name: t(locale as Locale, 'nav.home'), href: `/${locale}` },
-    { name: t(locale as Locale, 'nav.assistants'), href: `/${locale}/assistants` },
-    { name: t(locale as Locale, 'nav.blog'), href: `/${locale}/blog` },
-    { name: t(locale as Locale, 'nav.demo'), href: `/${locale}/demo` },
-    { name: t(locale as Locale, 'nav.pricing'), href: `/${locale}/pricing` },
-    { name: t(locale as Locale, 'nav.contact'), href: `/${locale}/contact` },
+    { name: t(locale as Locale, 'nav.home'), href: `/${locale}`, feature: null },
+    { name: t(locale as Locale, 'nav.assistants'), href: `/${locale}/assistants`, feature: 'assistants' },
+    { name: t(locale as Locale, 'nav.blog'), href: `/${locale}/blog`, feature: 'blog' },
+    { name: t(locale as Locale, 'nav.demo'), href: `/${locale}/demo`, feature: 'demo' },
+    { name: t(locale as Locale, 'nav.pricing'), href: `/${locale}/pricing`, feature: 'pricing' },
+    { name: t(locale as Locale, 'nav.contact'), href: `/${locale}/contact`, feature: 'contact' },
   ]
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -51,13 +52,14 @@ export function Header() {
         
         <div className="hidden lg:flex lg:gap-x-12">
           {navigation.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className="text-sm font-semibold leading-6 text-gray-900 hover:text-primary-600 transition-colors"
-            >
-              {item.name}
-            </Link>
+            <FeatureGuard key={item.name} feature={item.feature as any}>
+              <Link
+                href={item.href}
+                className="text-sm font-semibold leading-6 text-gray-900 hover:text-primary-600 transition-colors"
+              >
+                {item.name}
+              </Link>
+            </FeatureGuard>
           ))}
         </div>
         
@@ -125,14 +127,15 @@ export function Header() {
               <div className="-my-6 divide-y divide-gray-500/10">
                 <div className="space-y-2 py-6">
                   {navigation.map((item) => (
-                    <Link
-                      key={item.name}
-                      href={item.href}
-                      className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      {item.name}
-                    </Link>
+                    <FeatureGuard key={item.name} feature={item.feature as any}>
+                      <Link
+                        href={item.href}
+                        className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        {item.name}
+                      </Link>
+                    </FeatureGuard>
                   ))}
                 </div>
                 <div className="py-6">
