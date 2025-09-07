@@ -4,7 +4,7 @@ export const translations = {
   tr: {
     // Navigation
     'nav.home': 'Ana Sayfa',
-    'nav.assistants': 'Asistanlar',
+    'nav.assistants': 'AI Asistanlar',
     'nav.dashboard': 'Panel',
     'nav.demo': 'Demo',
     'nav.signin': 'Giriş Yap',
@@ -13,7 +13,7 @@ export const translations = {
     
     // Hero Section
     'hero.title': 'AI Destekli Hukuki Danışmanlık',
-    'hero.subtitle': 'Yapay zeka teknolojisi ile hukuki sorularınıza anında yanıt alın',
+    'hero.subtitle': 'Türkçe AI asistanlarınızla gerçek zamanlı olarak sohbet edin. Her biri kendi alanında uzman olan 17 AI asistanı size yardımcı olmaya hazır!',
     'hero.cta': 'Hemen Başla',
     'hero.demo': 'Demo İzle',
     
@@ -85,7 +85,7 @@ export const translations = {
   en: {
     // Navigation
     'nav.home': 'Home',
-    'nav.assistants': 'Assistants',
+    'nav.assistants': 'AI Assistants',
     'nav.dashboard': 'Dashboard',
     'nav.demo': 'Demo',
     'nav.signin': 'Sign In',
@@ -94,7 +94,7 @@ export const translations = {
     
     // Hero Section
     'hero.title': 'AI-Powered Legal Consultation',
-    'hero.subtitle': 'Get instant answers to your legal questions with artificial intelligence technology',
+    'hero.subtitle': 'Chat in real-time with your Turkish AI assistants. 17 AI assistants, each an expert in their field, are ready to help you!',
     'hero.cta': 'Get Started',
     'hero.demo': 'Watch Demo',
     
