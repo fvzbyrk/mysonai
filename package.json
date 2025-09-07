@@ -27,7 +27,8 @@
     "payment:check": "tsx scripts/payment-check.ts",
     "blog-docs:check": "tsx scripts/blog-docs-check.ts",
     "performance:check": "tsx scripts/performance-check.ts",
-    "analyze": "cross-env ANALYZE=true npm run build"
+    "analyze": "cross-env ANALYZE=true npm run build",
+    "analytics-logging:check": "tsx scripts/analytics-logging-check.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
