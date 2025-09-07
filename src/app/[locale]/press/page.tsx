@@ -23,7 +23,8 @@ import {
   Heart,
   Rocket,
   Calendar,
-  FileText
+  FileText,
+  ExternalLink
 } from 'lucide-react';
 import type { Metadata } from 'next';
 

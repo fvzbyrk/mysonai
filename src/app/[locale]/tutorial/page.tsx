@@ -35,7 +35,7 @@ export async function generateMetadata({
       ? 'Tutorial - MySonAI Kullanım Kılavuzu | AI Asistanları Nasıl Kullanılır'
       : 'Tutorial - MySonAI Usage Guide | How to Use AI Assistants',
     description: isTurkish
-      ? 'MySonAI kullanım kılavuzu ve tutorial'ları. AI asistanları nasıl kullanılır, en iyi uygulamalar ve ipuçları.'
+      ? 'MySonAI kullanım kılavuzu ve tutorialları. AI asistanları nasıl kullanılır, en iyi uygulamalar ve ipuçları.'
       : 'MySonAI usage guide and tutorials. How to use AI assistants, best practices and tips.',
     keywords: isTurkish
       ? 'MySonAI tutorial, kullanım kılavuzu, AI asistanları nasıl kullanılır, rehber'
