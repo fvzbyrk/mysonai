@@ -10,6 +10,8 @@ import { Toaster } from 'sonner'
 import { Locale } from '@/lib/i18n'
 import { notFound } from 'next/navigation'
 import { locales } from '@/lib/i18n'
+import { HreflangTags } from '@/components/hreflang'
+import { JsonLd } from '@/components/json-ld'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -106,6 +108,10 @@ export default function LocaleLayout({
           __html: `document.documentElement.lang = '${params.locale}';`,
         }}
       />
+      
+      {/* SEO Tags */}
+      <HreflangTags />
+      <JsonLd />
       
       {/* Google Analytics */}
       {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID && (

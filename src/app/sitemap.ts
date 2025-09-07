@@ -31,18 +31,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
       sitemap.push({
         url: `${baseUrl}/${locale}${route}`,
         lastModified: new Date(),
-        changeFrequency: 'weekly',
+        changeFrequency: route === '' ? 'daily' : 'weekly',
         priority: route === '' ? 1 : 0.8,
+        alternates: {
+          languages: locales.reduce((acc, loc) => {
+            acc[loc] = `${baseUrl}/${loc}${route}`
+            return acc
+          }, {} as Record<string, string>)
+        }
       })
     })
-  })
-
-  // Add root redirect
-  sitemap.push({
-    url: baseUrl,
-    lastModified: new Date(),
-    changeFrequency: 'weekly',
-    priority: 1,
   })
 
   return sitemap
