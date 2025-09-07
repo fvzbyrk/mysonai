@@ -3,7 +3,7 @@ import OpenAI from 'openai'
 import { getAgentById, generateProductResponse, ProductRequest } from '@/lib/ai-agents'
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY || 'dummy-key',
 })
 
 // Placeholder functions for usage tracking
@@ -19,6 +19,14 @@ async function updateUsage(_userId: string | null, _tokensUsed: number) {
 
 export async function POST(request: NextRequest) {
   try {
+    // Check if API key is available
+    if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === 'dummy-key') {
+      return NextResponse.json(
+        { error: 'OpenAI API key not configured. Please contact administrator.' },
+        { status: 500 }
+      )
+    }
+
     const { messages, userId, selectedAgent, productRequest } = await request.json()
 
     // Usage check
