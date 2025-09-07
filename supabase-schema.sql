@@ -8,6 +8,8 @@ CREATE TABLE public.users (
   name TEXT,
   avatar TEXT,
   plan TEXT DEFAULT 'free' CHECK (plan IN ('free', 'pro', 'enterprise')),
+  stripe_customer_id TEXT UNIQUE,
+  stripe_subscription_id TEXT UNIQUE,
   usage JSONB DEFAULT '{"totalMessages": 0, "totalTokens": 0, "imagesGenerated": 0, "lastResetDate": null, "monthlyLimit": {"messages": 50, "tokens": 10000, "images": 10}}'::jsonb,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()

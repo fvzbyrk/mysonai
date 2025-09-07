@@ -2,10 +2,14 @@
 
 import { motion } from 'framer-motion'
 import { Button } from './ui/button'
-import { Check, Star } from 'lucide-react'
+import { Check, Star, Zap } from 'lucide-react'
+import { useAuth } from '@/contexts/auth-context'
+import { useState } from 'react'
+import { getStripe } from '@/lib/stripe'
 
 const plans = [
   {
+    id: "free",
     name: "Ücretsiz",
     price: "0₺",
     period: "/ay",
@@ -18,15 +22,17 @@ const plans = [
       "Topluluk forumu"
     ],
     popular: false,
-    cta: "Ücretsiz Başla"
+    cta: "Ücretsiz Başla",
+    highlight: false
   },
   {
+    id: "pro",
     name: "Pro",
     price: "99₺",
     period: "/ay",
     description: "Profesyonel geliştiriciler için",
     features: [
-      "Sınırsız AI asistan",
+      "Tüm 18 AI asistan",
       "1000 mesaj/ay",
       "Gelişmiş chatbot",
       "Görsel üretim",
@@ -35,9 +41,11 @@ const plans = [
       "Özel entegrasyonlar"
     ],
     popular: true,
-    cta: "Pro'ya Geç"
+    cta: "Pro'ya Geç",
+    highlight: true
   },
   {
+    id: "enterprise",
     name: "Enterprise",
     price: "299₺",
     period: "/ay",
@@ -52,11 +60,60 @@ const plans = [
       "Dedicated sunucu"
     ],
     popular: false,
-    cta: "İletişime Geç"
+    cta: "İletişime Geç",
+    highlight: false
   }
 ]
 
 export function Pricing() {
+  const { user } = useAuth()
+  const [loading, setLoading] = useState<string | null>(null)
+
+  const handleSubscribe = async (planId: string) => {
+    if (planId === 'free') {
+      // Handle free plan - redirect to signup
+      window.location.href = '/signup'
+      return
+    }
+
+    if (planId === 'enterprise') {
+      // Handle enterprise - redirect to contact
+      window.location.href = '/contact'
+      return
+    }
+
+    if (!user) {
+      // Redirect to signup if not logged in
+      window.location.href = '/signup'
+      return
+    }
+
+    setLoading(planId)
+
+    try {
+      const response = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          plan: planId,
+          userId: user.id
+        }),
+      })
+
+      const { sessionId } = await response.json()
+
+      if (sessionId) {
+        const stripe = await getStripe()
+        await stripe?.redirectToCheckout({ sessionId })
+      }
+    } catch (error) {
+      console.error('Error creating checkout session:', error)
+    } finally {
+      setLoading(null)
+    }
+  }
   return (
     <section className="py-20 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -113,6 +170,12 @@ export function Pricing() {
                     {plan.period}
                   </span>
                 </div>
+                {plan.highlight && (
+                  <div className="mt-2 flex items-center justify-center text-sm text-purple-600 dark:text-purple-400">
+                    <Zap className="w-4 h-4 mr-1" />
+                    Pi'den 10x daha hızlı
+                  </div>
+                )}
               </div>
 
               <ul className="space-y-4 mb-8">
@@ -125,13 +188,15 @@ export function Pricing() {
               </ul>
 
               <Button 
-                className={`w-full ${
+                onClick={() => handleSubscribe(plan.id)}
+                disabled={loading === plan.id}
+                className={`w-full py-3 text-lg font-semibold ${
                   plan.popular 
-                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700' 
+                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white' 
                     : 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100'
                 }`}
               >
-                {plan.cta}
+                {loading === plan.id ? 'Yükleniyor...' : plan.cta}
               </Button>
             </motion.div>
           ))}
