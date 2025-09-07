@@ -17,7 +17,7 @@ export function Header() {
   
   const navigation = [
     { name: t(locale as Locale, 'nav.home'), href: `/${locale}` },
-    { name: 'AI Araçları', href: `/${locale}/tools` },
+    { name: t(locale as Locale, 'nav.assistants'), href: `/${locale}/assistants` },
     { name: t(locale as Locale, 'nav.demo'), href: `/${locale}/demo` },
     { name: 'Fiyatlandırma', href: `/${locale}/pricing` },
     { name: 'Blog', href: `/${locale}/blog` },

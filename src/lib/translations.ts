@@ -4,6 +4,7 @@ export const translations = {
   tr: {
     // Navigation
     'nav.home': 'Ana Sayfa',
+    'nav.assistants': 'Asistanlar',
     'nav.dashboard': 'Panel',
     'nav.demo': 'Demo',
     'nav.signin': 'Giriş Yap',
@@ -20,6 +21,7 @@ export const translations = {
     'features.title': 'AI Asistanlarınız',
     'features.ai.title': 'AI Destekli Analiz',
     'features.ai.desc': 'Her biri kendi alanında uzman olan AI asistanlarımızla tanışın',
+    'features.viewAll': 'Tüm Asistanları Gör',
     'features.fast.title': 'Hızlı Yanıt',
     'features.fast.desc': 'Saniyeler içinde profesyonel hukuki tavsiyeler alın',
     'features.secure.title': 'Güvenli',
@@ -59,6 +61,16 @@ export const translations = {
     'dashboard.queries': 'Sorgular',
     'dashboard.remaining': 'Kalan',
     
+    // Assistants Page
+    'assistants.title': 'AI Asistanlarımız',
+    'assistants.subtitle': 'Her biri kendi alanında uzman olan AI asistanlarımızla tanışın. Projelerinizi bir üst seviyeye taşıyın!',
+    'assistants.search': 'Asistan ara...',
+    'assistants.chat': 'Sohbet Et',
+    'assistants.cta.title': 'Hemen Başlayın',
+    'assistants.cta.desc': 'AI asistanlarınızla tanışın ve projelerinizi bir üst seviyeye taşıyın',
+    'assistants.cta.demo': 'Demo Başlat',
+    'assistants.cta.signup': 'Ücretsiz Hesap Oluştur',
+    
     // Common
     'common.loading': 'Yükleniyor...',
     'common.error': 'Hata oluştu',
@@ -73,6 +85,7 @@ export const translations = {
   en: {
     // Navigation
     'nav.home': 'Home',
+    'nav.assistants': 'Assistants',
     'nav.dashboard': 'Dashboard',
     'nav.demo': 'Demo',
     'nav.signin': 'Sign In',
@@ -89,6 +102,7 @@ export const translations = {
     'features.title': 'Your AI Assistants',
     'features.ai.title': 'AI-Powered Analysis',
     'features.ai.desc': 'Meet our AI assistants, each expert in their own field',
+    'features.viewAll': 'View All Assistants',
     'features.fast.title': 'Fast Response',
     'features.fast.desc': 'Get professional legal advice in seconds',
     'features.secure.title': 'Secure',
@@ -127,6 +141,16 @@ export const translations = {
     'dashboard.usage': 'Usage',
     'dashboard.queries': 'Queries',
     'dashboard.remaining': 'Remaining',
+    
+    // Assistants Page
+    'assistants.title': 'Our AI Assistants',
+    'assistants.subtitle': 'Meet our AI assistants, each expert in their own field. Take your projects to the next level!',
+    'assistants.search': 'Search assistants...',
+    'assistants.chat': 'Chat',
+    'assistants.cta.title': 'Get Started Now',
+    'assistants.cta.desc': 'Meet your AI assistants and take your projects to the next level',
+    'assistants.cta.demo': 'Start Demo',
+    'assistants.cta.signup': 'Create Free Account',
     
     // Common
     'common.loading': 'Loading...',
