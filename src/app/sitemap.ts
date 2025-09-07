@@ -18,6 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/signin',
     '/signup',
     '/dashboard',
+    '/billing',
     '/pricing',
     '/contact',
   ]

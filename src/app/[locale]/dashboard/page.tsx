@@ -262,6 +262,13 @@ export default function DashboardPage() {
                     Tüm Planları Gör
                   </Button>
                 </Link>
+                
+                <Link href="/billing" className="block">
+                  <Button variant="outline" className="w-full border-white/20 text-white">
+                    <CreditCard className="w-4 h-4 mr-2" />
+                    Fatura Yönetimi
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
 
