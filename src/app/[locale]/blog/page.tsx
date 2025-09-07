@@ -3,6 +3,7 @@ import { t } from '@/lib/translations'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { FeatureGuard } from '@/components/feature-guard'
 import Link from 'next/link'
 import { Calendar, Clock, ArrowRight, Search, Filter } from 'lucide-react'
 import type { Metadata } from 'next'
@@ -93,7 +94,7 @@ const blogPosts = [
 
 const categories = ['Tümü', 'Karşılaştırma', 'Güvenlik', 'Rehber', 'Teknoloji', 'Verimlilik', 'Eğitim'];
 
-export default function BlogPage({
+function BlogContent({
   params,
 }: {
   params: { locale: Locale }
@@ -259,4 +260,16 @@ export default function BlogPage({
       </section>
     </div>
   );
+}
+
+export default function BlogPage({
+  params,
+}: {
+  params: { locale: Locale }
+}) {
+  return (
+    <FeatureGuard feature="blog" fallback={<div>Blog sayfası devre dışı</div>}>
+      <BlogContent params={params} />
+    </FeatureGuard>
+  )
 }
