@@ -87,14 +87,14 @@ export type PlanType = keyof typeof PLANS
 
 // Stripe Product IDs (will be created in Stripe dashboard)
 export const STRIPE_PRODUCT_IDS = {
-  pro: 'prod_pro_monthly_try',
-  enterprise: 'prod_enterprise_monthly_try'
+  pro: process.env.STRIPE_PRODUCT_ID_PRO || 'prod_pro_monthly_try',
+  enterprise: process.env.STRIPE_PRODUCT_ID_ENTERPRISE || 'prod_enterprise_monthly_try'
 } as const
 
 // Stripe Price IDs (will be created in Stripe dashboard)
 export const STRIPE_PRICE_IDS = {
-  pro: 'price_pro_monthly_try',
-  enterprise: 'price_enterprise_monthly_try'
+  pro: process.env.STRIPE_PRICE_ID_PRO || 'price_pro_monthly_try',
+  enterprise: process.env.STRIPE_PRICE_ID_ENTERPRISE || 'price_enterprise_monthly_try'
 } as const
 
 // Stripe Dashboard Setup Instructions
