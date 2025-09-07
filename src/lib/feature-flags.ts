@@ -36,6 +36,12 @@ export interface FeatureFlags {
   debug: boolean
   maintenance: boolean
   beta: boolean
+  
+  // Performance & Accessibility
+  performance: boolean
+  accessibility: boolean
+  lazyLoading: boolean
+  virtualScrolling: boolean
 }
 
 // Default feature flags (production)
@@ -76,6 +82,12 @@ const defaultFlags: FeatureFlags = {
   debug: false,
   maintenance: false,
   beta: false,
+  
+  // Performance & Accessibility - All enabled
+  performance: true,
+  accessibility: true,
+  lazyLoading: true,
+  virtualScrolling: true,
 }
 
 // Environment-based overrides
@@ -180,6 +192,18 @@ function getEnvironmentVariableFlags(): Partial<FeatureFlags> {
   if (process.env.NEXT_PUBLIC_FEATURE_BETA !== undefined) {
     envFlags.beta = process.env.NEXT_PUBLIC_FEATURE_BETA === 'true'
   }
+  if (process.env.NEXT_PUBLIC_FEATURE_PERFORMANCE !== undefined) {
+    envFlags.performance = process.env.NEXT_PUBLIC_FEATURE_PERFORMANCE === 'true'
+  }
+  if (process.env.NEXT_PUBLIC_FEATURE_ACCESSIBILITY !== undefined) {
+    envFlags.accessibility = process.env.NEXT_PUBLIC_FEATURE_ACCESSIBILITY === 'true'
+  }
+  if (process.env.NEXT_PUBLIC_FEATURE_LAZY_LOADING !== undefined) {
+    envFlags.lazyLoading = process.env.NEXT_PUBLIC_FEATURE_LAZY_LOADING === 'true'
+  }
+  if (process.env.NEXT_PUBLIC_FEATURE_VIRTUAL_SCROLLING !== undefined) {
+    envFlags.virtualScrolling = process.env.NEXT_PUBLIC_FEATURE_VIRTUAL_SCROLLING === 'true'
+  }
   
   return envFlags
 }
@@ -251,6 +275,10 @@ export const FEATURE_DESCRIPTIONS: Record<keyof FeatureFlags, string> = {
   debug: 'Debug modu ve geliştirici araçları',
   maintenance: 'Bakım modu',
   beta: 'Beta özellikleri',
+  performance: 'Performans izleme ve optimizasyon',
+  accessibility: 'Erişilebilirlik özellikleri',
+  lazyLoading: 'Lazy loading ve görsel optimizasyon',
+  virtualScrolling: 'Sanal kaydırma ve büyük listeler',
 }
 
 // Feature categories for organization
@@ -261,4 +289,5 @@ export const FEATURE_CATEGORIES = {
   advanced: ['api', 'webhooks', 'analytics', 'notifications'] as (keyof FeatureFlags)[],
   legal: ['privacy', 'terms', 'cookies', 'gdpr'] as (keyof FeatureFlags)[],
   dev: ['debug', 'maintenance', 'beta'] as (keyof FeatureFlags)[],
+  performance: ['performance', 'accessibility', 'lazyLoading', 'virtualScrolling'] as (keyof FeatureFlags)[],
 }

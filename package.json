@@ -25,7 +25,9 @@
     "features:check": "tsx scripts/feature-flags-check.ts",
     "auth:check": "tsx scripts/auth-check.ts",
     "payment:check": "tsx scripts/payment-check.ts",
-    "blog-docs:check": "tsx scripts/blog-docs-check.ts"
+    "blog-docs:check": "tsx scripts/blog-docs-check.ts",
+    "performance:check": "tsx scripts/performance-check.ts",
+    "analyze": "cross-env ANALYZE=true npm run build"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
@@ -70,6 +72,7 @@
     "@types/node": "^20",
     "@typescript-eslint/eslint-plugin": "^6.13.1",
     "@typescript-eslint/parser": "^6.13.1",
+    "cross-env": "^10.0.0",
     "eslint": "^8",
     "eslint-config-next": "14.0.4",
     "eslint-config-prettier": "^9.0.0",
@@ -81,6 +84,7 @@
     "lint-staged": "^15.2.0",
     "prettier": "^3.1.0",
     "ts-jest": "^29.4.1",
-    "tsx": "^4.20.5"
+    "tsx": "^4.20.5",
+    "webpack-bundle-analyzer": "^4.10.2"
   }
 }
