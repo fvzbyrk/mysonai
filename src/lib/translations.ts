@@ -196,11 +196,7 @@ export const translations = {
     'agents.ayseDesc': 'Kod yazma ve teknik implementasyon',
     'agents.denizDesc': 'Veri analizi ve optimizasyon',
 
-    // Testimonials
-    'testimonials.ahmetRole': 'Yazılım Geliştirici',
-    'testimonials.ahmetCompany': 'TechCorp',
-    'testimonials.mehmetRole': 'Girişimci',
-    'testimonials.mehmetCompany': 'StartupHub',
+    // Testimonials (duplicate removed)
 
     // Pricing
     'pricing.free': 'Ücretsiz',
@@ -401,11 +397,7 @@ export const translations = {
     'agents.ayseDesc': 'Code writing and technical implementation',
     'agents.denizDesc': 'Data analysis and optimization',
 
-    // Testimonials
-    'testimonials.ahmetRole': 'Software Developer',
-    'testimonials.ahmetCompany': 'TechCorp',
-    'testimonials.mehmetRole': 'Entrepreneur',
-    'testimonials.mehmetCompany': 'StartupHub',
+    // Testimonials (duplicate removed)
 
     // Pricing
     'pricing.free': 'Free',

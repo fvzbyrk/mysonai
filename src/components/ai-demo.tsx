@@ -3,10 +3,16 @@
 import { motion } from 'framer-motion';
 import { Button } from './ui/button';
 import { Play } from 'lucide-react';
-import { LiveChat } from './live-chat';
+// import { LiveChat } from './live-chat';
 import Link from 'next/link';
+import { Locale } from '@/lib/i18n';
+import { t } from '@/lib/translations';
 
-export function AIDemo() {
+interface AIDemoProps {
+  locale: Locale;
+}
+
+export function AIDemo({ locale }: AIDemoProps) {
   return (
     <section className='py-20 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900'>
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>

@@ -2,7 +2,8 @@
 
 import { motion } from 'framer-motion';
 import { Star, Quote } from 'lucide-react';
-import { Locale, t } from '@/lib/translations';
+import { Locale } from '@/lib/i18n';
+import { t } from '@/lib/translations';
 
 const testimonials = (locale: Locale) => [
   {

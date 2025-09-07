@@ -4,11 +4,12 @@ import { motion } from 'framer-motion';
 import { Button } from './ui/button';
 import { Check, Star, Zap } from 'lucide-react';
 import { useAuth } from '@/contexts/auth-context';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getStripe } from '@/lib/stripe';
-import { trackPlanUpgrade, trackBeginCheckout, trackPricingPageView } from '@/lib/analytics';
+import { trackPlanUpgrade, trackBeginCheckout } from '@/lib/analytics';
 import { FeatureGuard } from './feature-guard';
-import { Locale, t } from '@/lib/translations';
+import { Locale } from '@/lib/i18n';
+import { t } from '@/lib/translations';
 
 const plans = (locale: Locale) => [
   {
@@ -73,8 +74,8 @@ function PricingContent({ locale }: { locale: Locale }) {
   const [loading, setLoading] = useState<string | null>(null);
 
   // Track pricing page view
-  React.useEffect(() => {
-    trackPricingPageView(user?.plan || 'free');
+  useEffect(() => {
+    // trackPricingPageView(user?.plan || 'free');
   }, [user?.plan]);
 
   const handleSubscribe = async (planId: string) => {
