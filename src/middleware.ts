@@ -19,16 +19,14 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL(`/${defaultLocale}`, request.url), { status: 301 });
   }
 
-  // 3. Check if there is any supported locale in the pathname
-  const pathnameIsMissingLocale = locales.every(
-    locale => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
+  // 3. Check if pathname starts with a valid locale
+  const pathnameHasValidLocale = locales.some(
+    locale => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
 
-  // 4. Redirect if there is no locale
-  if (pathnameIsMissingLocale) {
-    const locale = defaultLocale;
-
-    return NextResponse.redirect(new URL(`/${locale}${pathname}`, request.url), { status: 301 });
+  // 4. Redirect if there is no valid locale
+  if (!pathnameHasValidLocale) {
+    return NextResponse.redirect(new URL(`/${defaultLocale}${pathname}`, request.url), { status: 301 });
   }
 }
 
