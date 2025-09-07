@@ -7,6 +7,7 @@ import { useAuth } from '@/contexts/auth-context'
 import { useState } from 'react'
 import { getStripe } from '@/lib/stripe'
 import { trackPlanUpgrade, trackBeginCheckout, trackPricingPageView } from '@/lib/analytics'
+import { FeatureGuard } from './feature-guard'
 
 const plans = [
   {
@@ -66,7 +67,7 @@ const plans = [
   }
 ]
 
-export function Pricing() {
+function PricingContent() {
   const { user } = useAuth()
   const [loading, setLoading] = useState<string | null>(null)
 
@@ -224,5 +225,13 @@ export function Pricing() {
         </motion.div>
       </div>
     </section>
+  )
+}
+
+export function Pricing() {
+  return (
+    <FeatureGuard feature="pricing" fallback={<div>Fiyatlandırma sayfası devre dışı</div>}>
+      <PricingContent />
+    </FeatureGuard>
   )
 }

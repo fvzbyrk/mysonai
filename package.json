@@ -23,7 +23,8 @@
     "layout:check": "tsx scripts/layout-test.ts",
     "seo:check": "tsx scripts/seo-check.ts",
     "features:check": "tsx scripts/feature-flags-check.ts",
-    "auth:check": "tsx scripts/auth-check.ts"
+    "auth:check": "tsx scripts/auth-check.ts",
+    "payment:check": "tsx scripts/payment-check.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
