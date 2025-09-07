@@ -54,7 +54,7 @@ export default function HomePage({
               { name: 'Ayşe', role: 'Geliştirici', icon: '👩‍💻' },
               { name: 'Deniz', role: 'Analist', icon: '📊' },
               { name: 'Zeynep', role: 'E-ticaret', icon: '🛒' },
-              { name: 'Ozan', role: 'Müzik Öğretmeni', icon: '🎵' }
+              { name: 'Pınar', role: 'Müzik Öğretmeni', icon: '🎵' }
             ].map((agent) => (
               <div
                 key={agent.name}
