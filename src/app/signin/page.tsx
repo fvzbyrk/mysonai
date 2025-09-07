@@ -8,8 +8,9 @@ import { Bot, Mail, Lock, Eye, EyeOff, AlertCircle } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { SocialAuth } from '@/components/social-auth'
+import { AuthGuard } from '@/components/auth-guard'
 
-export default function SignInPage() {
+function SignInForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -153,5 +154,13 @@ export default function SignInPage() {
         </div>
       </motion.div>
     </div>
+  )
+}
+
+export default function SignInPage() {
+  return (
+    <AuthGuard requireGuest fallback={<div>Auth sistemi devre dışı</div>}>
+      <SignInForm />
+    </AuthGuard>
   )
 }

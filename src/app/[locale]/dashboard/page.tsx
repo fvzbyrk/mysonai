@@ -5,12 +5,13 @@ import { useUsage } from '@/hooks/useUsage'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { UsageLimits } from '@/components/usage-limits'
+import { AuthGuard } from '@/components/auth-guard'
 import { Bot, User, Crown, Settings, LogOut, CreditCard, Zap, Star } from 'lucide-react'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { getStripe } from '@/lib/stripe'
 
-export default function DashboardPage() {
+function DashboardContent() {
   const { user, signOut } = useAuth()
   const { usage, isGuest } = useUsage()
   const [subscription, setSubscription] = useState<any>(null)
@@ -87,28 +88,6 @@ export default function DashboardPage() {
     }
   }
 
-  if (!user) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-4">
-        <div className="max-w-md w-full bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 text-center">
-          <div className="w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
-            <User className="w-8 h-8 text-purple-400" />
-          </div>
-          <h1 className="text-2xl font-bold text-white mb-4">
-            Giriş Yapın
-          </h1>
-          <p className="text-gray-300 mb-6">
-            Dashboard&apos;a erişmek için giriş yapmanız gerekiyor.
-          </p>
-          <Link href="/signin">
-            <Button className="bg-gradient-to-r from-purple-600 to-pink-600 text-white">
-              Giriş Yap
-            </Button>
-          </Link>
-        </div>
-      </div>
-    )
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
@@ -317,6 +296,14 @@ export default function DashboardPage() {
         </div>
       </main>
     </div>
+  )
+}
+
+export default function DashboardPage() {
+  return (
+    <AuthGuard requireAuth fallback={<div>Dashboard erişimi için giriş yapın</div>}>
+      <DashboardContent />
+    </AuthGuard>
   )
 }
 
