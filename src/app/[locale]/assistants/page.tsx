@@ -6,12 +6,29 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
 import { MessageCircle, Star, Users } from 'lucide-react'
+import type { Metadata } from 'next'
 
-export default function AssistantsPage({
+export async function generateMetadata({
   params,
 }: {
   params: { locale: Locale }
-}) {
+}): Promise<Metadata> {
+  const isTurkish = params.locale === 'tr';
+  
+  return {
+    title: isTurkish 
+      ? 'AI Asistanlarımız - 18 Uzman Türkçe AI Yoldaşı | MySonAI'
+      : 'Our AI Assistants - 18 Expert Turkish AI Companions | MySonAI',
+    description: isTurkish
+      ? '18 uzman AI asistanımızla tanışın: Fevzi, Elif, Burak, Ayşe, Pınar, Erdem ve daha fazlası. Her biri kendi alanında uzman, hızlı ve güvenli.'
+      : 'Meet our 18 expert AI assistants: Fevzi, Elif, Burak, Ayşe, Pınar, Erdem and more. Each expert in their field, fast and secure.',
+    keywords: isTurkish
+      ? 'AI asistanları, yapay zeka asistanı, Türkçe AI, uzman asistanlar, AI yoldaşı, chatbot, kişisel asistan'
+      : 'AI assistants, artificial intelligence assistant, Turkish AI, expert assistants, AI companion, chatbot, personal assistant',
+  };
+}
+
+export default function AssistantsPage({
   const agents = getAllAgents()
 
   return (

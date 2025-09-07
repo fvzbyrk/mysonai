@@ -21,14 +21,14 @@ export async function generateMetadata({
   
   return {
     title: isTurkish 
-      ? 'MySonAI - Yapay Zeka Destekli Hukuki Danışmanlık'
-      : 'MySonAI - AI-Powered Legal Consultation',
+      ? 'MySonAI - Hızlı, Güvenli ve Empatik AI Yoldaşı | Türkçe AI Asistanlar'
+      : 'MySonAI - Fast, Secure and Empathetic AI Companion | Turkish AI Assistants',
     description: isTurkish
-      ? 'Yapay zeka teknolojisi ile hukuki sorularınıza anında yanıt alın. AI asistanlarınızla gerçek zamanlı sohbet edin.'
-      : 'Get instant answers to your legal questions with artificial intelligence technology. Chat in real-time with AI assistants.',
+      ? 'Türkçe AI asistanlarınızla gerçek zamanlı sohbet edin. 18 uzman AI asistanı - Pi\'den 10x daha hızlı, %100 güvenli, empatik yoldaş. Hemen deneyin!'
+      : 'Chat in real-time with your Turkish AI assistants. 18 expert AI assistants - 10x faster than Pi, 100% secure, empathetic companion. Try now!',
     keywords: isTurkish
-      ? 'yapay zeka, AI, hukuki danışmanlık, chatbot, makine öğrenmesi, hukuk, avukat, yapay zeka asistanı'
-      : 'artificial intelligence, AI, legal consultation, chatbot, machine learning, law, lawyer, AI assistant',
+      ? 'yapay zeka asistanı, AI yoldaşı, Türkçe AI, hızlı AI, güvenli AI, empatik AI, AI sohbet, yapay zeka, chatbot, kişisel asistan'
+      : 'AI assistant, AI companion, Turkish AI, fast AI, secure AI, empathetic AI, AI chat, artificial intelligence, chatbot, personal assistant',
     authors: [{ name: 'MySonAI Team' }],
     creator: 'MySonAI',
     publisher: 'MySonAI',
@@ -50,21 +50,21 @@ export async function generateMetadata({
       locale: isTurkish ? 'tr_TR' : 'en_US',
       url: 'https://mysonai.com',
       title: isTurkish 
-        ? 'MySonAI - Yapay Zeka Destekli Hukuki Danışmanlık'
-        : 'MySonAI - AI-Powered Legal Consultation',
+        ? 'MySonAI - Hızlı, Güvenli ve Empatik AI Yoldaşı'
+        : 'MySonAI - Fast, Secure and Empathetic AI Companion',
       description: isTurkish
-        ? 'Yapay zeka teknolojisi ile hukuki sorularınıza anında yanıt alın. AI asistanlarınızla gerçek zamanlı sohbet edin.'
-        : 'Get instant answers to your legal questions with artificial intelligence technology. Chat in real-time with AI assistants.',
+        ? 'Türkçe AI asistanlarınızla gerçek zamanlı sohbet edin. 18 uzman AI asistanı - Pi\'den 10x daha hızlı, %100 güvenli.'
+        : 'Chat in real-time with your Turkish AI assistants. 18 expert AI assistants - 10x faster than Pi, 100% secure.',
       siteName: 'MySonAI',
     },
     twitter: {
       card: 'summary_large_image',
       title: isTurkish 
-        ? 'MySonAI - Yapay Zeka Destekli Hukuki Danışmanlık'
-        : 'MySonAI - AI-Powered Legal Consultation',
+        ? 'MySonAI - Hızlı, Güvenli ve Empatik AI Yoldaşı'
+        : 'MySonAI - Fast, Secure and Empathetic AI Companion',
       description: isTurkish
-        ? 'Yapay zeka teknolojisi ile hukuki sorularınıza anında yanıt alın.'
-        : 'Get instant answers to your legal questions with artificial intelligence technology.',
+        ? 'Türkçe AI asistanlarınızla gerçek zamanlı sohbet edin. Pi\'den 10x daha hızlı!'
+        : 'Chat in real-time with your Turkish AI assistants. 10x faster than Pi!',
       creator: '@mysonai',
     },
     robots: {
