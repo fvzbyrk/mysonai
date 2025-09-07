@@ -75,7 +75,13 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.6 }}
           className='flex justify-center items-center space-x-4 mb-8'
         >
-          {['Fevzi', 'Elif', 'Burak', 'Ayşe', 'Deniz'].map((agent, index) => (
+          {[
+            t(locale, 'agents.fevzi'),
+            t(locale, 'agents.elif'),
+            t(locale, 'agents.burak'),
+            t(locale, 'agents.ayse'),
+            t(locale, 'agents.deniz')
+          ].map((agent, index) => (
             <div
               key={agent}
               className='w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-sm border-2 border-white/20'

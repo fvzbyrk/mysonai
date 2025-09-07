@@ -2,12 +2,13 @@
 
 import { motion } from 'framer-motion';
 import { Star, Quote } from 'lucide-react';
+import { Locale, t } from '@/lib/translations';
 
-const testimonials = [
+const testimonials = (locale: Locale) => [
   {
     name: 'Ahmet Yılmaz',
-    role: 'Yazılım Geliştirici',
-    company: 'TechCorp',
+    role: t(locale, 'testimonials.ahmetRole'),
+    company: t(locale, 'testimonials.ahmetCompany'),
     content:
       'MySonAI ile projelerimi 10 kat daha hızlı tamamlıyorum. AI asistanlar gerçekten harika çalışıyor!',
     rating: 5,
@@ -24,8 +25,8 @@ const testimonials = [
   },
   {
     name: 'Mehmet Demir',
-    role: 'Girişimci',
-    company: 'StartupHub',
+    role: t(locale, 'testimonials.mehmetRole'),
+    company: t(locale, 'testimonials.mehmetCompany'),
     content:
       "Chatbot'umuzu MySonAI ile oluşturduk. Müşteri memnuniyeti %300 arttı. Kesinlikle tavsiye ederim.",
     rating: 5,
@@ -33,7 +34,7 @@ const testimonials = [
   },
 ];
 
-export function Testimonials() {
+export function Testimonials({ locale }: { locale: Locale }) {
   return (
     <section className='py-20 bg-white dark:bg-gray-900'>
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
@@ -53,7 +54,7 @@ export function Testimonials() {
         </motion.div>
 
         <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
-          {testimonials.map((testimonial, index) => (
+          {testimonials(locale).map((testimonial, index) => (
             <motion.div
               key={testimonial.name}
               initial={{ opacity: 0, y: 20 }}

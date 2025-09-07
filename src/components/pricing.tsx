@@ -8,11 +8,12 @@ import { useState } from 'react';
 import { getStripe } from '@/lib/stripe';
 import { trackPlanUpgrade, trackBeginCheckout, trackPricingPageView } from '@/lib/analytics';
 import { FeatureGuard } from './feature-guard';
+import { Locale, t } from '@/lib/translations';
 
-const plans = [
+const plans = (locale: Locale) => [
   {
     id: 'free',
-    name: 'Ücretsiz',
+    name: t(locale, 'pricing.free'),
     price: '0₺',
     period: '/ay',
     description: 'Bireysel kullanıcılar için',
@@ -67,7 +68,7 @@ const plans = [
   },
 ];
 
-function PricingContent() {
+function PricingContent({ locale }: { locale: Locale }) {
   const { user } = useAuth();
   const [loading, setLoading] = useState<string | null>(null);
 
@@ -140,7 +141,7 @@ function PricingContent() {
         </motion.div>
 
         <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
-          {plans.map((plan, index) => (
+          {plans(locale).map((plan, index) => (
             <motion.div
               key={plan.name}
               initial={{ opacity: 0, y: 20 }}
@@ -227,10 +228,10 @@ function PricingContent() {
   );
 }
 
-export function Pricing() {
+export function Pricing({ locale }: { locale: Locale }) {
   return (
     <FeatureGuard feature='pricing' fallback={<div>Fiyatlandırma sayfası devre dışı</div>}>
-      <PricingContent />
+      <PricingContent locale={locale} />
     </FeatureGuard>
   );
 }

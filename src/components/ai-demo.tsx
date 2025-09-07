@@ -51,15 +51,15 @@ export function AIDemo() {
 
               <div className='space-y-4'>
                 {[
-                  { name: 'Fevzi', role: 'Takım Lideri', desc: 'Proje yönetimi ve koordinasyon' },
+                  { name: t(locale, 'agents.fevzi'), role: t(locale, 'agents.fevziRole'), desc: t(locale, 'agents.fevziDesc') },
                   {
-                    name: 'Elif',
-                    role: 'Ürün Müdürü',
-                    desc: 'Ürün stratejisi ve kullanıcı deneyimi',
+                    name: t(locale, 'agents.elif'),
+                    role: t(locale, 'agents.elifRole'),
+                    desc: t(locale, 'agents.elifDesc'),
                   },
-                  { name: 'Burak', role: 'Mimar', desc: 'Sistem mimarisi ve teknoloji seçimi' },
-                  { name: 'Ayşe', role: 'Geliştirici', desc: 'Kod yazma ve teknik implementasyon' },
-                  { name: 'Deniz', role: 'Veri Analisti', desc: 'Veri analizi ve optimizasyon' },
+                  { name: t(locale, 'agents.burak'), role: t(locale, 'agents.burakRole'), desc: t(locale, 'agents.burakDesc') },
+                  { name: t(locale, 'agents.ayse'), role: t(locale, 'agents.ayseRole'), desc: t(locale, 'agents.ayseDesc') },
+                  { name: t(locale, 'agents.deniz'), role: t(locale, 'agents.denizRole'), desc: t(locale, 'agents.denizDesc') },
                 ].map((agent, index) => (
                   <motion.div
                     key={agent.name}

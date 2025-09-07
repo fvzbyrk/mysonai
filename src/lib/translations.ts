@@ -178,6 +178,34 @@ export const translations = {
     'usage.unlimited': 'Sınırsız',
     'usage.remaining': 'Kalan',
     'usage.used': 'Kullanılan',
+
+    // AI Agents
+    'agents.fevzi': 'Fevzi',
+    'agents.elif': 'Elif',
+    'agents.burak': 'Burak',
+    'agents.ayse': 'Ayşe',
+    'agents.deniz': 'Deniz',
+    'agents.fevziRole': 'Takım Lideri',
+    'agents.elifRole': 'Ürün Müdürü',
+    'agents.burakRole': 'Mimar',
+    'agents.ayseRole': 'Geliştirici',
+    'agents.denizRole': 'Veri Analisti',
+    'agents.fevziDesc': 'Proje yönetimi ve koordinasyon',
+    'agents.elifDesc': 'Ürün stratejisi ve roadmap',
+    'agents.burakDesc': 'Sistem mimarisi ve teknoloji seçimi',
+    'agents.ayseDesc': 'Kod yazma ve teknik implementasyon',
+    'agents.denizDesc': 'Veri analizi ve optimizasyon',
+
+    // Testimonials
+    'testimonials.ahmetRole': 'Yazılım Geliştirici',
+    'testimonials.ahmetCompany': 'TechCorp',
+    'testimonials.mehmetRole': 'Girişimci',
+    'testimonials.mehmetCompany': 'StartupHub',
+
+    // Pricing
+    'pricing.free': 'Ücretsiz',
+    'pricing.pro': 'Pro',
+    'pricing.enterprise': 'Kurumsal',
   },
   en: {
     // Navigation
@@ -355,6 +383,34 @@ export const translations = {
     'usage.unlimited': 'Unlimited',
     'usage.remaining': 'Remaining',
     'usage.used': 'Used',
+
+    // AI Agents
+    'agents.fevzi': 'Fevzi',
+    'agents.elif': 'Elif',
+    'agents.burak': 'Burak',
+    'agents.ayse': 'Ayşe',
+    'agents.deniz': 'Deniz',
+    'agents.fevziRole': 'Team Leader',
+    'agents.elifRole': 'Product Manager',
+    'agents.burakRole': 'Architect',
+    'agents.ayseRole': 'Developer',
+    'agents.denizRole': 'Data Analyst',
+    'agents.fevziDesc': 'Project management and coordination',
+    'agents.elifDesc': 'Product strategy and roadmap',
+    'agents.burakDesc': 'System architecture and technology selection',
+    'agents.ayseDesc': 'Code writing and technical implementation',
+    'agents.denizDesc': 'Data analysis and optimization',
+
+    // Testimonials
+    'testimonials.ahmetRole': 'Software Developer',
+    'testimonials.ahmetCompany': 'TechCorp',
+    'testimonials.mehmetRole': 'Entrepreneur',
+    'testimonials.mehmetCompany': 'StartupHub',
+
+    // Pricing
+    'pricing.free': 'Free',
+    'pricing.pro': 'Pro',
+    'pricing.enterprise': 'Enterprise',
   },
 } as const;
 
