@@ -29,6 +29,10 @@ export async function generateMetadata({
 }
 
 export default function AssistantsPage({
+  params,
+}: {
+  params: { locale: Locale };
+}) {
   const agents = getAllAgents()
 
   return (
