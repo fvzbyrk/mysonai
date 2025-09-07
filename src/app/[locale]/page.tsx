@@ -34,6 +34,67 @@ export default function HomePage({
         </div>
       </section>
 
+      {/* Value Proposition Features */}
+      <section className="py-20 bg-black/20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+              Neden MySonAI?
+            </h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              Rakip AI asistanlarının yaşadığı sorunları çözen benzersiz özellikler
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-white/10 backdrop-blur-md rounded-xl p-8 border border-white/20 text-center">
+              <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span className="text-2xl">⚡</span>
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-4">
+                {t(params.locale, 'features.fast.title')}
+              </h3>
+              <p className="text-gray-300 mb-6">
+                {t(params.locale, 'features.fast.desc')}
+              </p>
+              <div className="text-sm text-green-400 font-semibold">
+                Pi'den 10x daha hızlı yanıt
+              </div>
+            </div>
+
+            <div className="bg-white/10 backdrop-blur-md rounded-xl p-8 border border-white/20 text-center">
+              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span className="text-2xl">🔒</span>
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-4">
+                {t(params.locale, 'features.secure.title')}
+              </h3>
+              <p className="text-gray-300 mb-6">
+                {t(params.locale, 'features.secure.desc')}
+              </p>
+              <div className="text-sm text-blue-400 font-semibold">
+                Verileriniz asla paylaşılmaz
+              </div>
+            </div>
+
+            <div className="bg-white/10 backdrop-blur-md rounded-xl p-8 border border-white/20 text-center">
+              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span className="text-2xl">💝</span>
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-4">
+                {t(params.locale, 'features.empathetic.title')}
+              </h3>
+              <p className="text-gray-300 mb-6">
+                {t(params.locale, 'features.empathetic.desc')}
+              </p>
+              <div className="text-sm text-purple-400 font-semibold">
+                Gerçek bir yoldaş gibi
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* AI Agents Showcase - Simplified */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

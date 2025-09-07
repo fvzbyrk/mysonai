@@ -12,7 +12,7 @@ export const translations = {
     'nav.signout': 'Çıkış Yap',
     
     // Hero Section
-    'hero.title': 'AI Destekli Hukuki Danışmanlık',
+    'hero.title': 'Hızlı, Güvenli ve Empatik AI Yoldaşı',
     'hero.subtitle': 'Türkçe AI asistanlarınızla gerçek zamanlı olarak sohbet edin. Her biri kendi alanında uzman olan 18 AI asistanı size yardımcı olmaya hazır!',
     'hero.cta': 'Hemen Başla',
     'hero.demo': 'Demo İzle',
@@ -23,9 +23,11 @@ export const translations = {
     'features.ai.desc': 'Her biri kendi alanında uzman olan AI asistanlarımızla tanışın',
     'features.viewAll': 'Tüm Asistanları Gör',
     'features.fast.title': 'Hızlı Yanıt',
-    'features.fast.desc': 'Saniyeler içinde profesyonel hukuki tavsiyeler alın',
+    'features.fast.desc': 'Anında yanıt alın, bekleme yok',
     'features.secure.title': 'Güvenli',
     'features.secure.desc': 'Verileriniz en yüksek güvenlik standartlarında korunur',
+    'features.empathetic.title': 'Empatik',
+    'features.empathetic.desc': 'Sizi anlayan ve destekleyen AI yoldaşı',
     
     // Chat Section
     'chat.title': 'AI Asistanlarla Sohbet Edin',
@@ -93,7 +95,7 @@ export const translations = {
     'nav.signout': 'Sign Out',
     
     // Hero Section
-    'hero.title': 'AI-Powered Legal Consultation',
+    'hero.title': 'Fast, Secure and Empathetic AI Companion',
     'hero.subtitle': 'Chat in real-time with your Turkish AI assistants. 18 AI assistants, each an expert in their field, are ready to help you!',
     'hero.cta': 'Get Started',
     'hero.demo': 'Watch Demo',
@@ -104,9 +106,11 @@ export const translations = {
     'features.ai.desc': 'Meet our AI assistants, each expert in their own field',
     'features.viewAll': 'View All Assistants',
     'features.fast.title': 'Fast Response',
-    'features.fast.desc': 'Get professional legal advice in seconds',
+    'features.fast.desc': 'Get instant answers, no waiting',
     'features.secure.title': 'Secure',
     'features.secure.desc': 'Your data is protected with the highest security standards',
+    'features.empathetic.title': 'Empathetic',
+    'features.empathetic.desc': 'AI companion that understands and supports you',
     
     // Chat Section
     'chat.title': 'Chat with AI Assistants',
