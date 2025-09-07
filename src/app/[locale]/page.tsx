@@ -78,6 +78,19 @@ export default function HomePage({
                 <span>18 Uzman Asistan</span>
               </div>
             </div>
+
+            {/* Social Proof */}
+            <div className="mt-12 text-center">
+              <p className="text-gray-400 text-sm mb-4">Binlerce kullanıcı MySonAI'ı tercih ediyor</p>
+              <div className="flex justify-center items-center space-x-8 opacity-60">
+                <div className="text-2xl">⭐</div>
+                <div className="text-2xl">⭐</div>
+                <div className="text-2xl">⭐</div>
+                <div className="text-2xl">⭐</div>
+                <div className="text-2xl">⭐</div>
+                <span className="text-gray-400 text-sm ml-2">4.8/5 (150+ değerlendirme)</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
