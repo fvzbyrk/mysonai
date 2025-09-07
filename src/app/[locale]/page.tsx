@@ -46,14 +46,15 @@ export default function HomePage({
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 mb-8">
             {[
               { name: 'Fevzi', role: 'Takım Lideri', icon: '👨‍💼' },
               { name: 'Elif', role: 'Ürün Müdürü', icon: '👩‍💼' },
               { name: 'Burak', role: 'Mimar', icon: '🏗️' },
               { name: 'Ayşe', role: 'Geliştirici', icon: '👩‍💻' },
               { name: 'Deniz', role: 'Analist', icon: '📊' },
-              { name: 'Zeynep', role: 'E-ticaret', icon: '🛒' }
+              { name: 'Zeynep', role: 'E-ticaret', icon: '🛒' },
+              { name: 'Ozan', role: 'Müzik Öğretmeni', icon: '🎵' }
             ].map((agent) => (
               <div
                 key={agent.name}

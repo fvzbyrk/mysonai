@@ -13,7 +13,7 @@ export const translations = {
     
     // Hero Section
     'hero.title': 'AI Destekli Hukuki Danışmanlık',
-    'hero.subtitle': 'Türkçe AI asistanlarınızla gerçek zamanlı olarak sohbet edin. Her biri kendi alanında uzman olan 17 AI asistanı size yardımcı olmaya hazır!',
+    'hero.subtitle': 'Türkçe AI asistanlarınızla gerçek zamanlı olarak sohbet edin. Her biri kendi alanında uzman olan 18 AI asistanı size yardımcı olmaya hazır!',
     'hero.cta': 'Hemen Başla',
     'hero.demo': 'Demo İzle',
     
@@ -94,7 +94,7 @@ export const translations = {
     
     // Hero Section
     'hero.title': 'AI-Powered Legal Consultation',
-    'hero.subtitle': 'Chat in real-time with your Turkish AI assistants. 17 AI assistants, each an expert in their field, are ready to help you!',
+    'hero.subtitle': 'Chat in real-time with your Turkish AI assistants. 18 AI assistants, each an expert in their field, are ready to help you!',
     'hero.cta': 'Get Started',
     'hero.demo': 'Watch Demo',
     

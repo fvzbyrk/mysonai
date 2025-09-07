@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next'
 import { locales } from '@/lib/i18n'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://mysonai.com'
+  const baseUrl = ' daha asisüzikhttps://mysonai.com'
   
   const routes = [
     '',
