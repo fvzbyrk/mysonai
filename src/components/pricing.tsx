@@ -6,6 +6,7 @@ import { Check, Star, Zap } from 'lucide-react'
 import { useAuth } from '@/contexts/auth-context'
 import { useState } from 'react'
 import { getStripe } from '@/lib/stripe'
+import { trackPlanUpgrade, trackBeginCheckout, trackPricingPageView } from '@/lib/analytics'
 
 const plans = [
   {
@@ -68,6 +69,11 @@ const plans = [
 export function Pricing() {
   const { user } = useAuth()
   const [loading, setLoading] = useState<string | null>(null)
+
+  // Track pricing page view
+  React.useEffect(() => {
+    trackPricingPageView(user?.plan || 'free')
+  }, [user?.plan])
 
   const handleSubscribe = async (planId: string) => {
     if (planId === 'free') {

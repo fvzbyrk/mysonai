@@ -4,8 +4,13 @@ import { motion } from 'framer-motion'
 import { Button } from './ui/button'
 import { Sparkles, ArrowRight, Play } from 'lucide-react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { Locale, getLocaleFromPathname } from '@/lib/i18n'
+import { t } from '@/lib/translations'
 
 export function Hero() {
+  const pathname = usePathname()
+  const locale = getLocaleFromPathname(pathname) || 'tr'
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       {/* Animated background particles */}
@@ -25,7 +30,7 @@ export function Hero() {
         >
           <div className="inline-flex items-center px-4 py-2 bg-orange-500 text-white rounded-full text-sm font-medium">
             <span className="mr-2">🔥</span>
-            Product Hunt&apos;ta Öne Çıkan
+            {t(locale as Locale, 'hero.productHunt')}
             <span className="ml-2 font-bold">#1</span>
           </div>
         </motion.div>
@@ -37,9 +42,9 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight"
         >
-          <span className="block">Hayal Et, Sohbet Et,</span>
-          <span className="block">Yarat</span>
-          <span className="block gradient-text">7/24 AI Ekibiniz</span>
+          <span className="block">{t(locale as Locale, 'hero.mainTitle1')}</span>
+          <span className="block">{t(locale as Locale, 'hero.mainTitle2')}</span>
+          <span className="block gradient-text">{t(locale as Locale, 'hero.mainTitle3')}</span>
         </motion.h1>
 
         {/* Subtitle */}
@@ -49,10 +54,10 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto"
         >
-          MySonAI ile yapay zeka teknolojilerini keşfedin. 
-          <span className="text-purple-400 font-semibold"> Chatbot</span>, 
-          <span className="text-blue-400 font-semibold"> görsel üretim</span> ve 
-          <span className="text-green-400 font-semibold"> daha fazlası</span>.
+          {t(locale as Locale, 'hero.subtitleExtended').split('Chatbot')[0]}
+          <span className="text-purple-400 font-semibold"> {t(locale as Locale, 'hero.chatbot')}</span>, 
+          <span className="text-blue-400 font-semibold"> {t(locale as Locale, 'hero.visualGeneration')}</span> {t(locale as Locale, 'common.and')} 
+          <span className="text-green-400 font-semibold"> {t(locale as Locale, 'hero.more')}</span>.
         </motion.p>
 
                  {/* AI Agent Icons */}

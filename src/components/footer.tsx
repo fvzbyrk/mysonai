@@ -2,35 +2,41 @@
 
 import Link from 'next/link'
 import { Bot, Github, Twitter, Linkedin, Mail } from 'lucide-react'
-
-const footerLinks = {
-  product: [
-    { name: 'AI Araçları', href: '/tools' },
-    { name: 'Demo', href: '/demo' },
-    { name: 'Fiyatlandırma', href: '/pricing' },
-    { name: 'API', href: '/api' },
-  ],
-  resources: [
-    { name: 'Dokümantasyon', href: '/docs' },
-    { name: 'Blog', href: '/blog' },
-    { name: 'Tutorial', href: '/tutorial' },
-    { name: 'SSS', href: '/faq' },
-  ],
-  company: [
-    { name: 'Hakkımızda', href: '/about' },
-    { name: 'Kariyer', href: '/careers' },
-    { name: 'İletişim', href: '/contact' },
-    { name: 'Basın', href: '/press' },
-  ],
-  legal: [
-    { name: 'Gizlilik', href: '/privacy' },
-    { name: 'Kullanım Koşulları', href: '/terms' },
-    { name: 'Çerez Politikası', href: '/cookies' },
-    { name: 'GDPR', href: '/gdpr' },
-  ],
-}
+import { usePathname } from 'next/navigation'
+import { Locale, getLocaleFromPathname } from '@/lib/i18n'
+import { t } from '@/lib/translations'
 
 export function Footer() {
+  const pathname = usePathname()
+  const locale = getLocaleFromPathname(pathname) || 'tr'
+  
+  const footerLinks = {
+    product: [
+      { name: t(locale as Locale, 'nav.assistants'), href: '/tools' },
+      { name: t(locale as Locale, 'nav.demo'), href: '/demo' },
+      { name: t(locale as Locale, 'nav.pricing'), href: '/pricing' },
+      { name: t(locale as Locale, 'nav.api'), href: '/api' },
+    ],
+    resources: [
+      { name: t(locale as Locale, 'nav.docs'), href: '/docs' },
+      { name: t(locale as Locale, 'nav.blog'), href: '/blog' },
+      { name: 'Tutorial', href: '/tutorial' },
+      { name: t(locale as Locale, 'nav.faq'), href: '/faq' },
+    ],
+    company: [
+      { name: t(locale as Locale, 'nav.about'), href: '/about' },
+      { name: 'Kariyer', href: '/careers' },
+      { name: t(locale as Locale, 'nav.contact'), href: '/contact' },
+      { name: 'Basın', href: '/press' },
+    ],
+    legal: [
+      { name: 'Gizlilik', href: '/privacy' },
+      { name: 'Kullanım Koşulları', href: '/terms' },
+      { name: 'Çerez Politikası', href: '/cookies' },
+      { name: 'GDPR', href: '/gdpr' },
+    ],
+  }
+
   return (
     <footer className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

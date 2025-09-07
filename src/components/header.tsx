@@ -18,10 +18,10 @@ export function Header() {
   const navigation = [
     { name: t(locale as Locale, 'nav.home'), href: `/${locale}` },
     { name: t(locale as Locale, 'nav.assistants'), href: `/${locale}/assistants` },
-    { name: 'Blog', href: `/${locale}/blog` },
+    { name: t(locale as Locale, 'nav.blog'), href: `/${locale}/blog` },
     { name: t(locale as Locale, 'nav.demo'), href: `/${locale}/demo` },
-    { name: 'Fiyatlandırma', href: `/${locale}/pricing` },
-    { name: 'İletişim', href: `/${locale}/contact` },
+    { name: t(locale as Locale, 'nav.pricing'), href: `/${locale}/pricing` },
+    { name: t(locale as Locale, 'nav.contact'), href: `/${locale}/contact` },
   ]
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)

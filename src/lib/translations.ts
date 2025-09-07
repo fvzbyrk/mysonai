@@ -83,6 +83,80 @@ export const translations = {
     'common.edit': 'Düzenle',
     'common.close': 'Kapat',
     'common.language': 'Dil',
+    'common.and': 've',
+    
+    // Navigation (Extended)
+    'nav.blog': 'Blog',
+    'nav.pricing': 'Fiyatlandırma',
+    'nav.contact': 'İletişim',
+    'nav.about': 'Hakkımızda',
+    'nav.api': 'API',
+    'nav.docs': 'Dokümantasyon',
+    'nav.faq': 'SSS',
+    
+    // Hero Section (Extended)
+    'hero.productHunt': 'Product Hunt\'ta Öne Çıkan',
+    'hero.mainTitle1': 'Hayal Et, Sohbet Et,',
+    'hero.mainTitle2': 'Yarat',
+    'hero.mainTitle3': '7/24 AI Ekibiniz',
+    'hero.subtitleExtended': 'MySonAI ile yapay zeka teknolojilerini keşfedin. Chatbot, görsel üretim ve daha fazlası.',
+    'hero.chatbot': 'Chatbot',
+    'hero.visualGeneration': 'görsel üretim',
+    'hero.more': 'daha fazlası',
+    
+    // CTA Section
+    'cta.futureTitle': 'Geleceği Bugün',
+    'cta.futureSubtitle': 'Keşfedin',
+    'cta.futureDesc': 'MySonAI ile yapay zeka teknolojilerinin gücünü deneyimleyin. Hemen başlayın ve projelerinizi bir üst seviyeye taşıyın.',
+    'cta.freeTrial': 'Ücretsiz Deneme Başlat',
+    'cta.requestDemo': 'Demo İste',
+    
+    // Features (Extended)
+    'features.aiAssistants': 'AI Asistanlar',
+    'features.aiAssistantsDesc': 'Fevzi, Elif, Burak, Ayşe ve Deniz ile 7/24 çalışan AI ekibiniz. Her biri kendi uzmanlık alanında size yardımcı olur.',
+    'features.codeGeneration': 'Kod Üretimi',
+    'features.codeGenerationDesc': 'Doğal dil ile kod yazın. Frontend, backend, mobil uygulama - AI sizin için kodlar.',
+    'features.visualGeneration': 'Görsel Üretim',
+    'features.visualGenerationDesc': 'DALL-E ile görseller, animasyonlar ve sanat eserleri oluşturun. Hayalinizi gerçeğe dönüştürün.',
+    'features.smartChatbot': 'Akıllı Chatbot',
+    'features.smartChatbotDesc': 'Özelleştirilebilir chatbot\'lar oluşturun. Müşteri hizmetleri, eğitim ve daha fazlası.',
+    'features.fastPrototyping': 'Hızlı Prototipleme',
+    'features.fastPrototypingDesc': 'Fikirlerinizi dakikalar içinde çalışan prototiplere dönüştürün. Hızlı iterasyon ve geliştirme.',
+    'features.securePrivate': 'Güvenli & Özel',
+    'features.securePrivateDesc': 'Verileriniz güvende. End-to-end şifreleme ve gizlilik koruması ile güvenle çalışın.',
+    
+    // Testimonials
+    'testimonials.title': 'Kullanıcılarımız Ne Diyor',
+    'testimonials.subtitle': 'Binlerce kullanıcı MySonAI ile projelerini başarıya ulaştırıyor',
+    'testimonials.ahmetName': 'Ahmet Yılmaz',
+    'testimonials.ahmetRole': 'Yazılım Geliştirici',
+    'testimonials.ahmetCompany': 'TechCorp',
+    'testimonials.ahmetContent': 'MySonAI ile projelerimi 10 kat daha hızlı tamamlıyorum. AI asistanlar gerçekten harika çalışıyor!',
+    'testimonials.zeynepName': 'Zeynep Kaya',
+    'testimonials.zeynepRole': 'UX Tasarımcı',
+    'testimonials.zeynepCompany': 'Design Studio',
+    'testimonials.zeynepContent': 'Görsel üretim özelliği inanılmaz. Hayal ettiğim tasarımları dakikalar içinde gerçeğe dönüştürüyorum.',
+    'testimonials.mehmetName': 'Mehmet Demir',
+    'testimonials.mehmetRole': 'Girişimci',
+    'testimonials.mehmetCompany': 'StartupHub',
+    'testimonials.mehmetContent': 'Chatbot\'umuzu MySonAI ile oluşturduk. Müşteri memnuniyeti %300 arttı. Kesinlikle tavsiye ederim.',
+    
+    // AI Demo
+    'aiDemo.title': 'Canlı AI Asistanlarınızla Sohbet Edin',
+    'aiDemo.subtitle': 'Türkçe AI asistanlarımızla gerçek zamanlı olarak sohbet edin. Hemen deneyin!',
+    'aiDemo.startChat': 'Sohbeti Başlat',
+    'aiDemo.tryNow': 'Hemen Dene',
+    
+    // Usage Limits
+    'usage.guestUsage': 'Misafir Kullanımı',
+    'usage.usageLimits': 'Kullanım Limitleri',
+    'usage.becomeMember': 'Üye Ol',
+    'usage.messages': 'Mesajlar',
+    'usage.tokens': 'Tokenlar',
+    'usage.images': 'Görseller',
+    'usage.unlimited': 'Sınırsız',
+    'usage.remaining': 'Kalan',
+    'usage.used': 'Kullanılan',
   },
   en: {
     // Navigation
@@ -166,6 +240,80 @@ export const translations = {
     'common.edit': 'Edit',
     'common.close': 'Close',
     'common.language': 'Language',
+    'common.and': 'and',
+    
+    // Navigation (Extended)
+    'nav.blog': 'Blog',
+    'nav.pricing': 'Pricing',
+    'nav.contact': 'Contact',
+    'nav.about': 'About',
+    'nav.api': 'API',
+    'nav.docs': 'Documentation',
+    'nav.faq': 'FAQ',
+    
+    // Hero Section (Extended)
+    'hero.productHunt': 'Featured on Product Hunt',
+    'hero.mainTitle1': 'Imagine, Chat,',
+    'hero.mainTitle2': 'Create',
+    'hero.mainTitle3': 'Your 24/7 AI Team',
+    'hero.subtitleExtended': 'Discover AI technologies with MySonAI. Chatbot, visual generation and more.',
+    'hero.chatbot': 'Chatbot',
+    'hero.visualGeneration': 'visual generation',
+    'hero.more': 'more',
+    
+    // CTA Section
+    'cta.futureTitle': 'Discover the Future',
+    'cta.futureSubtitle': 'Today',
+    'cta.futureDesc': 'Experience the power of AI technologies with MySonAI. Start now and take your projects to the next level.',
+    'cta.freeTrial': 'Start Free Trial',
+    'cta.requestDemo': 'Request Demo',
+    
+    // Features (Extended)
+    'features.aiAssistants': 'AI Assistants',
+    'features.aiAssistantsDesc': 'Your 24/7 AI team with Fevzi, Elif, Burak, Ayşe and Deniz. Each expert in their own field helps you.',
+    'features.codeGeneration': 'Code Generation',
+    'features.codeGenerationDesc': 'Write code with natural language. Frontend, backend, mobile app - AI codes for you.',
+    'features.visualGeneration': 'Visual Generation',
+    'features.visualGenerationDesc': 'Create images, animations and artworks with DALL-E. Turn your imagination into reality.',
+    'features.smartChatbot': 'Smart Chatbot',
+    'features.smartChatbotDesc': 'Create customizable chatbots. Customer service, education and more.',
+    'features.fastPrototyping': 'Fast Prototyping',
+    'features.fastPrototypingDesc': 'Transform your ideas into working prototypes in minutes. Fast iteration and development.',
+    'features.securePrivate': 'Secure & Private',
+    'features.securePrivateDesc': 'Your data is safe. Work securely with end-to-end encryption and privacy protection.',
+    
+    // Testimonials
+    'testimonials.title': 'What Our Users Say',
+    'testimonials.subtitle': 'Thousands of users are achieving success with MySonAI',
+    'testimonials.ahmetName': 'Ahmet Yılmaz',
+    'testimonials.ahmetRole': 'Software Developer',
+    'testimonials.ahmetCompany': 'TechCorp',
+    'testimonials.ahmetContent': 'I complete my projects 10 times faster with MySonAI. AI assistants really work great!',
+    'testimonials.zeynepName': 'Zeynep Kaya',
+    'testimonials.zeynepRole': 'UX Designer',
+    'testimonials.zeynepCompany': 'Design Studio',
+    'testimonials.zeynepContent': 'The visual generation feature is incredible. I turn my imagined designs into reality in minutes.',
+    'testimonials.mehmetName': 'Mehmet Demir',
+    'testimonials.mehmetRole': 'Entrepreneur',
+    'testimonials.mehmetCompany': 'StartupHub',
+    'testimonials.mehmetContent': 'We created our chatbot with MySonAI. Customer satisfaction increased by 300%. I definitely recommend it.',
+    
+    // AI Demo
+    'aiDemo.title': 'Chat with Your Live AI Assistants',
+    'aiDemo.subtitle': 'Chat in real-time with our Turkish AI assistants. Try it now!',
+    'aiDemo.startChat': 'Start Chat',
+    'aiDemo.tryNow': 'Try Now',
+    
+    // Usage Limits
+    'usage.guestUsage': 'Guest Usage',
+    'usage.usageLimits': 'Usage Limits',
+    'usage.becomeMember': 'Become Member',
+    'usage.messages': 'Messages',
+    'usage.tokens': 'Tokens',
+    'usage.images': 'Images',
+    'usage.unlimited': 'Unlimited',
+    'usage.remaining': 'Remaining',
+    'usage.used': 'Used',
   },
 } as const;
 
