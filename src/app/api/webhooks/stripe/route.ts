@@ -1,37 +1,31 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { stripe } from '@/lib/stripe'
-import { createServerSupabaseClient } from '@/lib/supabase-server'
-import Stripe from 'stripe'
+import { NextRequest, NextResponse } from 'next/server';
+import { stripe } from '@/lib/stripe';
+import { createServerSupabaseClient } from '@/lib/supabase-server';
+import Stripe from 'stripe';
 
 export async function POST(request: NextRequest) {
-  const body = await request.text()
-  const signature = request.headers.get('stripe-signature')!
+  const body = await request.text();
+  const signature = request.headers.get('stripe-signature')!;
 
-  let event: Stripe.Event
+  let event: Stripe.Event;
 
   try {
-    event = stripe.webhooks.constructEvent(
-      body,
-      signature,
-      process.env.STRIPE_WEBHOOK_SECRET!
-    )
+    event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET!);
   } catch (err) {
-    console.error('Webhook signature verification failed:', err)
-    return NextResponse.json({ error: 'Invalid signature' }, { status: 400 })
+    console.error('Webhook signature verification failed:', err);
+    return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
   }
 
-  const supabase = createServerSupabaseClient()
+  const supabase = createServerSupabaseClient();
 
   try {
     switch (event.type) {
       case 'checkout.session.completed': {
-        const session = event.data.object as Stripe.Checkout.Session
-        
+        const session = event.data.object as Stripe.Checkout.Session;
+
         if (session.mode === 'subscription') {
-          const subscription = await stripe.subscriptions.retrieve(
-            session.subscription as string
-          )
-          
+          const subscription = await stripe.subscriptions.retrieve(session.subscription as string);
+
           // Update user plan in Supabase
           const { error } = await supabase
             .from('users')
@@ -39,80 +33,80 @@ export async function POST(request: NextRequest) {
               plan: subscription.metadata.plan,
               stripe_customer_id: session.customer,
               stripe_subscription_id: subscription.id,
-              updated_at: new Date().toISOString()
+              updated_at: new Date().toISOString(),
             })
-            .eq('id', session.metadata?.user_id)
+            .eq('id', session.metadata?.user_id);
 
           if (error) {
-            console.error('Error updating user plan:', error)
-            return NextResponse.json({ error: 'Database update failed' }, { status: 500 })
+            console.error('Error updating user plan:', error);
+            return NextResponse.json({ error: 'Database update failed' }, { status: 500 });
           }
         }
-        break
+        break;
       }
 
       case 'customer.subscription.updated': {
-        const subscription = event.data.object as Stripe.Subscription
-        
+        const subscription = event.data.object as Stripe.Subscription;
+
         // Update subscription status
         const { error } = await supabase
           .from('users')
           .update({
             plan: subscription.status === 'active' ? subscription.metadata.plan : 'free',
-            updated_at: new Date().toISOString()
+            updated_at: new Date().toISOString(),
           })
-          .eq('stripe_subscription_id', subscription.id)
+          .eq('stripe_subscription_id', subscription.id);
 
         if (error) {
-          console.error('Error updating subscription:', error)
+          console.error('Error updating subscription:', error);
         }
-        break
+        break;
       }
 
       case 'customer.subscription.deleted': {
-        const subscription = event.data.object as Stripe.Subscription
-        
+        const subscription = event.data.object as Stripe.Subscription;
+
         // Downgrade to free plan
         const { error } = await supabase
           .from('users')
           .update({
             plan: 'free',
             stripe_subscription_id: null,
-            updated_at: new Date().toISOString()
+            updated_at: new Date().toISOString(),
           })
-          .eq('stripe_subscription_id', subscription.id)
+          .eq('stripe_subscription_id', subscription.id);
 
         if (error) {
-          console.error('Error downgrading user:', error)
+          console.error('Error downgrading user:', error);
         }
-        break
+        break;
       }
 
       case 'invoice.payment_failed': {
-        const invoice = event.data.object as Stripe.Invoice
-        
+        const invoice = event.data.object as Stripe.Invoice;
+
         // Handle failed payment
         const { error } = await supabase
           .from('users')
           .update({
             plan: 'free',
-            updated_at: new Date().toISOString()
+            updated_at: new Date().toISOString(),
           })
-          .eq('stripe_customer_id', invoice.customer)
+          .eq('stripe_customer_id', invoice.customer);
 
         if (error) {
-          console.error('Error handling failed payment:', error)
+          console.error('Error handling failed payment:', error);
         }
-        break
+        break;
       }
 
       default:
-        console.log(`Unhandled event type: ${event.type}`)
+        console.log(`Unhandled event type: ${event.type}`);
     }
 
-    return NextResponse.json({ received: true })
+    return NextResponse.json({ received: true });
   } catch (error) {
-    console.error('Webhook handler error:', error)
-    return NextResponse.json({ error: 'Webhook handler failed' }, { status: 500 })
+    console.error('Webhook handler error:', error);
+    return NextResponse.json({ error: 'Webhook handler failed' }, { status: 500 });
   }
 }

@@ -1,9 +1,9 @@
-import { MetadataRoute } from 'next'
-import { locales } from '@/lib/i18n'
+import { MetadataRoute } from 'next';
+import { locales } from '@/lib/i18n';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://mysonai.com'
-  
+  const baseUrl = 'https://mysonai.com';
+
   const routes = [
     '',
     '/assistants',
@@ -21,27 +21,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/billing',
     '/pricing',
     '/contact',
-  ]
+  ];
 
-  const sitemap: MetadataRoute.Sitemap = []
+  const sitemap: MetadataRoute.Sitemap = [];
 
   // Generate sitemap for each locale
-  locales.forEach((locale) => {
-    routes.forEach((route) => {
+  locales.forEach(locale => {
+    routes.forEach(route => {
       sitemap.push({
         url: `${baseUrl}/${locale}${route}`,
         lastModified: new Date(),
         changeFrequency: route === '' ? 'daily' : 'weekly',
         priority: route === '' ? 1 : 0.8,
         alternates: {
-          languages: locales.reduce((acc, loc) => {
-            acc[loc] = `${baseUrl}/${loc}${route}`
-            return acc
-          }, {} as Record<string, string>)
-        }
-      })
-    })
-  })
+          languages: locales.reduce(
+            (acc, loc) => {
+              acc[loc] = `${baseUrl}/${loc}${route}`;
+              return acc;
+            },
+            {} as Record<string, string>
+          ),
+        },
+      });
+    });
+  });
 
-  return sitemap
+  return sitemap;
 }

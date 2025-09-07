@@ -1,12 +1,13 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import './globals.css'
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'MySonAI - Yapay Zeka ile Geleceği Keşfedin',
-  description: 'MySonAI ile yapay zeka teknolojilerini keşfedin. AI araçları, chatbot, görsel üretim ve daha fazlası.',
+  description:
+    'MySonAI ile yapay zeka teknolojilerini keşfedin. AI araçları, chatbot, görsel üretim ve daha fazlası.',
   keywords: 'yapay zeka, AI, chatbot, görsel üretim, makine öğrenmesi',
   authors: [{ name: 'MySonAI Team' }],
   creator: 'MySonAI',
@@ -25,13 +26,15 @@ export const metadata: Metadata = {
     locale: 'tr_TR',
     url: 'https://mysonai.com',
     title: 'MySonAI - Yapay Zeka ile Geleceği Keşfedin',
-    description: 'MySonAI ile yapay zeka teknolojilerini keşfedin. AI araçları, chatbot, görsel üretim ve daha fazlası.',
+    description:
+      'MySonAI ile yapay zeka teknolojilerini keşfedin. AI araçları, chatbot, görsel üretim ve daha fazlası.',
     siteName: 'MySonAI',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'MySonAI - Yapay Zeka ile Geleceği Keşfedin',
-    description: 'MySonAI ile yapay zeka teknolojilerini keşfedin. AI araçları, chatbot, görsel üretim ve daha fazlası.',
+    description:
+      'MySonAI ile yapay zeka teknolojilerini keşfedin. AI araçları, chatbot, görsel üretim ve daha fazlası.',
     creator: '@mysonai',
   },
   robots: {
@@ -45,18 +48,12 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-}
+};
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html suppressHydrationWarning>
-      <body className={inter.className}>
-        {children}
-      </body>
+      <body className={inter.className}>{children}</body>
     </html>
-  )
+  );
 }

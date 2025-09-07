@@ -1,6 +1,6 @@
-import { render, screen } from '@testing-library/react'
-import { Header } from '@/components/header'
-import { AuthProvider } from '@/contexts/auth-context'
+import { render, screen } from '@testing-library/react';
+import { Header } from '@/components/header';
+import { AuthProvider } from '@/contexts/auth-context';
 
 // Mock the translations
 jest.mock('@/lib/translations', () => ({
@@ -26,16 +26,16 @@ jest.mock('@/lib/translations', () => ({
         'nav.signin': 'Sign In',
         'nav.signup': 'Sign Up',
       },
-    }
-    return translations[locale]?.[key] || key
+    };
+    return translations[locale]?.[key] || key;
   },
-}))
+}));
 
 // Mock the i18n functions
 jest.mock('@/lib/i18n', () => ({
   getLocaleFromPathname: jest.fn().mockReturnValue('tr'),
   locales: ['tr', 'en'],
-}))
+}));
 
 // Mock the feature flags
 jest.mock('@/hooks/useFeatureFlags', () => ({
@@ -48,72 +48,72 @@ jest.mock('@/hooks/useFeatureFlags', () => ({
     docs: true,
     auth: true,
   }),
-}))
+}));
 
 describe('Header Component', () => {
   beforeEach(() => {
-    jest.clearAllMocks()
-  })
+    jest.clearAllMocks();
+  });
 
   it('renders header with navigation links', () => {
     render(
       <AuthProvider>
         <Header />
       </AuthProvider>
-    )
-    
-    expect(screen.getByRole('navigation')).toBeInTheDocument()
-    expect(screen.getByText('Ana Sayfa')).toBeInTheDocument()
-    expect(screen.getByText('Asistanlar')).toBeInTheDocument()
-    expect(screen.getByText('Demo')).toBeInTheDocument()
-    expect(screen.getByText('Fiyatlandırma')).toBeInTheDocument()
-  })
+    );
+
+    expect(screen.getByRole('navigation')).toBeInTheDocument();
+    expect(screen.getByText('Ana Sayfa')).toBeInTheDocument();
+    expect(screen.getByText('Asistanlar')).toBeInTheDocument();
+    expect(screen.getByText('Demo')).toBeInTheDocument();
+    expect(screen.getByText('Fiyatlandırma')).toBeInTheDocument();
+  });
 
   it('renders sign in and sign up buttons', () => {
     render(
       <AuthProvider>
         <Header />
       </AuthProvider>
-    )
-    
-    expect(screen.getByText('Giriş Yap')).toBeInTheDocument()
-    expect(screen.getByText('Kayıt Ol')).toBeInTheDocument()
-  })
+    );
+
+    expect(screen.getByText('Giriş Yap')).toBeInTheDocument();
+    expect(screen.getByText('Kayıt Ol')).toBeInTheDocument();
+  });
 
   it('has correct navigation structure', () => {
     render(
       <AuthProvider>
         <Header />
       </AuthProvider>
-    )
-    
-    const nav = screen.getByRole('navigation')
-    expect(nav).toBeInTheDocument()
-    
+    );
+
+    const nav = screen.getByRole('navigation');
+    expect(nav).toBeInTheDocument();
+
     // Check for logo/brand
-    const logo = screen.getByText('MySonAI')
-    expect(logo).toBeInTheDocument()
-  })
+    const logo = screen.getByText('MySonAI');
+    expect(logo).toBeInTheDocument();
+  });
 
   it('renders mobile menu button', () => {
     render(
       <AuthProvider>
         <Header />
       </AuthProvider>
-    )
-    
-    const mobileButton = screen.getByRole('button', { name: /Ana menüyü aç/i })
-    expect(mobileButton).toBeInTheDocument()
-  })
+    );
+
+    const mobileButton = screen.getByRole('button', { name: /Ana menüyü aç/i });
+    expect(mobileButton).toBeInTheDocument();
+  });
 
   it('applies correct CSS classes', () => {
     render(
       <AuthProvider>
         <Header />
       </AuthProvider>
-    )
-    
-    const header = screen.getByRole('navigation')
-    expect(header).toHaveClass('mx-auto', 'flex', 'max-w-7xl')
-  })
-})
+    );
+
+    const header = screen.getByRole('navigation');
+    expect(header).toHaveClass('mx-auto', 'flex', 'max-w-7xl');
+  });
+});

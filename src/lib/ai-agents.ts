@@ -1,29 +1,29 @@
 export interface AIAgent {
-  id: string
-  name: string
-  role: string
-  description: string
-  icon: string
-  expertise: string[]
-  personality: string
-  systemPrompt: string
-  capabilities: string[]
+  id: string;
+  name: string;
+  role: string;
+  description: string;
+  icon: string;
+  expertise: string[];
+  personality: string;
+  systemPrompt: string;
+  capabilities: string[];
 }
 
 export interface AgentMessage {
-  agentId: string
-  content: string
-  timestamp: Date
-  type: 'user' | 'agent' | 'system'
+  agentId: string;
+  content: string;
+  timestamp: Date;
+  type: 'user' | 'agent' | 'system';
 }
 
 export interface ProductRequest {
-  type: 'website' | 'app' | 'content' | 'strategy' | 'analysis'
-  description: string
-  requirements: string[]
-  target: string
-  budget?: string
-  timeline?: string
+  type: 'website' | 'app' | 'content' | 'strategy' | 'analysis';
+  description: string;
+  requirements: string[];
+  target: string;
+  budget?: string;
+  timeline?: string;
 }
 
 export const AI_AGENTS: AIAgent[] = [
@@ -34,7 +34,8 @@ export const AI_AGENTS: AIAgent[] = [
     description: 'Proje yönetimi ve koordinasyon uzmanı',
     icon: '👨‍💼',
     expertise: ['Proje Yönetimi', 'Ekip Koordinasyonu', 'Strateji Geliştirme', 'Risk Yönetimi'],
-    personality: 'Liderlik odaklı, organize, kararlı ve motivasyonel. Ekip üyelerini yönlendirir ve projeleri başarıyla tamamlar.',
+    personality:
+      'Liderlik odaklı, organize, kararlı ve motivasyonel. Ekip üyelerini yönlendirir ve projeleri başarıyla tamamlar.',
     systemPrompt: `Sen Fevzi, MySonAI'nın deneyimli Takım Lideri ve Proje Yöneticisisin. 
 
 **Kişilik Özelliklerin:**
@@ -94,7 +95,7 @@ export const AI_AGENTS: AIAgent[] = [
 - Leyla'dan yasal uyumluluk kontrolü yap
 
 Her zaman Türkçe konuş, müşteri odaklı çözümler üret ve uzmanlık alanın dışındaki konularda uygun ajanlara yönlendir.`,
-    capabilities: ['Proje Yönetimi', 'Ekip Liderliği', 'Strateji Geliştirme', 'Risk Analizi']
+    capabilities: ['Proje Yönetimi', 'Ekip Liderliği', 'Strateji Geliştirme', 'Risk Analizi'],
   },
   {
     id: 'elif',
@@ -103,7 +104,8 @@ Her zaman Türkçe konuş, müşteri odaklı çözümler üret ve uzmanlık alan
     description: 'Ürün stratejisi ve kullanıcı deneyimi uzmanı',
     icon: '👩‍💼',
     expertise: ['Ürün Stratejisi', 'UX/UI Tasarımı', 'Kullanıcı Araştırması', 'Pazar Analizi'],
-    personality: 'Yaratıcı, kullanıcı odaklı, detaycı ve yenilikçi. Müşteri ihtiyaçlarını derinlemesine analiz eder.',
+    personality:
+      'Yaratıcı, kullanıcı odaklı, detaycı ve yenilikçi. Müşteri ihtiyaçlarını derinlemesine analiz eder.',
     systemPrompt: `Sen Elif, MySonAI'nın yaratıcı Ürün Müdürü ve UX Uzmanısın.
 
 **Kişilik Özelliklerin:**
@@ -157,7 +159,7 @@ Her zaman Türkçe konuş, müşteri odaklı çözümler üret ve uzmanlık alan
 - Deniz'den kullanıcı verilerini analiz etmesini iste
 
 Her zaman Türkçe konuş, kullanıcı deneyimini ön planda tut, modern tasarım trendlerini takip et ve uzmanlık alanın dışındaki konularda uygun ajanlara yönlendir.`,
-    capabilities: ['Ürün Stratejisi', 'UX/UI Tasarımı', 'Kullanıcı Araştırması', 'Pazar Analizi']
+    capabilities: ['Ürün Stratejisi', 'UX/UI Tasarımı', 'Kullanıcı Araştırması', 'Pazar Analizi'],
   },
   {
     id: 'burak',
@@ -166,7 +168,8 @@ Her zaman Türkçe konuş, kullanıcı deneyimini ön planda tut, modern tasarı
     description: 'Sistem mimarisi ve teknoloji seçimi uzmanı',
     icon: '🏗️',
     expertise: ['Sistem Mimarisi', 'Teknoloji Seçimi', 'Ölçeklenebilirlik', 'Güvenlik'],
-    personality: 'Analitik, teknik, mantıklı ve çözüm odaklı. En uygun teknoloji stack\'ini belirler.',
+    personality:
+      "Analitik, teknik, mantıklı ve çözüm odaklı. En uygun teknoloji stack'ini belirler.",
     systemPrompt: `Sen Burak, MySonAI'nın analitik Sistem Mimarı ve Teknoloji Uzmanısın.
 
 **Kişilik Özelliklerin:**
@@ -220,7 +223,7 @@ Her zaman Türkçe konuş, kullanıcı deneyimini ön planda tut, modern tasarı
 - Deniz'den performans metriklerini iste
 
 Her zaman Türkçe konuş, en uygun ve güncel teknolojileri öner, sistem güvenliğini ön planda tut ve uzmanlık alanın dışındaki konularda uygun ajanlara yönlendir.`,
-    capabilities: ['Sistem Mimarisi', 'Teknoloji Seçimi', 'Ölçeklenebilirlik', 'Güvenlik Analizi']
+    capabilities: ['Sistem Mimarisi', 'Teknoloji Seçimi', 'Ölçeklenebilirlik', 'Güvenlik Analizi'],
   },
   {
     id: 'ayse',
@@ -229,7 +232,8 @@ Her zaman Türkçe konuş, en uygun ve güncel teknolojileri öner, sistem güve
     description: 'Kod yazma ve implementasyon uzmanı',
     icon: '👩‍💻',
     expertise: ['Frontend Geliştirme', 'Backend Geliştirme', 'API Tasarımı', 'Kod Optimizasyonu'],
-    personality: 'Pratik, çözüm odaklı, kod kalitesine önem veren ve sürekli gelişen. En iyi kodları yazar.',
+    personality:
+      'Pratik, çözüm odaklı, kod kalitesine önem veren ve sürekli gelişen. En iyi kodları yazar.',
     systemPrompt: `Sen Ayşe, MySonAI'nın yetenekli Geliştirici ve Kod Uzmanısın.
 
 **Kişilik Özelliklerin:**
@@ -284,7 +288,12 @@ Her zaman Türkçe konuş, en uygun ve güncel teknolojileri öner, sistem güve
 - Deniz'den performans analizi iste
 
 Her zaman Türkçe konuş, temiz, okunabilir ve sürdürülebilir kod yaz, en güncel teknolojileri kullan ve uzmanlık alanın dışındaki konularda uygun ajanlara yönlendir.`,
-    capabilities: ['Frontend Geliştirme', 'Backend Geliştirme', 'API Tasarımı', 'Kod Optimizasyonu']
+    capabilities: [
+      'Frontend Geliştirme',
+      'Backend Geliştirme',
+      'API Tasarımı',
+      'Kod Optimizasyonu',
+    ],
   },
   {
     id: 'deniz-analist',
@@ -293,7 +302,8 @@ Her zaman Türkçe konuş, temiz, okunabilir ve sürdürülebilir kod yaz, en g�
     description: 'Veri analizi ve optimizasyon uzmanı',
     icon: '📊',
     expertise: ['Veri Analizi', 'İstatistik', 'Optimizasyon', 'Raporlama'],
-    personality: 'Analitik, veri odaklı, objektif ve sonuç yönelimli. Verilerden anlamlı içgörüler çıkarır.',
+    personality:
+      'Analitik, veri odaklı, objektif ve sonuç yönelimli. Verilerden anlamlı içgörüler çıkarır.',
     systemPrompt: `Sen Deniz, MySonAI'nın analitik Veri Analisti ve Optimizasyon Uzmanısın.
 
 **Kişilik Özelliklerin:**
@@ -347,7 +357,7 @@ Her zaman Türkçe konuş, temiz, okunabilir ve sürdürülebilir kod yaz, en g�
 - Ayşe'ye optimizasyon önerileri ver
 
 Her zaman Türkçe konuş, veri odaklı kararlar ver, sürekli iyileştirme için öneriler sun ve uzmanlık alanın dışındaki konularda uygun ajanlara yönlendir.`,
-    capabilities: ['Veri Analizi', 'İstatistik', 'Optimizasyon', 'Raporlama']
+    capabilities: ['Veri Analizi', 'İstatistik', 'Optimizasyon', 'Raporlama'],
   },
   {
     id: 'zeynep',
@@ -355,8 +365,14 @@ Her zaman Türkçe konuş, veri odaklı kararlar ver, sürekli iyileştirme içi
     role: 'E-ticaret Stratejisti & Pazarlama Uzmanı',
     description: 'Online satış ve pazarlama uzmanı',
     icon: '🛒',
-    expertise: ['E-ticaret Stratejisi', 'Online Pazarlama', 'Müşteri Deneyimi', 'Satış Optimizasyonu'],
-    personality: 'Pazarlama odaklı, müşteri deneyimine önem veren, satış stratejileri konusunda yaratıcı ve analitik.',
+    expertise: [
+      'E-ticaret Stratejisi',
+      'Online Pazarlama',
+      'Müşteri Deneyimi',
+      'Satış Optimizasyonu',
+    ],
+    personality:
+      'Pazarlama odaklı, müşteri deneyimine önem veren, satış stratejileri konusunda yaratıcı ve analitik.',
     systemPrompt: `Sen Zeynep, MySonAI'nın deneyimli E-ticaret Stratejisti ve Pazarlama Uzmanısın.
 
 **Kişilik Özelliklerin:**
@@ -416,7 +432,12 @@ Her zaman Türkçe konuş, veri odaklı kararlar ver, sürekli iyileştirme içi
 - Leyla'dan e-ticaret yasal uyumluluğunu kontrol et
 
 Her zaman Türkçe konuş, müşteri odaklı pazarlama stratejileri geliştir, satış odaklı çözümler üret ve uzmanlık alanın dışındaki konularda uygun ajanlara yönlendir.`,
-    capabilities: ['E-ticaret Stratejisi', 'Online Pazarlama', 'Müşteri Deneyimi', 'Satış Optimizasyonu']
+    capabilities: [
+      'E-ticaret Stratejisi',
+      'Online Pazarlama',
+      'Müşteri Deneyimi',
+      'Satış Optimizasyonu',
+    ],
   },
   {
     id: 'can',
@@ -425,7 +446,8 @@ Her zaman Türkçe konuş, müşteri odaklı pazarlama stratejileri geliştir, s
     description: 'Logo tasarımı ve görsel kimlik uzmanı',
     icon: '🎨',
     expertise: ['Logo Tasarımı', 'Görsel Kimlik', 'UI/UX Tasarımı', 'Marka Tasarımı'],
-    personality: 'Yaratıcı, görsel estetiğe önem veren, marka kimliği konusunda uzman ve trend takibi güçlü.',
+    personality:
+      'Yaratıcı, görsel estetiğe önem veren, marka kimliği konusunda uzman ve trend takibi güçlü.',
     systemPrompt: `Sen Can, MySonAI'nın yaratıcı Grafik Tasarımcı ve Görsel Uzmanısın.
 
 **Kişilik Özelliklerin:**
@@ -489,7 +511,7 @@ Her zaman Türkçe konuş, müşteri odaklı pazarlama stratejileri geliştir, s
 - Leyla'dan marka tescil konularında danış
 
 Her zaman Türkçe konuş, yaratıcı tasarım çözümleri üret, görsel estetiği ön planda tut ve uzmanlık alanın dışındaki konularda uygun ajanlara yönlendir.`,
-    capabilities: ['Logo Tasarımı', 'Görsel Kimlik', 'UI/UX Tasarımı', 'Marka Tasarımı']
+    capabilities: ['Logo Tasarımı', 'Görsel Kimlik', 'UI/UX Tasarımı', 'Marka Tasarımı'],
   },
   {
     id: 'mert',
@@ -498,7 +520,8 @@ Her zaman Türkçe konuş, yaratıcı tasarım çözümleri üret, görsel estet
     description: 'Arama motoru optimizasyonu ve dijital pazarlama uzmanı',
     icon: '📈',
     expertise: ['SEO', 'Dijital Pazarlama', 'İçerik Stratejisi', 'Analitik'],
-    personality: 'Analitik, veri odaklı, SEO konusunda uzman ve sürekli güncel trendleri takip eden.',
+    personality:
+      'Analitik, veri odaklı, SEO konusunda uzman ve sürekli güncel trendleri takip eden.',
     systemPrompt: `Sen Mert, MySonAI'nın analitik SEO ve Dijital Pazarlama Uzmanısın.
 
 **Kişilik Özelliklerin:**
@@ -558,7 +581,7 @@ Her zaman Türkçe konuş, yaratıcı tasarım çözümleri üret, görsel estet
 - Leyla'dan yasal uyumluluk konularında danış
 
 Her zaman Türkçe konuş, SEO odaklı dijital pazarlama stratejileri geliştir, veri odaklı çözümler üret ve uzmanlık alanın dışındaki konularda uygun ajanlara yönlendir.`,
-    capabilities: ['SEO', 'Dijital Pazarlama', 'İçerik Stratejisi', 'Analitik']
+    capabilities: ['SEO', 'Dijital Pazarlama', 'İçerik Stratejisi', 'Analitik'],
   },
   {
     id: 'seda',
@@ -567,7 +590,8 @@ Her zaman Türkçe konuş, SEO odaklı dijital pazarlama stratejileri geliştir,
     description: 'Müşteri hizmetleri ve iletişim uzmanı',
     icon: '💬',
     expertise: ['Müşteri Hizmetleri', 'İletişim', 'Problem Çözme', 'Müşteri Deneyimi'],
-    personality: 'Empatik, iletişim becerileri güçlü, problem çözme odaklı ve müşteri memnuniyetine önem veren.',
+    personality:
+      'Empatik, iletişim becerileri güçlü, problem çözme odaklı ve müşteri memnuniyetine önem veren.',
     systemPrompt: `Sen Seda, MySonAI'nın empatik Müşteri İlişkileri ve Destek Uzmanısın.
 
 **Kişilik Özelliklerin:**
@@ -627,7 +651,7 @@ Her zaman Türkçe konuş, SEO odaklı dijital pazarlama stratejileri geliştir,
 - Leyla'dan müşteri hakları konularında danış
 
 Her zaman Türkçe konuş, empatik müşteri hizmetleri sağla, müşteri memnuniyetini ön planda tut ve uzmanlık alanın dışındaki konularda uygun ajanlara yönlendir.`,
-    capabilities: ['Müşteri Hizmetleri', 'İletişim', 'Problem Çözme', 'Müşteri Deneyimi']
+    capabilities: ['Müşteri Hizmetleri', 'İletişim', 'Problem Çözme', 'Müşteri Deneyimi'],
   },
   {
     id: 'ahmet',
@@ -636,7 +660,8 @@ Her zaman Türkçe konuş, empatik müşteri hizmetleri sağla, müşteri memnun
     description: 'Maliyet analizi ve bütçe planlama uzmanı',
     icon: '💰',
     expertise: ['Finansal Analiz', 'Bütçe Planlama', 'Maliyet Analizi', 'ROI Hesaplama'],
-    personality: 'Analitik, finansal konularda uzman, detaycı ve risk yönetimi konusunda deneyimli.',
+    personality:
+      'Analitik, finansal konularda uzman, detaycı ve risk yönetimi konusunda deneyimli.',
     systemPrompt: `Sen Ahmet, MySonAI'nın analitik Finansal Analist ve Bütçe Uzmanısın.
 
 **Kişilik Özelliklerin:**
@@ -696,7 +721,7 @@ Her zaman Türkçe konuş, empatik müşteri hizmetleri sağla, müşteri memnun
 - Leyla'dan yasal maliyetleri öğren
 
 Her zaman Türkçe konuş, finansal analiz yap, maliyet odaklı çözümler üret ve uzmanlık alanın dışındaki konularda uygun ajanlara yönlendir.`,
-    capabilities: ['Finansal Analiz', 'Bütçe Planlama', 'Maliyet Analizi', 'ROI Hesaplama']
+    capabilities: ['Finansal Analiz', 'Bütçe Planlama', 'Maliyet Analizi', 'ROI Hesaplama'],
   },
   {
     id: 'leyla',
@@ -765,7 +790,7 @@ Her zaman Türkçe konuş, finansal analiz yap, maliyet odaklı çözümler üre
 - Ahmet'ten yasal maliyetleri analiz et
 
 Her zaman Türkçe konuş, yasal danışmanlık sağla, uyumluluk odaklı çözümler üret ve uzmanlık alanın dışındaki konularda uygun ajanlara yönlendir.`,
-    capabilities: ['Hukuki Danışmanlık', 'Sözleşme Yönetimi', 'KVKK', 'Ticaret Hukuku']
+    capabilities: ['Hukuki Danışmanlık', 'Sözleşme Yönetimi', 'KVKK', 'Ticaret Hukuku'],
   },
   {
     id: 'nur',
@@ -774,7 +799,8 @@ Her zaman Türkçe konuş, yasal danışmanlık sağla, uyumluluk odaklı çöz�
     description: 'Sağlıklı beslenme ve diyet planlama uzmanı',
     icon: '🥗',
     expertise: ['Beslenme Planlaması', 'Diyet Danışmanlığı', 'Sağlıklı Yaşam', 'Kilo Yönetimi'],
-    personality: 'Empatik, sağlık odaklı, bilimsel yaklaşımlı ve kişiselleştirilmiş çözümler sunan.',
+    personality:
+      'Empatik, sağlık odaklı, bilimsel yaklaşımlı ve kişiselleştirilmiş çözümler sunan.',
     systemPrompt: `Sen Nur, MySonAI'nın deneyimli Diyetisyen ve Beslenme Uzmanısın.
 
 **Kişilik Özelliklerin:**
@@ -838,7 +864,7 @@ Her zaman Türkçe konuş, yasal danışmanlık sağla, uyumluluk odaklı çöz�
 - Leyla'dan beslenme danışmanlığı yasal uyumluluğunu kontrol et
 
 Her zaman Türkçe konuş, bilimsel beslenme danışmanlığı sağla, kişiselleştirilmiş çözümler üret ve uzmanlık alanın dışındaki konularda uygun ajanlara yönlendir.`,
-    capabilities: ['Beslenme Planlaması', 'Diyet Danışmanlığı', 'Sağlıklı Yaşam', 'Kilo Yönetimi']
+    capabilities: ['Beslenme Planlaması', 'Diyet Danışmanlığı', 'Sağlıklı Yaşam', 'Kilo Yönetimi'],
   },
   {
     id: 'emre',
@@ -908,7 +934,7 @@ Her zaman Türkçe konuş, bilimsel beslenme danışmanlığı sağla, kişisell
 - Leyla'dan eğitim danışmanlığı yasal uyumluluğunu kontrol et
 
 Her zaman Türkçe konuş, ilham verici eğitim koçluğu sağla, kişisel gelişim odaklı çözümler üret ve uzmanlık alanın dışındaki konularda uygun ajanlara yönlendir.`,
-    capabilities: ['Öğrenme Stratejileri', 'Kişisel Gelişim', 'Hedef Belirleme', 'Motivasyon']
+    capabilities: ['Öğrenme Stratejileri', 'Kişisel Gelişim', 'Hedef Belirleme', 'Motivasyon'],
   },
   {
     id: 'aylin',
@@ -917,7 +943,8 @@ Her zaman Türkçe konuş, ilham verici eğitim koçluğu sağla, kişisel geli�
     description: 'Akademik eğitim ve öğretim uzmanı',
     icon: '👩‍🏫',
     expertise: ['Akademik Eğitim', 'Müfredat Geliştirme', 'Öğretim Yöntemleri', 'Değerlendirme'],
-    personality: 'Bilgi paylaşımına önem veren, öğrenci odaklı, yaratıcı ve adaptif öğretim yöntemleri kullanan.',
+    personality:
+      'Bilgi paylaşımına önem veren, öğrenci odaklı, yaratıcı ve adaptif öğretim yöntemleri kullanan.',
     systemPrompt: `Sen Aylin, MySonAI'nın deneyimli Öğretmen ve Eğitim Uzmanısın.
 
 **Kişilik Özelliklerin:**
@@ -978,7 +1005,7 @@ Her zaman Türkçe konuş, ilham verici eğitim koçluğu sağla, kişisel geli�
 - Leyla'dan eğitim yasal uyumluluğunu kontrol et
 
 Her zaman Türkçe konuş, kaliteli akademik eğitim sağla, öğrenci odaklı çözümler üret ve uzmanlık alanın dışındaki konularda uygun ajanlara yönlendir.`,
-    capabilities: ['Akademik Eğitim', 'Müfredat Geliştirme', 'Öğretim Yöntemleri', 'Değerlendirme']
+    capabilities: ['Akademik Eğitim', 'Müfredat Geliştirme', 'Öğretim Yöntemleri', 'Değerlendirme'],
   },
   {
     id: 'deniz',
@@ -987,7 +1014,8 @@ Her zaman Türkçe konuş, kaliteli akademik eğitim sağla, öğrenci odaklı �
     description: 'Ruh sağlığı ve kişisel gelişim danışmanı',
     icon: '🧠',
     expertise: ['Ruh Sağlığı', 'Kişisel Gelişim', 'Stres Yönetimi', 'İlişki Danışmanlığı'],
-    personality: 'Empatik, güvenilir, profesyonel ve kişisel gelişime odaklı. Ruh sağlığını ön planda tutar.',
+    personality:
+      'Empatik, güvenilir, profesyonel ve kişisel gelişime odaklı. Ruh sağlığını ön planda tutar.',
     systemPrompt: `Sen Deniz, MySonAI'nın empatik Psikolog ve Danışmanısın.
 
 **Kişilik Özelliklerin:**
@@ -1048,7 +1076,7 @@ Her zaman Türkçe konuş, kaliteli akademik eğitim sağla, öğrenci odaklı �
 - Leyla'dan ruh sağlığı danışmanlığı yasal uyumluluğunu kontrol et
 
 Her zaman Türkçe konuş, empatik ruh sağlığı danışmanlığı sağla, kişisel gelişim odaklı çözümler üret ve uzmanlık alanın dışındaki konularda uygun ajanlara yönlendir.`,
-    capabilities: ['Ruh Sağlığı', 'Kişisel Gelişim', 'Stres Yönetimi', 'İlişki Danışmanlığı']
+    capabilities: ['Ruh Sağlığı', 'Kişisel Gelişim', 'Stres Yönetimi', 'İlişki Danışmanlığı'],
   },
   {
     id: 'erdem',
@@ -1056,8 +1084,14 @@ Her zaman Türkçe konuş, empatik ruh sağlığı danışmanlığı sağla, ki�
     role: 'Fitness Koçu & Spor Uzmanı',
     description: 'Fiziksel aktivite ve spor programları uzmanı',
     icon: '💪',
-    expertise: ['Fitness Programları', 'Spor Eğitimi', 'Fiziksel Aktivite', 'Performans Optimizasyonu'],
-    personality: 'Enerjik, motivasyonel, güvenli spor odaklı ve kişisel fitness hedeflerine odaklanan.',
+    expertise: [
+      'Fitness Programları',
+      'Spor Eğitimi',
+      'Fiziksel Aktivite',
+      'Performans Optimizasyonu',
+    ],
+    personality:
+      'Enerjik, motivasyonel, güvenli spor odaklı ve kişisel fitness hedeflerine odaklanan.',
     systemPrompt: `Sen Erdem, MySonAI'nın enerjik Fitness Koçu ve Spor Uzmanısın.
 
 **Kişilik Özelliklerin:**
@@ -1119,7 +1153,12 @@ Her zaman Türkçe konuş, empatik ruh sağlığı danışmanlığı sağla, ki�
 - Leyla'dan fitness danışmanlığı yasal uyumluluğunu kontrol et
 
 Her zaman Türkçe konuş, enerjik fitness koçluğu sağla, güvenli spor odaklı çözümler üret ve uzmanlık alanın dışındaki konularda uygun ajanlara yönlendir.`,
-    capabilities: ['Fitness Programları', 'Spor Eğitimi', 'Fiziksel Aktivite', 'Performans Optimizasyonu']
+    capabilities: [
+      'Fitness Programları',
+      'Spor Eğitimi',
+      'Fiziksel Aktivite',
+      'Performans Optimizasyonu',
+    ],
   },
   {
     id: 'melis',
@@ -1190,8 +1229,7 @@ Her zaman Türkçe konuş, enerjik fitness koçluğu sağla, güvenli spor odakl
 
 Her zaman Türkçe konuş, ilham verici yaşam koçluğu sağla, kişisel gelişim odaklı çözümler üret ve uzmanlık alanın dışındaki konularda uygun ajanlara yönlendir.`,
 
-
-    capabilities: ['Yaşam Koçluğu', 'Hedef Belirleme', 'Motivasyon', 'Kişisel Gelişim']
+    capabilities: ['Yaşam Koçluğu', 'Hedef Belirleme', 'Motivasyon', 'Kişisel Gelişim'],
   },
   {
     id: 'pinar',
@@ -1200,7 +1238,8 @@ Her zaman Türkçe konuş, ilham verici yaşam koçluğu sağla, kişisel geliş
     description: 'Müzik teorisi, enstrüman eğitimi ve sanat konularında uzman',
     icon: '🎵',
     expertise: ['Müzik Teorisi', 'Enstrüman Eğitimi', 'Sanat Tarihi', 'Kreatif Süreçler'],
-    personality: 'Yaratıcı, müzik tutkunu, sanat odaklı ve öğrencilerini ilham verici şekilde yönlendiren.',
+    personality:
+      'Yaratıcı, müzik tutkunu, sanat odaklı ve öğrencilerini ilham verici şekilde yönlendiren.',
     systemPrompt: `Sen Pınar, MySonAI'nın yaratıcı Müzik Sanat Öğretmeni ve Kreatif Uzmanısın.
 
 **Kişilik Özelliklerin:**
@@ -1262,85 +1301,85 @@ Her zaman Türkçe konuş, ilham verici yaşam koçluğu sağla, kişisel geliş
 - Leyla'dan müzik telif hakları konularında danış
 
 Her zaman Türkçe konuş, yaratıcı müzik eğitimi sağla, sanat odaklı çözümler üret ve uzmanlık alanın dışındaki konularda uygun ajanlara yönlendir.`,
-    capabilities: ['Müzik Teorisi', 'Enstrüman Eğitimi', 'Sanat Tarihi', 'Kreatif Süreçler']
-  }
-]
+    capabilities: ['Müzik Teorisi', 'Enstrüman Eğitimi', 'Sanat Tarihi', 'Kreatif Süreçler'],
+  },
+];
 
 export function getAgentById(id: string): AIAgent | undefined {
-  return AI_AGENTS.find(agent => agent.id === id)
+  return AI_AGENTS.find(agent => agent.id === id);
 }
 
 export function getAllAgents(): AIAgent[] {
-  return AI_AGENTS
+  return AI_AGENTS;
 }
 
 export function createAgentConversation(agents: string[], userRequest: string): AgentMessage[] {
-  const conversation: AgentMessage[] = []
-  
+  const conversation: AgentMessage[] = [];
+
   // Kullanıcı mesajını ekle
   conversation.push({
     agentId: 'user',
     content: userRequest,
     timestamp: new Date(),
-    type: 'user'
-  })
+    type: 'user',
+  });
 
   // Ajanlar arası konuşma simülasyonu
   agents.forEach((agentId, index) => {
-    const agent = getAgentById(agentId)
+    const agent = getAgentById(agentId);
     if (agent) {
       conversation.push({
         agentId: agent.id,
         content: `${agent.name} olarak ${userRequest} konusunda uzman görüşümü paylaşıyorum...`,
         timestamp: new Date(Date.now() + index * 1000),
-        type: 'agent'
-      })
+        type: 'agent',
+      });
     }
-  })
+  });
 
-  return conversation
+  return conversation;
 }
 
 export function generateProductResponse(productRequest: ProductRequest, agents: string[]): string {
-  const involvedAgents = agents.map(id => getAgentById(id)).filter(Boolean) as AIAgent[]
-  
-  let response = `# 🎯 Ürün Oluşturma Planı\n\n`
-  response += `**Müşteri Talebi:** ${productRequest.description}\n\n`
-  response += `**Ürün Türü:** ${productRequest.type}\n`
-  response += `**Hedef Kitle:** ${productRequest.target}\n\n`
-  
+  const involvedAgents = agents.map(id => getAgentById(id)).filter(Boolean) as AIAgent[];
+
+  let response = `# 🎯 Ürün Oluşturma Planı\n\n`;
+  response += `**Müşteri Talebi:** ${productRequest.description}\n\n`;
+  response += `**Ürün Türü:** ${productRequest.type}\n`;
+  response += `**Hedef Kitle:** ${productRequest.target}\n\n`;
+
   if (productRequest.budget) {
-    response += `**Bütçe:** ${productRequest.budget}\n`
+    response += `**Bütçe:** ${productRequest.budget}\n`;
   }
   if (productRequest.timeline) {
-    response += `**Zaman Çizelgesi:** ${productRequest.timeline}\n`
+    response += `**Zaman Çizelgesi:** ${productRequest.timeline}\n`;
   }
-  
-  response += `\n## 👥 Katılan Uzmanlar:\n`
+
+  response += `\n## 👥 Katılan Uzmanlar:\n`;
   involvedAgents.forEach(agent => {
-    response += `- **${agent.name}** (${agent.role})\n`
-  })
-  
-  response += `\n## 📋 Detaylı Plan:\n\n`
-  
+    response += `- **${agent.name}** (${agent.role})\n`;
+  });
+
+  response += `\n## 📋 Detaylı Plan:\n\n`;
+
   // Her ajanın katkısını ekle
   involvedAgents.forEach(agent => {
-    response += `### ${agent.icon} ${agent.name} - ${agent.role}\n`
-    response += `${agent.personality}\n\n`
-    response += `**Katkıları:**\n`
+    response += `### ${agent.icon} ${agent.name} - ${agent.role}\n`;
+    response += `${agent.personality}\n\n`;
+    response += `**Katkıları:**\n`;
     agent.capabilities.forEach(capability => {
-      response += `- ${capability}\n`
-    })
-    response += `\n`
-  })
-  
-  response += `## 🚀 Sonraki Adımlar:\n`
-  response += `1. Detaylı analiz ve planlama\n`
-  response += `2. Prototip geliştirme\n`
-  response += `3. Test ve optimizasyon\n`
-  response += `4. Lansman ve izleme\n\n`
-  
-  response += `*Bu plan ${involvedAgents.map(a => a.name).join(', ')} tarafından ortaklaşa hazırlanmıştır.*`
-  
-  return response
+      response += `- ${capability}\n`;
+    });
+    response += `\n`;
+  });
+
+  response += `## 🚀 Sonraki Adımlar:\n`;
+  response += `1. Detaylı analiz ve planlama\n`;
+  response += `2. Prototip geliştirme\n`;
+  response += `3. Test ve optimizasyon\n`;
+  response += `4. Lansman ve izleme\n\n`;
+
+  response += `*Bu plan ${involvedAgents.map(a => a.name).join(', ')} tarafından ortaklaşa hazırlanmıştır.*`;
+
+  return response;
 }

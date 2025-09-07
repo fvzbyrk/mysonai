@@ -1,42 +1,42 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { createServerSupabaseClient } from '@/lib/supabase-server'
-import { PLANS } from '@/lib/stripe'
+import { NextRequest, NextResponse } from 'next/server';
+import { createServerSupabaseClient } from '@/lib/supabase-server';
+import { PLANS } from '@/lib/stripe';
 
 export async function POST(request: NextRequest) {
   try {
-    const { userId, type, data } = await request.json()
+    const { userId, type, data } = await request.json();
 
     if (!userId || !type) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    const supabase = createServerSupabaseClient()
+    const supabase = createServerSupabaseClient();
 
     // Get user data
     const { data: user, error: userError } = await supabase
       .from('users')
       .select('email, name, plan, usage')
       .eq('id', userId)
-      .single()
+      .single();
 
     if (userError || !user) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 })
+      return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    const plan = user.plan as keyof typeof PLANS
-    const limits = PLANS[plan].limits
+    const plan = user.plan as keyof typeof PLANS;
+    const limits = PLANS[plan].limits;
 
-    let emailContent = ''
-    let subject = ''
+    let emailContent = '';
+    let subject = '';
 
     switch (type) {
       case 'usage_warning':
-        const usage = user.usage
-        const messagesNearLimit = usage.totalMessages >= limits.messages * 0.8
-        const tokensNearLimit = usage.totalTokens >= limits.tokens * 0.8
-        
+        const usage = user.usage;
+        const messagesNearLimit = usage.totalMessages >= limits.messages * 0.8;
+        const tokensNearLimit = usage.totalTokens >= limits.tokens * 0.8;
+
         if (messagesNearLimit || tokensNearLimit) {
-          subject = 'MySonAI - Kullanım Limitiniz Yaklaşıyor'
+          subject = 'MySonAI - Kullanım Limitiniz Yaklaşıyor';
           emailContent = `
             Merhaba ${user.name || 'Değerli Kullanıcımız'},
             
@@ -60,12 +60,12 @@ export async function POST(request: NextRequest) {
             Sorularınız için: info@mysonai.com
             
             MySonAI Ekibi
-          `
+          `;
         }
-        break
+        break;
 
       case 'limit_exceeded':
-        subject = 'MySonAI - Kullanım Limiti Aşıldı'
+        subject = 'MySonAI - Kullanım Limiti Aşıldı';
         emailContent = `
           Merhaba ${user.name || 'Değerli Kullanıcımız'},
           
@@ -85,11 +85,11 @@ export async function POST(request: NextRequest) {
           Sorularınız için: info@mysonai.com
           
           MySonAI Ekibi
-        `
-        break
+        `;
+        break;
 
       case 'subscription_cancelled':
-        subject = 'MySonAI - Aboneliğiniz İptal Edildi'
+        subject = 'MySonAI - Aboneliğiniz İptal Edildi';
         emailContent = `
           Merhaba ${user.name || 'Değerli Kullanıcımız'},
           
@@ -104,11 +104,11 @@ export async function POST(request: NextRequest) {
           Sorularınız için: info@mysonai.com
           
           MySonAI Ekibi
-        `
-        break
+        `;
+        break;
 
       case 'subscription_renewed':
-        subject = 'MySonAI - Aboneliğiniz Yenilendi'
+        subject = 'MySonAI - Aboneliğiniz Yenilendi';
         emailContent = `
           Merhaba ${user.name || 'Değerli Kullanıcımız'},
           
@@ -122,11 +122,11 @@ export async function POST(request: NextRequest) {
           Sorularınız için: info@mysonai.com
           
           MySonAI Ekibi
-        `
-        break
+        `;
+        break;
 
       default:
-        return NextResponse.json({ error: 'Invalid notification type' }, { status: 400 })
+        return NextResponse.json({ error: 'Invalid notification type' }, { status: 400 });
     }
 
     // In a real implementation, you would send the email here
@@ -134,23 +134,21 @@ export async function POST(request: NextRequest) {
     console.log('Email notification:', {
       to: user.email,
       subject,
-      content: emailContent
-    })
+      content: emailContent,
+    });
 
     // Store notification in database
-    await supabase
-      .from('notifications')
-      .insert({
-        user_id: userId,
-        type: type,
-        subject: subject,
-        content: emailContent,
-        sent_at: new Date().toISOString()
-      })
+    await supabase.from('notifications').insert({
+      user_id: userId,
+      type: type,
+      subject: subject,
+      content: emailContent,
+      sent_at: new Date().toISOString(),
+    });
 
-    return NextResponse.json({ success: true })
+    return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error sending notification:', error)
-    return NextResponse.json({ error: 'Failed to send notification' }, { status: 500 })
+    console.error('Error sending notification:', error);
+    return NextResponse.json({ error: 'Failed to send notification' }, { status: 500 });
   }
 }

@@ -1,60 +1,60 @@
-"use client"
+'use client';
 
-import { useAuth as useAuthContext } from '@/contexts/auth-context'
-import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useAuth as useAuthContext } from '@/contexts/auth-context';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export function useAuth() {
-  const auth = useAuthContext()
-  const router = useRouter()
+  const auth = useAuthContext();
+  const router = useRouter();
 
   // Redirect to signin if not authenticated
   const requireAuth = () => {
     if (!auth.loading && !auth.user) {
-      router.push('/signin')
-      return false
+      router.push('/signin');
+      return false;
     }
-    return true
-  }
+    return true;
+  };
 
   // Redirect to dashboard if already authenticated
   const redirectIfAuthenticated = () => {
     if (!auth.loading && auth.user) {
-      router.push('/dashboard')
-      return true
+      router.push('/dashboard');
+      return true;
     }
-    return false
-  }
+    return false;
+  };
 
   return {
     ...auth,
     requireAuth,
     redirectIfAuthenticated,
-  }
+  };
 }
 
 // Hook for protected routes
 export function useRequireAuth() {
-  const { user, loading, requireAuth } = useAuth()
-  
+  const { user, loading, requireAuth } = useAuth();
+
   useEffect(() => {
     if (!loading && !user) {
-      requireAuth()
+      requireAuth();
     }
-  }, [user, loading, requireAuth])
+  }, [user, loading, requireAuth]);
 
-  return { user, loading }
+  return { user, loading };
 }
 
 // Hook for public routes (redirect if authenticated)
 export function useRequireGuest() {
-  const { user, loading, redirectIfAuthenticated } = useAuth()
-  
+  const { user, loading, redirectIfAuthenticated } = useAuth();
+
   useEffect(() => {
     if (!loading && user) {
-      redirectIfAuthenticated()
+      redirectIfAuthenticated();
     }
-  }, [user, loading, redirectIfAuthenticated])
+  }, [user, loading, redirectIfAuthenticated]);
 
-  return { user, loading }
+  return { user, loading };
 }

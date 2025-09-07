@@ -1,42 +1,42 @@
-'use client'
+'use client';
 
-import { useAuth } from '@/contexts/auth-context'
-import { useUsage } from '@/hooks/useUsage'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { UsageLimits } from '@/components/usage-limits'
-import { AuthGuard } from '@/components/auth-guard'
-import { Bot, User, Crown, Settings, LogOut, CreditCard, Zap, Star } from 'lucide-react'
-import Link from 'next/link'
-import { useState, useEffect } from 'react'
-import { getStripe } from '@/lib/stripe'
+import { useAuth } from '@/contexts/auth-context';
+import { useUsage } from '@/hooks/useUsage';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { UsageLimits } from '@/components/usage-limits';
+import { AuthGuard } from '@/components/auth-guard';
+import { Bot, User, Crown, Settings, LogOut, CreditCard, Zap, Star } from 'lucide-react';
+import Link from 'next/link';
+import { useState, useEffect } from 'react';
+import { getStripe } from '@/lib/stripe';
 
 function DashboardContent() {
-  const { user, signOut } = useAuth()
-  const { usage, isGuest } = useUsage()
-  const [subscription, setSubscription] = useState<any>(null)
-  const [loading, setLoading] = useState(false)
+  const { user, signOut } = useAuth();
+  const { usage, isGuest } = useUsage();
+  const [subscription, setSubscription] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (user) {
-      fetchSubscription()
+      fetchSubscription();
     }
-  }, [user])
+  }, [user]);
 
   const fetchSubscription = async () => {
     try {
-      const response = await fetch(`/api/subscription?userId=${user?.id}`)
-      const data = await response.json()
-      setSubscription(data.subscription)
+      const response = await fetch(`/api/subscription?userId=${user?.id}`);
+      const data = await response.json();
+      setSubscription(data.subscription);
     } catch (error) {
-      console.error('Error fetching subscription:', error)
+      console.error('Error fetching subscription:', error);
     }
-  }
+  };
 
   const handleUpgrade = async (plan: string) => {
-    if (!user) return
+    if (!user) return;
 
-    setLoading(true)
+    setLoading(true);
     try {
       const response = await fetch('/api/checkout', {
         method: 'POST',
@@ -45,27 +45,27 @@ function DashboardContent() {
         },
         body: JSON.stringify({
           plan: plan,
-          userId: user.id
+          userId: user.id,
         }),
-      })
+      });
 
-      const { sessionId } = await response.json()
+      const { sessionId } = await response.json();
 
       if (sessionId) {
-        const stripe = await getStripe()
-        await stripe?.redirectToCheckout({ sessionId })
+        const stripe = await getStripe();
+        await stripe?.redirectToCheckout({ sessionId });
       }
     } catch (error) {
-      console.error('Error creating checkout session:', error)
+      console.error('Error creating checkout session:', error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleCancelSubscription = async () => {
-    if (!user) return
+    if (!user) return;
 
-    setLoading(true)
+    setLoading(true);
     try {
       const response = await fetch('/api/subscription', {
         method: 'POST',
@@ -74,48 +74,47 @@ function DashboardContent() {
         },
         body: JSON.stringify({
           action: 'cancel',
-          userId: user.id
+          userId: user.id,
         }),
-      })
+      });
 
       if (response.ok) {
-        await fetchSubscription()
+        await fetchSubscription();
       }
     } catch (error) {
-      console.error('Error canceling subscription:', error)
+      console.error('Error canceling subscription:', error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
-
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div className='min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900'>
       {/* Header */}
-      <header className="bg-black/20 backdrop-blur-md border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center">
-                <Bot className="w-6 h-6 text-white" />
+      <header className='bg-black/20 backdrop-blur-md border-b border-white/10'>
+        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4'>
+          <div className='flex items-center justify-between'>
+            <div className='flex items-center space-x-4'>
+              <div className='w-10 h-10 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center'>
+                <Bot className='w-6 h-6 text-white' />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-white">MySonAI Dashboard</h1>
-                <p className="text-sm text-gray-300">Hoş geldiniz, {user.name || user.email}</p>
+                <h1 className='text-xl font-bold text-white'>MySonAI Dashboard</h1>
+                <p className='text-sm text-gray-300'>Hoş geldiniz, {user.name || user.email}</p>
               </div>
             </div>
-            <div className="flex items-center space-x-4">
-              <Button variant="outline" size="sm" className="border-white/20 text-white">
-                <Settings className="w-4 h-4 mr-2" />
+            <div className='flex items-center space-x-4'>
+              <Button variant='outline' size='sm' className='border-white/20 text-white'>
+                <Settings className='w-4 h-4 mr-2' />
                 Ayarlar
               </Button>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className="border-white/20 text-white"
+              <Button
+                variant='outline'
+                size='sm'
+                className='border-white/20 text-white'
                 onClick={signOut}
               >
-                <LogOut className="w-4 h-4 mr-2" />
+                <LogOut className='w-4 h-4 mr-2' />
                 Çıkış
               </Button>
             </div>
@@ -124,14 +123,14 @@ function DashboardContent() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <main className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
+        <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
           {/* Usage Stats */}
-          <div className="lg:col-span-2">
-            <Card className="bg-white/10 backdrop-blur-md border-white/20">
+          <div className='lg:col-span-2'>
+            <Card className='bg-white/10 backdrop-blur-md border-white/20'>
               <CardHeader>
-                <CardTitle className="text-white flex items-center">
-                  <Crown className="w-5 h-5 mr-2 text-purple-400" />
+                <CardTitle className='text-white flex items-center'>
+                  <Crown className='w-5 h-5 mr-2 text-purple-400' />
                   Kullanım İstatistikleri
                 </CardTitle>
               </CardHeader>
@@ -142,62 +141,73 @@ function DashboardContent() {
           </div>
 
           {/* Plan Management */}
-          <div className="space-y-6">
-            <Card className="bg-white/10 backdrop-blur-md border-white/20">
+          <div className='space-y-6'>
+            <Card className='bg-white/10 backdrop-blur-md border-white/20'>
               <CardHeader>
-                <CardTitle className="text-white flex items-center">
-                  <CreditCard className="w-5 h-5 mr-2 text-purple-400" />
+                <CardTitle className='text-white flex items-center'>
+                  <CreditCard className='w-5 h-5 mr-2 text-purple-400' />
                   Plan Yönetimi
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center justify-between">
+              <CardContent className='space-y-4'>
+                <div className='flex items-center justify-between'>
                   <div>
-                    <p className="text-white font-medium capitalize">{user.plan} Plan</p>
-                    <p className="text-gray-400 text-sm">
-                      {user.plan === 'free' ? 'Ücretsiz' : 
-                       user.plan === 'pro' ? '99₺/ay' : '299₺/ay'}
+                    <p className='text-white font-medium capitalize'>{user.plan} Plan</p>
+                    <p className='text-gray-400 text-sm'>
+                      {user.plan === 'free'
+                        ? 'Ücretsiz'
+                        : user.plan === 'pro'
+                          ? '99₺/ay'
+                          : '299₺/ay'}
                     </p>
                   </div>
-                  <div className="flex items-center">
+                  <div className='flex items-center'>
                     {user.plan === 'free' ? (
-                      <span className="text-gray-400">🆓</span>
+                      <span className='text-gray-400'>🆓</span>
                     ) : (
-                      <span className="text-yellow-400">⭐</span>
+                      <span className='text-yellow-400'>⭐</span>
                     )}
                   </div>
                 </div>
 
                 {subscription && (
-                  <div className="text-sm text-gray-300">
-                    <p>Durum: <span className="text-green-400 capitalize">{subscription.status}</span></p>
+                  <div className='text-sm text-gray-300'>
+                    <p>
+                      Durum:{' '}
+                      <span className='text-green-400 capitalize'>{subscription.status}</span>
+                    </p>
                     {subscription.current_period_end && (
-                      <p>Sonraki ödeme: {new Date(subscription.current_period_end * 1000).toLocaleDateString('tr-TR')}</p>
+                      <p>
+                        Sonraki ödeme:{' '}
+                        {new Date(subscription.current_period_end * 1000).toLocaleDateString(
+                          'tr-TR'
+                        )}
+                      </p>
                     )}
                     {subscription.cancel_at_period_end && (
-                      <p className="text-yellow-400">Dönem sonunda iptal edilecek</p>
+                      <p className='text-yellow-400'>Dönem sonunda iptal edilecek</p>
                     )}
                   </div>
                 )}
 
-                <div className="space-y-2">
+                <div className='space-y-2'>
                   {user.plan === 'free' && (
                     <>
-                      <Button 
+                      <Button
                         onClick={() => handleUpgrade('pro')}
                         disabled={loading}
-                        className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white"
+                        className='w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white'
                       >
-                        <Zap className="w-4 h-4 mr-2" />
-                        {loading ? 'Yükleniyor...' : 'Pro\'ya Geç'}
+                        <Zap className='w-4 h-4 mr-2' />
+                        {loading ? 'Yükleniyor...' : "Pro'ya Geç"}
                       </Button>
-                      <Button 
+                      <Button
                         onClick={() => handleUpgrade('enterprise')}
                         disabled={loading}
-                        variant="outline"
-                        className="w-full border-white/20 text-white"
+                        variant='outline'
+                        className='w-full border-white/20 text-white'
                       >
-                        <Star className="w-4 h-4 mr-2" />
+                        <Star className='w-4 h-4 mr-2' />
                         Enterprise
                       </Button>
                     </>
@@ -205,19 +215,19 @@ function DashboardContent() {
 
                   {user.plan === 'pro' && (
                     <>
-                      <Button 
+                      <Button
                         onClick={() => handleUpgrade('enterprise')}
                         disabled={loading}
-                        className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white"
+                        className='w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white'
                       >
-                        <Star className="w-4 h-4 mr-2" />
-                        {loading ? 'Yükleniyor...' : 'Enterprise\'a Geç'}
+                        <Star className='w-4 h-4 mr-2' />
+                        {loading ? 'Yükleniyor...' : "Enterprise'a Geç"}
                       </Button>
-                      <Button 
+                      <Button
                         onClick={handleCancelSubscription}
                         disabled={loading}
-                        variant="outline"
-                        className="w-full border-red-500/50 text-red-400 hover:bg-red-500/10"
+                        variant='outline'
+                        className='w-full border-red-500/50 text-red-400 hover:bg-red-500/10'
                       >
                         {loading ? 'Yükleniyor...' : 'Aboneliği İptal Et'}
                       </Button>
@@ -225,45 +235,45 @@ function DashboardContent() {
                   )}
 
                   {user.plan === 'enterprise' && (
-                    <Button 
+                    <Button
                       onClick={handleCancelSubscription}
                       disabled={loading}
-                      variant="outline"
-                      className="w-full border-red-500/50 text-red-400 hover:bg-red-500/10"
+                      variant='outline'
+                      className='w-full border-red-500/50 text-red-400 hover:bg-red-500/10'
                     >
                       {loading ? 'Yükleniyor...' : 'Aboneliği İptal Et'}
                     </Button>
                   )}
                 </div>
 
-                <Link href="/pricing" className="block">
-                  <Button variant="outline" className="w-full border-white/20 text-white">
+                <Link href='/pricing' className='block'>
+                  <Button variant='outline' className='w-full border-white/20 text-white'>
                     Tüm Planları Gör
                   </Button>
                 </Link>
-                
-                <Link href="/billing" className="block">
-                  <Button variant="outline" className="w-full border-white/20 text-white">
-                    <CreditCard className="w-4 h-4 mr-2" />
+
+                <Link href='/billing' className='block'>
+                  <Button variant='outline' className='w-full border-white/20 text-white'>
+                    <CreditCard className='w-4 h-4 mr-2' />
                     Fatura Yönetimi
                   </Button>
                 </Link>
               </CardContent>
             </Card>
 
-            <Card className="bg-white/10 backdrop-blur-md border-white/20">
+            <Card className='bg-white/10 backdrop-blur-md border-white/20'>
               <CardHeader>
-                <CardTitle className="text-white">Hızlı Erişim</CardTitle>
+                <CardTitle className='text-white'>Hızlı Erişim</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <Link href="/demo">
-                  <Button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white">
-                    <Bot className="w-4 h-4 mr-2" />
+              <CardContent className='space-y-4'>
+                <Link href='/demo'>
+                  <Button className='w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white'>
+                    <Bot className='w-4 h-4 mr-2' />
                     AI Asistanlarla Sohbet
                   </Button>
                 </Link>
-                <Link href="/">
-                  <Button variant="outline" className="w-full border-white/20 text-white">
+                <Link href='/'>
+                  <Button variant='outline' className='w-full border-white/20 text-white'>
                     Ana Sayfa
                   </Button>
                 </Link>
@@ -271,23 +281,23 @@ function DashboardContent() {
             </Card>
 
             {/* User Info */}
-            <Card className="bg-white/10 backdrop-blur-md border-white/20">
+            <Card className='bg-white/10 backdrop-blur-md border-white/20'>
               <CardHeader>
-                <CardTitle className="text-white">Hesap Bilgileri</CardTitle>
+                <CardTitle className='text-white'>Hesap Bilgileri</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center">
-                    <User className="w-5 h-5 text-white" />
+              <CardContent className='space-y-3'>
+                <div className='flex items-center space-x-3'>
+                  <div className='w-10 h-10 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center'>
+                    <User className='w-5 h-5 text-white' />
                   </div>
                   <div>
-                    <p className="text-white font-medium">{user.name || 'Kullanıcı'}</p>
-                    <p className="text-gray-300 text-sm">{user.email}</p>
+                    <p className='text-white font-medium'>{user.name || 'Kullanıcı'}</p>
+                    <p className='text-gray-300 text-sm'>{user.email}</p>
                   </div>
                 </div>
-                <div className="pt-3 border-t border-white/10">
-                  <p className="text-gray-300 text-sm">
-                    Üyelik: <span className="text-purple-400 font-medium">Ücretsiz</span>
+                <div className='pt-3 border-t border-white/10'>
+                  <p className='text-gray-300 text-sm'>
+                    Üyelik: <span className='text-purple-400 font-medium'>Ücretsiz</span>
                   </p>
                 </div>
               </CardContent>
@@ -296,7 +306,7 @@ function DashboardContent() {
         </div>
       </main>
     </div>
-  )
+  );
 }
 
 export default function DashboardPage() {
@@ -304,6 +314,5 @@ export default function DashboardPage() {
     <AuthGuard requireAuth fallback={<div>Dashboard erişimi için giriş yapın</div>}>
       <DashboardContent />
     </AuthGuard>
-  )
+  );
 }
-

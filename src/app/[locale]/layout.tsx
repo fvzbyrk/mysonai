@@ -1,34 +1,34 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import Script from 'next/script'
-import '../globals.css'
-import { ThemeProvider } from '@/components/theme-provider'
-import { AuthProvider } from '@/contexts/auth-context'
-import { Header } from '@/components/header'
-import { Footer } from '@/components/footer'
-import { Toaster } from 'sonner'
-import { Locale } from '@/lib/i18n'
-import { notFound } from 'next/navigation'
-import { locales } from '@/lib/i18n'
-import { HreflangTags } from '@/components/hreflang'
-import { JsonLd } from '@/components/json-ld'
-import { CookieConsent } from '@/components/cookie-consent'
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import Script from 'next/script';
+import '../globals.css';
+import { ThemeProvider } from '@/components/theme-provider';
+import { AuthProvider } from '@/contexts/auth-context';
+import { Header } from '@/components/header';
+import { Footer } from '@/components/footer';
+import { Toaster } from 'sonner';
+import { Locale } from '@/lib/i18n';
+import { notFound } from 'next/navigation';
+import { locales } from '@/lib/i18n';
+import { HreflangTags } from '@/components/hreflang';
+import { JsonLd } from '@/components/json-ld';
+import { CookieConsent } from '@/components/cookie-consent';
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'] });
 
 export async function generateMetadata({
   params,
 }: {
-  params: { locale: Locale }
+  params: { locale: Locale };
 }): Promise<Metadata> {
   const isTurkish = params.locale === 'tr';
-  
+
   return {
-    title: isTurkish 
+    title: isTurkish
       ? 'MySonAI - Hızlı, Güvenli ve Empatik AI Yoldaşı | Türkçe AI Asistanlar'
       : 'MySonAI - Fast, Secure and Empathetic AI Companion | Turkish AI Assistants',
     description: isTurkish
-      ? 'Türkçe AI asistanlarınızla gerçek zamanlı sohbet edin. 18 uzman AI asistanı - Pi\'den 10x daha hızlı, %100 güvenli, empatik yoldaş. Hemen deneyin!'
+      ? "Türkçe AI asistanlarınızla gerçek zamanlı sohbet edin. 18 uzman AI asistanı - Pi'den 10x daha hızlı, %100 güvenli, empatik yoldaş. Hemen deneyin!"
       : 'Chat in real-time with your Turkish AI assistants. 18 expert AI assistants - 10x faster than Pi, 100% secure, empathetic companion. Try now!',
     keywords: isTurkish
       ? 'yapay zeka asistanı, AI yoldaşı, Türkçe AI, hızlı AI, güvenli AI, empatik AI, AI sohbet, yapay zeka, chatbot, kişisel asistan'
@@ -45,29 +45,29 @@ export async function generateMetadata({
     alternates: {
       canonical: '/',
       languages: {
-        'tr': '/tr',
-        'en': '/en',
+        tr: '/tr',
+        en: '/en',
       },
     },
     openGraph: {
       type: 'website',
       locale: isTurkish ? 'tr_TR' : 'en_US',
       url: 'https://mysonai.com',
-      title: isTurkish 
+      title: isTurkish
         ? 'MySonAI - Hızlı, Güvenli ve Empatik AI Yoldaşı'
         : 'MySonAI - Fast, Secure and Empathetic AI Companion',
       description: isTurkish
-        ? 'Türkçe AI asistanlarınızla gerçek zamanlı sohbet edin. 18 uzman AI asistanı - Pi\'den 10x daha hızlı, %100 güvenli.'
+        ? "Türkçe AI asistanlarınızla gerçek zamanlı sohbet edin. 18 uzman AI asistanı - Pi'den 10x daha hızlı, %100 güvenli."
         : 'Chat in real-time with your Turkish AI assistants. 18 expert AI assistants - 10x faster than Pi, 100% secure.',
       siteName: 'MySonAI',
     },
     twitter: {
       card: 'summary_large_image',
-      title: isTurkish 
+      title: isTurkish
         ? 'MySonAI - Hızlı, Güvenli ve Empatik AI Yoldaşı'
         : 'MySonAI - Fast, Secure and Empathetic AI Companion',
       description: isTurkish
-        ? 'Türkçe AI asistanlarınızla gerçek zamanlı sohbet edin. Pi\'den 10x daha hızlı!'
+        ? "Türkçe AI asistanlarınızla gerçek zamanlı sohbet edin. Pi'den 10x daha hızlı!"
         : 'Chat in real-time with your Turkish AI assistants. 10x faster than Pi!',
       creator: '@mysonai',
     },
@@ -86,19 +86,19 @@ export async function generateMetadata({
 }
 
 export function generateStaticParams() {
-  return locales.map((locale) => ({ locale }))
+  return locales.map(locale => ({ locale }));
 }
 
 export default function LocaleLayout({
   children,
   params,
 }: {
-  children: React.ReactNode
-  params: { locale: Locale }
+  children: React.ReactNode;
+  params: { locale: Locale };
 }) {
   // Validate locale
   if (!locales.includes(params.locale)) {
-    notFound()
+    notFound();
   }
 
   return (
@@ -109,19 +109,19 @@ export default function LocaleLayout({
           __html: `document.documentElement.lang = '${params.locale}';`,
         }}
       />
-      
+
       {/* SEO Tags */}
       <HreflangTags />
       <JsonLd />
-      
+
       {/* Google Analytics */}
       {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID && (
         <>
           <Script
             src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID}`}
-            strategy="afterInteractive"
+            strategy='afterInteractive'
           />
-          <Script id="google-analytics" strategy="afterInteractive">
+          <Script id='google-analytics' strategy='afterInteractive'>
             {`
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
@@ -134,24 +134,17 @@ export default function LocaleLayout({
           </Script>
         </>
       )}
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
-      >
+      <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
         <AuthProvider>
-          <div className="min-h-screen flex flex-col">
+          <div className='min-h-screen flex flex-col'>
             <Header />
-            <main className="flex-1">
-              {children}
-            </main>
+            <main className='flex-1'>{children}</main>
             <Footer />
           </div>
-          <Toaster position="top-right" richColors />
+          <Toaster position='top-right' richColors />
           <CookieConsent />
         </AuthProvider>
       </ThemeProvider>
     </>
-  )
+  );
 }

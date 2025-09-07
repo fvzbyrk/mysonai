@@ -3,7 +3,11 @@ const nextConfig = {
   output: 'standalone',
   experimental: {
     optimizeCss: true,
-    optimizePackageImports: ['lucide-react', '@radix-ui/react-scroll-area', '@radix-ui/react-separator'],
+    optimizePackageImports: [
+      'lucide-react',
+      '@radix-ui/react-scroll-area',
+      '@radix-ui/react-separator',
+    ],
   },
   transpilePackages: ['lucide-react'],
   images: {
@@ -32,18 +36,18 @@ const nextConfig = {
   ...(process.env.ANALYZE === 'true' && {
     webpack: (config, { isServer }) => {
       if (!isServer) {
-        const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+        const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
         config.plugins.push(
           new BundleAnalyzerPlugin({
             analyzerMode: 'static',
             openAnalyzer: false,
             reportFilename: './bundle-analyzer.html',
           })
-        )
+        );
       }
-      return config
+      return config;
     },
   }),
-}
+};
 
 module.exports = nextConfig;

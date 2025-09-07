@@ -1,15 +1,15 @@
-'use client'
+'use client';
 
-import { useEffect } from 'react'
-import { useAuth } from '@/contexts/auth-context'
+import { useEffect } from 'react';
+import { useAuth } from '@/contexts/auth-context';
 
 // Google Analytics 4 Configuration
-export const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID
+export const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID;
 
 // Check if GA4 is available
 export const isGA4Available = () => {
-  return typeof window !== 'undefined' && GA_TRACKING_ID && typeof window.gtag !== 'undefined'
-}
+  return typeof window !== 'undefined' && GA_TRACKING_ID && typeof window.gtag !== 'undefined';
+};
 
 // Analytics events
 export const trackEvent = (eventName: string, properties?: Record<string, any>) => {
@@ -18,14 +18,14 @@ export const trackEvent = (eventName: string, properties?: Record<string, any>) 
     if (window.gtag) {
       window.gtag('event', eventName, {
         event_category: 'MySonAI',
-        ...properties
-      })
+        ...properties,
+      });
     }
 
     // Console log for development
-    console.log('Analytics Event:', eventName, properties)
+    console.log('Analytics Event:', eventName, properties);
   }
-}
+};
 
 // Page view tracking
 export const trackPageView = (pageName: string, properties?: Record<string, any>) => {
@@ -34,13 +34,13 @@ export const trackPageView = (pageName: string, properties?: Record<string, any>
       window.gtag('event', 'page_view', {
         page_title: pageName,
         page_location: window.location.href,
-        ...properties
-      })
+        ...properties,
+      });
     }
 
-    console.log('Page View:', pageName, properties)
+    console.log('Page View:', pageName, properties);
   }
-}
+};
 
 // Conversion tracking
 export const trackConversion = (conversionType: string, value?: number, currency?: string) => {
@@ -50,201 +50,227 @@ export const trackConversion = (conversionType: string, value?: number, currency
         event_category: 'conversion',
         event_label: conversionType,
         value: value,
-        currency: currency || 'TRY'
-      })
+        currency: currency || 'TRY',
+      });
     }
 
-    console.log('Conversion:', conversionType, value, currency)
+    console.log('Conversion:', conversionType, value, currency);
   }
-}
+};
 
 // E-commerce events
-export const trackPurchase = (transactionId: string, value: number, currency: string = 'TRY', items: any[] = []) => {
+export const trackPurchase = (
+  transactionId: string,
+  value: number,
+  currency: string = 'TRY',
+  items: any[] = []
+) => {
   if (isGA4Available()) {
     window.gtag('event', 'purchase', {
       transaction_id: transactionId,
       value: value,
       currency: currency,
-      items: items
-    })
+      items: items,
+    });
   }
-  console.log('Purchase:', transactionId, value, currency, items)
-}
+  console.log('Purchase:', transactionId, value, currency, items);
+};
 
-export const trackSubscribe = (subscriptionId: string, plan: string, value: number, currency: string = 'TRY') => {
+export const trackSubscribe = (
+  subscriptionId: string,
+  plan: string,
+  value: number,
+  currency: string = 'TRY'
+) => {
   if (isGA4Available()) {
     window.gtag('event', 'subscribe', {
       subscription_id: subscriptionId,
       plan: plan,
       value: value,
-      currency: currency
-    })
+      currency: currency,
+    });
   }
-  console.log('Subscribe:', subscriptionId, plan, value, currency)
-}
+  console.log('Subscribe:', subscriptionId, plan, value, currency);
+};
 
 // AI Assistant events
-export const trackAIAssistantUsed = (assistantName: string, assistantRole: string, sessionDuration: number) => {
+export const trackAIAssistantUsed = (
+  assistantName: string,
+  assistantRole: string,
+  sessionDuration: number
+) => {
   trackEvent('ai_assistant_used', {
     assistant_name: assistantName,
     assistant_role: assistantRole,
-    session_duration: sessionDuration
-  })
-}
+    session_duration: sessionDuration,
+  });
+};
 
 // User engagement events
 export const trackDemoStarted = (demoType: string, userType: string = 'guest') => {
   trackEvent('demo_started', {
     demo_type: demoType,
-    user_type: userType
-  })
-}
+    user_type: userType,
+  });
+};
 
 export const trackSignupStarted = (method: string, source: string) => {
   trackEvent('signup_started', {
     method: method,
-    source: source
-  })
-}
+    source: source,
+  });
+};
 
 export const trackSignupCompleted = (method: string, plan: string = 'free') => {
   trackEvent('sign_up', {
     method: method,
-    plan: plan
-  })
-}
+    plan: plan,
+  });
+};
 
 // Usage tracking
 export const trackUsage = (action: string, plan: string, usage?: Record<string, any>) => {
   trackEvent('usage_action', {
     action,
     plan,
-    ...usage
-  })
-}
+    ...usage,
+  });
+};
 
 // Plan upgrade tracking
 export const trackPlanUpgrade = (fromPlan: string, toPlan: string, value?: number) => {
-  trackConversion('plan_upgrade', value, 'TRY')
+  trackConversion('plan_upgrade', value, 'TRY');
   trackEvent('plan_upgrade', {
     from_plan: fromPlan,
     to_plan: toPlan,
-    value: value
-  })
-}
+    value: value,
+  });
+};
 
 // Subscription events
-export const trackSubscriptionEvent = (event: string, plan: string, properties?: Record<string, any>) => {
+export const trackSubscriptionEvent = (
+  event: string,
+  plan: string,
+  properties?: Record<string, any>
+) => {
   trackEvent('subscription_event', {
     event,
     plan,
-    ...properties
-  })
-}
+    ...properties,
+  });
+};
 
 // AI Assistant usage tracking
 export const trackAIAssistantUsage = (assistantId: string, action: string, plan: string) => {
   trackUsage('ai_assistant_usage', plan, {
     assistant_id: assistantId,
-    action
-  })
-}
+    action,
+  });
+};
 
 // Error tracking
 export const trackError = (error: string, context?: string) => {
   trackEvent('error', {
     error_message: error,
-    context: context || 'unknown'
-  })
-}
+    context: context || 'unknown',
+  });
+};
 
 // Enhanced e-commerce helpers
-export const trackAddToCart = (itemId: string, itemName: string, category: string, price: number, quantity: number = 1) => {
+export const trackAddToCart = (
+  itemId: string,
+  itemName: string,
+  category: string,
+  price: number,
+  quantity: number = 1
+) => {
   if (isGA4Available()) {
     window.gtag('event', 'add_to_cart', {
       currency: 'TRY',
       value: price * quantity,
-      items: [{
-        item_id: itemId,
-        item_name: itemName,
-        category: category,
-        quantity: quantity,
-        price: price
-      }]
-    })
+      items: [
+        {
+          item_id: itemId,
+          item_name: itemName,
+          category: category,
+          quantity: quantity,
+          price: price,
+        },
+      ],
+    });
   }
-  console.log('Add to Cart:', itemId, itemName, price, quantity)
-}
+  console.log('Add to Cart:', itemId, itemName, price, quantity);
+};
 
 export const trackBeginCheckout = (value: number, currency: string = 'TRY', items: any[] = []) => {
   if (isGA4Available()) {
     window.gtag('event', 'begin_checkout', {
       currency: currency,
       value: value,
-      items: items
-    })
+      items: items,
+    });
   }
-  console.log('Begin Checkout:', value, currency, items)
-}
+  console.log('Begin Checkout:', value, currency, items);
+};
 
 // User ID tracking
 export const setUserId = (userId: string) => {
   if (isGA4Available()) {
     window.gtag('config', GA_TRACKING_ID, {
-      user_id: userId
-    })
+      user_id: userId,
+    });
   }
-}
+};
 
 // Custom dimensions
 export const setUserProperties = (properties: Record<string, any>) => {
   if (isGA4Available()) {
     window.gtag('config', GA_TRACKING_ID, {
-      custom_map: properties
-    })
+      custom_map: properties,
+    });
   }
-}
+};
 
 // Debug mode
 export const enableDebugMode = () => {
   if (isGA4Available()) {
     window.gtag('config', GA_TRACKING_ID, {
-      debug_mode: true
-    })
+      debug_mode: true,
+    });
   }
-}
+};
 
 export const disableDebugMode = () => {
   if (isGA4Available()) {
     window.gtag('config', GA_TRACKING_ID, {
-      debug_mode: false
-    })
+      debug_mode: false,
+    });
   }
-}
+};
 
 // Custom hook for automatic tracking
 export function useAnalytics() {
-  const { user } = useAuth()
+  const { user } = useAuth();
 
   useEffect(() => {
     if (user) {
       // Set user ID for GA4
-      setUserId(user.id)
-      
+      setUserId(user.id);
+
       // Set user properties
       setUserProperties({
         user_plan: user.plan,
-        signup_date: user.createdAt
-      })
-      
+        signup_date: user.createdAt,
+      });
+
       // Track user login
       trackEvent('user_login', {
         user_id: user.id,
         plan: user.plan,
-        signup_date: user.createdAt
-      })
+        signup_date: user.createdAt,
+      });
     }
-  }, [user])
+  }, [user]);
 
   return {
     trackEvent,
@@ -266,13 +292,13 @@ export function useAnalytics() {
     setUserId,
     setUserProperties,
     enableDebugMode,
-    disableDebugMode
-  }
+    disableDebugMode,
+  };
 }
 
 // Declare gtag for TypeScript
 declare global {
   interface Window {
-    gtag: (...args: any[]) => void
+    gtag: (...args: any[]) => void;
   }
 }

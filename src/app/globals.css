@@ -67,7 +67,9 @@
   }
   body {
     @apply bg-white dark:bg-gray-900 text-gray-900 dark:text-white;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings:
+      'rlig' 1,
+      'calt' 1;
   }
 }
 
@@ -75,17 +77,15 @@
   .gradient-text {
     @apply bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent;
   }
-  
+
   .glass-effect {
     @apply backdrop-blur-md bg-white/10 border border-white/20;
   }
-  
+
   .card-hover {
     @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
   }
 }
-
-
 
 @layer base {
   * {

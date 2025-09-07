@@ -15,14 +15,14 @@ export function LanguageSwitcher() {
   };
 
   return (
-    <div className="flex gap-2">
-      {locales.map((locale) => (
+    <div className='flex gap-2'>
+      {locales.map(locale => (
         <Button
           key={locale}
           variant={pathname.startsWith(`/${locale}`) ? 'default' : 'outline'}
-          size="sm"
+          size='sm'
           onClick={() => handleLanguageChange(locale)}
-          className="min-w-[40px]"
+          className='min-w-[40px]'
         >
           {locale.toUpperCase()}
         </Button>

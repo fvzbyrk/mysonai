@@ -1,22 +1,22 @@
-import { loadStripe } from '@stripe/stripe-js'
-import Stripe from 'stripe'
+import { loadStripe } from '@stripe/stripe-js';
+import Stripe from 'stripe';
 
 // Client-side Stripe
 export const getStripe = () => {
-  const stripePublishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
-  
+  const stripePublishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
+
   if (!stripePublishableKey) {
-    throw new Error('Stripe publishable key is not set')
+    throw new Error('Stripe publishable key is not set');
   }
-  
-  return loadStripe(stripePublishableKey)
-}
+
+  return loadStripe(stripePublishableKey);
+};
 
 // Server-side Stripe
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_dummy_key', {
   apiVersion: '2024-06-20',
   typescript: true,
-})
+});
 
 // Plan configurations
 export const PLANS = {
@@ -30,14 +30,14 @@ export const PLANS = {
       '100 mesaj/ay',
       'Temel chatbot',
       'Email desteği',
-      'Topluluk forumu'
+      'Topluluk forumu',
     ],
     limits: {
       messages: 100,
       tokens: 10000,
       images: 10,
-      assistants: 5
-    }
+      assistants: 5,
+    },
   },
   pro: {
     name: 'Pro',
@@ -51,14 +51,14 @@ export const PLANS = {
       'Görsel üretim',
       'Öncelikli destek',
       'API erişimi',
-      'Özel entegrasyonlar'
+      'Özel entegrasyonlar',
     ],
     limits: {
       messages: 1000,
       tokens: 100000,
       images: 100,
-      assistants: 18
-    }
+      assistants: 18,
+    },
   },
   enterprise: {
     name: 'Enterprise',
@@ -72,30 +72,30 @@ export const PLANS = {
       '7/24 destek',
       'SLA garantisi',
       'Özel eğitim',
-      'Dedicated sunucu'
+      'Dedicated sunucu',
     ],
     limits: {
       messages: -1, // unlimited
       tokens: -1, // unlimited
       images: -1, // unlimited
-      assistants: 18
-    }
-  }
-} as const
+      assistants: 18,
+    },
+  },
+} as const;
 
-export type PlanType = keyof typeof PLANS
+export type PlanType = keyof typeof PLANS;
 
 // Stripe Product IDs (will be created in Stripe dashboard)
 export const STRIPE_PRODUCT_IDS = {
   pro: process.env.STRIPE_PRODUCT_ID_PRO || 'prod_pro_monthly_try',
-  enterprise: process.env.STRIPE_PRODUCT_ID_ENTERPRISE || 'prod_enterprise_monthly_try'
-} as const
+  enterprise: process.env.STRIPE_PRODUCT_ID_ENTERPRISE || 'prod_enterprise_monthly_try',
+} as const;
 
 // Stripe Price IDs (will be created in Stripe dashboard)
 export const STRIPE_PRICE_IDS = {
   pro: process.env.STRIPE_PRICE_ID_PRO || 'price_pro_monthly_try',
-  enterprise: process.env.STRIPE_PRICE_ID_ENTERPRISE || 'price_enterprise_monthly_try'
-} as const
+  enterprise: process.env.STRIPE_PRICE_ID_ENTERPRISE || 'price_enterprise_monthly_try',
+} as const;
 
 // Stripe Dashboard Setup Instructions
 export const STRIPE_SETUP_INSTRUCTIONS = {
@@ -109,9 +109,9 @@ export const STRIPE_SETUP_INSTRUCTIONS = {
           amount: 9900, // 99₺ in kuruş
           currency: 'try',
           interval: 'month',
-          priceId: 'price_pro_monthly_try'
-        }
-      ]
+          priceId: 'price_pro_monthly_try',
+        },
+      ],
     },
     {
       name: 'MySonAI Enterprise Plan',
@@ -122,10 +122,10 @@ export const STRIPE_SETUP_INSTRUCTIONS = {
           amount: 29900, // 299₺ in kuruş
           currency: 'try',
           interval: 'month',
-          priceId: 'price_enterprise_monthly_try'
-        }
-      ]
-    }
+          priceId: 'price_enterprise_monthly_try',
+        },
+      ],
+    },
   ],
   webhooks: [
     {
@@ -135,8 +135,8 @@ export const STRIPE_SETUP_INSTRUCTIONS = {
         'customer.subscription.updated',
         'customer.subscription.deleted',
         'invoice.payment_failed',
-        'invoice.payment_succeeded'
-      ]
-    }
-  ]
-} as const
+        'invoice.payment_succeeded',
+      ],
+    },
+  ],
+} as const;
