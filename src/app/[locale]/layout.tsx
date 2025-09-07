@@ -12,6 +12,7 @@ import { notFound } from 'next/navigation'
 import { locales } from '@/lib/i18n'
 import { HreflangTags } from '@/components/hreflang'
 import { JsonLd } from '@/components/json-ld'
+import { CookieConsent } from '@/components/cookie-consent'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -148,6 +149,7 @@ export default function LocaleLayout({
             <Footer />
           </div>
           <Toaster position="top-right" richColors />
+          <CookieConsent />
         </AuthProvider>
       </ThemeProvider>
     </>
