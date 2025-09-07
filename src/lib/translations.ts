@@ -93,6 +93,12 @@ export const translations = {
     'nav.api': 'API',
     'nav.docs': 'Dokümantasyon',
     'nav.faq': 'SSS',
+    'nav.careers': 'Kariyer',
+    'nav.press': 'Basın',
+    'nav.privacy': 'Gizlilik',
+    'nav.terms': 'Kullanım Koşulları',
+    'nav.cookies': 'Çerez Politikası',
+    'nav.gdpr': 'GDPR',
     
     // Hero Section (Extended)
     'hero.productHunt': 'Product Hunt\'ta Öne Çıkan',
@@ -250,6 +256,12 @@ export const translations = {
     'nav.api': 'API',
     'nav.docs': 'Documentation',
     'nav.faq': 'FAQ',
+    'nav.careers': 'Careers',
+    'nav.press': 'Press',
+    'nav.privacy': 'Privacy',
+    'nav.terms': 'Terms of Service',
+    'nav.cookies': 'Cookie Policy',
+    'nav.gdpr': 'GDPR',
     
     // Hero Section (Extended)
     'hero.productHunt': 'Featured on Product Hunt',

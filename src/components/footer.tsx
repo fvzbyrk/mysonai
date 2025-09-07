@@ -25,15 +25,15 @@ export function Footer() {
     ],
     company: [
       { name: t(locale as Locale, 'nav.about'), href: '/about' },
-      { name: 'Kariyer', href: '/careers' },
+      { name: t(locale as Locale, 'nav.careers'), href: '/careers' },
       { name: t(locale as Locale, 'nav.contact'), href: '/contact' },
-      { name: 'Basın', href: '/press' },
+      { name: t(locale as Locale, 'nav.press'), href: '/press' },
     ],
     legal: [
-      { name: 'Gizlilik', href: '/privacy' },
-      { name: 'Kullanım Koşulları', href: '/terms' },
-      { name: 'Çerez Politikası', href: '/cookies' },
-      { name: 'GDPR', href: '/gdpr' },
+      { name: t(locale as Locale, 'nav.privacy'), href: '/privacy' },
+      { name: t(locale as Locale, 'nav.terms'), href: '/terms' },
+      { name: t(locale as Locale, 'nav.cookies'), href: '/cookies' },
+      { name: t(locale as Locale, 'nav.gdpr'), href: '/gdpr' },
     ],
   }
 
