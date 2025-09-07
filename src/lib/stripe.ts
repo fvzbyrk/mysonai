@@ -87,12 +87,56 @@ export type PlanType = keyof typeof PLANS
 
 // Stripe Product IDs (will be created in Stripe dashboard)
 export const STRIPE_PRODUCT_IDS = {
-  pro: 'prod_pro_monthly',
-  enterprise: 'prod_enterprise_monthly'
+  pro: 'prod_pro_monthly_try',
+  enterprise: 'prod_enterprise_monthly_try'
 } as const
 
 // Stripe Price IDs (will be created in Stripe dashboard)
 export const STRIPE_PRICE_IDS = {
-  pro: 'price_pro_monthly',
-  enterprise: 'price_enterprise_monthly'
+  pro: 'price_pro_monthly_try',
+  enterprise: 'price_enterprise_monthly_try'
+} as const
+
+// Stripe Dashboard Setup Instructions
+export const STRIPE_SETUP_INSTRUCTIONS = {
+  products: [
+    {
+      name: 'MySonAI Pro Plan',
+      description: 'Professional AI assistant plan with 1000 messages/month',
+      productId: 'prod_pro_monthly_try',
+      prices: [
+        {
+          amount: 9900, // 99₺ in kuruş
+          currency: 'try',
+          interval: 'month',
+          priceId: 'price_pro_monthly_try'
+        }
+      ]
+    },
+    {
+      name: 'MySonAI Enterprise Plan',
+      description: 'Enterprise AI assistant plan with unlimited usage',
+      productId: 'prod_enterprise_monthly_try',
+      prices: [
+        {
+          amount: 29900, // 299₺ in kuruş
+          currency: 'try',
+          interval: 'month',
+          priceId: 'price_enterprise_monthly_try'
+        }
+      ]
+    }
+  ],
+  webhooks: [
+    {
+      url: 'https://mysonai.com/api/webhooks/stripe',
+      events: [
+        'checkout.session.completed',
+        'customer.subscription.updated',
+        'customer.subscription.deleted',
+        'invoice.payment_failed',
+        'invoice.payment_succeeded'
+      ]
+    }
+  ]
 } as const
