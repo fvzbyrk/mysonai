@@ -1,0 +1,264 @@
+{
+  "common": {
+    "loading": "Yükleniyor...",
+    "error": "Hata oluştu",
+    "success": "Başarılı",
+    "cancel": "İptal",
+    "save": "Kaydet",
+    "delete": "Sil",
+    "edit": "Düzenle",
+    "add": "Ekle",
+    "search": "Ara",
+    "filter": "Filtrele",
+    "sort": "Sırala",
+    "view": "Görüntüle",
+    "close": "Kapat",
+    "back": "Geri",
+    "next": "İleri",
+    "previous": "Önceki",
+    "submit": "Gönder",
+    "reset": "Sıfırla",
+    "confirm": "Onayla",
+    "yes": "Evet",
+    "no": "Hayır"
+  },
+  "navigation": {
+    "home": "Ana Sayfa",
+    "demo": "Demo",
+    "pricing": "Fiyatlandırma",
+    "contact": "İletişim",
+    "blog": "Blog",
+    "dashboard": "Dashboard",
+    "signin": "Giriş Yap",
+    "signup": "Kayıt Ol",
+    "signout": "Çıkış Yap",
+    "settings": "Ayarlar",
+    "profile": "Profil",
+    "help": "Yardım",
+    "about": "Hakkında",
+    "privacy": "Gizlilik",
+    "terms": "Şartlar"
+  },
+  "hero": {
+    "title": "Hayal Et, Sohbet Et, Yarat",
+    "subtitle": "7/24 AI Ekibiniz",
+    "description": "MySonAI ile yapay zeka teknolojilerini keşfedin. Chatbot, görsel üretim ve daha fazlası.",
+    "cta": {
+      "demo": "Canlı Demo",
+      "chat": "AI Asistanlarla Sohbet Et"
+    },
+    "stats": {
+      "users": "Aktif Kullanıcı",
+      "projects": "Oluşturulan Proje",
+      "uptime": "Uptime"
+    }
+  },
+  "features": {
+    "title": "Özellikler",
+    "aiAgents": "AI Asistanlar",
+    "chatbot": "Chatbot",
+    "imageGeneration": "Görsel Üretim",
+    "api": "API Erişimi",
+    "analytics": "Analitik",
+    "integrations": "Entegrasyonlar"
+  },
+  "pricing": {
+    "title": "Fiyatlandırma",
+    "subtitle": "Her ihtiyacınıza uygun esnek fiyatlandırma planları",
+    "free": {
+      "name": "Ücretsiz",
+      "price": "₺0",
+      "period": "Aylık",
+      "description": "Bireysel kullanıcılar için",
+      "features": [
+        "5 AI asistan erişimi",
+        "100 mesaj/ay",
+        "Temel chatbot",
+        "Email desteği",
+        "Topluluk forumu"
+      ],
+      "cta": "Ücretsiz Başla"
+    },
+    "pro": {
+      "name": "Pro",
+      "price": "₺99",
+      "period": "Aylık",
+      "description": "Profesyonel geliştiriciler için",
+      "features": [
+        "Sınırsız AI asistan",
+        "1000 mesaj/ay",
+        "Gelişmiş chatbot",
+        "Görsel üretim",
+        "Öncelikli destek",
+        "API erişimi",
+        "Özel entegrasyonlar"
+      ],
+      "cta": "Pro'ya Geç"
+    },
+    "enterprise": {
+      "name": "Kurumsal",
+      "price": "Özel",
+      "period": "Fiyatlandırma",
+      "description": "Büyük ekipler için",
+      "features": [
+        "Sınırsız her şey",
+        "Özel AI modelleri",
+        "White-label çözümler",
+        "7/24 destek",
+        "SLA garantisi",
+        "Özel eğitim",
+        "Dedicated sunucu"
+      ],
+      "cta": "İletişime Geç"
+    },
+    "faq": {
+      "title": "Sık Sorulan Sorular",
+      "pricing": {
+        "question": "Fiyatlandırma nasıl çalışır?",
+        "answer": "Ücretsiz plan ile başlayabilir, ihtiyacınız arttıkça Pro planına geçebilirsiniz. Kurumsal müşteriler için özel fiyatlandırma sunuyoruz."
+      },
+      "planChange": {
+        "question": "Plan değişikliği yapabilir miyim?",
+        "answer": "Evet, istediğiniz zaman planınızı değiştirebilirsiniz. Değişiklikler bir sonraki fatura döneminde geçerli olur."
+      },
+      "cancel": {
+        "question": "İptal edebilir miyim?",
+        "answer": "Evet, istediğiniz zaman aboneliğinizi iptal edebilirsiniz. İptal sonrası dönem sonuna kadar hizmetlerinizden yararlanmaya devam edersiniz."
+      }
+    }
+  },
+  "contact": {
+    "title": "İletişim",
+    "subtitle": "Bizimle iletişime geçin",
+    "form": {
+      "name": "Ad Soyad",
+      "email": "E-posta",
+      "subject": "Konu",
+      "message": "Mesaj",
+      "submit": "Gönder",
+      "placeholder": {
+        "name": "Adınız ve soyadınız",
+        "email": "ornek@email.com",
+        "subject": "Konu başlığı",
+        "message": "Mesajınızı buraya yazın..."
+      }
+    },
+    "info": {
+      "title": "İletişim Bilgileri",
+      "email": "E-posta",
+      "phone": "Telefon",
+      "address": "Adres",
+      "hours": "Çalışma Saatleri"
+    }
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "AI teknolojileri, yapay zeka trendleri ve MySonAI'dan en güncel haberler",
+    "readMore": "Devamını Oku",
+    "readTime": "dk",
+    "author": "Yazar",
+    "date": "Tarih",
+    "category": "Kategori",
+    "featured": "Öne Çıkan",
+    "newsletter": {
+      "title": "Güncel Kalın",
+      "subtitle": "En son AI haberleri ve MySonAI güncellemeleri için e-posta listemize katılın",
+      "placeholder": "E-posta adresiniz",
+      "subscribe": "Abone Ol"
+    }
+  },
+  "auth": {
+    "signin": {
+      "title": "Giriş Yap",
+      "subtitle": "MySonAI hesabınıza giriş yapın",
+      "email": "E-posta",
+      "password": "Şifre",
+      "remember": "Beni hatırla",
+      "forgot": "Şifremi unuttum",
+      "submit": "Giriş Yap",
+      "or": "Veya",
+      "google": "Google ile devam et",
+      "noAccount": "Hesabınız yok mu?",
+      "signup": "Kayıt ol"
+    },
+    "signup": {
+      "title": "Hesap Oluşturun",
+      "subtitle": "MySonAI'ya ücretsiz üye olun",
+      "name": "Ad Soyad",
+      "email": "E-posta",
+      "password": "Şifre",
+      "confirmPassword": "Şifre Tekrar",
+      "agree": "Şartları kabul ediyorum",
+      "submit": "Hesap Oluştur",
+      "or": "Veya",
+      "google": "Google ile devam et",
+      "hasAccount": "Zaten hesabınız var mı?",
+      "signin": "Giriş yapın"
+    }
+  },
+  "dashboard": {
+    "title": "MySonAI Dashboard",
+    "welcome": "Hoş geldiniz",
+    "stats": "Kullanım İstatistikleri",
+    "quickActions": "Hızlı Erişim",
+    "accountInfo": "Hesap Bilgileri",
+    "usage": {
+      "messages": "Mesajlar",
+      "tokens": "Tokenlar",
+      "images": "Görseller",
+      "remaining": "Kalan",
+      "unlimited": "Sınırsız"
+    },
+    "actions": {
+      "chat": "AI Asistanlarla Sohbet",
+      "homepage": "Ana Sayfa",
+      "settings": "Ayarlar",
+      "logout": "Çıkış"
+    }
+  },
+  "demo": {
+    "title": "AI Asistanlarla Sohbet",
+    "subtitle": "Türkçe AI asistanlarımızla gerçek zamanlı olarak sohbet edin",
+    "placeholder": "Mesajınızı yazın...",
+    "send": "Gönder",
+    "reset": "Sohbeti Sıfırla",
+    "selectAgent": "Asistan Seçin",
+    "agents": {
+      "fevzi": "Fevzi - Takım Lideri",
+      "elif": "Elif - Ürün Müdürü",
+      "burak": "Burak - Sistem Mimarı",
+      "ayse": "Ayşe - Geliştirici",
+      "deniz": "Deniz - Veri Analisti"
+    }
+  },
+  "footer": {
+    "description": "MySonAI ile yapay zeka teknolojilerini keşfedin",
+    "links": {
+      "product": "Ürün",
+      "features": "Özellikler",
+      "pricing": "Fiyatlandırma",
+      "demo": "Demo",
+      "company": "Şirket",
+      "about": "Hakkında",
+      "blog": "Blog",
+      "careers": "Kariyer",
+      "contact": "İletişim",
+      "support": "Destek",
+      "help": "Yardım",
+      "docs": "Dokümantasyon",
+      "legal": "Yasal",
+      "privacy": "Gizlilik",
+      "terms": "Şartlar",
+      "cookies": "Çerezler"
+    },
+    "social": {
+      "twitter": "Twitter",
+      "linkedin": "LinkedIn",
+      "github": "GitHub",
+      "discord": "Discord"
+    },
+    "copyright": "© 2024 MySonAI. Tüm hakları saklıdır."
+  }
+}
+
+

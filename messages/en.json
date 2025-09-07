@@ -1,0 +1,264 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "view": "View",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "reset": "Reset",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "navigation": {
+    "home": "Home",
+    "demo": "Demo",
+    "pricing": "Pricing",
+    "contact": "Contact",
+    "blog": "Blog",
+    "dashboard": "Dashboard",
+    "signin": "Sign In",
+    "signup": "Sign Up",
+    "signout": "Sign Out",
+    "settings": "Settings",
+    "profile": "Profile",
+    "help": "Help",
+    "about": "About",
+    "privacy": "Privacy",
+    "terms": "Terms"
+  },
+  "hero": {
+    "title": "Dream, Chat, Create",
+    "subtitle": "Your 24/7 AI Team",
+    "description": "Discover AI technologies with MySonAI. Chatbot, image generation and more.",
+    "cta": {
+      "demo": "Live Demo",
+      "chat": "Chat with AI Assistants"
+    },
+    "stats": {
+      "users": "Active Users",
+      "projects": "Projects Created",
+      "uptime": "Uptime"
+    }
+  },
+  "features": {
+    "title": "Features",
+    "aiAgents": "AI Agents",
+    "chatbot": "Chatbot",
+    "imageGeneration": "Image Generation",
+    "api": "API Access",
+    "analytics": "Analytics",
+    "integrations": "Integrations"
+  },
+  "pricing": {
+    "title": "Pricing",
+    "subtitle": "Flexible pricing plans for all your needs",
+    "free": {
+      "name": "Free",
+      "price": "$0",
+      "period": "Monthly",
+      "description": "For individual users",
+      "features": [
+        "5 AI agent access",
+        "100 messages/month",
+        "Basic chatbot",
+        "Email support",
+        "Community forum"
+      ],
+      "cta": "Start Free"
+    },
+    "pro": {
+      "name": "Pro",
+      "price": "$99",
+      "period": "Monthly",
+      "description": "For professional developers",
+      "features": [
+        "Unlimited AI agents",
+        "1000 messages/month",
+        "Advanced chatbot",
+        "Image generation",
+        "Priority support",
+        "API access",
+        "Custom integrations"
+      ],
+      "cta": "Go Pro"
+    },
+    "enterprise": {
+      "name": "Enterprise",
+      "price": "Custom",
+      "period": "Pricing",
+      "description": "For large teams",
+      "features": [
+        "Unlimited everything",
+        "Custom AI models",
+        "White-label solutions",
+        "24/7 support",
+        "SLA guarantee",
+        "Custom training",
+        "Dedicated server"
+      ],
+      "cta": "Contact Us"
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "pricing": {
+        "question": "How does pricing work?",
+        "answer": "Start with the free plan and upgrade to Pro as your needs grow. We offer custom pricing for enterprise customers."
+      },
+      "planChange": {
+        "question": "Can I change my plan?",
+        "answer": "Yes, you can change your plan at any time. Changes take effect at the next billing cycle."
+      },
+      "cancel": {
+        "question": "Can I cancel?",
+        "answer": "Yes, you can cancel your subscription at any time. You'll continue to have access until the end of your billing period."
+      }
+    }
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Get in touch with us",
+    "form": {
+      "name": "Full Name",
+      "email": "Email",
+      "subject": "Subject",
+      "message": "Message",
+      "submit": "Send",
+      "placeholder": {
+        "name": "Your full name",
+        "email": "example@email.com",
+        "subject": "Subject title",
+        "message": "Write your message here..."
+      }
+    },
+    "info": {
+      "title": "Contact Information",
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Address",
+      "hours": "Business Hours"
+    }
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Latest AI technology trends and updates from MySonAI",
+    "readMore": "Read More",
+    "readTime": "min",
+    "author": "Author",
+    "date": "Date",
+    "category": "Category",
+    "featured": "Featured",
+    "newsletter": {
+      "title": "Stay Updated",
+      "subtitle": "Join our email list for the latest AI news and MySonAI updates",
+      "placeholder": "Your email address",
+      "subscribe": "Subscribe"
+    }
+  },
+  "auth": {
+    "signin": {
+      "title": "Sign In",
+      "subtitle": "Sign in to your MySonAI account",
+      "email": "Email",
+      "password": "Password",
+      "remember": "Remember me",
+      "forgot": "Forgot password?",
+      "submit": "Sign In",
+      "or": "Or",
+      "google": "Continue with Google",
+      "noAccount": "Don't have an account?",
+      "signup": "Sign up"
+    },
+    "signup": {
+      "title": "Create Account",
+      "subtitle": "Join MySonAI for free",
+      "name": "Full Name",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "agree": "I agree to the terms",
+      "submit": "Create Account",
+      "or": "Or",
+      "google": "Continue with Google",
+      "hasAccount": "Already have an account?",
+      "signin": "Sign in"
+    }
+  },
+  "dashboard": {
+    "title": "MySonAI Dashboard",
+    "welcome": "Welcome",
+    "stats": "Usage Statistics",
+    "quickActions": "Quick Actions",
+    "accountInfo": "Account Information",
+    "usage": {
+      "messages": "Messages",
+      "tokens": "Tokens",
+      "images": "Images",
+      "remaining": "Remaining",
+      "unlimited": "Unlimited"
+    },
+    "actions": {
+      "chat": "Chat with AI Assistants",
+      "homepage": "Homepage",
+      "settings": "Settings",
+      "logout": "Logout"
+    }
+  },
+  "demo": {
+    "title": "Chat with AI Assistants",
+    "subtitle": "Chat in real-time with our Turkish AI assistants",
+    "placeholder": "Type your message...",
+    "send": "Send",
+    "reset": "Reset Chat",
+    "selectAgent": "Select Agent",
+    "agents": {
+      "fevzi": "Fevzi - Team Leader",
+      "elif": "Elif - Product Manager",
+      "burak": "Burak - System Architect",
+      "ayse": "Ayşe - Developer",
+      "deniz": "Deniz - Data Analyst"
+    }
+  },
+  "footer": {
+    "description": "Discover AI technologies with MySonAI",
+    "links": {
+      "product": "Product",
+      "features": "Features",
+      "pricing": "Pricing",
+      "demo": "Demo",
+      "company": "Company",
+      "about": "About",
+      "blog": "Blog",
+      "careers": "Careers",
+      "contact": "Contact",
+      "support": "Support",
+      "help": "Help",
+      "docs": "Documentation",
+      "legal": "Legal",
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "cookies": "Cookies"
+    },
+    "social": {
+      "twitter": "Twitter",
+      "linkedin": "LinkedIn",
+      "github": "GitHub",
+      "discord": "Discord"
+    },
+    "copyright": "© 2024 MySonAI. All rights reserved."
+  }
+}
+
+
