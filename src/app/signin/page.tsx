@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation'
 import { SocialAuth } from '@/components/social-auth'
 import { AuthGuard } from '@/components/auth-guard'
 
-function SignInForm() {
+export function SignInForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)

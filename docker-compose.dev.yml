@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  # Development application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_SITE_URL=http://localhost:3000
+    env_file:
+      - .env.local
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    restart: unless-stopped
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - mysonai-dev-network
+
+  # PostgreSQL Database (Development)
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: mysonai_dev
+      POSTGRES_USER: mysonai_dev
+      POSTGRES_PASSWORD: dev_password
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    restart: unless-stopped
+    networks:
+      - mysonai-dev-network
+
+  # Redis Cache (Development)
+  redis:
+    image: redis:7-alpine
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_dev_data:/data
+    ports:
+      - "6380:6379"
+    restart: unless-stopped
+    networks:
+      - mysonai-dev-network
+
+volumes:
+  postgres_dev_data:
+  redis_dev_data:
+
+networks:
+  mysonai-dev-network:
+    driver: bridge
