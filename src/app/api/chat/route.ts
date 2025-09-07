@@ -1,20 +1,101 @@
 import { NextRequest, NextResponse } from 'next/server'
 import OpenAI from 'openai'
 import { getAgentById, generateProductResponse, ProductRequest } from '@/lib/ai-agents'
+import { createServerSupabaseClient } from '@/lib/supabase-server'
+import { PLANS } from '@/lib/stripe'
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || 'dummy-key',
 })
 
-// Placeholder functions for usage tracking
-async function checkUsageLimits(_userId: string | null) {
-  // TODO: Implement actual usage checking
-  return { canProceed: true, remainingMessages: 100 }
+// Usage checking function
+async function checkUsageLimits(userId: string | null) {
+  if (!userId) {
+    return { canProceed: false, reason: 'User not authenticated' }
+  }
+
+  const supabase = createServerSupabaseClient()
+  
+  try {
+    const { data: user, error } = await supabase
+      .from('users')
+      .select('plan, usage')
+      .eq('id', userId)
+      .single()
+
+    if (error || !user) {
+      return { canProceed: false, reason: 'User not found' }
+    }
+
+    const plan = user.plan as keyof typeof PLANS
+    const usage = user.usage
+    const limits = PLANS[plan].limits
+
+    // Check message limit
+    if (limits.messages !== -1 && usage.totalMessages >= limits.messages) {
+      return { 
+        canProceed: false, 
+        reason: 'Message limit exceeded',
+        limitType: 'messages',
+        current: usage.totalMessages,
+        limit: limits.messages
+      }
+    }
+
+    // Check token limit
+    if (limits.tokens !== -1 && usage.totalTokens >= limits.tokens) {
+      return { 
+        canProceed: false, 
+        reason: 'Token limit exceeded',
+        limitType: 'tokens',
+        current: usage.totalTokens,
+        limit: limits.tokens
+      }
+    }
+
+    return { canProceed: true, plan, usage, limits }
+  } catch (error) {
+    console.error('Error checking usage limits:', error)
+    return { canProceed: false, reason: 'Database error' }
+  }
 }
 
-async function updateUsage(_userId: string | null, _tokensUsed: number) {
-  // TODO: Implement actual usage updating
-  // console.log(`Usage updated: ${_tokensUsed} tokens for user ${_userId}`)
+// Usage updating function
+async function updateUsage(userId: string | null, tokensUsed: number, messageCount: number = 1) {
+  if (!userId) return
+
+  const supabase = createServerSupabaseClient()
+  
+  try {
+    const { data: user, error: fetchError } = await supabase
+      .from('users')
+      .select('usage')
+      .eq('id', userId)
+      .single()
+
+    if (fetchError || !user) {
+      console.error('Error fetching user for usage update:', fetchError)
+      return
+    }
+
+    const currentUsage = user.usage
+    const updatedUsage = {
+      ...currentUsage,
+      totalMessages: currentUsage.totalMessages + messageCount,
+      totalTokens: currentUsage.totalTokens + tokensUsed
+    }
+
+    const { error: updateError } = await supabase
+      .from('users')
+      .update({ usage: updatedUsage })
+      .eq('id', userId)
+
+    if (updateError) {
+      console.error('Error updating usage:', updateError)
+    }
+  } catch (error) {
+    console.error('Error in updateUsage:', error)
+  }
 }
 
 export async function POST(request: NextRequest) {
@@ -33,7 +114,13 @@ export async function POST(request: NextRequest) {
     const usageCheck = await checkUsageLimits(userId)
     if (!usageCheck.canProceed) {
       return NextResponse.json(
-        { error: 'Usage limit exceeded. Please upgrade your plan.' },
+        { 
+          error: usageCheck.reason,
+          limitType: usageCheck.limitType,
+          current: usageCheck.current,
+          limit: usageCheck.limit,
+          upgradeRequired: true
+        },
         { status: 429 }
       )
     }

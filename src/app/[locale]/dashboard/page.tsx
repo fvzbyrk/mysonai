@@ -5,12 +5,87 @@ import { useUsage } from '@/hooks/useUsage'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { UsageLimits } from '@/components/usage-limits'
-import { Bot, User, Crown, Settings, LogOut } from 'lucide-react'
+import { Bot, User, Crown, Settings, LogOut, CreditCard, Zap, Star } from 'lucide-react'
 import Link from 'next/link'
+import { useState, useEffect } from 'react'
+import { getStripe } from '@/lib/stripe'
 
 export default function DashboardPage() {
   const { user, signOut } = useAuth()
   const { usage, isGuest } = useUsage()
+  const [subscription, setSubscription] = useState<any>(null)
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    if (user) {
+      fetchSubscription()
+    }
+  }, [user])
+
+  const fetchSubscription = async () => {
+    try {
+      const response = await fetch(`/api/subscription?userId=${user?.id}`)
+      const data = await response.json()
+      setSubscription(data.subscription)
+    } catch (error) {
+      console.error('Error fetching subscription:', error)
+    }
+  }
+
+  const handleUpgrade = async (plan: string) => {
+    if (!user) return
+
+    setLoading(true)
+    try {
+      const response = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          plan: plan,
+          userId: user.id
+        }),
+      })
+
+      const { sessionId } = await response.json()
+
+      if (sessionId) {
+        const stripe = await getStripe()
+        await stripe?.redirectToCheckout({ sessionId })
+      }
+    } catch (error) {
+      console.error('Error creating checkout session:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleCancelSubscription = async () => {
+    if (!user) return
+
+    setLoading(true)
+    try {
+      const response = await fetch('/api/subscription', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          action: 'cancel',
+          userId: user.id
+        }),
+      })
+
+      if (response.ok) {
+        await fetchSubscription()
+      }
+    } catch (error) {
+      console.error('Error canceling subscription:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   if (!user) {
     return (
@@ -87,8 +162,109 @@ export default function DashboardPage() {
             </Card>
           </div>
 
-          {/* Quick Actions */}
+          {/* Plan Management */}
           <div className="space-y-6">
+            <Card className="bg-white/10 backdrop-blur-md border-white/20">
+              <CardHeader>
+                <CardTitle className="text-white flex items-center">
+                  <CreditCard className="w-5 h-5 mr-2 text-purple-400" />
+                  Plan Yönetimi
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-white font-medium capitalize">{user.plan} Plan</p>
+                    <p className="text-gray-400 text-sm">
+                      {user.plan === 'free' ? 'Ücretsiz' : 
+                       user.plan === 'pro' ? '99₺/ay' : '299₺/ay'}
+                    </p>
+                  </div>
+                  <div className="flex items-center">
+                    {user.plan === 'free' ? (
+                      <span className="text-gray-400">🆓</span>
+                    ) : (
+                      <span className="text-yellow-400">⭐</span>
+                    )}
+                  </div>
+                </div>
+
+                {subscription && (
+                  <div className="text-sm text-gray-300">
+                    <p>Durum: <span className="text-green-400 capitalize">{subscription.status}</span></p>
+                    {subscription.current_period_end && (
+                      <p>Sonraki ödeme: {new Date(subscription.current_period_end * 1000).toLocaleDateString('tr-TR')}</p>
+                    )}
+                    {subscription.cancel_at_period_end && (
+                      <p className="text-yellow-400">Dönem sonunda iptal edilecek</p>
+                    )}
+                  </div>
+                )}
+
+                <div className="space-y-2">
+                  {user.plan === 'free' && (
+                    <>
+                      <Button 
+                        onClick={() => handleUpgrade('pro')}
+                        disabled={loading}
+                        className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white"
+                      >
+                        <Zap className="w-4 h-4 mr-2" />
+                        {loading ? 'Yükleniyor...' : 'Pro\'ya Geç'}
+                      </Button>
+                      <Button 
+                        onClick={() => handleUpgrade('enterprise')}
+                        disabled={loading}
+                        variant="outline"
+                        className="w-full border-white/20 text-white"
+                      >
+                        <Star className="w-4 h-4 mr-2" />
+                        Enterprise
+                      </Button>
+                    </>
+                  )}
+
+                  {user.plan === 'pro' && (
+                    <>
+                      <Button 
+                        onClick={() => handleUpgrade('enterprise')}
+                        disabled={loading}
+                        className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white"
+                      >
+                        <Star className="w-4 h-4 mr-2" />
+                        {loading ? 'Yükleniyor...' : 'Enterprise\'a Geç'}
+                      </Button>
+                      <Button 
+                        onClick={handleCancelSubscription}
+                        disabled={loading}
+                        variant="outline"
+                        className="w-full border-red-500/50 text-red-400 hover:bg-red-500/10"
+                      >
+                        {loading ? 'Yükleniyor...' : 'Aboneliği İptal Et'}
+                      </Button>
+                    </>
+                  )}
+
+                  {user.plan === 'enterprise' && (
+                    <Button 
+                      onClick={handleCancelSubscription}
+                      disabled={loading}
+                      variant="outline"
+                      className="w-full border-red-500/50 text-red-400 hover:bg-red-500/10"
+                    >
+                      {loading ? 'Yükleniyor...' : 'Aboneliği İptal Et'}
+                    </Button>
+                  )}
+                </div>
+
+                <Link href="/pricing" className="block">
+                  <Button variant="outline" className="w-full border-white/20 text-white">
+                    Tüm Planları Gör
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+
             <Card className="bg-white/10 backdrop-blur-md border-white/20">
               <CardHeader>
                 <CardTitle className="text-white">Hızlı Erişim</CardTitle>
