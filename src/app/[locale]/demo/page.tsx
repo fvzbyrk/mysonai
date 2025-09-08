@@ -129,9 +129,9 @@ export default function DemoPage() {
   };
 
   return (
-    <div className='min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900'>
+    <div className='h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex flex-col'>
       {/* Header */}
-      <div className='bg-white/10 backdrop-blur-md border-b border-white/20'>
+      <div className='bg-white/10 backdrop-blur-md border-b border-white/20 flex-shrink-0'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4'>
           <div className='flex items-center justify-between'>
             <Link
@@ -158,7 +158,7 @@ export default function DemoPage() {
       </div>
 
       {/* Main Content */}
-      <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
+      <div className='flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 overflow-hidden'>
         <div className='max-w-4xl mx-auto'>
           {/* Agent Selection */}
           {showAgentSelection && (
@@ -190,9 +190,9 @@ export default function DemoPage() {
 
           {/* Chat Interface */}
           {!showAgentSelection && (
-            <div className='bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 overflow-hidden'>
+            <div className='bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 overflow-hidden h-full flex flex-col'>
               {/* Chat Header */}
-              <div className='bg-white/5 px-6 py-4 border-b border-white/20'>
+              <div className='bg-white/5 px-6 py-4 border-b border-white/20 flex-shrink-0'>
                 <div className='flex items-center justify-between'>
                   <div className='flex items-center space-x-3'>
                     {selectedAgent && (
@@ -219,7 +219,7 @@ export default function DemoPage() {
               </div>
 
               {/* Messages */}
-              <div className='h-96 overflow-y-auto p-6 space-y-4'>
+              <div className='flex-1 overflow-y-auto p-6 space-y-4'>
                 {messages.map(message => (
                   <div
                     key={message.id}
@@ -265,7 +265,7 @@ export default function DemoPage() {
               </div>
 
               {/* Input */}
-              <div className='bg-white/5 px-6 py-4 border-t border-white/20'>
+              <div className='bg-white/5 px-6 py-4 border-t border-white/20 flex-shrink-0'>
                 <div className='flex space-x-3'>
                   <div className='flex-1 relative'>
                     <textarea
@@ -290,32 +290,34 @@ export default function DemoPage() {
             </div>
           )}
 
-          {/* Features */}
-          <div className='mt-12 grid grid-cols-1 md:grid-cols-3 gap-8'>
-            <div className='text-center'>
-              <div className='w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4'>
-                <Sparkles className='w-8 h-8 text-white' />
+          {/* Features - Only show when agent selection is visible */}
+          {showAgentSelection && (
+            <div className='mt-12 grid grid-cols-1 md:grid-cols-3 gap-8'>
+              <div className='text-center'>
+                <div className='w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4'>
+                  <Sparkles className='w-8 h-8 text-white' />
+                </div>
+                <h3 className='text-white font-semibold mb-2'>Gerçek Zamanlı</h3>
+                <p className='text-gray-300 text-sm'>AI asistanlarınızla anında iletişim kurun</p>
               </div>
-              <h3 className='text-white font-semibold mb-2'>Gerçek Zamanlı</h3>
-              <p className='text-gray-300 text-sm'>AI asistanlarınızla anında iletişim kurun</p>
-            </div>
 
-            <div className='text-center'>
-              <div className='w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4'>
-                <Bot className='w-8 h-8 text-white' />
+              <div className='text-center'>
+                <div className='w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4'>
+                  <Bot className='w-8 h-8 text-white' />
+                </div>
+                <h3 className='text-white font-semibold mb-2'>Türkçe Destek</h3>
+                <p className='text-gray-300 text-sm'>Tamamen Türkçe AI asistanlar</p>
               </div>
-              <h3 className='text-white font-semibold mb-2'>Türkçe Destek</h3>
-              <p className='text-gray-300 text-sm'>Tamamen Türkçe AI asistanlar</p>
-            </div>
 
-            <div className='text-center'>
-              <div className='w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4'>
-                <Sparkles className='w-8 h-8 text-white' />
+              <div className='text-center'>
+                <div className='w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4'>
+                  <Sparkles className='w-8 h-8 text-white' />
+                </div>
+                <h3 className='text-white font-semibold mb-2'>Uzman Asistanlar</h3>
+                <p className='text-gray-300 text-sm'>Her biri kendi alanında uzman</p>
               </div>
-              <h3 className='text-white font-semibold mb-2'>Uzman Asistanlar</h3>
-              <p className='text-gray-300 text-sm'>Her biri kendi alanında uzman</p>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>
