@@ -32,6 +32,16 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   generateEtags: false,
+  // Redirects configuration
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/tr',
+        permanent: true,
+      },
+    ];
+  },
   // Bundle analyzer (optional)
   ...(process.env.ANALYZE === 'true' && {
     webpack: (config, { isServer }) => {
