@@ -1,11 +1,20 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Bot, Sparkles, ArrowLeft, Send, Loader2, Paperclip, X, Maximize2, Minimize2 } from 'lucide-react';
+import { Bot, Sparkles, ArrowLeft, Send, Loader2, Paperclip, X, Maximize2, Minimize2, Mic, MicOff, Volume2, VolumeX } from 'lucide-react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { getAgentById, getAllAgents } from '@/lib/ai-agents';
 import JSZip from 'jszip';
+
+// Speech API tipleri
+declare global {
+  interface Window {
+    SpeechRecognition: any;
+    webkitSpeechRecognition: any;
+    speechSynthesis: SpeechSynthesis;
+  }
+}
 
 interface Message {
   id: string;
@@ -32,11 +41,49 @@ export default function DemoPage() {
   const [attachedFiles, setAttachedFiles] = useState<FileAttachment[]>([]);
   const [isDragOver, setIsDragOver] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [speechSupported, setSpeechSupported] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const agents = getAllAgents();
   const searchParams = useSearchParams();
+
+  // Speech Recognition ve Synthesis için refs
+  const recognitionRef = useRef<SpeechRecognition | null>(null);
+  const synthesisRef = useRef<SpeechSynthesisUtterance | null>(null);
+
+  // Speech API desteğini kontrol et
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const SpeechSynthesis = window.speechSynthesis;
+      
+      if (SpeechRecognition && SpeechSynthesis) {
+        setSpeechSupported(true);
+        
+        // Speech Recognition ayarları
+        const recognition = new SpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.lang = 'tr-TR';
+        
+        recognition.onstart = () => setIsListening(true);
+        recognition.onend = () => setIsListening(false);
+        recognition.onresult = (event) => {
+          const transcript = event.results[0][0].transcript;
+          setInputValue(transcript);
+        };
+        recognition.onerror = (event) => {
+          console.error('Speech recognition error:', event.error);
+          setIsListening(false);
+        };
+        
+        recognitionRef.current = recognition;
+      }
+    }
+  }, []);
 
   // File reading utilities
   const readFileContent = async (file: File): Promise<string> => {
@@ -282,6 +329,13 @@ export default function DemoPage() {
       
       // Scroll to bottom after assistant response
       scrollToBottom();
+      
+      // Erdem için sesli cevap ver
+      if (selectedAgent === 'erdem' && speechSupported) {
+        setTimeout(() => {
+          speakResponse(data.message);
+        }, 500);
+      }
     } catch (error) {
       // console.error('Chat error:', error)
       const errorMessage: Message = {
@@ -387,6 +441,46 @@ export default function DemoPage() {
     e.preventDefault();
     setIsDragOver(false);
     handleFileSelect(e.dataTransfer.files);
+  };
+
+  // Ses tanıma başlat/durdur
+  const toggleListening = () => {
+    if (!recognitionRef.current) return;
+    
+    if (isListening) {
+      recognitionRef.current.stop();
+    } else {
+      recognitionRef.current.start();
+    }
+  };
+
+  // Sesli cevap ver
+  const speakResponse = (text: string) => {
+    if (!speechSupported || !window.speechSynthesis) return;
+    
+    // Önceki konuşmayı durdur
+    window.speechSynthesis.cancel();
+    
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'tr-TR';
+    utterance.rate = 0.9;
+    utterance.pitch = 1;
+    utterance.volume = 0.8;
+    
+    utterance.onstart = () => setIsSpeaking(true);
+    utterance.onend = () => setIsSpeaking(false);
+    utterance.onerror = () => setIsSpeaking(false);
+    
+    synthesisRef.current = utterance;
+    window.speechSynthesis.speak(utterance);
+  };
+
+  // Sesli cevabı durdur
+  const stopSpeaking = () => {
+    if (window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+      setIsSpeaking(false);
+    }
   };
 
   return (
@@ -542,12 +636,35 @@ export default function DemoPage() {
                               ))}
                             </div>
                           )}
-                          <p className='text-xs opacity-70 mt-2'>
-                            {message.timestamp.toLocaleTimeString('tr-TR', {
-                              hour: '2-digit',
-                              minute: '2-digit',
-                            })}
-                          </p>
+                          <div className='flex items-center justify-between mt-2'>
+                            <p className='text-xs opacity-70'>
+                              {message.timestamp.toLocaleTimeString('tr-TR', {
+                                hour: '2-digit',
+                                minute: '2-digit',
+                              })}
+                            </p>
+                            
+                            {/* Sesli Oynatma Butonu (Sadece AI mesajları için) */}
+                            {message.role === 'assistant' && speechSupported && (
+                              <button
+                                onClick={() => {
+                                  if (isSpeaking) {
+                                    stopSpeaking();
+                                  } else {
+                                    speakResponse(message.content);
+                                  }
+                                }}
+                                className={`transition-colors p-1 rounded ${
+                                  isSpeaking 
+                                    ? 'text-red-400 hover:text-red-300' 
+                                    : 'text-gray-400 hover:text-white'
+                                }`}
+                                title={isSpeaking ? 'Sesli Cevabı Durdur' : 'Sesli Dinle'}
+                              >
+                                {isSpeaking ? <VolumeX className='w-3 h-3' /> : <Volume2 className='w-3 h-3' />}
+                              </button>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -605,6 +722,22 @@ export default function DemoPage() {
                   >
                     <Paperclip className='w-5 h-5' />
                   </button>
+                  
+                  {/* Ses Tanıma Butonu */}
+                  {speechSupported && (
+                    <button
+                      onClick={toggleListening}
+                      disabled={isLoading}
+                      className={`transition-colors p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full hover:bg-white/10 ${
+                        isListening 
+                          ? 'text-red-400 bg-red-500/20' 
+                          : 'text-gray-400 hover:text-white'
+                      }`}
+                      title={isListening ? 'Dinlemeyi Durdur' : 'Sesli Mesaj Gönder'}
+                    >
+                      {isListening ? <MicOff className='w-5 h-5' /> : <Mic className='w-5 h-5' />}
+                    </button>
+                  )}
                   
                   <div className='flex-1 relative'>
                     <textarea
