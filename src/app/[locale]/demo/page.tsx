@@ -237,7 +237,31 @@ export default function DemoPage() {
                           <div className='text-lg mt-1'>{getAgentById(message.agentId)?.icon}</div>
                         )}
                         <div className='flex-1'>
-                          <p className='text-sm whitespace-pre-wrap'>{message.content}</p>
+                          <div className='text-sm whitespace-pre-wrap'>
+                            {message.content.split(/(\[.*?\]\(.*?\))/g).map((part, index) => {
+                              const linkMatch = part.match(/\[(.*?)\]\((.*?)\)/);
+                              if (linkMatch) {
+                                const [, linkText, linkUrl] = linkMatch;
+                                return (
+                                  <a
+                                    key={index}
+                                    href={linkUrl}
+                                    className='text-blue-300 hover:text-blue-200 underline'
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      if (linkUrl.includes('demo?agent=')) {
+                                        const agentId = linkUrl.split('agent=')[1];
+                                        selectAgent(agentId);
+                                      }
+                                    }}
+                                  >
+                                    {linkText}
+                                  </a>
+                                );
+                              }
+                              return part;
+                            })}
+                          </div>
                           <p className='text-xs opacity-70 mt-2'>
                             {message.timestamp.toLocaleTimeString('tr-TR', {
                               hour: '2-digit',

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
-import { getAgentById, generateProductResponse, ProductRequest } from '@/lib/ai-agents';
+import { getAgentById, generateProductResponse, ProductRequest, getAgentRecommendation, generateAgentRedirectMessage } from '@/lib/ai-agents';
 import { createServerSupabaseClient } from '@/lib/supabase-server';
 import { PLANS } from '@/lib/stripe';
 
@@ -106,14 +106,27 @@ export async function POST(request: NextRequest) {
   try {
     // Check if API key is available
     if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === 'dummy-key') {
-      // Demo mode - return mock responses
+      // Demo mode - return mock responses with agent recommendations
       const { messages, selectedAgent } = await request.json();
       const lastMessage = messages[messages.length - 1];
       
       let mockResponse = '';
-      if (selectedAgent) {
+      let recommendedAgent = null;
+      
+      if (selectedAgent && lastMessage?.content) {
         const agent = getAgentById(selectedAgent);
-        mockResponse = `Merhaba! Ben ${agent?.name || 'AI Asistan'}, ${agent?.role || 'Yardımcı'}. ${lastMessage?.content || 'Size nasıl yardımcı olabilirim?'} konusunda size yardımcı olabilirim. Bu demo modunda çalışıyoruz, gerçek AI yanıtları için OpenAI API key'i gerekli.`;
+        const recommendation = getAgentRecommendation(selectedAgent, lastMessage.content);
+        
+        if (recommendation) {
+          // Generate redirect message
+          mockResponse = generateAgentRedirectMessage(agent!, recommendation, lastMessage.content);
+          recommendedAgent = recommendation.id;
+        } else {
+          mockResponse = `Merhaba! Ben ${agent?.name || 'AI Asistan'}, ${agent?.role || 'Yardımcı'}. ${lastMessage.content} konusunda size yardımcı olabilirim. Bu demo modunda çalışıyoruz, gerçek AI yanıtları için OpenAI API key'i gerekli.`;
+        }
+      } else if (selectedAgent) {
+        const agent = getAgentById(selectedAgent);
+        mockResponse = `Merhaba! Ben ${agent?.name || 'AI Asistan'}, ${agent?.role || 'Yardımcı'}. Size nasıl yardımcı olabilirim? Bu demo modunda çalışıyoruz, gerçek AI yanıtları için OpenAI API key'i gerekli.`;
       } else {
         mockResponse = `Merhaba! MySonAI demo modunda çalışıyor. Size nasıl yardımcı olabilirim? Gerçek AI yanıtları için OpenAI API key'i gerekli.`;
       }
@@ -121,6 +134,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({
         message: mockResponse,
         agent: selectedAgent || 'demo',
+        recommendedAgent,
         tokensUsed: 0,
       });
     }
@@ -173,10 +187,26 @@ Müşteri talebi: ${productReq.description}
 
 Bu talebi karşılamak için ajanlar arası işbirliği yap ve detaylı bir plan sun.`;
     } else if (selectedAgent) {
-      // Single agent conversation
+      // Single agent conversation with recommendation check
       const agent = getAgentById(selectedAgent);
       if (!agent) {
         return NextResponse.json({ error: 'Selected agent not found' }, { status: 400 });
+      }
+
+      // Check if user query suggests another agent would be better
+      const lastMessage = messages[messages.length - 1];
+      const recommendation = lastMessage?.content ? getAgentRecommendation(selectedAgent, lastMessage.content) : null;
+      
+      if (recommendation) {
+        // Generate redirect message instead of normal response
+        responseContent = generateAgentRedirectMessage(agent, recommendation, lastMessage.content);
+        
+        return NextResponse.json({
+          message: responseContent,
+          agent: selectedAgent,
+          recommendedAgent: recommendation.id,
+          tokensUsed: 0,
+        });
       }
 
       systemPrompt = agent.systemPrompt;

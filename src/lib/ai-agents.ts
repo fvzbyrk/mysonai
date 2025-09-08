@@ -1383,3 +1383,166 @@ export function generateProductResponse(productRequest: ProductRequest, agents: 
 
   return response;
 }
+
+// Asistanlar arası yönlendirme ve iletişim fonksiyonları
+export function getAgentRecommendation(currentAgentId: string, userQuery: string): AIAgent | null {
+  const currentAgent = getAgentById(currentAgentId);
+  if (!currentAgent) return null;
+
+  // Kullanıcı sorgusunu analiz et ve uygun asistanı bul
+  const query = userQuery.toLowerCase();
+  
+  // Anahtar kelime eşleştirmeleri
+  const keywordMappings: { [key: string]: string } = {
+    // Tasarım ve görsel
+    'tasarım': 'can',
+    'logo': 'can',
+    'görsel': 'can',
+    'ui': 'can',
+    'ux': 'can',
+    'marka': 'can',
+    'grafik': 'can',
+    'web tasarım': 'can',
+    
+    // Teknik ve kod
+    'kod': 'ayse',
+    'programlama': 'ayse',
+    'geliştirme': 'ayse',
+    'api': 'ayse',
+    'frontend': 'ayse',
+    'backend': 'ayse',
+    'yazılım': 'ayse',
+    
+    // Sistem ve mimari
+    'mimari': 'burak',
+    'sistem': 'burak',
+    'teknoloji': 'burak',
+    'altyapı': 'burak',
+    'güvenlik': 'burak',
+    
+    // Ürün ve strateji
+    'ürün': 'elif',
+    'strateji': 'elif',
+    'kullanıcı': 'elif',
+    'deneyim': 'elif',
+    'pazar': 'elif',
+    
+    // Proje yönetimi
+    'proje': 'fevzi',
+    'yönetim': 'fevzi',
+    'planlama': 'fevzi',
+    'ekip': 'fevzi',
+    
+    // Veri ve analiz
+    'veri': 'deniz-analist',
+    'analiz': 'deniz-analist',
+    'istatistik': 'deniz-analist',
+    'rapor': 'deniz-analist',
+    
+    // E-ticaret ve pazarlama
+    'e-ticaret': 'zeynep',
+    'pazarlama': 'zeynep',
+    'satış': 'zeynep',
+    'online': 'zeynep',
+    
+    // SEO ve dijital
+    'seo': 'mert',
+    'dijital': 'mert',
+    'arama': 'mert',
+    'içerik': 'mert',
+    
+    // Müşteri hizmetleri
+    'müşteri': 'seda',
+    'destek': 'seda',
+    'hizmet': 'seda',
+    'iletişim': 'seda',
+    
+    // Finans
+    'finans': 'ahmet',
+    'bütçe': 'ahmet',
+    'maliyet': 'ahmet',
+    'roi': 'ahmet',
+    
+    // Hukuki
+    'hukuki': 'leyla',
+    'sözleşme': 'leyla',
+    'kvkk': 'leyla',
+    'yasal': 'leyla',
+    
+    // Sağlık ve beslenme
+    'beslenme': 'nur',
+    'diyet': 'nur',
+    'sağlık': 'nur',
+    'kilo': 'nur',
+    
+    // Eğitim
+    'eğitim': 'emre',
+    'öğrenme': 'emre',
+    'öğretim': 'aylin',
+    'akademik': 'aylin',
+    'müfredat': 'aylin',
+    
+    // Psikoloji
+    'psikoloji': 'deniz',
+    'ruh sağlığı': 'deniz',
+    'stres': 'deniz',
+    'motivasyon': 'deniz',
+    
+    // Fitness
+    'fitness': 'erdem',
+    'spor': 'erdem',
+    'egzersiz': 'erdem',
+    'antrenman': 'erdem',
+    
+    // Yaşam koçluğu
+    'yaşam': 'melis',
+    'koçluk': 'melis',
+    'hedef': 'melis',
+    'gelişim': 'melis',
+    
+    // Müzik ve sanat
+    'müzik': 'pinar',
+    'sanat': 'pinar',
+    'enstrüman': 'pinar',
+    'kompozisyon': 'pinar',
+  };
+
+  // En uygun asistanı bul
+  for (const [keyword, agentId] of Object.entries(keywordMappings)) {
+    if (query.includes(keyword) && agentId !== currentAgentId) {
+      const recommendedAgent = getAgentById(agentId);
+      if (recommendedAgent) {
+        return recommendedAgent;
+      }
+    }
+  }
+
+  return null;
+}
+
+export function generateAgentRedirectMessage(currentAgent: AIAgent, recommendedAgent: AIAgent, userQuery: string): string {
+  return `Bu konuda size daha iyi yardımcı olabilecek uzmanımız **${recommendedAgent.name}** (${recommendedAgent.role}). 
+
+${recommendedAgent.name} bu alanda uzman ve size daha detaylı bilgi verebilir. 
+
+**${recommendedAgent.name} ile iletişime geçmek için:**
+🔗 [${recommendedAgent.name} ile sohbet et](/${currentAgent.id === 'tr' ? 'tr' : 'en'}/demo?agent=${recommendedAgent.id})
+
+📧 **İletişim:** ${recommendedAgent.name.toLowerCase()}@mysonai.com
+📞 **Telefon:** +90 (555) ${recommendedAgent.id.toUpperCase().slice(0, 3)} ${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}
+
+${recommendedAgent.name} size bu konuda profesyonel destek sağlayacaktır.`;
+}
+
+export function getAgentContactInfo(agentId: string): { email: string; phone: string; linkedin?: string } {
+  const agent = getAgentById(agentId);
+  if (!agent) {
+    return { email: 'info@mysonai.com', phone: '+90 (555) 000 000' };
+  }
+
+  return {
+    email: `${agent.id}@mysonai.com`,
+    phone: `+90 (555) ${agent.id.toUpperCase().slice(0, 3)} ${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`,
+    linkedin: `linkedin.com/in/${agent.id}-mysonai`
+  };
+}
