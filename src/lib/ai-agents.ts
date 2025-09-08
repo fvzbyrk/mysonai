@@ -1582,6 +1582,20 @@ export function getAgentRecommendation(currentAgentId: string, userQuery: string
   const currentAgent = getAgentById(currentAgentId);
   if (!currentAgent) return null;
 
+  // Tacettin için özel kural: Hukuki belgeler için yönlendirme yapma
+  if (currentAgentId === 'tacettin') {
+    const query = userQuery.toLowerCase();
+    const hasLegalKeywords = query.includes('dava') || query.includes('dilekçe') || 
+                            query.includes('mahkeme') || query.includes('hukuk') ||
+                            query.includes('jandarma') || query.includes('idare') ||
+                            query.includes('astsubay') || query.includes('temin') ||
+                            query.includes('avukat') || query.includes('yasal');
+    
+    if (hasLegalKeywords) {
+      return null; // Yönlendirme yapma
+    }
+  }
+
   // Kullanıcı sorgusunu analiz et ve uygun asistanı bul
   const query = userQuery.toLowerCase();
   
