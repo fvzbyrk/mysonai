@@ -1583,19 +1583,22 @@ export function getAgentRecommendation(currentAgentId: string, userQuery: string
   const currentAgent = getAgentById(currentAgentId);
   if (!currentAgent) return null;
 
-  // Tacettin için özel kural: Hukuki belgeler için yönlendirme yapma
-  if (currentAgentId === 'tacettin') {
-    const query = userQuery.toLowerCase();
-    const hasLegalKeywords = query.includes('dava') || query.includes('dilekçe') || 
-                            query.includes('mahkeme') || query.includes('hukuk') ||
-                            query.includes('jandarma') || query.includes('idare') ||
-                            query.includes('astsubay') || query.includes('temin') ||
-                            query.includes('avukat') || query.includes('yasal');
-    
-    if (hasLegalKeywords) {
-      return null; // Yönlendirme yapma
-    }
-  }
+        // Tacettin için özel kural: Hukuki belgeler için yönlendirme yapma
+        if (currentAgentId === 'tacettin') {
+          const query = userQuery.toLowerCase();
+          const hasLegalKeywords = query.includes('dava') || query.includes('dilekçe') || 
+                                  query.includes('mahkeme') || query.includes('hukuk') ||
+                                  query.includes('jandarma') || query.includes('idare') ||
+                                  query.includes('astsubay') || query.includes('temin') ||
+                                  query.includes('avukat') || query.includes('yasal') ||
+                                  query.includes('normlar') || query.includes('hiyerarşi') ||
+                                  query.includes('anayasa') || query.includes('kanun') ||
+                                  query.includes('mevzuat') || query.includes('hukuki');
+          
+          if (hasLegalKeywords) {
+            return null; // Yönlendirme yapma
+          }
+        }
 
   // Kullanıcı sorgusunu analiz et ve uygun asistanı bul
   const query = userQuery.toLowerCase();
@@ -1672,10 +1675,13 @@ export function getAgentRecommendation(currentAgentId: string, userQuery: string
     'roi': 'ahmet',
     
     // Hukuki
-    'hukuki': 'leyla',
-    'sözleşme': 'leyla',
-    'kvkk': 'leyla',
-    'yasal': 'leyla',
+    'hukuki': 'tacettin',
+    'sözleşme': 'tacettin',
+    'kvkk': 'tacettin',
+    'normlar': 'tacettin',
+    'hiyerarşi': 'tacettin',
+    'anayasa': 'tacettin',
+    'yasal': 'tacettin',
     
     // Sağlık ve beslenme
     'beslenme': 'nur',
