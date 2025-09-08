@@ -40,6 +40,14 @@ export default function DemoPage() {
     scrollToBottom();
   }, [messages]);
 
+  useEffect(() => {
+    if (isLoading) {
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+  }, [isLoading]);
+
   const handleSendMessage = async () => {
     if (!inputValue.trim() || isLoading) return;
 
@@ -53,6 +61,11 @@ export default function DemoPage() {
     setMessages(prev => [...prev, userMessage]);
     setInputValue('');
     setIsLoading(true);
+
+    // Scroll to bottom immediately after user message
+    setTimeout(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
 
     try {
       const response = await fetch('/api/chat', {
@@ -84,6 +97,11 @@ export default function DemoPage() {
       };
 
       setMessages(prev => [...prev, assistantMessage]);
+      
+      // Scroll to bottom after assistant response
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
     } catch (error) {
       // console.error('Chat error:', error)
       const errorMessage: Message = {
@@ -93,6 +111,11 @@ export default function DemoPage() {
         timestamp: new Date(),
       };
       setMessages(prev => [...prev, errorMessage]);
+      
+      // Scroll to bottom after error message
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
     } finally {
       setIsLoading(false);
     }

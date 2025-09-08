@@ -1525,11 +1525,8 @@ export function generateAgentRedirectMessage(currentAgent: AIAgent, recommendedA
 
 ${recommendedAgent.name} bu alanda uzman ve size daha detaylı bilgi verebilir. 
 
-**${recommendedAgent.name} ile iletişime geçmek için:**
+**${recommendedAgent.name} ile sohbet etmek için:**
 🔗 [${recommendedAgent.name} ile sohbet et](/${currentAgent.id === 'tr' ? 'tr' : 'en'}/demo?agent=${recommendedAgent.id})
-
-📧 **İletişim:** ${recommendedAgent.name.toLowerCase()}@mysonai.com
-📞 **Telefon:** +90 (555) ${recommendedAgent.id.toUpperCase().slice(0, 3)} ${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}
 
 ${recommendedAgent.name} size bu konuda profesyonel destek sağlayacaktır.`;
 }
