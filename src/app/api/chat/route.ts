@@ -102,10 +102,23 @@ export async function POST(request: NextRequest) {
   try {
     // Check if API key is available
     if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === 'dummy-key') {
-      return NextResponse.json(
-        { error: 'OpenAI API key not configured. Please contact administrator.' },
-        { status: 500 }
-      );
+      // Demo mode - return mock responses
+      const { messages, selectedAgent } = await request.json();
+      const lastMessage = messages[messages.length - 1];
+      
+      let mockResponse = '';
+      if (selectedAgent) {
+        const agent = getAgentById(selectedAgent);
+        mockResponse = `Merhaba! Ben ${agent?.name || 'AI Asistan'}, ${agent?.role || 'Yardımcı'}. ${lastMessage?.content || 'Size nasıl yardımcı olabilirim?'} konusunda size yardımcı olabilirim. Bu demo modunda çalışıyoruz, gerçek AI yanıtları için OpenAI API key'i gerekli.`;
+      } else {
+        mockResponse = `Merhaba! MySonAI demo modunda çalışıyor. Size nasıl yardımcı olabilirim? Gerçek AI yanıtları için OpenAI API key'i gerekli.`;
+      }
+      
+      return NextResponse.json({
+        message: mockResponse,
+        agent: selectedAgent || 'demo',
+        tokensUsed: 0,
+      });
     }
 
     const { messages, userId, selectedAgent, productRequest } = await request.json();
