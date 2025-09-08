@@ -5,6 +5,7 @@ import { Bot, Sparkles, ArrowLeft, Send, Loader2, Paperclip, X, Maximize2, Minim
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { getAgentById, getAllAgents } from '@/lib/ai-agents';
+import JSZip from 'jszip';
 
 interface Message {
   id: string;
@@ -48,8 +49,11 @@ export default function DemoPage() {
         // UDF dosyaları için özel işlem
         if (file.name.toLowerCase().endsWith('.udf')) {
           if (result instanceof ArrayBuffer) {
-            const content = parseUDFContent(result);
-            resolve(content);
+            parseUDFContent(result).then(content => {
+              resolve(content);
+            }).catch(error => {
+              reject(error);
+            });
           } else {
             reject(new Error('UDF file must be read as ArrayBuffer'));
           }
@@ -91,58 +95,85 @@ export default function DemoPage() {
     }
   };
 
-  // UDF Parser - UYAP Doküman Formatı
-  const parseUDFContent = (buffer: ArrayBuffer): string => {
+  // UDF Parser - UYAP Doküman Formatı (ZIP-based)
+  const parseUDFContent = async (buffer: ArrayBuffer): Promise<string> => {
     try {
-      // UDF dosyasını binary olarak oku
-      const uint8Array = new Uint8Array(buffer);
+      // UDF dosyası aslında ZIP arşivi
+      const zip = new JSZip();
+      const zipFile = await zip.loadAsync(buffer);
       
-      // UDF formatında metin arama - XML içeriği için gelişmiş parsing
-      let textContent = '';
-      let xmlContent = '';
+      // content.xml dosyasını bul
+      const contentXml = zipFile.file('content.xml');
+      if (!contentXml) {
+        return `UDF Dosyası: content.xml bulunamadı\n\nBu dosya UYAP sistemi tarafından oluşturulmuş bir hukuki belgedir.\n\nDosya boyutu: ${(buffer.byteLength / 1024).toFixed(2)} KB\n\nNot: Bu dosya UYAP Doküman Editör ile açılabilir.`;
+      }
       
-      // Binary'den text'e çevirme
-      for (let i = 0; i < uint8Array.length; i++) {
-        const byte = uint8Array[i];
-        // ASCII karakterleri kontrol et
-        if (byte >= 32 && byte <= 126) {
-          textContent += String.fromCharCode(byte);
-        } else if (byte === 10 || byte === 13) {
-          textContent += '\n';
+      // XML içeriğini oku
+      const xmlContent = await contentXml.async('text');
+      
+      // XML'i parse et ve metin çıkar
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(xmlContent, 'text/xml');
+      
+      // Tüm paragraf ve başlık metinlerini çıkar
+      const paragraphs: string[] = [];
+      
+      // text:p etiketlerini bul (paragraflar)
+      const textPs = xmlDoc.querySelectorAll('text\\:p, p');
+      textPs.forEach(p => {
+        if (p.textContent && p.textContent.trim()) {
+          paragraphs.push(p.textContent.trim());
         }
+      });
+      
+      // text:h etiketlerini bul (başlıklar)
+      const textHs = xmlDoc.querySelectorAll('text\\:h, h1, h2, h3, h4, h5, h6');
+      textHs.forEach(h => {
+        if (h.textContent && h.textContent.trim()) {
+          paragraphs.push(h.textContent.trim());
+        }
+      });
+      
+      // Eğer hiç metin bulunamadıysa, tüm text node'ları al
+      if (paragraphs.length === 0) {
+        const allTextNodes = xmlDoc.querySelectorAll('*');
+        allTextNodes.forEach(node => {
+          if (node.textContent && node.textContent.trim() && !node.children.length) {
+            paragraphs.push(node.textContent.trim());
+          }
+        });
       }
       
-      // XML içeriği arama
-      const xmlMatch = textContent.match(/<[^>]+>.*?<\/[^>]+>/gs);
-      if (xmlMatch) {
-        xmlContent = xmlMatch.join('\n');
+      // Metinleri birleştir
+      let fullText = paragraphs.join('\n\n');
+      
+      // Kişisel verileri maskele
+      fullText = maskPersonalData(fullText);
+      
+      // Eğer içerik çok kısa ise, XML'i ham olarak göster
+      if (fullText.length < 100) {
+        return `UDF Dosyası: ${buffer.byteLength} byte\n\nBu dosya UYAP sistemi tarafından oluşturulmuş bir hukuki belgedir.\n\nDosya boyutu: ${(buffer.byteLength / 1024).toFixed(2)} KB\n\nXML İçeriği:\n${xmlContent.substring(0, 1000)}...`;
       }
       
-      // UDF içeriğini temizle ve düzenle
-      let cleanedContent = textContent
-        .replace(/\0/g, '') // Null karakterleri temizle
-        .replace(/\r\n/g, '\n') // Satır sonlarını normalize et
-        .replace(/\s+/g, ' ') // Fazla boşlukları temizle
-        .trim();
-      
-      // XML içeriği varsa öncelikle onu kullan
-      if (xmlContent.length > 50) {
-        cleanedContent = xmlContent
-          .replace(/<[^>]+>/g, '') // XML taglarını kaldır
-          .replace(/\s+/g, ' ') // Fazla boşlukları temizle
-          .trim();
-      }
-      
-      // Eğer içerik çok kısa ise, binary parsing yap
-      if (cleanedContent.length < 100) {
-        return `UDF Dosyası: ${buffer.byteLength} byte\n\nBu dosya UYAP sistemi tarafından oluşturulmuş bir hukuki belgedir. İçerik binary formatında saklanmıştır.\n\nDosya boyutu: ${(buffer.byteLength / 1024).toFixed(2)} KB\n\nNot: Bu dosya UYAP Doküman Editör ile açılabilir.\n\nİçerik önizlemesi:\n${textContent.substring(0, 500)}...`;
-      }
-      
-      return cleanedContent;
+      return fullText;
     } catch (error) {
       console.error('UDF parsing error:', error);
-      return `UDF Dosyası okuma hatası: ${error}`;
+      return `UDF Dosyası okuma hatası: ${error}\n\nBu dosya UYAP sistemi tarafından oluşturulmuş bir hukuki belgedir.\n\nDosya boyutu: ${(buffer.byteLength / 1024).toFixed(2)} KB`;
     }
+  };
+
+  // Kişisel veri maskeleme fonksiyonu
+  const maskPersonalData = (text: string): string => {
+    // TCKN maskeleme (11 haneli sayı)
+    text = text.replace(/\b\d{11}\b/g, '***');
+    
+    // Telefon numarası maskeleme (10-11 haneli sayı)
+    text = text.replace(/\b\d{10,11}\b/g, '***');
+    
+    // E-posta maskeleme
+    text = text.replace(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g, '***');
+    
+    return text;
   };
 
   // Check for agent parameter in URL

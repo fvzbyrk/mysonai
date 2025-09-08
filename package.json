@@ -66,6 +66,7 @@
     "clsx": "^2.1.1",
     "critters": "^0.0.25",
     "framer-motion": "^12.23.12",
+    "jszip": "^3.10.1",
     "lucide-react": "^0.294.0",
     "next": "^14.2.32",
     "next-themes": "^0.2.1",
