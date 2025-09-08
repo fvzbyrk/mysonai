@@ -6,6 +6,18 @@ export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   const hostname = request.headers.get('host') || '';
 
+  // Skip middleware for API routes, static files, and internal Next.js paths
+  if (
+    pathname.startsWith('/api/') ||
+    pathname.startsWith('/_next/') ||
+    pathname.startsWith('/favicon.ico') ||
+    pathname.startsWith('/robots.txt') ||
+    pathname.startsWith('/sitemap') ||
+    pathname.includes('.')
+  ) {
+    return NextResponse.next();
+  }
+
   // 1. www. redirect (www.mysonai.com -> mysonai.com)
   if (hostname.startsWith('www.')) {
     const newHostname = hostname.replace('www.', '');
@@ -24,15 +36,17 @@ export function middleware(request: NextRequest) {
     locale => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
 
-  // 4. Redirect if there is no valid locale
-  if (!pathnameHasValidLocale) {
+  // 4. Redirect if there is no valid locale (but not for root path)
+  if (!pathnameHasValidLocale && pathname !== '/') {
     return NextResponse.redirect(new URL(`/${defaultLocale}${pathname}`, request.url), { status: 301 });
   }
+
+  return NextResponse.next();
 }
 
 export const config = {
   matcher: [
-    // Skip all internal paths (_next)
-    '/((?!_next|api|favicon.ico).*)',
+    // Match all paths except static files and API routes
+    '/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap|.*\\.).*)',
   ],
 };
