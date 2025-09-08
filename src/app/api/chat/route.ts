@@ -126,7 +126,12 @@ export async function POST(request: NextRequest) {
           const hasFiles = files && files.length > 0;
           const fileInfo = hasFiles ? `\n\n📎 Eklenen dosyaları inceledim:\n${files.map((f: any) => `• ${f.name} (${f.type})`).join('\n')}` : '';
           
-          mockResponse = `Merhaba! Ben ${agent?.name || 'AI Asistan'}, ${agent?.role || 'Yardımcı'}. ${lastMessage.content} konusunda size yardımcı olabilirim.${fileInfo}\n\nBu demo modunda çalışıyoruz, gerçek AI yanıtları için OpenAI API key'i gerekli.`;
+          // Tacettin için özel insancıl response
+          if (selectedAgent === 'tacettin') {
+            mockResponse = `Merhaba! Ben Tacettin, 30 yıllık tecrübeli avukatınız. ${lastMessage.content} konusunda size yardımcı olabilirim.${fileInfo}\n\nBu konuda elimden gelenin en iyisini yapacağım. Merak etmeyin, birlikte yol alacağız.\n\nBu demo modunda çalışıyoruz, gerçek AI yanıtları için OpenAI API key'i gerekli.`;
+          } else {
+            mockResponse = `Merhaba! Ben ${agent?.name || 'AI Asistan'}, ${agent?.role || 'Yardımcı'}. ${lastMessage.content} konusunda size yardımcı olabilirim.${fileInfo}\n\nBu demo modunda çalışıyoruz, gerçek AI yanıtları için OpenAI API key'i gerekli.`;
+          }
         }
       } else if (selectedAgent) {
         const agent = getAgentById(selectedAgent);
