@@ -29,6 +29,7 @@ export default function DemoPage() {
   const [attachedFiles, setAttachedFiles] = useState<FileAttachment[]>([]);
   const [isDragOver, setIsDragOver] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const agents = getAllAgents();
   const searchParams = useSearchParams();
@@ -42,7 +43,11 @@ export default function DemoPage() {
   }, [searchParams]);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    setTimeout(() => {
+      if (messagesContainerRef.current) {
+        messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+      }
+    }, 50);
   };
 
   useEffect(() => {
@@ -51,9 +56,7 @@ export default function DemoPage() {
 
   useEffect(() => {
     if (isLoading) {
-      setTimeout(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
+      scrollToBottom();
     }
   }, [isLoading]);
 
@@ -74,9 +77,7 @@ export default function DemoPage() {
     setIsLoading(true);
 
     // Scroll to bottom immediately after user message
-    setTimeout(() => {
-      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
+    scrollToBottom();
 
     try {
       const response = await fetch('/api/chat', {
@@ -110,9 +111,7 @@ export default function DemoPage() {
       setMessages(prev => [...prev, assistantMessage]);
       
       // Scroll to bottom after assistant response
-      setTimeout(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
+      scrollToBottom();
     } catch (error) {
       // console.error('Chat error:', error)
       const errorMessage: Message = {
@@ -124,9 +123,7 @@ export default function DemoPage() {
       setMessages(prev => [...prev, errorMessage]);
       
       // Scroll to bottom after error message
-      setTimeout(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
+      scrollToBottom();
     } finally {
       setIsLoading(false);
     }
@@ -153,6 +150,10 @@ export default function DemoPage() {
         timestamp: new Date(),
       };
       setMessages([welcomeMessage]);
+      // Scroll to show welcome message
+      setTimeout(() => {
+        scrollToBottom();
+      }, 100);
     }
   };
 
@@ -258,7 +259,7 @@ export default function DemoPage() {
 
           {/* Chat Interface */}
           {!showAgentSelection && (
-            <div className='h-full w-full flex flex-col'>
+            <div className='h-full w-full flex flex-col min-h-0'>
               {/* Chat Header */}
               <div className='bg-white/10 backdrop-blur-md border-b border-white/20 flex-shrink-0 px-6 py-4'>
                 <div className='flex items-center justify-between'>
@@ -287,7 +288,7 @@ export default function DemoPage() {
               </div>
 
               {/* Messages */}
-              <div className='flex-1 overflow-y-auto px-8 py-6 space-y-4'>
+              <div ref={messagesContainerRef} className='flex-1 overflow-y-auto px-8 py-6 space-y-4 min-h-0'>
                 {messages.map(message => (
                   <div
                     key={message.id}

@@ -1,4 +1,4 @@
-export interface AIAgent {
+export interface AIAgent {lendirmek
   id: string;
   name: string;
   role: string;
