@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Bot, Sparkles, ArrowLeft, Send, Loader2, Paperclip, X } from 'lucide-react';
+import { Bot, Sparkles, ArrowLeft, Send, Loader2, Paperclip, X, Maximize2, Minimize2 } from 'lucide-react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { getAgentById, getAllAgents } from '@/lib/ai-agents';
@@ -28,6 +28,7 @@ export default function DemoPage() {
   const [showAgentSelection, setShowAgentSelection] = useState(true);
   const [attachedFiles, setAttachedFiles] = useState<FileAttachment[]>([]);
   const [isDragOver, setIsDragOver] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -41,6 +42,20 @@ export default function DemoPage() {
       selectAgent(agentParam);
     }
   }, [searchParams]);
+
+  // Handle ESC key for fullscreen exit
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isFullscreen) {
+        setIsFullscreen(false);
+      }
+    };
+
+    if (isFullscreen) {
+      document.addEventListener('keydown', handleKeyPress);
+      return () => document.removeEventListener('keydown', handleKeyPress);
+    }
+  }, [isFullscreen]);
 
   const scrollToBottom = () => {
     setTimeout(() => {
@@ -162,6 +177,11 @@ export default function DemoPage() {
     setSelectedAgent('');
     setShowAgentSelection(true);
     setAttachedFiles([]);
+    setIsFullscreen(false);
+  };
+
+  const toggleFullscreen = () => {
+    setIsFullscreen(!isFullscreen);
   };
 
   const handleFileSelect = (files: FileList | null) => {
@@ -196,33 +216,35 @@ export default function DemoPage() {
   };
 
   return (
-    <div className='h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex flex-col'>
+    <div className={`${isFullscreen ? 'fixed inset-0 z-50' : 'h-screen'} bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex flex-col`}>
       {/* Header */}
-      <div className='bg-white/10 backdrop-blur-md border-b border-white/20 flex-shrink-0'>
-        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3'>
-          <div className='flex items-center justify-between'>
-            <Link
-              href='/'
-              className='flex items-center space-x-2 text-white hover:text-purple-300 transition-colors'
-            >
-              <ArrowLeft className='w-5 h-5' />
-              <span>Ana Sayfa</span>
-            </Link>
+      {!isFullscreen && (
+        <div className='bg-white/10 backdrop-blur-md border-b border-white/20 flex-shrink-0'>
+          <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3'>
+            <div className='flex items-center justify-between'>
+              <Link
+                href='/'
+                className='flex items-center space-x-2 text-white hover:text-purple-300 transition-colors'
+              >
+                <ArrowLeft className='w-5 h-5' />
+                <span>Ana Sayfa</span>
+              </Link>
 
-            <div className='flex items-center space-x-3'>
-              <div className='w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center'>
-                <Bot className='w-4 h-4 text-white' />
+              <div className='flex items-center space-x-3'>
+                <div className='w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center'>
+                  <Bot className='w-4 h-4 text-white' />
+                </div>
+                <span className='text-white font-semibold'>MySonAI Demo</span>
               </div>
-              <span className='text-white font-semibold'>MySonAI Demo</span>
-            </div>
 
-            <div className='flex items-center space-x-2'>
-              <div className='w-3 h-3 bg-green-500 rounded-full animate-pulse'></div>
-              <span className='text-white text-sm'>Canlı</span>
+              <div className='flex items-center space-x-2'>
+                <div className='w-3 h-3 bg-green-500 rounded-full animate-pulse'></div>
+                <span className='text-white text-sm'>Canlı</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* Main Content */}
       <div className='flex-1 overflow-hidden'>
@@ -278,12 +300,21 @@ export default function DemoPage() {
                       </>
                     )}
                   </div>
-                  <button
-                    onClick={resetChat}
-                    className='text-gray-300 hover:text-white transition-colors text-sm'
-                  >
-                    Yeni Sohbet
-                  </button>
+                  <div className='flex items-center space-x-3'>
+                    <button
+                      onClick={toggleFullscreen}
+                      className='text-gray-300 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/10'
+                      title={isFullscreen ? 'Küçült' : 'Tam Ekran'}
+                    >
+                      {isFullscreen ? <Minimize2 className='w-4 h-4' /> : <Maximize2 className='w-4 h-4' />}
+                    </button>
+                    <button
+                      onClick={resetChat}
+                      className='text-gray-300 hover:text-white transition-colors text-sm'
+                    >
+                      Yeni Sohbet
+                    </button>
+                  </div>
                 </div>
               </div>
 
