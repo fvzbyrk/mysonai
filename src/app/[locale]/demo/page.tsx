@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Bot, Sparkles, ArrowLeft, Send, Loader2 } from 'lucide-react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { getAgentById, getAllAgents } from '@/lib/ai-agents';
 
 interface Message {
@@ -21,6 +22,15 @@ export default function DemoPage() {
   const [showAgentSelection, setShowAgentSelection] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const agents = getAllAgents();
+  const searchParams = useSearchParams();
+
+  // Check for agent parameter in URL
+  useEffect(() => {
+    const agentParam = searchParams.get('agent');
+    if (agentParam && getAgentById(agentParam)) {
+      selectAgent(agentParam);
+    }
+  }, [searchParams]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -161,7 +171,7 @@ export default function DemoPage() {
               </p>
 
               <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4'>
-                {agents.slice(0, 5).map(agent => (
+                {agents.map(agent => (
                   <button
                     key={agent.id}
                     onClick={() => selectAgent(agent.id)}

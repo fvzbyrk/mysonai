@@ -11,7 +11,7 @@ const openai = new OpenAI({
 // Usage checking function
 async function checkUsageLimits(userId: string | null) {
   if (!userId) {
-    return { canProceed: false, reason: 'User not authenticated' };
+    return { canProceed: true }; // Allow demo mode without user
   }
 
   const supabase = createServerSupabaseClient();
@@ -24,6 +24,10 @@ async function checkUsageLimits(userId: string | null) {
       .single();
 
     if (error || !user) {
+      // If Supabase is not configured, allow demo mode
+      if (process.env.NEXT_PUBLIC_SUPABASE_URL?.includes('placeholder')) {
+        return { canProceed: true };
+      }
       return { canProceed: false, reason: 'User not found' };
     }
 
