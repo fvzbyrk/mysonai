@@ -123,19 +123,21 @@ export async function POST(request: NextRequest) {
 
     const { messages, userId, selectedAgent, productRequest } = await request.json();
 
-    // Usage check
-    const usageCheck = await checkUsageLimits(userId);
-    if (!usageCheck.canProceed) {
-      return NextResponse.json(
-        {
-          error: usageCheck.reason,
-          limitType: usageCheck.limitType,
-          current: usageCheck.current,
-          limit: usageCheck.limit,
-          upgradeRequired: true,
-        },
-        { status: 429 }
-      );
+    // Skip usage check for demo (no userId provided)
+    if (userId) {
+      const usageCheck = await checkUsageLimits(userId);
+      if (!usageCheck.canProceed) {
+        return NextResponse.json(
+          {
+            error: usageCheck.reason,
+            limitType: usageCheck.limitType,
+            current: usageCheck.current,
+            limit: usageCheck.limit,
+            upgradeRequired: true,
+          },
+          { status: 429 }
+        );
+      }
     }
 
     let systemPrompt = '';
@@ -221,8 +223,10 @@ Her zaman Türkçe konuş ve kullanıcı dostu ol.`;
       });
     }
 
-    // Update usage
-    await updateUsage(userId, openaiResponse.usage?.total_tokens || 0);
+    // Update usage (only if userId provided)
+    if (userId) {
+      await updateUsage(userId, openaiResponse.usage?.total_tokens || 0);
+    }
 
     return NextResponse.json({
       message: responseMessage,
@@ -230,8 +234,11 @@ Her zaman Türkçe konuş ve kullanıcı dostu ol.`;
       tokensUsed: openaiResponse.usage?.total_tokens || 0,
     });
   } catch (error) {
-    // console.error('Chat API error:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    console.error('Chat API error:', error);
+    return NextResponse.json({ 
+      error: 'Internal server error',
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+    }, { status: 500 });
   }
 }
 
