@@ -20,7 +20,8 @@ CREATE TABLE public.chat_sessions (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   user_id UUID REFERENCES public.users(id) ON DELETE CASCADE,
   title TEXT,
-  is_active BOOLEAN DEFAULT trueeğiti
+  is_active BOOLEAN DEFAULT trueeğiti 
+  p
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
