@@ -330,8 +330,8 @@ export default function DemoPage() {
       // Scroll to bottom after assistant response
       scrollToBottom();
       
-      // Erdem için sesli cevap ver
-      if (selectedAgent === 'erdem' && speechSupported) {
+      // Tüm ajanlar için sesli cevap ver
+      if (speechSupported) {
         setTimeout(() => {
           speakResponse(data.message);
         }, 500);
