@@ -281,7 +281,7 @@ export default function DemoPage() {
 
           {/* Chat Interface */}
           {!showAgentSelection && (
-            <div className='h-full w-full flex flex-col min-h-0'>
+            <div className='h-full w-full flex flex-col'>
               {/* Chat Header */}
               <div className='bg-white/10 backdrop-blur-md border-b border-white/20 flex-shrink-0 px-6 py-4'>
                 <div className='flex items-center justify-between'>
@@ -319,7 +319,7 @@ export default function DemoPage() {
               </div>
 
               {/* Messages */}
-              <div ref={messagesContainerRef} className='flex-1 overflow-y-auto px-8 py-6 space-y-4 min-h-0'>
+              <div ref={messagesContainerRef} className='flex-1 overflow-y-auto px-8 py-6 space-y-4'>
                 {messages.map(message => (
                   <div
                     key={message.id}
@@ -418,7 +418,7 @@ export default function DemoPage() {
 
               {/* Input */}
               <div 
-                className={`bg-white/5 px-8 py-4 border-t border-white/20 flex-shrink-0 ${isDragOver ? 'bg-purple-500/20' : ''}`}
+                className={`bg-white/10 px-8 py-6 border-t border-white/20 flex-shrink-0 ${isDragOver ? 'bg-purple-500/20' : ''}`}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
@@ -438,7 +438,7 @@ export default function DemoPage() {
                       onChange={e => setInputValue(e.target.value)}
                       onKeyPress={handleKeyPress}
                       placeholder={isDragOver ? 'Dosyaları buraya bırakın...' : 'Mesajınızı yazın...'}
-                      className='w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none'
+                      className='w-full bg-white/20 border border-white/30 rounded-lg px-4 py-4 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none text-base'
                       rows={1}
                       disabled={isLoading}
                     />
