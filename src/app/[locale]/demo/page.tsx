@@ -19,7 +19,7 @@ interface FileAttachment {
   file: File;
   id: string;
   content?: string;
-  type: 'text' | 'image' | 'pdf' | 'other';
+  type: 'text' | 'image' | 'pdf' | 'udf' | 'other';
 }
 
 export default function DemoPage() {
@@ -44,7 +44,16 @@ export default function DemoPage() {
       
       reader.onload = (e) => {
         const result = e.target?.result;
-        if (typeof result === 'string') {
+        
+        // UDF dosyaları için özel işlem
+        if (file.name.toLowerCase().endsWith('.udf')) {
+          if (result instanceof ArrayBuffer) {
+            const content = parseUDFContent(result);
+            resolve(content);
+          } else {
+            reject(new Error('UDF file must be read as ArrayBuffer'));
+          }
+        } else if (typeof result === 'string') {
           resolve(result);
         } else {
           reject(new Error('Failed to read file as text'));
@@ -53,7 +62,10 @@ export default function DemoPage() {
       
       reader.onerror = () => reject(new Error('File reading failed'));
       
-      if (file.type.startsWith('text/') || file.type === 'application/json') {
+      if (file.name.toLowerCase().endsWith('.udf')) {
+        // UDF dosyalarını binary olarak oku
+        reader.readAsArrayBuffer(file);
+      } else if (file.type.startsWith('text/') || file.type === 'application/json') {
         reader.readAsText(file);
       } else if (file.type === 'application/pdf') {
         // For PDF files, we'll read as text (basic text extraction)
@@ -65,8 +77,10 @@ export default function DemoPage() {
     });
   };
 
-  const getFileType = (file: File): 'text' | 'image' | 'pdf' | 'other' => {
-    if (file.type.startsWith('text/') || file.type === 'application/json') {
+  const getFileType = (file: File): 'text' | 'image' | 'pdf' | 'udf' | 'other' => {
+    if (file.name.toLowerCase().endsWith('.udf')) {
+      return 'udf';
+    } else if (file.type.startsWith('text/') || file.type === 'application/json') {
       return 'text';
     } else if (file.type.startsWith('image/')) {
       return 'image';
@@ -74,6 +88,46 @@ export default function DemoPage() {
       return 'pdf';
     } else {
       return 'other';
+    }
+  };
+
+  // UDF Parser - UYAP Doküman Formatı
+  const parseUDFContent = (buffer: ArrayBuffer): string => {
+    try {
+      // UDF dosyasını binary olarak oku
+      const uint8Array = new Uint8Array(buffer);
+      
+      // UDF formatında metin arama
+      // UDF genellikle XML benzeri yapıda saklanır
+      let textContent = '';
+      
+      // Binary'den text'e çevirme
+      for (let i = 0; i < uint8Array.length; i++) {
+        const byte = uint8Array[i];
+        // ASCII karakterleri kontrol et
+        if (byte >= 32 && byte <= 126) {
+          textContent += String.fromCharCode(byte);
+        } else if (byte === 10 || byte === 13) {
+          textContent += '\n';
+        }
+      }
+      
+      // UDF içeriğini temizle ve düzenle
+      const cleanedContent = textContent
+        .replace(/\0/g, '') // Null karakterleri temizle
+        .replace(/\r\n/g, '\n') // Satır sonlarını normalize et
+        .replace(/\s+/g, ' ') // Fazla boşlukları temizle
+        .trim();
+      
+      // Eğer içerik çok kısa ise, binary parsing yap
+      if (cleanedContent.length < 100) {
+        return `UDF Dosyası: ${buffer.byteLength} byte\n\nBu dosya UYAP sistemi tarafından oluşturulmuş bir hukuki belgedir. İçerik binary formatında saklanmıştır.\n\nDosya boyutu: ${(buffer.byteLength / 1024).toFixed(2)} KB\n\nNot: Bu dosya UYAP Doküman Editör ile açılabilir.`;
+      }
+      
+      return cleanedContent;
+    } catch (error) {
+      console.error('UDF parsing error:', error);
+      return `UDF Dosyası okuma hatası: ${error}`;
     }
   };
 
@@ -477,7 +531,10 @@ export default function DemoPage() {
                   <div className='flex flex-wrap gap-2'>
                     {attachedFiles.map(file => (
                       <div key={file.id} className='flex items-center space-x-2 bg-white/10 rounded-lg px-3 py-2'>
-                        <span className='text-white text-sm'>📎 {file.file.name}</span>
+                        <span className='text-white text-sm'>
+                          {file.type === 'udf' ? '⚖️' : '📎'} {file.file.name}
+                          {file.type === 'udf' && <span className='ml-2 text-xs text-blue-300'>(UYAP)</span>}
+                        </span>
                         <button
                           onClick={() => removeFile(file.id)}
                           className='text-gray-400 hover:text-white transition-colors'
@@ -533,7 +590,7 @@ export default function DemoPage() {
                   multiple
                   onChange={e => handleFileSelect(e.target.files)}
                   className='hidden'
-                  accept='.pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,.gif'
+                  accept='.pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,.gif,.udf'
                 />
               </div>
             </div>
