@@ -107,7 +107,7 @@ export async function POST(request: NextRequest) {
     // Check if API key is available
     if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === 'dummy-key') {
       // Demo mode - return mock responses with agent recommendations
-      const { messages, selectedAgent } = await request.json();
+      const { messages, selectedAgent, files } = await request.json();
       const lastMessage = messages[messages.length - 1];
       
       let mockResponse = '';
@@ -122,7 +122,11 @@ export async function POST(request: NextRequest) {
           mockResponse = generateAgentRedirectMessage(agent!, recommendation, lastMessage.content);
           recommendedAgent = recommendation.id;
         } else {
-          mockResponse = `Merhaba! Ben ${agent?.name || 'AI Asistan'}, ${agent?.role || 'Yardımcı'}. ${lastMessage.content} konusunda size yardımcı olabilirim. Bu demo modunda çalışıyoruz, gerçek AI yanıtları için OpenAI API key'i gerekli.`;
+          // Check if files are attached
+          const hasFiles = files && files.length > 0;
+          const fileInfo = hasFiles ? `\n\n📎 Eklenen dosyaları inceledim:\n${files.map((f: any) => `• ${f.name} (${f.type})`).join('\n')}` : '';
+          
+          mockResponse = `Merhaba! Ben ${agent?.name || 'AI Asistan'}, ${agent?.role || 'Yardımcı'}. ${lastMessage.content} konusunda size yardımcı olabilirim.${fileInfo}\n\nBu demo modunda çalışıyoruz, gerçek AI yanıtları için OpenAI API key'i gerekli.`;
         }
       } else if (selectedAgent) {
         const agent = getAgentById(selectedAgent);
@@ -139,7 +143,7 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    const { messages, userId, selectedAgent, productRequest } = await request.json();
+    const { messages, userId, selectedAgent, productRequest, files } = await request.json();
 
     // Skip usage check for demo (no userId provided)
     if (userId) {
@@ -235,6 +239,13 @@ Her zaman Türkçe konuş ve kullanıcı dostu ol.`;
           role: msg.role,
           content: msg.content,
         })),
+        // Add file information if available
+        ...(files && files.length > 0 ? [{
+          role: 'user' as const,
+          content: `\n\n📎 Eklenen Dosyalar:\n${files.map((f: any) => 
+            `• ${f.name} (${f.type})\nİçerik: ${f.content}`
+          ).join('\n\n')}`
+        }] : []),
       ],
       max_tokens: 1000,
       temperature: 0.7,

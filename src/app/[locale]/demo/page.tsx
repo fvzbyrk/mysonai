@@ -18,6 +18,8 @@ interface Message {
 interface FileAttachment {
   file: File;
   id: string;
+  content?: string;
+  type: 'text' | 'image' | 'pdf' | 'other';
 }
 
 export default function DemoPage() {
@@ -34,6 +36,46 @@ export default function DemoPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const agents = getAllAgents();
   const searchParams = useSearchParams();
+
+  // File reading utilities
+  const readFileContent = async (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      
+      reader.onload = (e) => {
+        const result = e.target?.result;
+        if (typeof result === 'string') {
+          resolve(result);
+        } else {
+          reject(new Error('Failed to read file as text'));
+        }
+      };
+      
+      reader.onerror = () => reject(new Error('File reading failed'));
+      
+      if (file.type.startsWith('text/') || file.type === 'application/json') {
+        reader.readAsText(file);
+      } else if (file.type === 'application/pdf') {
+        // For PDF files, we'll read as text (basic text extraction)
+        reader.readAsText(file);
+      } else {
+        // For other files, try to read as text
+        reader.readAsText(file);
+      }
+    });
+  };
+
+  const getFileType = (file: File): 'text' | 'image' | 'pdf' | 'other' => {
+    if (file.type.startsWith('text/') || file.type === 'application/json') {
+      return 'text';
+    } else if (file.type.startsWith('image/')) {
+      return 'image';
+    } else if (file.type === 'application/pdf') {
+      return 'pdf';
+    } else {
+      return 'other';
+    }
+  };
 
   // Check for agent parameter in URL
   useEffect(() => {
@@ -78,9 +120,16 @@ export default function DemoPage() {
   const handleSendMessage = async () => {
     if ((!inputValue.trim() && attachedFiles.length === 0) || isLoading) return;
 
+    // Prepare file information for the message
+    const fileInfo = attachedFiles.length > 0 
+      ? `\n\n📎 Eklenen Dosyalar:\n${attachedFiles.map(f => 
+          `• ${f.file.name} (${f.type})\n${f.content ? `İçerik: ${f.content.substring(0, 500)}${f.content.length > 500 ? '...' : ''}` : 'İçerik okunamadı'}`
+        ).join('\n\n')}`
+      : '';
+
     const userMessage: Message = {
       id: Date.now().toString(),
-      content: inputValue || (attachedFiles.length > 0 ? `${attachedFiles.length} dosya gönderildi` : ''),
+      content: inputValue + fileInfo,
       role: 'user',
       timestamp: new Date(),
       files: attachedFiles.map(f => f.file),
@@ -106,6 +155,12 @@ export default function DemoPage() {
             content: msg.content,
           })),
           selectedAgent: selectedAgent || undefined,
+          files: attachedFiles.map(f => ({
+            name: f.file.name,
+            type: f.file.type,
+            size: f.file.size,
+            content: f.content || 'Dosya içeriği okunamadı'
+          }))
         }),
       });
 
@@ -184,13 +239,32 @@ export default function DemoPage() {
     setIsFullscreen(!isFullscreen);
   };
 
-  const handleFileSelect = (files: FileList | null) => {
+  const handleFileSelect = async (files: FileList | null) => {
     if (!files) return;
     
-    const newFiles: FileAttachment[] = Array.from(files).map(file => ({
-      file,
-      id: Date.now().toString() + Math.random().toString(36).substr(2, 9)
-    }));
+    const newFiles: FileAttachment[] = [];
+    
+    for (const file of Array.from(files)) {
+      try {
+        const content = await readFileContent(file);
+        const type = getFileType(file);
+        
+        newFiles.push({
+          file,
+          id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+          content: content.substring(0, 10000), // Limit content to 10KB
+          type
+        });
+      } catch (error) {
+        console.error('Error reading file:', error);
+        // Still add the file even if reading fails
+        newFiles.push({
+          file,
+          id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+          type: getFileType(file)
+        });
+      }
+    }
     
     setAttachedFiles(prev => [...prev, ...newFiles]);
   };
