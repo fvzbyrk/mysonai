@@ -1,4 +1,4 @@
-paexport interface AIAgent {
+pallexport interface AIAgent {
   id: string;
   name: string;
   role: string;
