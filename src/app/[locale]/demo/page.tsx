@@ -73,6 +73,7 @@ export default function DemoPage() {
         reader.readAsText(file);
       } else if (file.type === 'application/pdf') {
         // For PDF files, we'll read as text (basic text extraction)
+        // TODO: Implement PDF.js for better text extraction
         reader.readAsText(file);
       } else {
         // For other files, try to read as text

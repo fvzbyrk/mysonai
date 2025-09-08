@@ -107,7 +107,7 @@ export async function POST(request: NextRequest) {
     // Check if API key is available
     if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === 'dummy-key') {
       // Demo mode - return mock responses with agent recommendations
-      const { messages, selectedAgent, files } = await request.json();
+      const { messages, selectedAgent, files, enableWebSearch } = await request.json();
       const lastMessage = messages[messages.length - 1];
       
       let mockResponse = '';
@@ -148,7 +148,7 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    const { messages, userId, selectedAgent, productRequest, files } = await request.json();
+    const { messages, userId, selectedAgent, productRequest, files, enableWebSearch } = await request.json();
 
     // Skip usage check for demo (no userId provided)
     if (userId) {
