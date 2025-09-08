@@ -97,9 +97,9 @@ export default function DemoPage() {
       // UDF dosyasını binary olarak oku
       const uint8Array = new Uint8Array(buffer);
       
-      // UDF formatında metin arama
-      // UDF genellikle XML benzeri yapıda saklanır
+      // UDF formatında metin arama - XML içeriği için gelişmiş parsing
       let textContent = '';
+      let xmlContent = '';
       
       // Binary'den text'e çevirme
       for (let i = 0; i < uint8Array.length; i++) {
@@ -112,16 +112,30 @@ export default function DemoPage() {
         }
       }
       
+      // XML içeriği arama
+      const xmlMatch = textContent.match(/<[^>]+>.*?<\/[^>]+>/gs);
+      if (xmlMatch) {
+        xmlContent = xmlMatch.join('\n');
+      }
+      
       // UDF içeriğini temizle ve düzenle
-      const cleanedContent = textContent
+      let cleanedContent = textContent
         .replace(/\0/g, '') // Null karakterleri temizle
         .replace(/\r\n/g, '\n') // Satır sonlarını normalize et
         .replace(/\s+/g, ' ') // Fazla boşlukları temizle
         .trim();
       
+      // XML içeriği varsa öncelikle onu kullan
+      if (xmlContent.length > 50) {
+        cleanedContent = xmlContent
+          .replace(/<[^>]+>/g, '') // XML taglarını kaldır
+          .replace(/\s+/g, ' ') // Fazla boşlukları temizle
+          .trim();
+      }
+      
       // Eğer içerik çok kısa ise, binary parsing yap
       if (cleanedContent.length < 100) {
-        return `UDF Dosyası: ${buffer.byteLength} byte\n\nBu dosya UYAP sistemi tarafından oluşturulmuş bir hukuki belgedir. İçerik binary formatında saklanmıştır.\n\nDosya boyutu: ${(buffer.byteLength / 1024).toFixed(2)} KB\n\nNot: Bu dosya UYAP Doküman Editör ile açılabilir.`;
+        return `UDF Dosyası: ${buffer.byteLength} byte\n\nBu dosya UYAP sistemi tarafından oluşturulmuş bir hukuki belgedir. İçerik binary formatında saklanmıştır.\n\nDosya boyutu: ${(buffer.byteLength / 1024).toFixed(2)} KB\n\nNot: Bu dosya UYAP Doküman Editör ile açılabilir.\n\nİçerik önizlemesi:\n${textContent.substring(0, 500)}...`;
       }
       
       return cleanedContent;
