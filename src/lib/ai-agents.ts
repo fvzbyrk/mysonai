@@ -1,4 +1,4 @@
-export interface AIAgent {lendirmekimage.png
+export interface AIAgent {
   id: string;
   name: string;
   role: string;
