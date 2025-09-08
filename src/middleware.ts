@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { locales, defaultLocale } from './lib/i18n';
 
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
@@ -18,7 +17,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // 1. www. redirect (www.mysonai.com -> mysonai.com)
+  // Only handle www redirect for now - disable locale redirects temporarily
   if (hostname.startsWith('www.')) {
     const newHostname = hostname.replace('www.', '');
     return NextResponse.redirect(new URL(`https://${newHostname}${pathname}`, request.url), {
@@ -26,27 +25,14 @@ export function middleware(request: NextRequest) {
     });
   }
 
-  // 2. Root URL redirect (/ -> /tr)
-  if (pathname === '/') {
-    return NextResponse.redirect(new URL(`/${defaultLocale}`, request.url), { status: 301 });
-  }
-
-  // 3. Check if pathname starts with a valid locale
-  const pathnameHasValidLocale = locales.some(
-    locale => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
-  );
-
-  // 4. Redirect if there is no valid locale (but not for root path)
-  if (!pathnameHasValidLocale && pathname !== '/') {
-    return NextResponse.redirect(new URL(`/${defaultLocale}${pathname}`, request.url), { status: 301 });
-  }
-
+  // For now, just pass through all requests to prevent redirect loops
   return NextResponse.next();
 }
 
 export const config = {
   matcher: [
-    // Match all paths except static files and API routes
+    // Only match root and www redirects for now
+    '/',
     '/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap|.*\\.).*)',
   ],
 };
