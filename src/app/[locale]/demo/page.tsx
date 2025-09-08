@@ -225,7 +225,7 @@ export default function DemoPage() {
 
       {/* Main Content */}
       <div className='flex-1 overflow-hidden'>
-        <div className='h-full'>
+        <div className='h-full w-full'>
           {/* Agent Selection */}
           {showAgentSelection && (
             <div className='h-full flex flex-col items-center justify-center px-4'>
@@ -258,7 +258,7 @@ export default function DemoPage() {
 
           {/* Chat Interface */}
           {!showAgentSelection && (
-            <div className='h-full flex flex-col'>
+            <div className='h-full w-full flex flex-col'>
               {/* Chat Header */}
               <div className='bg-white/10 backdrop-blur-md border-b border-white/20 flex-shrink-0 px-6 py-4'>
                 <div className='flex items-center justify-between'>
@@ -287,14 +287,14 @@ export default function DemoPage() {
               </div>
 
               {/* Messages */}
-              <div className='flex-1 overflow-y-auto p-6 space-y-4'>
+              <div className='flex-1 overflow-y-auto px-8 py-6 space-y-4'>
                 {messages.map(message => (
                   <div
                     key={message.id}
                     className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
                   >
                     <div
-                      className={`max-w-xs md:max-w-md lg:max-w-2xl px-4 py-3 rounded-lg ${
+                      className={`max-w-xs md:max-w-lg lg:max-w-4xl xl:max-w-5xl px-4 py-3 rounded-lg ${
                         message.role === 'user'
                           ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
                           : 'bg-white/10 text-white border border-white/20'
@@ -367,7 +367,7 @@ export default function DemoPage() {
 
               {/* Attached Files */}
               {attachedFiles.length > 0 && (
-                <div className='bg-white/5 px-6 py-3 border-t border-white/20 flex-shrink-0'>
+                <div className='bg-white/5 px-8 py-3 border-t border-white/20 flex-shrink-0'>
                   <div className='flex flex-wrap gap-2'>
                     {attachedFiles.map(file => (
                       <div key={file.id} className='flex items-center space-x-2 bg-white/10 rounded-lg px-3 py-2'>
@@ -386,7 +386,7 @@ export default function DemoPage() {
 
               {/* Input */}
               <div 
-                className={`bg-white/5 px-6 py-4 border-t border-white/20 flex-shrink-0 ${isDragOver ? 'bg-purple-500/20' : ''}`}
+                className={`bg-white/5 px-8 py-4 border-t border-white/20 flex-shrink-0 ${isDragOver ? 'bg-purple-500/20' : ''}`}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
