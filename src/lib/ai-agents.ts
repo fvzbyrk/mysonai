@@ -724,7 +724,7 @@ Her zaman Türkçe konuş, finansal analiz yap, maliyet odaklı çözümler üre
     capabilities: ['Finansal Analiz', 'Bütçe Planlama', 'Maliyet Analizi', 'ROI Hesaplama'],
   },
   {
-    id: 'leyla',
+    id: 'tacettin',
     name: 'Tacettin',
     role: 'Hukuki Danışman & Uyum Uzmanı',
     description: 'Sözleşmeler ve uyumluluk uzmanı',
