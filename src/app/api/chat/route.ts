@@ -128,7 +128,7 @@ export async function POST(request: NextRequest) {
           
           // Tacettin için özel insancıl response
           if (selectedAgent === 'tacettin') {
-            mockResponse = `Merhaba! Ben Tacettin, 30 yıllık tecrübeli avukatınız. ${lastMessage.content} konusunda size yardımcı olabilirim.${fileInfo}\n\nBu konuda elimden gelenin en iyisini yapacağım. Merak etmeyin, birlikte yol alacağız.\n\nBu demo modunda çalışıyoruz, gerçek AI yanıtları için OpenAI API key'i gerekli.`;
+            mockResponse = `Merhaba! Ben Tacettin. ${lastMessage.content} konusunda size yardımcı olabilirim.${fileInfo}\n\nBu konuda elimden gelenin en iyisini yapacağım. Merak etmeyin, birlikte yol alacağız.\n\nBu demo modunda çalışıyoruz, gerçek AI yanıtları için OpenAI API key'i gerekli.`;
           } else {
             mockResponse = `Merhaba! Ben ${agent?.name || 'AI Asistan'}, ${agent?.role || 'Yardımcı'}. ${lastMessage.content} konusunda size yardımcı olabilirim.${fileInfo}\n\nBu demo modunda çalışıyoruz, gerçek AI yanıtları için OpenAI API key'i gerekli.`;
           }
