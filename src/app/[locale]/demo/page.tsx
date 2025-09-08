@@ -393,26 +393,26 @@ export default function DemoPage() {
       {/* Header */}
       {!isFullscreen && (
         <div className='bg-white/10 backdrop-blur-md border-b border-white/20 flex-shrink-0'>
-          <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3'>
+          <div className='max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-2 sm:py-3'>
             <div className='flex items-center justify-between'>
               <Link
                 href='/'
-                className='flex items-center space-x-2 text-white hover:text-purple-300 transition-colors'
+                className='flex items-center space-x-1 sm:space-x-2 text-white hover:text-purple-300 transition-colors min-h-[44px]'
               >
-                <ArrowLeft className='w-5 h-5' />
-                <span>Ana Sayfa</span>
+                <ArrowLeft className='w-4 h-4 sm:w-5 sm:h-5' />
+                <span className='text-sm sm:text-base'>Ana Sayfa</span>
               </Link>
 
-              <div className='flex items-center space-x-3'>
-                <div className='w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center'>
-                  <Bot className='w-4 h-4 text-white' />
+              <div className='flex items-center space-x-2 sm:space-x-3'>
+                <div className='w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center'>
+                  <Bot className='w-3 h-3 sm:w-4 sm:h-4 text-white' />
                 </div>
-                <span className='text-white font-semibold'>MySonAI Demo</span>
+                <span className='text-white font-semibold text-sm sm:text-base'>MySonAI Demo</span>
               </div>
 
-              <div className='flex items-center space-x-2'>
-                <div className='w-3 h-3 bg-green-500 rounded-full animate-pulse'></div>
-                <span className='text-white text-sm'>Canlı</span>
+              <div className='flex items-center space-x-1 sm:space-x-2'>
+                <div className='w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full animate-pulse'></div>
+                <span className='text-white text-xs sm:text-sm'>Canlı</span>
               </div>
             </div>
           </div>
@@ -433,18 +433,18 @@ export default function DemoPage() {
                   Hangi AI asistanıyla sohbet etmek istiyorsunuz?
                 </p>
 
-                <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 max-w-6xl'>
+                <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 max-w-6xl'>
                   {agents.map(agent => (
                     <button
                       key={agent.id}
                       onClick={() => selectAgent(agent.id)}
-                      className='bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/20 text-center hover:bg-white/20 transition-all duration-200 group'
+                      className='bg-white/10 backdrop-blur-md rounded-xl p-3 sm:p-4 border border-white/20 text-center hover:bg-white/20 transition-all duration-200 group min-h-[120px] sm:min-h-[140px]'
                     >
-                      <div className='text-3xl mb-2 group-hover:scale-110 transition-transform'>
+                      <div className='text-2xl sm:text-3xl mb-2 group-hover:scale-110 transition-transform'>
                         {agent.icon}
                       </div>
-                      <h3 className='text-white font-semibold text-sm mb-1'>{agent.name}</h3>
-                      <p className='text-purple-300 text-xs'>{agent.role}</p>
+                      <h3 className='text-white font-semibold text-sm sm:text-base mb-1'>{agent.name}</h3>
+                      <p className='text-purple-300 text-xs sm:text-sm'>{agent.role}</p>
                     </button>
                   ))}
                 </div>
@@ -456,34 +456,34 @@ export default function DemoPage() {
           {!showAgentSelection && (
             <div className={`${isFullscreen ? 'h-full w-full' : 'h-full max-w-4xl mx-auto'} flex flex-col`}>
               {/* Chat Header */}
-              <div className='bg-white/10 backdrop-blur-md border-b border-white/20 flex-shrink-0 px-6 py-4'>
+              <div className='bg-white/10 backdrop-blur-md border-b border-white/20 flex-shrink-0 px-3 sm:px-6 py-3 sm:py-4'>
                 <div className='flex items-center justify-between'>
-                  <div className='flex items-center space-x-3'>
+                  <div className='flex items-center space-x-2 sm:space-x-3'>
                     {selectedAgent && (
                       <>
-                        <div className='text-2xl'>{getAgentById(selectedAgent)?.icon}</div>
+                        <div className='text-xl sm:text-2xl'>{getAgentById(selectedAgent)?.icon}</div>
                         <div>
-                          <h3 className='text-white font-semibold'>
+                          <h3 className='text-white font-semibold text-sm sm:text-base'>
                             {getAgentById(selectedAgent)?.name}
                           </h3>
-                          <p className='text-purple-300 text-sm'>
+                          <p className='text-purple-300 text-xs sm:text-sm'>
                             {getAgentById(selectedAgent)?.role}
                           </p>
                         </div>
                       </>
                     )}
                   </div>
-                  <div className='flex items-center space-x-3'>
+                  <div className='flex items-center space-x-2 sm:space-x-3'>
                     <button
                       onClick={toggleFullscreen}
-                      className='text-gray-300 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/10'
+                      className='text-gray-300 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/10 min-h-[44px] min-w-[44px] flex items-center justify-center'
                       title={isFullscreen ? 'Küçült' : 'Tam Ekran'}
                     >
                       {isFullscreen ? <Minimize2 className='w-4 h-4' /> : <Maximize2 className='w-4 h-4' />}
                     </button>
                     <button
                       onClick={resetChat}
-                      className='text-gray-300 hover:text-white transition-colors text-sm'
+                      className='text-gray-300 hover:text-white transition-colors text-xs sm:text-sm px-2 py-1 rounded hover:bg-white/10 min-h-[44px]'
                     >
                       Yeni Sohbet
                     </button>
@@ -492,14 +492,14 @@ export default function DemoPage() {
               </div>
 
               {/* Messages */}
-              <div ref={messagesContainerRef} className={`flex-1 overflow-y-auto px-6 py-4 space-y-4 ${isFullscreen ? '' : 'max-h-96'}`}>
+              <div ref={messagesContainerRef} className={`flex-1 overflow-y-auto px-3 sm:px-6 py-4 space-y-4 ${isFullscreen ? '' : 'max-h-96'}`}>
                 {messages.map(message => (
                   <div
                     key={message.id}
                     className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
                   >
                     <div
-                      className={`max-w-xs md:max-w-md lg:max-w-lg px-4 py-3 rounded-lg ${
+                      className={`max-w-[85%] sm:max-w-xs md:max-w-md lg:max-w-lg px-3 sm:px-4 py-3 rounded-lg ${
                         message.role === 'user'
                           ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
                           : 'bg-white/10 text-white border border-white/20'
@@ -572,17 +572,17 @@ export default function DemoPage() {
 
               {/* Attached Files */}
               {attachedFiles.length > 0 && (
-                <div className='bg-white/5 px-6 py-3 border-t border-white/20 flex-shrink-0'>
+                <div className='bg-white/5 px-3 sm:px-6 py-3 border-t border-white/20 flex-shrink-0'>
                   <div className='flex flex-wrap gap-2'>
                     {attachedFiles.map(file => (
-                      <div key={file.id} className='flex items-center space-x-2 bg-white/10 rounded-lg px-3 py-2'>
-                        <span className='text-white text-sm'>
+                      <div key={file.id} className='flex items-center space-x-2 bg-white/10 rounded-lg px-2 sm:px-3 py-2'>
+                        <span className='text-white text-xs sm:text-sm truncate max-w-[200px] sm:max-w-none'>
                           {file.type === 'udf' ? '⚖️' : '📎'} {file.file.name}
-                          {file.type === 'udf' && <span className='ml-2 text-xs text-blue-300'>(UYAP)</span>}
+                          {file.type === 'udf' && <span className='ml-1 sm:ml-2 text-xs text-blue-300'>(UYAP)</span>}
                         </span>
                         <button
                           onClick={() => removeFile(file.id)}
-                          className='text-gray-400 hover:text-white transition-colors'
+                          className='text-gray-400 hover:text-white transition-colors min-h-[32px] min-w-[32px] flex items-center justify-center'
                         >
                           <X className='w-4 h-4' />
                         </button>
@@ -594,15 +594,15 @@ export default function DemoPage() {
 
               {/* Input */}
               <div 
-                className={`bg-white/10 px-6 py-4 border-t border-white/20 flex-shrink-0 ${isDragOver ? 'bg-purple-500/20' : ''}`}
+                className={`bg-white/10 px-3 sm:px-6 py-3 sm:py-4 border-t border-white/20 flex-shrink-0 ${isDragOver ? 'bg-purple-500/20' : ''}`}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
               >
-                <div className='flex space-x-3'>
+                <div className='flex space-x-2 sm:space-x-3'>
                   <button
                     onClick={() => fileInputRef.current?.click()}
-                    className='text-gray-400 hover:text-white transition-colors p-2'
+                    className='text-gray-400 hover:text-white transition-colors p-2 min-h-[44px] min-w-[44px] flex items-center justify-center'
                     disabled={isLoading}
                   >
                     <Paperclip className='w-5 h-5' />
@@ -614,7 +614,7 @@ export default function DemoPage() {
                       onChange={e => setInputValue(e.target.value)}
                       onKeyPress={handleKeyPress}
                       placeholder={isDragOver ? 'Dosyaları buraya bırakın...' : 'Mesajınızı yazın...'}
-                      className='w-full bg-white/20 border border-white/30 rounded-lg px-4 py-4 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none text-base'
+                      className='w-full bg-white/20 border border-white/30 rounded-lg px-3 sm:px-4 py-3 sm:py-4 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none text-sm sm:text-base min-h-[44px]'
                       rows={1}
                       disabled={isLoading}
                     />
@@ -623,7 +623,7 @@ export default function DemoPage() {
                   <button
                     onClick={handleSendMessage}
                     disabled={(!inputValue.trim() && attachedFiles.length === 0) || isLoading}
-                    className='bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-3 rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed'
+                    className='bg-gradient-to-r from-purple-600 to-pink-600 text-white px-3 sm:px-4 py-3 rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px] min-w-[44px] flex items-center justify-center'
                   >
                     <Send className='w-5 h-5' />
                   </button>
