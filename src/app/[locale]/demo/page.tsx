@@ -5,6 +5,9 @@ import { Bot, Sparkles, ArrowLeft, Send, Loader2, Paperclip, X, Maximize2, Minim
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { getAgentById, getAllAgents } from '@/lib/ai-agents';
+import { findSuitableTeam, getAllTeams, type AgentTeam } from '@/lib/agent-collaboration';
+import { type MultiAgentMode } from '@/lib/advanced-gpt-features';
+import { AdvancedAgentSelector } from '@/components/advanced-agent-selector';
 import JSZip from 'jszip';
 
 // Speech API tipleri
@@ -21,6 +24,7 @@ interface Message {
   content: string;
   role: 'user' | 'assistant';
   agentId?: string;
+  teamId?: string;
   timestamp: Date;
   files?: File[];
 }
@@ -45,10 +49,26 @@ export default function DemoPage() {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [speechSupported, setSpeechSupported] = useState(false);
   const [voiceMode, setVoiceMode] = useState(false); // Sesli sohbet modu
+  const [selectedTeam, setSelectedTeam] = useState<string>(''); // Seçili takım
+  const [showTeamSelection, setShowTeamSelection] = useState(false); // Takım seçimi göster
+  const [suggestedTeam, setSuggestedTeam] = useState<AgentTeam | null>(null); // Önerilen takım
+  const [selectedAgents, setSelectedAgents] = useState<string[]>([]); // Çoklu ajan seçimi
+  const [multiAgentMode, setMultiAgentMode] = useState<MultiAgentMode>('collaborative'); // Çoklu ajan modu
+  const [activeFeatures, setActiveFeatures] = useState<Record<string, boolean>>({
+    functionCalling: true,
+    vision: false,
+    codeInterpreter: false,
+    webSearch: false,
+    fileAnalysis: false,
+    memory: false,
+    streaming: false
+  }); // Aktif özellikler
+  const [showAdvancedSelector, setShowAdvancedSelector] = useState(false); // Gelişmiş seçici göster
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const agents = getAllAgents();
+  const teams = getAllTeams();
   const searchParams = useSearchParams();
 
   // Speech Recognition ve Synthesis için refs
@@ -292,7 +312,26 @@ export default function DemoPage() {
     scrollToBottom();
 
     try {
-      const response = await fetch('/api/chat', {
+      // Önce uygun takım var mı kontrol et
+      const suitableTeam = findSuitableTeam(inputValue);
+      setSuggestedTeam(suitableTeam);
+      
+      // Eğer takım önerisi varsa ve kullanıcı henüz takım seçmediyse
+      if (suitableTeam && !selectedTeam && !selectedAgent) {
+        setShowTeamSelection(true);
+        setIsLoading(false);
+        return;
+      }
+
+      // API endpoint'i belirle
+      let apiEndpoint = '/api/chat';
+      if (selectedTeam) {
+        apiEndpoint = '/api/chat/team';
+      } else if (selectedAgents.length > 1) {
+        apiEndpoint = '/api/chat/advanced';
+      }
+      
+      const response = await fetch(apiEndpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -303,6 +342,17 @@ export default function DemoPage() {
             content: msg.content,
           })),
           selectedAgent: selectedAgent || undefined,
+          selectedAgents: selectedAgents.length > 0 ? selectedAgents : undefined,
+          teamId: selectedTeam || undefined,
+          multiAgentMode: selectedAgents.length > 1 ? multiAgentMode : undefined,
+          userQuery: inputValue,
+          enableFeatures: activeFeatures,
+          gptParams: {
+            model: 'gpt-4',
+            temperature: 0.7,
+            maxTokens: 2000,
+            stream: false
+          },
           files: attachedFiles.map(f => ({
             name: f.file.name,
             type: f.file.type,
@@ -567,6 +617,19 @@ export default function DemoPage() {
                     )}
                   </div>
                   <div className='flex items-center space-x-2'>
+                    {/* Gelişmiş Seçici Toggle */}
+                    <button
+                      onClick={() => setShowAdvancedSelector(!showAdvancedSelector)}
+                      className={`transition-colors text-xs px-2 py-1 rounded min-h-[32px] ${
+                        showAdvancedSelector 
+                          ? 'text-blue-400 bg-blue-500/20 hover:bg-blue-500/30' 
+                          : 'text-gray-400 hover:text-white hover:bg-white/10'
+                      }`}
+                      title={showAdvancedSelector ? 'Gelişmiş Seçici: Açık' : 'Gelişmiş Seçici: Kapalı'}
+                    >
+                      {showAdvancedSelector ? '🚀 Gelişmiş' : '⚙️ Basit'}
+                    </button>
+                    
                     {/* Sesli Sohbet Modu Toggle */}
                     {speechSupported && (
                       <button
@@ -597,6 +660,40 @@ export default function DemoPage() {
                   </div>
                 </div>
               </div>
+
+              {/* Advanced Agent Selector */}
+              {showAdvancedSelector && (
+                <div className='px-3 sm:px-6 py-4 border-b border-white/10'>
+                  <AdvancedAgentSelector
+                    onAgentSelect={(agentId) => {
+                      setSelectedAgent(agentId);
+                      setSelectedTeam('');
+                      setSelectedAgents([]);
+                    }}
+                    onTeamSelect={(teamId) => {
+                      setSelectedTeam(teamId);
+                      setSelectedAgent('');
+                      setSelectedAgents([]);
+                    }}
+                    onMultiAgentSelect={(agentIds, mode) => {
+                      setSelectedAgents(agentIds);
+                      setMultiAgentMode(mode);
+                      setSelectedAgent('');
+                      setSelectedTeam('');
+                    }}
+                    onFeatureToggle={(feature, enabled) => {
+                      setActiveFeatures(prev => ({
+                        ...prev,
+                        [feature]: enabled
+                      }));
+                    }}
+                    selectedAgents={selectedAgents}
+                    selectedTeam={selectedTeam}
+                    selectedMode={multiAgentMode}
+                    activeFeatures={activeFeatures}
+                  />
+                </div>
+              )}
 
               {/* Messages - GPT Style */}
               <div ref={messagesContainerRef} className={`flex-1 overflow-y-auto px-3 sm:px-6 py-4 space-y-6 ${isFullscreen ? '' : 'max-h-96'}`}>
