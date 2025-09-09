@@ -3,6 +3,7 @@ import OpenAI from 'openai';
 import { getAgentById, generateProductResponse, ProductRequest, getAgentRecommendation, generateAgentRedirectMessage } from '@/lib/ai-agents';
 import { createServerSupabaseClient } from '@/lib/supabase-server';
 import { PLANS } from '@/lib/stripe';
+import { masterPromptValidator, promptMonitor } from '@/lib/master-prompt-system';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || 'dummy-key',
@@ -115,6 +116,31 @@ export async function POST(request: NextRequest) {
       
       if (selectedAgent && lastMessage?.content) {
         const agent = getAgentById(selectedAgent);
+        
+        // Master Prompt Validation
+        const validationResult = masterPromptValidator.validatePrompt(
+          selectedAgent, 
+          agent?.systemPrompt || '', 
+          lastMessage.content
+        );
+        
+        // Log prompt usage for monitoring
+        promptMonitor.logPromptUsage(
+          selectedAgent,
+          lastMessage.content,
+          validationResult,
+          'demo_mode_request'
+        );
+        
+        // Check for high-risk violations
+        if (validationResult.riskLevel === 'high') {
+          return NextResponse.json({
+            error: 'Güvenlik ihlali tespit edildi. Lütfen talebinizi yeniden formüle edin.',
+            violations: validationResult.violations,
+            suggestions: validationResult.suggestions
+          }, { status: 400 });
+        }
+        
         const recommendation = getAgentRecommendation(selectedAgent, lastMessage.content);
         
         if (recommendation) {
@@ -220,7 +246,36 @@ Bu talebi karşılamak için ajanlar arası işbirliği yap ve detaylı bir plan
         });
       }
 
-      systemPrompt = agent.systemPrompt;
+      // Master Prompt Validation
+      const validationResult = masterPromptValidator.validatePrompt(
+        selectedAgent, 
+        agent.systemPrompt, 
+        lastMessage?.content || ''
+      );
+      
+      // Log prompt usage for monitoring
+      promptMonitor.logPromptUsage(
+        selectedAgent,
+        lastMessage?.content || '',
+        validationResult,
+        'openai_api_request'
+      );
+      
+      // Check for high-risk violations
+      if (validationResult.riskLevel === 'high') {
+        return NextResponse.json({
+          error: 'Güvenlik ihlali tespit edildi. Lütfen talebinizi yeniden formüle edin.',
+          violations: validationResult.violations,
+          suggestions: validationResult.suggestions
+        }, { status: 400 });
+      }
+
+      // Create secure prompt with master prompt system
+      systemPrompt = masterPromptValidator.createSecurePrompt(
+        selectedAgent,
+        agent.systemPrompt,
+        lastMessage?.content || ''
+      );
     } else {
       // Default system prompt
       systemPrompt = `Sen MySonAI'nın ana koordinatörüsün. Kullanıcılara hangi AI ajanıyla konuşmak istediklerini sor ve uygun ajanı yönlendir.
