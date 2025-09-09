@@ -44,6 +44,7 @@ export default function DemoPage() {
   const [isListening, setIsListening] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [speechSupported, setSpeechSupported] = useState(false);
+  const [voiceMode, setVoiceMode] = useState(false); // Sesli sohbet modu
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -330,8 +331,8 @@ export default function DemoPage() {
       // Scroll to bottom after assistant response
       scrollToBottom();
       
-      // Tüm ajanlar için sesli cevap ver
-      if (speechSupported) {
+      // Sesli cevap sadece sesli sohbet modunda otomatik verilir
+      if (voiceMode && speechSupported) {
         setTimeout(() => {
           speakResponse(data.message);
         }, 500);
@@ -566,6 +567,20 @@ export default function DemoPage() {
                     )}
                   </div>
                   <div className='flex items-center space-x-2'>
+                    {/* Sesli Sohbet Modu Toggle */}
+                    {speechSupported && (
+                      <button
+                        onClick={() => setVoiceMode(!voiceMode)}
+                        className={`transition-colors text-xs px-2 py-1 rounded min-h-[32px] ${
+                          voiceMode 
+                            ? 'text-green-400 bg-green-500/20 hover:bg-green-500/30' 
+                            : 'text-gray-400 hover:text-white hover:bg-white/10'
+                        }`}
+                        title={voiceMode ? 'Sesli Sohbet Modu: Açık' : 'Sesli Sohbet Modu: Kapalı'}
+                      >
+                        {voiceMode ? '🔊 Sesli' : '🔇 Yazılı'}
+                      </button>
+                    )}
                     <button
                       onClick={resetChat}
                       className='text-gray-400 hover:text-white transition-colors text-xs px-2 py-1 rounded hover:bg-white/10 min-h-[32px]'
@@ -731,9 +746,11 @@ export default function DemoPage() {
                       className={`transition-colors p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full hover:bg-white/10 ${
                         isListening 
                           ? 'text-red-400 bg-red-500/20' 
-                          : 'text-gray-400 hover:text-white'
+                          : voiceMode 
+                            ? 'text-green-400 bg-green-500/20 hover:bg-green-500/30' 
+                            : 'text-gray-400 hover:text-white'
                       }`}
-                      title={isListening ? 'Dinlemeyi Durdur' : 'Sesli Mesaj Gönder'}
+                      title={isListening ? 'Dinlemeyi Durdur' : voiceMode ? 'Sesli Sohbet - Mikrofon' : 'Sesli Mesaj Gönder'}
                     >
                       {isListening ? <MicOff className='w-5 h-5' /> : <Mic className='w-5 h-5' />}
                     </button>
@@ -744,7 +761,7 @@ export default function DemoPage() {
                       value={inputValue}
                       onChange={e => setInputValue(e.target.value)}
                       onKeyPress={handleKeyPress}
-                      placeholder={isDragOver ? 'Dosyaları buraya bırakın...' : 'Mesajınızı yazın...'}
+                      placeholder={isDragOver ? 'Dosyaları buraya bırakın...' : voiceMode ? 'Sesli sohbet modu - Mikrofon butonuna basın veya yazın...' : 'Mesajınızı yazın...'}
                       className='w-full bg-white/20 border border-white/30 rounded-2xl px-4 py-3 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none text-base min-h-[44px] max-h-32'
                       rows={1}
                       disabled={isLoading}
