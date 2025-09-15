@@ -8,8 +8,7 @@ import { useAuth } from '@/contexts/auth-context';
 import { Button } from './ui/button';
 import { LanguageSwitcher } from './language-switcher';
 import { usePathname } from 'next/navigation';
-import { Locale, getLocaleFromPathname } from '@/lib/i18n';
-import { t } from '@/lib/translations';
+import { getLocaleFromPathname } from '@/lib/i18n';
 import { FeatureGuard } from './feature-guard';
 
 export function Header() {
@@ -17,16 +16,16 @@ export function Header() {
   const locale = getLocaleFromPathname(pathname) || 'tr';
 
   const navigation = [
-    { name: t(locale as Locale, 'nav.home'), href: `/${locale}`, feature: null },
+    { name: 'Ana Sayfa', href: `/${locale}`, feature: null },
     {
-      name: t(locale as Locale, 'nav.assistants'),
+      name: 'AI Asistanlar',
       href: `/${locale}/assistants`,
       feature: 'assistants',
     },
-    { name: t(locale as Locale, 'nav.blog'), href: `/${locale}/blog`, feature: 'blog' },
-    { name: t(locale as Locale, 'nav.demo'), href: `/${locale}/demo`, feature: 'demo' },
-    { name: t(locale as Locale, 'nav.pricing'), href: `/${locale}/pricing`, feature: 'pricing' },
-    { name: t(locale as Locale, 'nav.contact'), href: `/${locale}/contact`, feature: 'contact' },
+    { name: 'Blog', href: `/${locale}/blog`, feature: 'blog' },
+    { name: 'Demo', href: `/${locale}/demo`, feature: 'demo' },
+    { name: 'Fiyatlandırma', href: `/${locale}/pricing`, feature: 'pricing' },
+    { name: 'İletişim', href: `/${locale}/contact`, feature: 'contact' },
   ];
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -98,16 +97,16 @@ export function Header() {
                 className='flex items-center space-x-2'
               >
                 <LogOut className='h-4 w-4' />
-                <span>{t(locale as Locale, 'nav.signout')}</span>
+                <span>Çıkış Yap</span>
               </Button>
             </div>
           ) : (
             <div className='flex items-center space-x-2'>
               <Button variant='outline' asChild>
-                <Link href={`/${locale}/signin`}>{t(locale as Locale, 'nav.signin')}</Link>
+                <Link href={`/${locale}/signin`}>Giriş Yap</Link>
               </Button>
               <Button asChild>
-                <Link href={`/${locale}/signup`}>{t(locale as Locale, 'nav.signup')}</Link>
+                <Link href={`/${locale}/signup`}>Kayıt Ol</Link>
               </Button>
             </div>
           )}
@@ -175,19 +174,19 @@ export function Header() {
                           className='flex items-center space-x-2'
                         >
                           <LogOut className='h-4 w-4' />
-                          <span>{t(locale as Locale, 'nav.signout')}</span>
+                          <span>Çıkış Yap</span>
                         </Button>
                       </div>
                     ) : (
                       <div className='flex flex-col space-y-2'>
                         <Button variant='outline' asChild>
                           <Link href={`/${locale}/signin`}>
-                            {t(locale as Locale, 'nav.signin')}
+                            Giriş Yap
                           </Link>
                         </Button>
                         <Button asChild>
                           <Link href={`/${locale}/signup`}>
-                            {t(locale as Locale, 'nav.signup')}
+                            Kayıt Ol
                           </Link>
                         </Button>
                       </div>

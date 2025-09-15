@@ -1,7 +1,6 @@
 import { Bot, Sparkles, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { Locale } from '@/lib/i18n';
-import { t } from '@/lib/translations';
 
 export default function HomePage({ params }: { params: { locale: Locale } }) {
   // JSON-LD Schema Markup
@@ -45,7 +44,7 @@ export default function HomePage({ params }: { params: { locale: Locale } }) {
           <div className='text-center'>
             <h1 className='text-5xl md:text-7xl font-bold text-white mb-6'>MySonAI</h1>
             <p className='text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto mb-8'>
-              {t(params.locale, 'hero.subtitle')}
+              Türkçe AI asistanlarınızla gerçek zamanlı olarak sohbet edin. Her biri kendi alanında uzman olan 18 AI asistanı size yardımcı olmaya hazır!
             </p>
             <div className='flex flex-col sm:flex-row gap-4 justify-center'>
               <Link
@@ -53,14 +52,14 @@ export default function HomePage({ params }: { params: { locale: Locale } }) {
                 className='bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-full font-semibold text-lg flex items-center justify-center space-x-2 hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105'
               >
                 <Sparkles className='w-6 h-6' />
-                <span>{t(params.locale, 'hero.demo')}</span>
+                <span>Demo İzle</span>
                 <ArrowRight className='w-5 h-5' />
               </Link>
               <Link
                 href={`/${params.locale}/signup`}
                 className='bg-white/10 backdrop-blur-md text-white px-8 py-4 rounded-full font-semibold text-lg border border-white/20 hover:bg-white/20 transition-all duration-300'
               >
-                {t(params.locale, 'hero.cta')}
+                Hemen Başla
               </Link>
             </div>
 
@@ -114,9 +113,9 @@ export default function HomePage({ params }: { params: { locale: Locale } }) {
                 <span className='text-2xl'>⚡</span>
               </div>
               <h3 className='text-2xl font-bold text-white mb-4'>
-                {t(params.locale, 'features.fast.title')}
+                Hızlı Yanıt
               </h3>
-              <p className='text-gray-300 mb-6'>{t(params.locale, 'features.fast.desc')}</p>
+              <p className='text-gray-300 mb-6'>Anında yanıt alın, bekleme yok</p>
               <div className='text-sm text-green-400 font-semibold'>
                 Pi'den 10x daha hızlı yanıt
               </div>
@@ -127,9 +126,9 @@ export default function HomePage({ params }: { params: { locale: Locale } }) {
                 <span className='text-2xl'>🔒</span>
               </div>
               <h3 className='text-2xl font-bold text-white mb-4'>
-                {t(params.locale, 'features.secure.title')}
+                Güvenli
               </h3>
-              <p className='text-gray-300 mb-6'>{t(params.locale, 'features.secure.desc')}</p>
+              <p className='text-gray-300 mb-6'>Verileriniz en yüksek güvenlik standartlarında korunur</p>
               <div className='text-sm text-blue-400 font-semibold'>
                 Verileriniz asla paylaşılmaz
               </div>
@@ -140,9 +139,9 @@ export default function HomePage({ params }: { params: { locale: Locale } }) {
                 <span className='text-2xl'>💝</span>
               </div>
               <h3 className='text-2xl font-bold text-white mb-4'>
-                {t(params.locale, 'features.empathetic.title')}
+                Empatik
               </h3>
-              <p className='text-gray-300 mb-6'>{t(params.locale, 'features.empathetic.desc')}</p>
+              <p className='text-gray-300 mb-6'>Sizi anlayan ve destekleyen AI yoldaşı</p>
               <div className='text-sm text-purple-400 font-semibold'>Gerçek bir yoldaş gibi</div>
             </div>
           </div>
@@ -154,10 +153,10 @@ export default function HomePage({ params }: { params: { locale: Locale } }) {
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
             <h2 className='text-4xl md:text-5xl font-bold text-white mb-4'>
-              {t(params.locale, 'features.title')}
+              AI Asistanlarınız
             </h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
-              {t(params.locale, 'features.ai.desc')}
+              Her biri kendi alanında uzman olan AI asistanlarımızla tanışın
             </p>
           </div>
 
@@ -189,7 +188,7 @@ export default function HomePage({ params }: { params: { locale: Locale } }) {
               className='inline-flex items-center bg-white/10 backdrop-blur-md text-white px-6 py-3 rounded-full font-semibold border border-white/20 hover:bg-white/20 transition-colors'
             >
               <Bot className='w-5 h-5 mr-2' />
-              {t(params.locale, 'features.viewAll')}
+              Tüm Asistanları Gör
               <ArrowRight className='w-4 h-4 ml-2' />
             </Link>
           </div>
@@ -203,14 +202,14 @@ export default function HomePage({ params }: { params: { locale: Locale } }) {
             <div className='w-24 h-24 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-6'>
               <Bot className='w-12 h-12 text-white' />
             </div>
-            <h3 className='text-2xl font-bold text-white mb-4'>{t(params.locale, 'chat.title')}</h3>
-            <p className='text-gray-300 mb-8'>{t(params.locale, 'chat.desc')}</p>
+            <h3 className='text-2xl font-bold text-white mb-4'>AI Asistanlarla Sohbet Edin</h3>
+            <p className='text-gray-300 mb-8'>Fevzi, Elif, Burak, Ayşe ve diğer AI asistanlarımızla gerçek zamanlı olarak sohbet edin. Her biri kendi alanında uzman olan asistanlarınız size yardımcı olmaya hazır!</p>
             <Link
               href={`/${params.locale}/demo`}
               className='inline-flex items-center bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-full font-semibold text-lg'
             >
               <Sparkles className='w-6 h-6 mr-2' />
-              {t(params.locale, 'chat.button')}
+              Demo Başlat
               <ArrowRight className='w-5 h-5 ml-2' />
             </Link>
           </div>
@@ -221,21 +220,21 @@ export default function HomePage({ params }: { params: { locale: Locale } }) {
       <section className='py-20 bg-gradient-to-r from-purple-600/20 to-pink-600/20'>
         <div className='max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8'>
           <h2 className='text-4xl md:text-5xl font-bold text-white mb-6'>
-            {t(params.locale, 'cta.title')}
+            Hemen Başlayın
           </h2>
-          <p className='text-xl text-gray-300 mb-8'>{t(params.locale, 'cta.desc')}</p>
+          <p className='text-xl text-gray-300 mb-8'>AI asistanlarınızla tanışın ve projelerinizi bir üst seviyeye taşıyın</p>
           <div className='flex flex-col sm:flex-row gap-4 justify-center'>
             <Link
               href={`/${params.locale}/signup`}
               className='bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-full font-semibold text-lg'
             >
-              {t(params.locale, 'cta.signup')}
+              Ücretsiz Hesap Oluştur
             </Link>
             <Link
               href={`/${params.locale}/demo`}
               className='bg-white/10 backdrop-blur-md text-white px-8 py-4 rounded-full font-semibold text-lg border border-white/20'
             >
-              {t(params.locale, 'cta.demo')}
+              Demo İncele
             </Link>
           </div>
         </div>
@@ -246,13 +245,13 @@ export default function HomePage({ params }: { params: { locale: Locale } }) {
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center'>
             <h3 className='text-2xl font-bold text-white mb-4'>MySonAI</h3>
-            <p className='text-gray-300 mb-6'>{t(params.locale, 'footer.desc')}</p>
+            <p className='text-gray-300 mb-6'>Türkçe AI asistanlarınızla geleceği şekillendirin</p>
             <div className='flex justify-center space-x-6'>
               <Link
                 href={`/${params.locale}/demo`}
                 className='text-gray-300 hover:text-white transition-colors'
               >
-                {t(params.locale, 'nav.demo')}
+                Demo
               </Link>
               <Link
                 href={`/${params.locale}/pricing`}
@@ -274,7 +273,7 @@ export default function HomePage({ params }: { params: { locale: Locale } }) {
               </Link>
             </div>
             <div className='mt-8 pt-8 border-t border-gray-700'>
-              <p className='text-gray-400 text-sm'>{t(params.locale, 'footer.copyright')}</p>
+              <p className='text-gray-400 text-sm'>© 2024 MySonAI. Tüm hakları saklıdır.</p>
             </div>
           </div>
         </div>
