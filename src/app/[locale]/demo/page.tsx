@@ -5,7 +5,7 @@ import { Bot, Sparkles, ArrowLeft, Send, Loader2, Paperclip, X, Maximize2, Minim
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { getAgentById, getAllAgents } from '@/lib/ai-agents';
-import { findSuitableTeam, getAllTeams, type AgentTeam } from '@/lib/agent-collaboration';
+import { findSuitableTeam, getAllTeams, getTeamById, type AgentTeam } from '@/lib/agent-collaboration';
 import { type MultiAgentMode } from '@/lib/advanced-gpt-features';
 import { AdvancedAgentSelector } from '@/components/advanced-agent-selector';
 import JSZip from 'jszip';
@@ -809,17 +809,56 @@ export default function DemoPage() {
                       setSelectedAgent(agentId);
                       setSelectedTeam('');
                       setSelectedAgents([]);
+                      setShowAgentSelection(false);
+                      setShowTeamSelection(false);
+                      // Tek ajan seçimi mesajı ekle
+                      const agent = getAgentById(agentId);
+                      if (agent) {
+                        const agentSelectionMessage: Message = {
+                          id: Date.now().toString(),
+                          content: `Merhaba! Ben ${agent.name}, ${agent.role}. Size nasıl yardımcı olabilirim?`,
+                          role: 'assistant',
+                          agentId: agent.id,
+                          timestamp: new Date(),
+                        };
+                        setMessages([agentSelectionMessage]);
+                      }
                     }}
                     onTeamSelect={(teamId) => {
                       setSelectedTeam(teamId);
                       setSelectedAgent('');
                       setSelectedAgents([]);
+                      setShowAgentSelection(false);
+                      setShowTeamSelection(false);
+                      // Takım seçimi mesajı ekle
+                      const team = getTeamById(teamId);
+                      if (team) {
+                        const teamSelectionMessage: Message = {
+                          id: Date.now().toString(),
+                          content: `🚀 **${team.name}** takımı seçildi!\n\nTakım üyelerimiz birlikte size yardımcı olacak. Ne yapmak istiyorsunuz?`,
+                          role: 'assistant',
+                          timestamp: new Date(),
+                        };
+                        setMessages([teamSelectionMessage]);
+                      }
                     }}
                     onMultiAgentSelect={(agentIds, mode) => {
                       setSelectedAgents(agentIds);
                       setMultiAgentMode(mode);
                       setSelectedAgent('');
                       setSelectedTeam('');
+                      setShowAgentSelection(false);
+                      setShowTeamSelection(false);
+                      // Çoklu ajan seçimi mesajı ekle
+                      if (agentIds.length > 0) {
+                        const multiAgentMessage: Message = {
+                          id: Date.now().toString(),
+                          content: `🚀 **${agentIds.length} Ajan** seçildi! (${mode === 'collaborative' ? 'İşbirliği' : mode === 'race' ? 'Yarış' : mode === 'consensus' ? 'Fikir Birliği' : mode === 'debate' ? 'Tartışma' : mode === 'sequential' ? 'Sıralı' : 'Paralel'} modu)\n\nSeçilen ajanlar: ${agentIds.map(id => getAgentById(id)?.name).join(', ')}\n\nNe yapmak istiyorsunuz?`,
+                          role: 'assistant',
+                          timestamp: new Date(),
+                        };
+                        setMessages([multiAgentMessage]);
+                      }
                     }}
                     onFeatureToggle={(feature, enabled) => {
                       setActiveFeatures(prev => ({
