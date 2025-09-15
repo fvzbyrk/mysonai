@@ -1194,7 +1194,7 @@ export function getAgentRecommendation(currentAgentId: string, userQuery: string
   const currentAgent = getAgentById(currentAgentId);
   if (!currentAgent) return null;
 
-        // Tacettin için özel kural: Hukuki belgeler için yönlendirme yapma
+        // Tacettin için özel kural: Hukuki konularda yönlendirme yapma
         if (currentAgentId === 'tacettin') {
           const query = userQuery.toLowerCase();
           const hasLegalKeywords = query.includes('dava') || query.includes('dilekçe') || 
@@ -1204,10 +1204,24 @@ export function getAgentRecommendation(currentAgentId: string, userQuery: string
                                   query.includes('avukat') || query.includes('yasal') ||
                                   query.includes('normlar') || query.includes('hiyerarşi') ||
                                   query.includes('anayasa') || query.includes('kanun') ||
-                                  query.includes('mevzuat') || query.includes('hukuki');
+                                  query.includes('mevzuat') || query.includes('hukuki') ||
+                                  query.includes('sözleşme') || query.includes('kvkk') ||
+                                  query.includes('ticaret hukuku') || query.includes('hukuki danışmanlık');
           
           if (hasLegalKeywords) {
-            return null; // Yönlendirme yapma
+            return null; // Yönlendirme yapma - kendi uzmanlık alanında
+          }
+        }
+
+        // Diğer ajanlar için de kendi uzmanlık alanlarında yönlendirme yapmama kuralı
+        if (currentAgent) {
+          const query = userQuery.toLowerCase();
+          const isInExpertise = currentAgent.expertise.some(expertise => 
+            query.includes(expertise.toLowerCase())
+          );
+          
+          if (isInExpertise) {
+            return null; // Kendi uzmanlık alanında yönlendirme yapma
           }
         }
 
@@ -1346,14 +1360,12 @@ export function getAgentRecommendation(currentAgentId: string, userQuery: string
 }
 
 export function generateAgentRedirectMessage(currentAgent: AIAgent, recommendedAgent: AIAgent, userQuery: string): string {
-  return `Bu konuda size daha iyi yardımcı olabilecek uzmanımız **${recommendedAgent.name}** (${recommendedAgent.role}). 
+  return `Bu konuda size yardımcı olmaya çalışayım. Eğer daha spesifik bir uzmanlık alanına ihtiyacınız olursa, **${recommendedAgent.name}** (${recommendedAgent.role}) bu konuda daha detaylı bilgi verebilir.
 
-${recommendedAgent.name} bu alanda uzman ve size daha detaylı bilgi verebilir. 
-
-**${recommendedAgent.name} ile sohbet etmek için:**
+**İsteğe bağlı olarak ${recommendedAgent.name} ile de konuşabilirsiniz:**
 🔗 [${recommendedAgent.name} ile sohbet et](/${currentAgent.id === 'tr' ? 'tr' : 'en'}/demo?agent=${recommendedAgent.id})
 
-${recommendedAgent.name} size bu konuda profesyonel destek sağlayacaktır.`;
+Ama önce size elimden geldiğince yardımcı olmaya çalışayım. Ne yapmak istiyorsunuz?`;
 }
 
 export function getAgentContactInfo(agentId: string): { email: string; phone: string; linkedin?: string } {

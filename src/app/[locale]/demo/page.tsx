@@ -318,6 +318,17 @@ export default function DemoPage() {
       
       // Eğer takım önerisi varsa ve kullanıcı henüz takım seçmediyse
       if (suitableTeam && !selectedTeam && !selectedAgent) {
+        // Takım önerisi göster ama kullanıcıyı zorlamadan
+        const teamSuggestionMessage: Message = {
+          id: Date.now().toString(),
+          content: `💡 **Ajan İşbirliği Önerisi**\n\n"${inputValue}" konusunda **${suitableTeam.name}** takımımız size daha kapsamlı yardım sağlayabilir.\n\n**Takım Üyeleri:**\n${suitableTeam.agents.map(agentId => {
+            const agent = getAgentById(agentId);
+            return `• ${agent?.icon} ${agent?.name} (${agent?.role})`;
+          }).join('\n')}\n\n**İşbirliği Tipi:** ${suitableTeam.collaborationType === 'integrated' ? 'Entegre' : suitableTeam.collaborationType === 'sequential' ? 'Sıralı' : suitableTeam.collaborationType === 'parallel' ? 'Paralel' : 'Danışmanlık'}\n\n**Seçenekleriniz:**\n1. 🚀 Takım ile devam et (önerilen)\n2. 👤 Tek ajan ile devam et\n3. 🔄 Farklı takım seç`,
+          role: 'assistant',
+          timestamp: new Date(),
+        };
+        setMessages(prev => [...prev, teamSuggestionMessage]);
         setShowTeamSelection(true);
         setIsLoading(false);
         return;
@@ -435,7 +446,9 @@ export default function DemoPage() {
   const resetChat = () => {
     setMessages([]);
     setSelectedAgent('');
+    setSelectedTeam('');
     setShowAgentSelection(true);
+    setShowTeamSelection(false);
     setAttachedFiles([]);
     setIsFullscreen(false);
   };
@@ -598,14 +611,141 @@ export default function DemoPage() {
             </div>
           )}
 
+          {/* Team Selection */}
+          {showTeamSelection && suggestedTeam && (
+            <div className='h-full flex flex-col px-4 py-8 overflow-y-auto'>
+              <div className='text-center mb-8'>
+                <h1 className='text-3xl md:text-4xl font-bold text-white mb-4'>
+                  Ajan İşbirliği Önerisi
+                </h1>
+                <p className='text-lg text-gray-300 mb-8'>
+                  Bu konu için en uygun takımımızı öneriyoruz
+                </p>
+              </div>
+
+              <div className='max-w-4xl mx-auto'>
+                {/* Suggested Team Card */}
+                <div className='bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 mb-8'>
+                  <div className='text-center mb-6'>
+                    <div className='text-4xl mb-4'>{suggestedTeam.icon}</div>
+                    <h2 className='text-2xl font-bold text-white mb-2'>{suggestedTeam.name}</h2>
+                    <p className='text-gray-300 mb-4'>{suggestedTeam.description}</p>
+                    <div className='inline-block bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full text-sm'>
+                      {suggestedTeam.collaborationType === 'integrated' ? 'Entegre İşbirliği' : 
+                       suggestedTeam.collaborationType === 'sequential' ? 'Sıralı İşbirliği' : 
+                       suggestedTeam.collaborationType === 'parallel' ? 'Paralel İşbirliği' : 'Danışmanlık İşbirliği'}
+                    </div>
+                  </div>
+
+                  {/* Team Members */}
+                  <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mb-6'>
+                    {suggestedTeam.agents.map(agentId => {
+                      const agent = getAgentById(agentId);
+                      if (!agent) return null;
+                      return (
+                        <div key={agentId} className='bg-white/5 rounded-xl p-4 border border-white/10'>
+                          <div className='flex items-center space-x-3'>
+                            <div className='text-2xl'>{agent.icon}</div>
+                            <div>
+                              <h3 className='text-white font-semibold'>{agent.name}</h3>
+                              <p className='text-gray-300 text-sm'>{agent.role}</p>
+                              <p className='text-gray-400 text-xs mt-1'>{agent.expertise.join(', ')}</p>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className='flex flex-col sm:flex-row gap-4 justify-center'>
+                    <button
+                      onClick={() => {
+                        setSelectedTeam(suggestedTeam.id);
+                        setShowTeamSelection(false);
+                        setShowAgentSelection(false);
+                        // Takım seçimi mesajı ekle
+                        const teamSelectionMessage: Message = {
+                          id: Date.now().toString(),
+                          content: `🚀 **${suggestedTeam.name}** takımı seçildi!\n\nTakım üyelerimiz birlikte size yardımcı olacak. Ne yapmak istiyorsunuz?`,
+                          role: 'assistant',
+                          timestamp: new Date(),
+                        };
+                        setMessages(prev => [...prev, teamSelectionMessage]);
+                      }}
+                      className='bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-3 rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all duration-200 font-semibold'
+                    >
+                      🚀 Bu Takım ile Devam Et
+                    </button>
+                    
+                    <button
+                      onClick={() => {
+                        setShowTeamSelection(false);
+                        setShowAgentSelection(true);
+                      }}
+                      className='bg-white/10 text-white px-8 py-3 rounded-xl hover:bg-white/20 transition-all duration-200 font-semibold border border-white/20'
+                    >
+                      👤 Tek Ajan Seç
+                    </button>
+                  </div>
+                </div>
+
+                {/* Other Teams */}
+                <div className='text-center'>
+                  <h3 className='text-white font-semibold mb-4'>Diğer Takımlar</h3>
+                  <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
+                    {teams.filter(team => team.id !== suggestedTeam.id).map(team => (
+                      <button
+                        key={team.id}
+                        onClick={() => {
+                          setSelectedTeam(team.id);
+                          setShowTeamSelection(false);
+                          setShowAgentSelection(false);
+                          // Takım seçimi mesajı ekle
+                          const teamSelectionMessage: Message = {
+                            id: Date.now().toString(),
+                            content: `🚀 **${team.name}** takımı seçildi!\n\nTakım üyelerimiz birlikte size yardımcı olacak. Ne yapmak istiyorsunuz?`,
+                            role: 'assistant',
+                            timestamp: new Date(),
+                          };
+                          setMessages(prev => [...prev, teamSelectionMessage]);
+                        }}
+                        className='bg-white/5 backdrop-blur-md rounded-xl p-4 border border-white/20 text-center hover:bg-white/10 transition-all duration-200 group'
+                      >
+                        <div className='text-2xl mb-2 group-hover:scale-110 transition-transform'>{team.icon}</div>
+                        <h4 className='text-white font-semibold text-sm mb-1'>{team.name}</h4>
+                        <p className='text-gray-300 text-xs'>{team.description}</p>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Chat Interface */}
-          {!showAgentSelection && (
+          {!showAgentSelection && !showTeamSelection && (
             <div className={`${isFullscreen ? 'h-full w-full' : 'h-full max-w-4xl mx-auto'} flex flex-col`}>
               {/* Chat Header - Minimal GPT Style */}
               <div className='bg-white/5 backdrop-blur-md border-b border-white/10 flex-shrink-0 px-3 sm:px-6 py-2 sm:py-3'>
                 <div className='flex items-center justify-between'>
                   <div className='flex items-center space-x-2 sm:space-x-3'>
-                    {selectedAgent && (
+                    {selectedTeam && (
+                      <>
+                        <div className='text-lg sm:text-xl'>{getTeamById(selectedTeam)?.icon}</div>
+                        <div>
+                          <h3 className='text-white font-medium text-sm sm:text-base'>
+                            {getTeamById(selectedTeam)?.name}
+                          </h3>
+                          <p className='text-gray-300 text-xs'>
+                            {getTeamById(selectedTeam)?.collaborationType === 'integrated' ? 'Entegre İşbirliği' : 
+                             getTeamById(selectedTeam)?.collaborationType === 'sequential' ? 'Sıralı İşbirliği' : 
+                             getTeamById(selectedTeam)?.collaborationType === 'parallel' ? 'Paralel İşbirliği' : 'Danışmanlık İşbirliği'}
+                          </p>
+                        </div>
+                      </>
+                    )}
+                    {selectedAgent && !selectedTeam && (
                       <>
                         <div className='text-lg sm:text-xl'>{getAgentById(selectedAgent)?.icon}</div>
                         <div>

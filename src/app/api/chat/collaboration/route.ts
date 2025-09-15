@@ -1,63 +1,73 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getTeamById, getTeamAgents } from '@/lib/agent-collaboration';
+import { findSuitableTeam, getTeamAgents, getTeamById } from '@/lib/agent-collaboration';
 import { getAgentById } from '@/lib/ai-agents';
 
 export async function POST(request: NextRequest) {
   try {
-    const { messages, teamId, userQuery } = await request.json();
+    const { userQuery, currentAgentId, collaborationType } = await request.json();
 
-    if (!teamId) {
-      return NextResponse.json({ error: 'Takım ID gerekli' }, { status: 400 });
+    if (!userQuery) {
+      return NextResponse.json({ error: 'Kullanıcı sorgusu gerekli' }, { status: 400 });
     }
 
-    const team = getTeamById(teamId);
-    if (!team) {
-      return NextResponse.json({ error: 'Takım bulunamadı' }, { status: 404 });
+    // Uygun takımı bul
+    const suitableTeam = findSuitableTeam(userQuery);
+    
+    if (!suitableTeam) {
+      return NextResponse.json({ 
+        error: 'Bu sorgu için uygun ajan takımı bulunamadı',
+        suggestion: 'Tek ajan ile devam edebilirsiniz'
+      }, { status: 404 });
     }
 
-    const teamAgents = getTeamAgents(teamId);
+    // Takım üyelerini getir
+    const teamAgents = getTeamAgents(suitableTeam.id);
+    
     if (teamAgents.length === 0) {
-      return NextResponse.json({ error: 'Takım üyeleri bulunamadı' }, { status: 404 });
+      return NextResponse.json({ 
+        error: 'Takım üyeleri bulunamadı' 
+      }, { status: 404 });
     }
 
     // İşbirliği tipine göre yanıt oluştur
-    let response = '';
+    let collaborationResponse = '';
     let agentResponses: Array<{ agentId: string; name: string; response: string }> = [];
 
-    switch (team.collaborationType) {
+    switch (suitableTeam.collaborationType) {
       case 'sequential':
-        response = await handleSequentialCollaboration(teamAgents, userQuery);
+        collaborationResponse = await handleSequentialCollaboration(teamAgents, userQuery);
         break;
       case 'parallel':
-        response = await handleParallelCollaboration(teamAgents, userQuery);
+        collaborationResponse = await handleParallelCollaboration(teamAgents, userQuery);
         break;
       case 'consultative':
-        response = await handleConsultativeCollaboration(teamAgents, userQuery);
+        collaborationResponse = await handleConsultativeCollaboration(teamAgents, userQuery);
         break;
       case 'integrated':
-        response = await handleIntegratedCollaboration(teamAgents, userQuery);
+        collaborationResponse = await handleIntegratedCollaboration(teamAgents, userQuery);
         break;
       default:
-        response = await handleIntegratedCollaboration(teamAgents, userQuery);
+        collaborationResponse = await handleIntegratedCollaboration(teamAgents, userQuery);
     }
 
     return NextResponse.json({
-      message: response,
-      team: team,
+      success: true,
+      team: suitableTeam,
+      collaborationType: suitableTeam.collaborationType,
+      response: collaborationResponse,
       agents: teamAgents.map(agent => ({
         id: agent.id,
         name: agent.name,
         role: agent.role,
         icon: agent.icon
       })),
-      agentResponses,
-      tokensUsed: 0,
+      agentResponses
     });
 
   } catch (error) {
-    console.error('Team collaboration API error:', error);
+    console.error('Collaboration API error:', error);
     return NextResponse.json({ 
-      error: 'Takım işbirliği sırasında hata oluştu' 
+      error: 'Ajan işbirliği sırasında hata oluştu' 
     }, { status: 500 });
   }
 }
