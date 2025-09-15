@@ -1,318 +1,175 @@
-'use client';
+import { createServerSupabaseClient } from '@/lib/supabase-server';
+import { redirect } from 'next/navigation';
 
-import { useAuth } from '@/contexts/auth-context';
-import { useUsage } from '@/hooks/useUsage';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { UsageLimits } from '@/components/usage-limits';
-import { AuthGuard } from '@/components/auth-guard';
-import { Bot, User, Crown, Settings, LogOut, CreditCard, Zap, Star } from 'lucide-react';
-import Link from 'next/link';
-import { useState, useEffect } from 'react';
-import { getStripe } from '@/lib/stripe';
-
-function DashboardContent() {
-  const { user, signOut } = useAuth();
-  const { usage, isGuest } = useUsage();
-  const [subscription, setSubscription] = useState<any>(null);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (user) {
-      fetchSubscription();
-    }
-  }, [user]);
-
-  const fetchSubscription = async () => {
-    try {
-      const response = await fetch(`/api/subscription?userId=${user?.id}`);
-      const data = await response.json();
-      setSubscription(data.subscription);
-    } catch (error) {
-      console.error('Error fetching subscription:', error);
-    }
-  };
-
-  const handleUpgrade = async (plan: string) => {
-    if (!user) return;
-
-    setLoading(true);
-    try {
-      const response = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          plan: plan,
-          userId: user.id,
-        }),
-      });
-
-      const { sessionId } = await response.json();
-
-      if (sessionId) {
-        const stripe = await getStripe();
-        await stripe?.redirectToCheckout({ sessionId });
-      }
-    } catch (error) {
-      console.error('Error creating checkout session:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleCancelSubscription = async () => {
-    if (!user) return;
-
-    setLoading(true);
-    try {
-      const response = await fetch('/api/subscription', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          action: 'cancel',
-          userId: user.id,
-        }),
-      });
-
-      if (response.ok) {
-        await fetchSubscription();
-      }
-    } catch (error) {
-      console.error('Error canceling subscription:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+export default async function DashboardPage({
+  params,
+}: {
+  params: { locale: string };
+}) {
+  const supabase = createServerSupabaseClient();
+  
+  // Kullanıcı oturumunu kontrol et
+  const { data: { user }, error } = await supabase.auth.getUser();
+  
+  if (error || !user) {
+    redirect(`/${params.locale}/signin`);
+  }
 
   return (
-    <div className='min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900'>
-      {/* Header */}
-      <header className='bg-black/20 backdrop-blur-md border-b border-white/10'>
-        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4'>
-          <div className='flex items-center justify-between'>
-            <div className='flex items-center space-x-4'>
-              <div className='w-10 h-10 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center'>
-                <Bot className='w-6 h-6 text-white' />
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50">
+      <div className="container mx-auto px-4 py-8">
+        {/* Header */}
+        <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">
+                Hoş Geldiniz, {user.email}!
+              </h1>
+              <p className="text-gray-600 mt-2">
+                MySonAI Dashboard'ınıza hoş geldiniz
+              </p>
+            </div>
+            <div className="flex items-center space-x-4">
+              <div className="text-right">
+                <p className="text-sm text-gray-500">Kullanıcı ID</p>
+                <p className="text-sm font-mono text-gray-700">
+                  {user.id.slice(0, 8)}...
+                </p>
+              </div>
+              <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center">
+                <span className="text-white font-bold text-lg">
+                  {user.email?.charAt(0).toUpperCase()}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="bg-white rounded-lg shadow-lg p-6">
+            <div className="flex items-center">
+              <div className="p-3 bg-blue-100 rounded-lg">
+                <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+              </div>
+              <div className="ml-4">
+                <p className="text-sm font-medium text-gray-600">Toplam Sohbet</p>
+                <p className="text-2xl font-bold text-gray-900">0</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg shadow-lg p-6">
+            <div className="flex items-center">
+              <div className="p-3 bg-green-100 rounded-lg">
+                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div className="ml-4">
+                <p className="text-sm font-medium text-gray-600">Başarılı İşlem</p>
+                <p className="text-2xl font-bold text-gray-900">0</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg shadow-lg p-6">
+            <div className="flex items-center">
+              <div className="p-3 bg-purple-100 rounded-lg">
+                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+              <div className="ml-4">
+                <p className="text-sm font-medium text-gray-600">Kullanılan Token</p>
+                <p className="text-2xl font-bold text-gray-900">0</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Quick Actions */}
+        <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
+          <h2 className="text-xl font-bold text-gray-900 mb-4">Hızlı İşlemler</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <a
+              href={`/${params.locale}/demo`}
+              className="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              <div className="p-2 bg-blue-100 rounded-lg mr-3">
+                <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
               </div>
               <div>
-                <h1 className='text-xl font-bold text-white'>MySonAI Dashboard</h1>
-                <p className='text-sm text-gray-300'>Hoş geldiniz, {user.name || user.email}</p>
+                <p className="font-medium text-gray-900">Demo Sohbet</p>
+                <p className="text-sm text-gray-600">AI asistanlarla sohbet et</p>
               </div>
-            </div>
-            <div className='flex items-center space-x-4'>
-              <Button variant='outline' size='sm' className='border-white/20 text-white'>
-                <Settings className='w-4 h-4 mr-2' />
-                Ayarlar
-              </Button>
-              <Button
-                variant='outline'
-                size='sm'
-                className='border-white/20 text-white'
-                onClick={signOut}
-              >
-                <LogOut className='w-4 h-4 mr-2' />
-                Çıkış
-              </Button>
-            </div>
+            </a>
+
+            <a
+              href={`/${params.locale}/assistants`}
+              className="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              <div className="p-2 bg-green-100 rounded-lg mr-3">
+                <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+              </div>
+              <div>
+                <p className="font-medium text-gray-900">Asistanlar</p>
+                <p className="text-sm text-gray-600">18 uzman AI asistan</p>
+              </div>
+            </a>
+
+            <a
+              href={`/${params.locale}/pricing`}
+              className="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              <div className="p-2 bg-purple-100 rounded-lg mr-3">
+                <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                </svg>
+              </div>
+              <div>
+                <p className="font-medium text-gray-900">Fiyatlandırma</p>
+                <p className="text-sm text-gray-600">Plan seçenekleri</p>
+              </div>
+            </a>
+
+            <a
+              href={`/${params.locale}/contact`}
+              className="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              <div className="p-2 bg-orange-100 rounded-lg mr-3">
+                <svg className="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div>
+                <p className="font-medium text-gray-900">İletişim</p>
+                <p className="text-sm text-gray-600">Destek ve yardım</p>
+              </div>
+            </a>
           </div>
         </div>
-      </header>
 
-      {/* Main Content */}
-      <main className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
-        <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
-          {/* Usage Stats */}
-          <div className='lg:col-span-2'>
-            <Card className='bg-white/10 backdrop-blur-md border-white/20'>
-              <CardHeader>
-                <CardTitle className='text-white flex items-center'>
-                  <Crown className='w-5 h-5 mr-2 text-purple-400' />
-                  Kullanım İstatistikleri
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <UsageLimits usage={usage} isGuest={isGuest} />
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Plan Management */}
-          <div className='space-y-6'>
-            <Card className='bg-white/10 backdrop-blur-md border-white/20'>
-              <CardHeader>
-                <CardTitle className='text-white flex items-center'>
-                  <CreditCard className='w-5 h-5 mr-2 text-purple-400' />
-                  Plan Yönetimi
-                </CardTitle>
-              </CardHeader>
-              <CardContent className='space-y-4'>
-                <div className='flex items-center justify-between'>
-                  <div>
-                    <p className='text-white font-medium capitalize'>{user.plan} Plan</p>
-                    <p className='text-gray-400 text-sm'>
-                      {user.plan === 'free'
-                        ? 'Ücretsiz'
-                        : user.plan === 'pro'
-                          ? '99₺/ay'
-                          : '299₺/ay'}
-                    </p>
-                  </div>
-                  <div className='flex items-center'>
-                    {user.plan === 'free' ? (
-                      <span className='text-gray-400'>🆓</span>
-                    ) : (
-                      <span className='text-yellow-400'>⭐</span>
-                    )}
-                  </div>
-                </div>
-
-                {subscription && (
-                  <div className='text-sm text-gray-300'>
-                    <p>
-                      Durum:{' '}
-                      <span className='text-green-400 capitalize'>{subscription.status}</span>
-                    </p>
-                    {subscription.current_period_end && (
-                      <p>
-                        Sonraki ödeme:{' '}
-                        {new Date(subscription.current_period_end * 1000).toLocaleDateString(
-                          'tr-TR'
-                        )}
-                      </p>
-                    )}
-                    {subscription.cancel_at_period_end && (
-                      <p className='text-yellow-400'>Dönem sonunda iptal edilecek</p>
-                    )}
-                  </div>
-                )}
-
-                <div className='space-y-2'>
-                  {user.plan === 'free' && (
-                    <>
-                      <Button
-                        onClick={() => handleUpgrade('pro')}
-                        disabled={loading}
-                        className='w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white'
-                      >
-                        <Zap className='w-4 h-4 mr-2' />
-                        {loading ? 'Yükleniyor...' : "Pro'ya Geç"}
-                      </Button>
-                      <Button
-                        onClick={() => handleUpgrade('enterprise')}
-                        disabled={loading}
-                        variant='outline'
-                        className='w-full border-white/20 text-white'
-                      >
-                        <Star className='w-4 h-4 mr-2' />
-                        Enterprise
-                      </Button>
-                    </>
-                  )}
-
-                  {user.plan === 'pro' && (
-                    <>
-                      <Button
-                        onClick={() => handleUpgrade('enterprise')}
-                        disabled={loading}
-                        className='w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white'
-                      >
-                        <Star className='w-4 h-4 mr-2' />
-                        {loading ? 'Yükleniyor...' : "Enterprise'a Geç"}
-                      </Button>
-                      <Button
-                        onClick={handleCancelSubscription}
-                        disabled={loading}
-                        variant='outline'
-                        className='w-full border-red-500/50 text-red-400 hover:bg-red-500/10'
-                      >
-                        {loading ? 'Yükleniyor...' : 'Aboneliği İptal Et'}
-                      </Button>
-                    </>
-                  )}
-
-                  {user.plan === 'enterprise' && (
-                    <Button
-                      onClick={handleCancelSubscription}
-                      disabled={loading}
-                      variant='outline'
-                      className='w-full border-red-500/50 text-red-400 hover:bg-red-500/10'
-                    >
-                      {loading ? 'Yükleniyor...' : 'Aboneliği İptal Et'}
-                    </Button>
-                  )}
-                </div>
-
-                <Link href='/pricing' className='block'>
-                  <Button variant='outline' className='w-full border-white/20 text-white'>
-                    Tüm Planları Gör
-                  </Button>
-                </Link>
-
-                <Link href='/billing' className='block'>
-                  <Button variant='outline' className='w-full border-white/20 text-white'>
-                    <CreditCard className='w-4 h-4 mr-2' />
-                    Fatura Yönetimi
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-
-            <Card className='bg-white/10 backdrop-blur-md border-white/20'>
-              <CardHeader>
-                <CardTitle className='text-white'>Hızlı Erişim</CardTitle>
-              </CardHeader>
-              <CardContent className='space-y-4'>
-                <Link href='/demo'>
-                  <Button className='w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white'>
-                    <Bot className='w-4 h-4 mr-2' />
-                    AI Asistanlarla Sohbet
-                  </Button>
-                </Link>
-                <Link href='/'>
-                  <Button variant='outline' className='w-full border-white/20 text-white'>
-                    Ana Sayfa
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-
-            {/* User Info */}
-            <Card className='bg-white/10 backdrop-blur-md border-white/20'>
-              <CardHeader>
-                <CardTitle className='text-white'>Hesap Bilgileri</CardTitle>
-              </CardHeader>
-              <CardContent className='space-y-3'>
-                <div className='flex items-center space-x-3'>
-                  <div className='w-10 h-10 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center'>
-                    <User className='w-5 h-5 text-white' />
-                  </div>
-                  <div>
-                    <p className='text-white font-medium'>{user.name || 'Kullanıcı'}</p>
-                    <p className='text-gray-300 text-sm'>{user.email}</p>
-                  </div>
-                </div>
-                <div className='pt-3 border-t border-white/10'>
-                  <p className='text-gray-300 text-sm'>
-                    Üyelik: <span className='text-purple-400 font-medium'>Ücretsiz</span>
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+        {/* Recent Activity */}
+        <div className="bg-white rounded-lg shadow-lg p-6">
+          <h2 className="text-xl font-bold text-gray-900 mb-4">Son Aktiviteler</h2>
+          <div className="text-center py-8">
+            <svg className="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            </svg>
+            <p className="text-gray-500">Henüz aktivite yok</p>
+            <p className="text-sm text-gray-400 mt-1">
+              AI asistanlarla sohbet etmeye başlayın
+            </p>
           </div>
         </div>
-      </main>
+      </div>
     </div>
-  );
-}
-
-export default function DashboardPage() {
-  return (
-    <AuthGuard requireAuth fallback={<div>Dashboard erişimi için giriş yapın</div>}>
-      <DashboardContent />
-    </AuthGuard>
   );
 }
