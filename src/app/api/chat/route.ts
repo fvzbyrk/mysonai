@@ -26,7 +26,7 @@ async function checkUsageLimits(userId: string | null) {
 
     if (error || !user) {
       // If Supabase is not configured, allow demo mode
-      if (process.env.NEXT_PUBLIC_SUPABASE_URL?.includes('placeholder')) {
+      if (process.env.NEXT_PUBLIC_SUPABASE_URL?.includes('placeholder') || !process.env.NEXT_PUBLIC_SUPABASE_URL) {
         return { canProceed: true };
       }
       return { canProceed: false, reason: 'User not found' };

@@ -5,7 +5,7 @@ export function createServerSupabaseClient() {
   const cookieStore = cookies();
 
   // Use placeholder values if Supabase is not configured
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://ixmzmgjfwolihwmjnpyk.supabase.co';
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key';
 
   return createServerClient(
