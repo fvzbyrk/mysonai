@@ -106,7 +106,7 @@ export function AdvancedAgentSelector({
       </div>
 
       {/* Content */}
-      <div className="max-h-96 overflow-y-auto">
+      <div className="max-h-64 overflow-y-auto">
         {activeTab === 'agents' && (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {filteredAgents.map(agent => (

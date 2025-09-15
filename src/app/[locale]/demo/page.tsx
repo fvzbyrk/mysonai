@@ -447,8 +447,10 @@ export default function DemoPage() {
     setMessages([]);
     setSelectedAgent('');
     setSelectedTeam('');
+    setSelectedAgents([]);
     setShowAgentSelection(true);
     setShowTeamSelection(false);
+    setShowAdvancedSelector(false);
     setAttachedFiles([]);
     setIsFullscreen(false);
   };
@@ -811,6 +813,7 @@ export default function DemoPage() {
                       setSelectedAgents([]);
                       setShowAgentSelection(false);
                       setShowTeamSelection(false);
+                      setShowAdvancedSelector(false); // Advanced selector'ı kapat
                       // Tek ajan seçimi mesajı ekle
                       const agent = getAgentById(agentId);
                       if (agent) {
@@ -830,6 +833,7 @@ export default function DemoPage() {
                       setSelectedAgents([]);
                       setShowAgentSelection(false);
                       setShowTeamSelection(false);
+                      setShowAdvancedSelector(false); // Advanced selector'ı kapat
                       // Takım seçimi mesajı ekle
                       const team = getTeamById(teamId);
                       if (team) {
@@ -849,6 +853,7 @@ export default function DemoPage() {
                       setSelectedTeam('');
                       setShowAgentSelection(false);
                       setShowTeamSelection(false);
+                      setShowAdvancedSelector(false); // Advanced selector'ı kapat
                       // Çoklu ajan seçimi mesajı ekle
                       if (agentIds.length > 0) {
                         const multiAgentMessage: Message = {
