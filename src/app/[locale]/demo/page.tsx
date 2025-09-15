@@ -53,7 +53,7 @@ export default function DemoPage() {
   const [showTeamSelection, setShowTeamSelection] = useState(false); // Takım seçimi göster
   const [suggestedTeam, setSuggestedTeam] = useState<AgentTeam | null>(null); // Önerilen takım
   const [selectedAgents, setSelectedAgents] = useState<string[]>([]); // Çoklu ajan seçimi
-  const [multiAgentMode, setMultiAgentMode] = useState<MultiAgentMode>('collaborative'); // Çoklu ajan modu
+  const [multiAgentMode, setMultiAgentMode] = useState<MultiAgentMode>('collaborative'); // Çoklu ajan modu - varsayılan işbirliği
   const [activeFeatures, setActiveFeatures] = useState<Record<string, boolean>>({
     functionCalling: true,
     vision: false,

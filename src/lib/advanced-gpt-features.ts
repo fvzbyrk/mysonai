@@ -63,10 +63,10 @@ export const DEFAULT_GPT_CONFIG: GPTFeatureConfig = {
     presencePenalty: true
   },
   multiAgent: {
-    raceMode: true,
+    raceMode: false,  // Yarış modu varsayılan olarak kapalı
     consensusMode: true,
     debateMode: true,
-    collaborativeMode: true,
+    collaborativeMode: true,  // İşbirliği modu varsayılan
     sequentialMode: true,
     parallelMode: true
   }
@@ -243,22 +243,37 @@ export function evaluateRaceResult(race: AgentRace): string | null {
 
   switch (race.mode) {
     case 'race':
-      // En hızlı cevap kazanır
-      return race.responses.reduce((fastest, current) => 
+      // En hızlı cevap kazanır - ama kullanıcıya faydalı mesaj ver
+      const fastest = race.responses.reduce((fastest, current) => 
         current.time < fastest.time ? current : fastest
-      ).agentId;
+      );
+      return fastest.agentId;
       
     case 'consensus':
       // En yüksek kalite puanı kazanır
-      return race.responses.reduce((best, current) => 
+      const best = race.responses.reduce((best, current) => 
         current.quality > best.quality ? current : best
-      ).agentId;
+      );
+      return best.agentId;
       
     case 'debate':
       // En uzun ve detaylı cevap kazanır
-      return race.responses.reduce((longest, current) => 
+      const longest = race.responses.reduce((longest, current) => 
         current.response.length > longest.response.length ? current : longest
-      ).agentId;
+      );
+      return longest.agentId;
+      
+    case 'collaborative':
+      // İşbirliği modunda tüm ajanlar birlikte çalışır
+      return 'collaborative';
+      
+    case 'sequential':
+      // Sıralı modda ilk ajan
+      return race.responses[0].agentId;
+      
+    case 'parallel':
+      // Paralel modda tüm ajanlar
+      return 'parallel';
       
     default:
       return race.responses[0].agentId;
