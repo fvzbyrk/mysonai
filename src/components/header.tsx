@@ -52,6 +52,9 @@ export function Header() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const { theme, setTheme } = useTheme();
 
+  // Debug: Navigation array'ini kontrol et
+  console.log('Navigation array:', navigation);
+
   return (
     <header className='sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
       <nav
