@@ -192,19 +192,19 @@ function ContactContent({ params }: { params: { locale: Locale } }) {
       </section>
 
       {/* AI Assistant Section */}
-      <section className='py-16 bg-gradient-to-b from-black/30 to-black/50'>
-        <div className='max-w-5xl mx-auto px-4 sm:px-6 lg:px-8'>
-          <div className='text-center mb-12'>
-            <h2 className='text-3xl font-bold text-white mb-4'>
+      <section className='py-20 bg-gradient-to-b from-black/30 to-black/50'>
+        <div className='max-w-6xl mx-auto px-4 sm:px-6 lg:px-8'>
+          <div className='text-center mb-16'>
+            <h2 className='text-4xl font-bold text-white mb-6'>
               Hemen Sorunuzu Sorun
             </h2>
-            <p className='text-lg text-gray-300 max-w-2xl mx-auto'>
+            <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               AI asistanımızla anında konuşun, proje danışmanlığı alın
             </p>
           </div>
 
           <div className='flex justify-center'>
-            <div className='w-full max-w-4xl'>
+            <div className='w-full max-w-5xl'>
               <ContactAIAssistant locale={params.locale} />
             </div>
           </div>

@@ -109,19 +109,19 @@ export function ContactAIAssistant({ locale }: ContactAIAssistantProps) {
   ];
 
   return (
-    <Card className='bg-white/10 backdrop-blur-md border-white/20 p-6 lg:p-8'>
-      <div className='flex items-center space-x-4 mb-6'>
-        <div className='w-14 h-14 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center'>
-          <Bot className='w-7 h-7 text-white' />
+    <Card className='bg-white/10 backdrop-blur-md border-white/20 p-8 lg:p-12'>
+      <div className='flex items-center space-x-6 mb-8'>
+        <div className='w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center'>
+          <Bot className='w-8 h-8 text-white' />
         </div>
         <div>
-          <h3 className='text-2xl font-bold text-white'>MySonAI Asistanı</h3>
-          <p className='text-base text-purple-300'>Size yardımcı olmaya hazır</p>
+          <h3 className='text-3xl font-bold text-white'>MySonAI Asistanı</h3>
+          <p className='text-lg text-purple-300'>Size yardımcı olmaya hazır</p>
         </div>
       </div>
 
       {/* Messages */}
-      <div className='h-96 lg:h-[500px] overflow-y-auto p-4 lg:p-6 space-y-4 bg-black/20 rounded-lg mb-6'>
+      <div className='h-[400px] lg:h-[600px] overflow-y-auto p-6 lg:p-8 space-y-4 bg-black/20 rounded-lg mb-8'>
         {messages.map((message) => (
           <div
             key={message.id}
@@ -170,16 +170,16 @@ export function ContactAIAssistant({ locale }: ContactAIAssistantProps) {
 
       {/* Quick Questions */}
       {messages.length === 1 && (
-        <div className='mb-6'>
-          <p className='text-base text-gray-300 mb-4'>Hızlı sorular:</p>
-          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3'>
+        <div className='mb-8'>
+          <p className='text-lg text-gray-300 mb-6'>Hızlı sorular:</p>
+          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
             {quickQuestions.map((question, index) => (
               <Button
                 key={index}
                 onClick={() => setInput(question)}
                 variant='outline'
                 size='lg'
-                className='text-sm bg-white/10 border-white/20 text-white hover:bg-white/20 p-3 lg:p-4'
+                className='text-base bg-white/10 border-white/20 text-white hover:bg-white/20 p-4 lg:p-6 h-auto'
               >
                 {question}
               </Button>
@@ -189,23 +189,23 @@ export function ContactAIAssistant({ locale }: ContactAIAssistantProps) {
       )}
 
       {/* Input */}
-      <div className='flex space-x-3'>
+      <div className='flex space-x-4'>
         <input
           type='text'
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyPress={handleKeyPress}
           placeholder='Mesajınızı yazın...'
-          className='flex-1 px-4 lg:px-6 py-3 lg:py-4 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400 text-base lg:text-lg'
+          className='flex-1 px-6 lg:px-8 py-4 lg:py-6 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400 text-lg lg:text-xl'
           disabled={isLoading}
         />
         <Button
           onClick={handleSend}
           disabled={!input.trim() || isLoading}
-          className='bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg px-6 lg:px-8 py-3 lg:py-4'
+          className='bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg px-8 lg:px-12 py-4 lg:py-6'
           size='lg'
         >
-          <Send className='w-5 h-5' />
+          <Send className='w-6 h-6' />
         </Button>
       </div>
 
