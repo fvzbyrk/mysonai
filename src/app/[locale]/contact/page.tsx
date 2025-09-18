@@ -1,22 +1,27 @@
 import { Locale } from '@/lib/i18n';
-import { t } from '@/lib/translations';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Send, 
-  Clock, 
-  MessageCircle, 
-  Users, 
+  Mail,
+  Phone,
+  MapPin,
+  Clock,
+  Send,
+  MessageCircle,
   ArrowRight,
   CheckCircle,
   Star,
-  Headphones,
-  Zap
+  Users,
+  Target,
+  Zap,
+  Heart,
+  Globe,
+  Briefcase,
+  Video,
+  Music,
+  GraduationCap,
+  Shield
 } from 'lucide-react';
 import type { Metadata } from 'next';
 
@@ -29,107 +34,111 @@ export async function generateMetadata({
 
   return {
     title: isTurkish
-      ? 'İletişim - MySonAI Destek ve İletişim Bilgileri | 7/24 Destek'
-      : 'Contact - MySonAI Support and Contact Information | 24/7 Support',
+      ? 'İletişim - MySonAI | AI Çözümleri ve Bilişim Hizmetleri'
+      : 'Contact - MySonAI | AI Solutions and IT Services',
     description: isTurkish
-      ? 'MySonAI ile iletişime geçin. 7/24 destek, teknik yardım, satış ve iş ortaklığı için iletişim bilgilerimiz.'
-      : 'Contact MySonAI. 24/7 support, technical help, sales and partnership contact information.',
+      ? 'MySonAI ile iletişime geçin. AI çözümleri ve klasik bilişim hizmetleri için ücretsiz danışmanlık alın. Projenizi hayata geçirin.'
+      : 'Contact MySonAI. Get free consultation for AI solutions and classic IT services. Bring your project to life.',
     keywords: isTurkish
-      ? 'MySonAI iletişim, destek, teknik yardım, satış, iş ortaklığı, 7/24 destek'
-      : 'MySonAI contact, support, technical help, sales, partnership, 24/7 support',
+      ? 'MySonAI iletişim, AI çözümleri danışmanlık, bilişim hizmetleri, proje teklifi'
+      : 'MySonAI contact, AI solutions consultation, IT services, project proposal',
   };
 }
 
-// Contact methods
-const contactMethods = [
+// Contact information
+const contactInfo = [
   {
     icon: Mail,
     title: 'E-posta',
-    description: 'info@mysonai.com',
-    subtitle: '24 saat içinde yanıt',
-    color: 'from-purple-500 to-pink-500',
-    action: 'mailto:info@mysonai.com',
+    details: ['info@mysonai.com', 'projeler@mysonai.com'],
+    description: '7/24 e-posta desteği'
   },
   {
     icon: Phone,
     title: 'Telefon',
-    description: '+90 (212) 555 0123',
-    subtitle: 'Pazartesi - Cuma, 09:00 - 18:00',
-    color: 'from-blue-500 to-cyan-500',
-    action: 'tel:+902125550123',
-  },
-  {
-    icon: MessageCircle,
-    title: 'Canlı Destek',
-    description: '7/24 Canlı Chat',
-    subtitle: 'Anında yanıt',
-    color: 'from-green-500 to-emerald-500',
-    action: '/demo',
+    details: ['+90 (555) 123 45 67', '+90 (212) 456 78 90'],
+    description: 'Pazartesi-Cuma 09:00-18:00'
   },
   {
     icon: MapPin,
-    title: 'Ofis',
-    description: 'Levent Mahallesi, Beşiktaş',
-    subtitle: 'İstanbul, Türkiye',
-    color: 'from-orange-500 to-red-500',
-    action: 'https://maps.google.com/?q=Levent+Mahallesi+Beşiktaş+İstanbul',
+    title: 'Adres',
+    details: ['Teknoloji Mahallesi', 'İstanbul, Türkiye'],
+    description: 'Merkez ofisimiz'
   },
+  {
+    icon: Clock,
+    title: 'Çalışma Saatleri',
+    details: ['Pazartesi-Cuma: 09:00-18:00', 'Cumartesi: 10:00-16:00'],
+    description: 'Hafta sonu destek'
+  }
 ];
 
-// FAQ items
-const faqItems = [
+// Service areas
+const serviceAreas = [
   {
-    question: 'Teknik destek alabilir miyim?',
-    answer: 'Evet! Teknik destek ekibimiz 7/24 hizmetinizde. E-posta, telefon veya canlı chat ile ulaşabilirsiniz.',
-  },
-  {
-    question: 'API entegrasyonu için yardım alabilir miyim?',
-    answer: 'Tabii ki! API entegrasyonu konusunda uzman ekibimiz size yardımcı olacaktır. Detaylı dokümantasyon da mevcut.',
-  },
-  {
-    question: 'Kurumsal çözümler hakkında bilgi alabilir miyim?',
-    answer: 'Kurumsal çözümlerimiz hakkında detaylı bilgi için satış ekibimizle iletişime geçin. Özel demo ve sunum yapabiliriz.',
-  },
-  {
-    question: 'İş ortaklığı teklifleriniz var mı?',
-    answer: 'Evet! İş ortaklığı programımız mevcut. Detaylar için partnership@mysonai.com adresine yazabilirsiniz.',
-  },
-  {
-    question: 'Geri bildirim gönderebilir miyim?',
-    answer: 'Elbette! Geri bildirimleriniz bizim için çok değerli. feedback@mysonai.com adresine gönderebilirsiniz.',
-  },
-  {
-    question: 'Basın ve medya iletişimi nasıl?',
-    answer: 'Basın ve medya iletişimi için press@mysonai.com adresine yazabilirsiniz. Hızlı yanıt garantisi veriyoruz.',
-  },
-];
-
-// Support categories
-const supportCategories = [
-  {
-    icon: Zap,
-    title: 'Teknik Destek',
-    description: 'API, entegrasyon ve teknik sorunlar',
-    color: 'from-blue-500 to-cyan-500',
-  },
-  {
-    icon: Users,
-    title: 'Satış',
-    description: 'Plan seçimi ve kurumsal çözümler',
-    color: 'from-green-500 to-emerald-500',
-  },
-  {
-    icon: Headphones,
-    title: 'Müşteri Hizmetleri',
-    description: 'Genel sorular ve hesap yönetimi',
+    title: 'AI Çözümleri',
+    icon: Target,
     color: 'from-purple-500 to-pink-500',
+    description: 'Prompt mühendisliği, AI asistanlar, veri analizi'
   },
   {
-    icon: Star,
-    title: 'İş Ortaklığı',
-    description: 'Partner programı ve işbirliği',
-    color: 'from-orange-500 to-red-500',
+    title: 'Web Geliştirme',
+    icon: Globe,
+    color: 'from-blue-500 to-cyan-500',
+    description: 'Kurumsal web siteleri, e-ticaret, web uygulamaları'
   },
+  {
+    title: 'Mobil Uygulamalar',
+    icon: Briefcase,
+    color: 'from-green-500 to-emerald-500',
+    description: 'iOS, Android, cross-platform çözümler'
+  },
+  {
+    title: 'Dijital Medya',
+    icon: Video,
+    color: 'from-red-500 to-pink-500',
+    description: 'Video prodüksiyon, animasyon, sesli kitap'
+  },
+  {
+    title: 'Eğitim Çözümleri',
+    icon: GraduationCap,
+    color: 'from-yellow-500 to-orange-500',
+    description: 'Eğitim platformları, öğrenme yönetimi'
+  },
+  {
+    title: 'Hukuki Çözümler',
+    icon: Shield,
+    color: 'from-indigo-500 to-purple-500',
+    description: 'Hukuki otomasyon, sözleşme analizi'
+  }
+];
+
+// FAQ data
+const faqs = [
+  {
+    question: 'Proje süreci nasıl işliyor?',
+    answer: 'İhtiyaç analizi, çözüm tasarımı, geliştirme, test ve teslim aşamalarından oluşan 5 adımlı süreç izliyoruz.'
+  },
+  {
+    question: 'AI çözümleri için ön koşul var mı?',
+    answer: 'Hayır, mevcut sisteminizle entegre edilebilir çözümler sunuyoruz. Teknik altyapı analizi yapıyoruz.'
+  },
+  {
+    question: 'Proje süresi ne kadar?',
+    answer: 'Proje büyüklüğüne göre değişir. Basit web siteleri 2-4 hafta, karmaşık AI projeleri 2-6 ay sürebilir.'
+  },
+  {
+    question: 'Destek hizmeti veriyor musunuz?',
+    answer: 'Evet, tüm projelerimiz için 6 ay ücretsiz destek, sonrasında ücretli destek hizmeti sunuyoruz.'
+  },
+  {
+    question: 'Fiyatlandırma nasıl yapılıyor?',
+    answer: 'Proje kapsamına göre özel fiyatlandırma yapıyoruz. Ücretsiz danışmanlık ve teklif hazırlıyoruz.'
+  },
+  {
+    question: 'Hangi teknolojileri kullanıyorsunuz?',
+    answer: 'Modern teknoloji stack kullanıyoruz: React, Next.js, Node.js, Python, AI/ML kütüphaneleri, bulut servisleri.'
+  }
 ];
 
 function ContactContent({ params }: { params: { locale: Locale } }) {
@@ -143,59 +152,64 @@ function ContactContent({ params }: { params: { locale: Locale } }) {
               İletişim
             </h1>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto mb-8'>
-              Sorularınız mı var? Bizimle iletişime geçin. Size en kısa sürede dönüş yapacağız.
+              Projenizi hayata geçirmek için bizimle iletişime geçin. 
+              AI çözümleri ve klasik bilişim hizmetlerimizle işinizi bir üst seviyeye taşıyın.
             </p>
-            
-            {/* Trust Indicators */}
-            <div className='flex flex-col sm:flex-row items-center justify-center gap-6 text-gray-400 text-sm mb-8'>
-              <div className='flex items-center space-x-2'>
-                <CheckCircle className='w-4 h-4 text-green-400' />
-                <span>7/24 Destek</span>
-              </div>
-              <div className='flex items-center space-x-2'>
-                <CheckCircle className='w-4 h-4 text-blue-400' />
-                <span>24 Saat İçinde Yanıt</span>
-              </div>
-              <div className='flex items-center space-x-2'>
-                <CheckCircle className='w-4 h-4 text-purple-400' />
-                <span>Uzman Ekip</span>
-              </div>
-            </div>
           </div>
         </div>
       </section>
 
-      {/* Contact Methods */}
-      <section className='py-16'>
+      {/* Contact Information */}
+      <section className='py-20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
             <h2 className='text-4xl font-bold text-white mb-4'>
-              İletişim Yöntemleri
+              İletişim Bilgileri
             </h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
-              Size en uygun iletişim yöntemini seçin
+              Size en uygun iletişim kanalını seçin
             </p>
           </div>
 
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
-            {contactMethods.map((method, index) => (
+            {contactInfo.map((info, index) => (
               <Card key={index} className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'>
-                <div className={`w-16 h-16 bg-gradient-to-r ${method.color} rounded-full flex items-center justify-center mx-auto mb-4`}>
-                  <method.icon className='w-8 h-8 text-white' />
+                <div className='w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4'>
+                  <info.icon className='w-8 h-8 text-white' />
                 </div>
-                <h3 className='text-xl font-bold text-white mb-2'>{method.title}</h3>
-                <p className='text-gray-300 mb-2'>{method.description}</p>
-                <p className='text-gray-400 text-sm mb-4'>{method.subtitle}</p>
-                <Button
-                  asChild
-                  variant='outline'
-                  className='w-full border-white/20 text-white hover:bg-white/10'
-                >
-                  <Link href={method.action}>
-                    İletişime Geç
-                    <ArrowRight className='w-4 h-4 ml-2' />
-                  </Link>
-                </Button>
+                <h3 className='text-xl font-bold text-white mb-3'>{info.title}</h3>
+                <div className='space-y-2 mb-4'>
+                  {info.details.map((detail, detailIndex) => (
+                    <div key={detailIndex} className='text-gray-300 text-sm'>{detail}</div>
+                  ))}
+                </div>
+                <div className='text-purple-300 text-sm'>{info.description}</div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Service Areas */}
+      <section className='py-20 bg-black/20'>
+        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+          <div className='text-center mb-16'>
+            <h2 className='text-4xl font-bold text-white mb-4'>
+              Hizmet Alanlarımız
+            </h2>
+            <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
+              Uzmanlaştığımız alanlar ve sunduğumuz çözümler
+            </p>
+          </div>
+
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
+            {serviceAreas.map((area, index) => (
+              <Card key={index} className='bg-white/10 backdrop-blur-md border-white/20 p-6 hover:bg-white/15 transition-all duration-300 group'>
+                <div className={`w-16 h-16 bg-gradient-to-r ${area.color} rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                  <area.icon className='w-8 h-8 text-white' />
+                </div>
+                <h3 className='text-xl font-bold text-white mb-3 text-center'>{area.title}</h3>
+                <p className='text-gray-300 text-sm text-center'>{area.description}</p>
               </Card>
             ))}
           </div>
@@ -203,165 +217,123 @@ function ContactContent({ params }: { params: { locale: Locale } }) {
       </section>
 
       {/* Contact Form */}
-      <section className='py-16 bg-black/20'>
+      <section className='py-20'>
         <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8'>
-          <div className='text-center mb-12'>
+          <div className='text-center mb-16'>
             <h2 className='text-4xl font-bold text-white mb-4'>
-              Mesaj Gönder
+              Proje Teklifi Alın
             </h2>
-            <p className='text-xl text-gray-300'>
-              Formu doldurun, size en kısa sürede dönüş yapalım
+            <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
+              Projenizi detaylandırın, size özel çözüm önerisi hazırlayalım
             </p>
           </div>
 
           <Card className='bg-white/10 backdrop-blur-md border-white/20 p-8'>
             <form className='space-y-6'>
-              <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+              <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
                 <div>
-                  <label htmlFor='firstName' className='block text-white text-sm font-medium mb-2'>
-                    Ad
-                  </label>
+                  <label className='block text-white text-sm font-semibold mb-2'>Ad Soyad</label>
                   <input
                     type='text'
-                    id='firstName'
-                    name='firstName'
-                    required
-                    className='w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500'
-                    placeholder='Adınız'
+                    className='w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500'
+                    placeholder='Adınız ve soyadınız'
                   />
                 </div>
                 <div>
-                  <label htmlFor='lastName' className='block text-white text-sm font-medium mb-2'>
-                    Soyad
-                  </label>
+                  <label className='block text-white text-sm font-semibold mb-2'>E-posta</label>
+                  <input
+                    type='email'
+                    className='w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500'
+                    placeholder='ornek@email.com'
+                  />
+                </div>
+              </div>
+
+              <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+                <div>
+                  <label className='block text-white text-sm font-semibold mb-2'>Telefon</label>
+                  <input
+                    type='tel'
+                    className='w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500'
+                    placeholder='+90 (555) 123 45 67'
+                  />
+                </div>
+                <div>
+                  <label className='block text-white text-sm font-semibold mb-2'>Şirket</label>
                   <input
                     type='text'
-                    id='lastName'
-                    name='lastName'
-                    required
-                    className='w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500'
-                    placeholder='Soyadınız'
+                    className='w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500'
+                    placeholder='Şirket adınız'
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor='email' className='block text-white text-sm font-medium mb-2'>
-                  E-posta
-                </label>
-                <input
-                  type='email'
-                  id='email'
-                  name='email'
-                  required
-                  className='w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500'
-                  placeholder='ornek@email.com'
-                />
-              </div>
-
-              <div>
-                <label htmlFor='subject' className='block text-white text-sm font-medium mb-2'>
-                  Konu
-                </label>
-                <select
-                  id='subject'
-                  name='subject'
-                  required
-                  className='w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500'
-                >
-                  <option value=''>Konu seçin</option>
-                  <option value='general'>Genel Soru</option>
-                  <option value='technical'>Teknik Destek</option>
-                  <option value='sales'>Satış</option>
-                  <option value='partnership'>İş Ortaklığı</option>
-                  <option value='feedback'>Geri Bildirim</option>
-                  <option value='press'>Basın</option>
+                <label className='block text-white text-sm font-semibold mb-2'>Hizmet Türü</label>
+                <select className='w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500'>
+                  <option value=''>Hizmet türünü seçin</option>
+                  <option value='ai-solutions'>AI Çözümleri</option>
+                  <option value='web-development'>Web Geliştirme</option>
+                  <option value='mobile-apps'>Mobil Uygulamalar</option>
+                  <option value='digital-media'>Dijital Medya</option>
+                  <option value='education'>Eğitim Çözümleri</option>
+                  <option value='legal'>Hukuki Çözümler</option>
+                  <option value='consulting'>Danışmanlık</option>
                 </select>
               </div>
 
               <div>
-                <label htmlFor='message' className='block text-white text-sm font-medium mb-2'>
-                  Mesaj
-                </label>
+                <label className='block text-white text-sm font-semibold mb-2'>Proje Açıklaması</label>
                 <textarea
-                  id='message'
-                  name='message'
-                  rows={6}
-                  required
-                  className='w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none'
-                  placeholder='Mesajınızı buraya yazın...'
+                  rows={4}
+                  className='w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500'
+                  placeholder='Projenizi detaylı olarak açıklayın...'
                 ></textarea>
               </div>
 
-              <Button
-                type='submit'
-                className='w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-200 flex items-center justify-center'
-              >
-                <Send className='w-5 h-5 mr-2' />
-                Mesaj Gönder
-              </Button>
+              <div>
+                <label className='block text-white text-sm font-semibold mb-2'>Bütçe Aralığı</label>
+                <select className='w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500'>
+                  <option value=''>Bütçe aralığını seçin</option>
+                  <option value='10k-25k'>10.000 - 25.000 TL</option>
+                  <option value='25k-50k'>25.000 - 50.000 TL</option>
+                  <option value='50k-100k'>50.000 - 100.000 TL</option>
+                  <option value='100k+'>100.000 TL+</option>
+                  <option value='discuss'>Görüşelim</option>
+                </select>
+              </div>
+
+              <div className='text-center'>
+                <Button
+                  type='submit'
+                  className='bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-full font-semibold text-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-300'
+                >
+                  <Send className='w-6 h-6 inline mr-2' />
+                  Teklif Gönder
+                </Button>
+              </div>
             </form>
           </Card>
         </div>
       </section>
 
-      {/* Support Categories */}
-      <section className='py-16'>
-        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-          <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Destek Kategorileri
-            </h2>
-            <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
-              Hangi konuda yardıma ihtiyacınız var?
-            </p>
-          </div>
-
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
-            {supportCategories.map((category, index) => (
-              <Card key={index} className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'>
-                <div className={`w-16 h-16 bg-gradient-to-r ${category.color} rounded-full flex items-center justify-center mx-auto mb-4`}>
-                  <category.icon className='w-8 h-8 text-white' />
-                </div>
-                <h3 className='text-xl font-bold text-white mb-3'>{category.title}</h3>
-                <p className='text-gray-300 text-sm mb-4'>{category.description}</p>
-                <Button
-                  asChild
-                  variant='outline'
-                  className='w-full border-white/20 text-white hover:bg-white/10'
-                >
-                  <Link href={`/${params.locale}/contact`}>
-                    İletişime Geç
-                    <ArrowRight className='w-4 h-4 ml-2' />
-                  </Link>
-                </Button>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* FAQ Section */}
-      <section className='py-16 bg-black/20'>
+      <section className='py-20 bg-black/20'>
         <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
             <h2 className='text-4xl font-bold text-white mb-4'>
-              Sık Sorulan Sorular
+              Sıkça Sorulan Sorular
             </h2>
             <p className='text-xl text-gray-300'>
-              İletişim hakkında merak ettikleriniz
+              Merak ettiğiniz konular hakkında bilgi alın
             </p>
           </div>
 
           <div className='space-y-6'>
-            {faqItems.map((item, index) => (
+            {faqs.map((faq, index) => (
               <Card key={index} className='bg-white/10 backdrop-blur-md border-white/20 p-6'>
-                <h3 className='text-xl font-bold text-white mb-3'>
-                  {item.question}
-                </h3>
-                <p className='text-gray-300'>
-                  {item.answer}
-                </p>
+                <h3 className='text-lg font-bold text-white mb-3'>{faq.question}</h3>
+                <p className='text-gray-300'>{faq.answer}</p>
               </Card>
             ))}
           </div>
@@ -373,25 +345,25 @@ function ContactContent({ params }: { params: { locale: Locale } }) {
         <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center'>
           <div className='bg-white/10 backdrop-blur-md rounded-2xl p-10 border border-white/20'>
             <h2 className='text-4xl font-bold text-white mb-6'>
-              Hemen İletişime Geçin
+              Hemen Başlayın
             </h2>
             <p className='text-xl text-gray-300 mb-8'>
-              Sorularınız için 7/24 hizmetinizdeyiz. En kısa sürede yanıtlayalım!
+              Projenizi hayata geçirmek için ilk adımı atın. Ücretsiz danışmanlık alın.
             </p>
             <div className='flex flex-col sm:flex-row gap-4 justify-center'>
               <Link
-                href='mailto:info@mysonai.com'
+                href={`/${params.locale}/demo`}
                 className='bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-full font-semibold text-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-300'
               >
-                <Mail className='w-6 h-6 inline mr-2' />
-                E-posta Gönder
+                <MessageCircle className='w-6 h-6 inline mr-2' />
+                Demo İncele
               </Link>
               <Link
-                href={`/${params.locale}/demo`}
+                href='tel:+905551234567'
                 className='bg-white/10 backdrop-blur-md text-white px-8 py-4 rounded-full font-semibold text-lg border border-white/20 hover:bg-white/20 transition-all duration-300'
               >
-                <MessageCircle className='w-6 h-6 inline mr-2' />
-                Canlı Destek
+                <Phone className='w-6 h-6 inline mr-2' />
+                Hemen Ara
               </Link>
             </div>
           </div>

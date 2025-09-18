@@ -2,9 +2,8 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Menu, X, Sun, Moon, Bot, User, LogOut } from 'lucide-react';
+import { Menu, X, Sun, Moon, Bot } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import { useAuth } from '@/contexts/auth-context';
 import { Button } from './ui/button';
 import { LanguageSwitcher } from './language-switcher';
 import { usePathname } from 'next/navigation';
@@ -17,20 +16,16 @@ export function Header() {
 
   const navigation = [
     { name: 'Ana Sayfa', href: `/${locale}`, feature: null },
-    {
-      name: 'AI Asistanlar',
-      href: `/${locale}/assistants`,
-      feature: 'assistants',
-    },
-    { name: 'Blog', href: `/${locale}/blog`, feature: 'blog' },
+    { name: 'Hakkımızda', href: `/${locale}/about`, feature: null },
+    { name: 'Hizmetler', href: `/${locale}/services`, feature: null },
+    { name: 'Çözümler', href: `/${locale}/solutions`, feature: null },
     { name: 'Demo', href: `/${locale}/demo`, feature: 'demo' },
-    { name: 'Fiyatlandırma', href: `/${locale}/pricing`, feature: 'pricing' },
+    { name: 'Referanslar', href: `/${locale}/references`, feature: null },
     { name: 'İletişim', href: `/${locale}/contact`, feature: 'contact' },
   ];
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { theme, setTheme } = useTheme();
-  const { user, signOut } = useAuth();
 
   return (
     <header className='sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
@@ -81,35 +76,11 @@ export function Header() {
             <span className='sr-only'>Tema değiştir</span>
           </Button>
 
-          {user ? (
-            <div className='flex items-center space-x-4'>
-              <Link
-                href={`/${locale}/dashboard`}
-                className='flex items-center space-x-2 text-sm font-medium text-gray-700 hover:text-gray-900'
-              >
-                <User className='h-4 w-4' />
-                <span>{user.name || user.email}</span>
-              </Link>
-              <Button
-                variant='outline'
-                size='sm'
-                onClick={() => signOut()}
-                className='flex items-center space-x-2'
-              >
-                <LogOut className='h-4 w-4' />
-                <span>Çıkış Yap</span>
-              </Button>
-            </div>
-          ) : (
-            <div className='flex items-center space-x-2'>
-              <Button variant='outline' asChild>
-                <Link href={`/${locale}/signin`}>Giriş Yap</Link>
-              </Button>
-              <Button asChild>
-                <Link href={`/${locale}/signup`}>Kayıt Ol</Link>
-              </Button>
-            </div>
-          )}
+          <div className='flex items-center space-x-2'>
+            <Button asChild>
+              <Link href={`/${locale}/contact`}>Teklif Al</Link>
+            </Button>
+          </div>
         </div>
       </nav>
 
@@ -158,39 +129,13 @@ export function Header() {
                       <Moon className='absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100' />
                     </Button>
 
-                    {user ? (
-                      <div className='flex flex-col space-y-2'>
-                        <Link
-                          href={`/${locale}/dashboard`}
-                          className='flex items-center space-x-2 text-sm font-medium text-gray-700 hover:text-gray-900'
-                        >
-                          <User className='h-4 w-4' />
-                          <span>{user.name || user.email}</span>
+                    <div className='flex flex-col space-y-2'>
+                      <Button asChild>
+                        <Link href={`/${locale}/contact`}>
+                          Teklif Al
                         </Link>
-                        <Button
-                          variant='outline'
-                          size='sm'
-                          onClick={() => signOut()}
-                          className='flex items-center space-x-2'
-                        >
-                          <LogOut className='h-4 w-4' />
-                          <span>Çıkış Yap</span>
-                        </Button>
-                      </div>
-                    ) : (
-                      <div className='flex flex-col space-y-2'>
-                        <Button variant='outline' asChild>
-                          <Link href={`/${locale}/signin`}>
-                            Giriş Yap
-                          </Link>
-                        </Button>
-                        <Button asChild>
-                          <Link href={`/${locale}/signup`}>
-                            Kayıt Ol
-                          </Link>
-                        </Button>
-                      </div>
-                    )}
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>

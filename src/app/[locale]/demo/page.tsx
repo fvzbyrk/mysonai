@@ -588,10 +588,10 @@ export default function DemoPage() {
             <div className='h-full flex flex-col px-4 py-8 overflow-y-auto'>
               <div className='text-center mb-8'>
                 <h1 className='text-3xl md:text-4xl font-bold text-white mb-4'>
-                  AI Asistanınızı Seçin
+                  AI Asistanlarımızı Deneyimleyin
                 </h1>
                 <p className='text-lg text-gray-300 mb-8'>
-                  Hangi AI asistanıyla sohbet etmek istiyorsunuz?
+                  Üyelik olmadan AI asistanlarımızla tanışın ve yeteneklerini keşfedin
                 </p>
               </div>
 

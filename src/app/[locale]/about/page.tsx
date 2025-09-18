@@ -16,7 +16,14 @@ import {
   Star,
   CheckCircle,
   Lightbulb,
-  Rocket
+  Rocket,
+  Bot,
+  Code,
+  Cloud,
+  Video,
+  Music,
+  GraduationCap,
+  Briefcase
 } from 'lucide-react';
 import type { Metadata } from 'next';
 
@@ -29,14 +36,14 @@ export async function generateMetadata({
 
   return {
     title: isTurkish
-      ? 'Hakkımızda - MySonAI Ekibi ve Misyonumuz | Türkçe AI Asistanları'
-      : 'About Us - MySonAI Team and Mission | Turkish AI Assistants',
+      ? 'Hakkımızda - MySonAI | AI Çözümleri ve Klasik Bilişim Hizmetleri'
+      : 'About Us - MySonAI | AI Solutions and Classic IT Services',
     description: isTurkish
-      ? 'MySonAI ekibi ve misyonumuz hakkında bilgi edinin. Türkçe AI asistanları geliştiren uzman ekibimiz ve vizyonumuz.'
-      : 'Learn about MySonAI team and mission. Our expert team developing Turkish AI assistants and our vision.',
+      ? 'MySonAI hakkında bilgi edinin. AI çözümleri ve klasik bilişim hizmetleri sunan teknoloji firması. Misyon, vizyon ve değerlerimiz.'
+      : 'Learn about MySonAI. Technology company offering AI solutions and classic IT services. Our mission, vision and values.',
     keywords: isTurkish
-      ? 'MySonAI hakkında, AI ekibi, Türkçe AI, yapay zeka misyonu, AI vizyonu'
-      : 'about MySonAI, AI team, Turkish AI, artificial intelligence mission, AI vision',
+      ? 'MySonAI hakkında, AI çözümleri, bilişim hizmetleri, teknoloji firması, misyon, vizyon'
+      : 'about MySonAI, AI solutions, IT services, technology company, mission, vision',
   };
 }
 
@@ -76,26 +83,26 @@ const teamMembers = [
 const values = [
   {
     icon: Heart,
-    title: 'Empati',
-    description: 'AI asistanlarımızın insan gibi empati kurmasını sağlıyoruz. Her kullanıcının duygusal ihtiyaçlarını anlıyoruz.',
+    title: 'Müşteri Odaklılık',
+    description: 'Her projede müşteri memnuniyetini ön planda tutuyoruz. İhtiyaçlarını anlayıp en uygun çözümleri sunuyoruz.',
     color: 'from-red-500 to-pink-500',
   },
   {
     icon: Zap,
-    title: 'Hız',
-    description: 'Pi\'den 10x daha hızlı yanıtlar sunuyoruz. Zamanınız değerli, AI asistanınız da öyle olmalı.',
+    title: 'İnovasyon',
+    description: 'Sürekli gelişen teknoloji dünyasında yenilikçi çözümler üretiyoruz. Geleceği bugünden şekillendiriyoruz.',
     color: 'from-yellow-500 to-orange-500',
   },
   {
     icon: Shield,
-    title: 'Güvenlik',
-    description: 'Verileriniz bizim için kutsal. En yüksek güvenlik standartları ile korunuyor.',
+    title: 'Güvenilirlik',
+    description: 'Projelerimizde güvenilirlik ve kalite standartlarını en üst seviyede tutuyoruz. Verileriniz güvende.',
     color: 'from-blue-500 to-cyan-500',
   },
   {
     icon: Globe,
-    title: 'Türkçe',
-    description: 'Türkçe konuşan AI asistanları. Dil ve kültür uyumunu önemsiyoruz.',
+    title: 'Uzmanlık',
+    description: 'AI ve klasik bilişim alanında derin uzmanlık. Her projede en iyi çözümleri sunuyoruz.',
     color: 'from-green-500 to-emerald-500',
   },
 ];
@@ -140,28 +147,28 @@ function AboutContent({ params }: { params: { locale: Locale } }) {
               Hakkımızda
             </h1>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto mb-8'>
-              MySonAI, Türkçe konuşan AI asistanları ile insan-AI etkileşimini 
-              yeniden tanımlıyor. Empati, hız ve güvenlik odaklı yaklaşımımızla 
-              geleceğin AI deneyimini bugünden yaşıyoruz.
+              MySonAI, AI çözümleri ve klasik bilişim hizmetleri sunan teknoloji firmasıdır. 
+              Geleceği bugün şekillendiren yenilikçi yaklaşımımızla, işletmelerin dijital 
+              dönüşüm yolculuğunda güvenilir partneri oluyoruz.
             </p>
             
             {/* Stats */}
             <div className='grid grid-cols-2 md:grid-cols-4 gap-8 mt-12'>
               <div className='text-center'>
-                <div className='text-3xl font-bold text-white mb-2'>18</div>
-                <div className='text-gray-400 text-sm'>AI Asistanı</div>
+                <div className='text-3xl font-bold text-white mb-2'>6</div>
+                <div className='text-gray-400 text-sm'>Alt Marka</div>
               </div>
               <div className='text-center'>
-                <div className='text-3xl font-bold text-white mb-2'>10K+</div>
-                <div className='text-gray-400 text-sm'>Aktif Kullanıcı</div>
+                <div className='text-3xl font-bold text-white mb-2'>50+</div>
+                <div className='text-gray-400 text-sm'>Tamamlanan Proje</div>
               </div>
               <div className='text-center'>
-                <div className='text-3xl font-bold text-white mb-2'>1M+</div>
-                <div className='text-gray-400 text-sm'>Mesaj</div>
+                <div className='text-3xl font-bold text-white mb-2'>100+</div>
+                <div className='text-gray-400 text-sm'>Mutlu Müşteri</div>
               </div>
               <div className='text-center'>
-                <div className='text-3xl font-bold text-white mb-2'>4.8</div>
-                <div className='text-gray-400 text-sm'>Kullanıcı Puanı</div>
+                <div className='text-3xl font-bold text-white mb-2'>5</div>
+                <div className='text-gray-400 text-sm'>Yıl Deneyim</div>
               </div>
             </div>
           </div>
@@ -177,13 +184,13 @@ function AboutContent({ params }: { params: { locale: Locale } }) {
                 Misyonumuz
               </h2>
               <p className='text-lg text-gray-300 mb-6'>
-                AI teknolojisini insan odaklı hale getiriyoruz. Türkçe konuşan, 
-                empati kurabilen ve güvenilir AI asistanları ile kullanıcılarımızın 
-                günlük hayatlarını kolaylaştırıyoruz.
+                AI çözümleri ve klasik bilişim hizmetleri ile işletmelerin dijital 
+                dönüşüm yolculuğunda güvenilir partner olmak. Her projede mükemmellik 
+                ve müşteri memnuniyeti odaklı yaklaşım sergiliyoruz.
               </p>
               <p className='text-lg text-gray-300 mb-8'>
-                Pi gibi yabancı AI asistanlarının yaşadığı sorunları çözerek, 
-                Türk kullanıcılar için özel olarak tasarlanmış bir deneyim sunuyoruz.
+                Teknolojinin gücünü iş süreçlerine entegre ederek, müşterilerimizin 
+                rekabet avantajı elde etmelerini sağlıyoruz.
               </p>
               <div className='flex flex-col sm:flex-row gap-4'>
                 <Link
@@ -210,8 +217,9 @@ function AboutContent({ params }: { params: { locale: Locale } }) {
                     Vizyonumuz
                   </h3>
                   <p className='text-gray-300'>
-                    Türkiye'nin en güvenilir ve kullanıcı dostu AI platformu olmak. 
-                    Her Türk vatandaşının günlük hayatında AI asistanına sahip olmasını sağlamak.
+                    Türkiye'nin önde gelen teknoloji firması olmak. AI ve klasik bilişim 
+                    alanında yenilikçi çözümlerle iş dünyasının dijital dönüşümüne 
+                    öncülük etmek.
                   </p>
                 </div>
               </div>
@@ -220,8 +228,84 @@ function AboutContent({ params }: { params: { locale: Locale } }) {
         </div>
       </section>
 
-      {/* Values Section */}
+      {/* Alt Markalar Bölümü */}
       <section className='py-16'>
+        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+          <div className='text-center mb-16'>
+            <h2 className='text-4xl font-bold text-white mb-4'>
+              Alt Markalarımız
+            </h2>
+            <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
+              Her biri kendi alanında uzmanlaşmış 6 alt markamızla hizmet veriyoruz
+            </p>
+          </div>
+
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
+            {/* MySon Video */}
+            <Card className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'>
+              <div className='w-16 h-16 bg-gradient-to-r from-red-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4'>
+                <Video className='w-8 h-8 text-white' />
+              </div>
+              <h3 className='text-xl font-bold text-white mb-3'>MySon Video</h3>
+              <p className='text-gray-300 text-sm mb-4'>AI destekli animasyon & medya üretimi</p>
+              <div className='text-sm text-red-400 font-semibold'>🎬 Animasyon & Medya</div>
+            </Card>
+
+            {/* MySon Firmatch */}
+            <Card className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'>
+              <div className='w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4'>
+                <Briefcase className='w-8 h-8 text-white' />
+              </div>
+              <h3 className='text-xl font-bold text-white mb-3'>MySon Firmatch</h3>
+              <p className='text-gray-300 text-sm mb-4'>Akıllı dış ticaret asistanı</p>
+              <div className='text-sm text-blue-400 font-semibold'>🌍 Dış Ticaret</div>
+            </Card>
+
+            {/* MySon Avukat */}
+            <Card className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'>
+              <div className='w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-4'>
+                <Shield className='w-8 h-8 text-white' />
+              </div>
+              <h3 className='text-xl font-bold text-white mb-3'>MySon Avukat</h3>
+              <p className='text-gray-300 text-sm mb-4'>AI hukuk çözümleri</p>
+              <div className='text-sm text-yellow-400 font-semibold'>⚖️ Hukuk</div>
+            </Card>
+
+            {/* MySon Kids */}
+            <Card className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'>
+              <div className='w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4'>
+                <Users className='w-8 h-8 text-white' />
+              </div>
+              <h3 className='text-xl font-bold text-white mb-3'>MySon Kids</h3>
+              <p className='text-gray-300 text-sm mb-4'>Çocuk hikâyeleri, animasyon, sesli kitaplar</p>
+              <div className='text-sm text-green-400 font-semibold'>👶 Çocuk İçerikleri</div>
+            </Card>
+
+            {/* MySon Education */}
+            <Card className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'>
+              <div className='w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4'>
+                <GraduationCap className='w-8 h-8 text-white' />
+              </div>
+              <h3 className='text-xl font-bold text-white mb-3'>MySon Education</h3>
+              <p className='text-gray-300 text-sm mb-4'>AI tabanlı eğitim çözümleri</p>
+              <div className='text-sm text-purple-400 font-semibold'>🎓 Eğitim</div>
+            </Card>
+
+            {/* MySon Music */}
+            <Card className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'>
+              <div className='w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4'>
+                <Music className='w-8 h-8 text-white' />
+              </div>
+              <h3 className='text-xl font-bold text-white mb-3'>MySon Music</h3>
+              <p className='text-gray-300 text-sm mb-4'>AI tabanlı müzik düzenlemeleri</p>
+              <div className='text-sm text-indigo-400 font-semibold'>🎵 Müzik</div>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Values Section */}
+      <section className='py-16 bg-black/20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
             <h2 className='text-4xl font-bold text-white mb-4'>
@@ -315,25 +399,25 @@ function AboutContent({ params }: { params: { locale: Locale } }) {
         <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center'>
           <div className='bg-white/10 backdrop-blur-md rounded-2xl p-10 border border-white/20'>
             <h2 className='text-4xl font-bold text-white mb-6'>
-              MySonAI Ailesine Katılın
+              Projenizi Hayata Geçirin
             </h2>
             <p className='text-xl text-gray-300 mb-8'>
-              Türkçe AI asistanları ile tanışın ve geleceğin teknolojisini bugünden deneyimleyin
+              AI çözümleri ve klasik bilişim hizmetlerimizle işinizi bir üst seviyeye taşıyın
             </p>
             <div className='flex flex-col sm:flex-row gap-4 justify-center'>
               <Link
-                href={`/${params.locale}/signup`}
+                href={`/${params.locale}/contact`}
                 className='bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-full font-semibold text-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-300'
               >
                 <Rocket className='w-6 h-6 inline mr-2' />
-                Hemen Başla
+                Teklif Al
               </Link>
               <Link
                 href={`/${params.locale}/demo`}
                 className='bg-white/10 backdrop-blur-md text-white px-8 py-4 rounded-full font-semibold text-lg border border-white/20 hover:bg-white/20 transition-all duration-300'
               >
                 <Lightbulb className='w-6 h-6 inline mr-2' />
-                Demo Dene
+                Demo İncele
               </Link>
             </div>
           </div>
