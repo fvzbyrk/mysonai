@@ -274,6 +274,7 @@ function ContactContent({ params }: { params: { locale: Locale } }) {
                   <option value=''>Hizmet türünü seçin</option>
                   <option value='ai-solutions'>AI Çözümleri</option>
                   <option value='custom-ai-assistant'>Özel Uzmanlık Alanı AI Asistanı</option>
+                  <option value='chatbot-ai-support'>Chatbot AI Desteği</option>
                   <option value='web-development'>Web Geliştirme</option>
                   <option value='mobile-apps'>Mobil Uygulamalar</option>
                   <option value='digital-media'>Dijital Medya</option>

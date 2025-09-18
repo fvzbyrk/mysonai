@@ -191,6 +191,7 @@ Daha detaylı bilgi için iletişime geçebilirsiniz.`;
 🤖 **Prompt Mühendisliği**: AI modelleri için optimize edilmiş promptlar
 🧠 **AI Asistanlar**: Özel ihtiyaçlara göre AI asistanlar
 🎯 **Özel Uzmanlık Alanı AI Asistanları**: Kendi uzmanlık alanınız için özel AI asistan geliştirme
+💬 **Chatbot AI Desteği**: Mevcut chatbotlarınızı AI ile güçlendirme
 📊 **Veri Analizi**: AI destekli veri analizi ve raporlama
 🎨 **Görüntü İşleme**: AI destekli görüntü ve video işleme
 🎵 **Ses İşleme**: AI destekli ses analizi ve sentezi
@@ -202,11 +203,48 @@ Daha detaylı bilgi için iletişime geçebilirsiniz.`;
 - Özel prompt mühendisliği
 - Kişiselleştirilmiş yanıt sistemi
 
+**Chatbot AI Desteği:**
+- Mevcut chatbotlarınızı AI ile güçlendirme
+- Doğal dil işleme entegrasyonu
+- Akıllı yanıt optimizasyonu
+- Çok dilli destek
+- Öğrenme ve gelişim sistemi
+
 Alt markalarımız:
 - MySon Video: AI destekli animasyon
 - MySon Avukat: AI hukuk çözümleri
 - MySon Education: AI eğitim platformları
 - MySon Music: AI müzik düzenleme
+
+Daha detaylı bilgi için iletişime geçebilirsiniz.`;
+    }
+    // Chatbot AI desteği hakkında sorular
+    else if (message.toLowerCase().includes('chatbot') || message.toLowerCase().includes('chat bot') || message.toLowerCase().includes('sohbet botu') || message.toLowerCase().includes('ai desteği')) {
+      response = `Chatbot AI Desteği hizmetlerimiz:
+
+💬 **Mevcut Chatbot Güçlendirme**: 
+- Mevcut chatbotlarınızı AI ile güçlendiriyoruz
+- Doğal dil işleme entegrasyonu
+- Akıllı yanıt optimizasyonu
+- Öğrenme ve gelişim sistemi
+
+🚀 **Yeni Chatbot Geliştirme**:
+- Sıfırdan AI destekli chatbot geliştirme
+- Sektörel bilgi entegrasyonu
+- Çok dilli destek
+- Entegrasyon ve API desteği
+
+📊 **Chatbot Analizi**:
+- Mevcut chatbot performans analizi
+- İyileştirme önerileri
+- Kullanıcı deneyimi optimizasyonu
+- ROI hesaplama
+
+🔧 **Teknik Destek**:
+- Chatbot entegrasyonu
+- API geliştirme
+- Veri analizi ve raporlama
+- Sürekli optimizasyon
 
 Daha detaylı bilgi için iletişime geçebilirsiniz.`;
     }

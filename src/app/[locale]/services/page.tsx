@@ -55,6 +55,7 @@ const services = [
       'Prompt mühendisliği',
       'AI asistanlar geliştirme',
       'Özel uzmanlık alanı AI asistanları',
+      'Chatbot AI desteği ve entegrasyonu',
       'Veri analizi ve makine öğrenmesi',
       'Görüntü ve ses işleme',
       'Doğal dil işleme',

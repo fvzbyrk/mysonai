@@ -178,6 +178,7 @@ export default function HomePage({ params }: { params: { locale: Locale } }) {
                 <li>• Prompt mühendisliği</li>
                 <li>• AI asistanlar</li>
                 <li>• Özel uzmanlık alanı AI asistanları</li>
+                <li>• Chatbot AI desteği</li>
                 <li>• Veri analizi</li>
                 <li>• Görüntü/ses işleme</li>
               </ul>
