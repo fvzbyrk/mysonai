@@ -48,7 +48,7 @@ export async function generateMetadata({
   };
 }
 
-function BlogCard({ post }: { post: BlogPost }) {
+function BlogCard({ post, locale }: { post: BlogPost; locale: Locale }) {
   const category = blogCategories.find(cat => cat.id === post.category);
   
   return (
@@ -118,7 +118,7 @@ function BlogCard({ post }: { post: BlogPost }) {
         </div>
         
         {/* Read More Button */}
-        <Link href={`/${params.locale}/blog/${post.slug}`}>
+        <Link href={`/${locale}/blog/${post.slug}`}>
           <Button 
             variant="outline" 
             className="w-full border-white/20 text-white hover:bg-white/10 group-hover:border-purple-500 group-hover:text-purple-300 transition-all duration-300"
@@ -132,9 +132,9 @@ function BlogCard({ post }: { post: BlogPost }) {
   );
 }
 
-function CategoryCard({ category }: { category: BlogCategory }) {
+function CategoryCard({ category, locale }: { category: BlogCategory; locale: Locale }) {
   return (
-    <Link href={`/${params.locale}/blog/kategori/${category.slug}`}>
+    <Link href={`/${locale}/blog/kategori/${category.slug}`}>
       <Card className={`bg-gradient-to-r ${category.color} text-white hover:scale-105 transition-all duration-300 cursor-pointer`}>
         <div className="p-6 text-center">
           <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -198,7 +198,7 @@ function BlogContent({ params }: { params: { locale: Locale } }) {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {blogCategories.map((category) => (
-              <CategoryCard key={category.id} category={category} />
+              <CategoryCard key={category.id} category={category} locale={params.locale} />
             ))}
           </div>
         </div>
@@ -219,7 +219,7 @@ function BlogContent({ params }: { params: { locale: Locale } }) {
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {featuredPosts.map((post) => (
-                <BlogCard key={post.id} post={post} />
+                <BlogCard key={post.id} post={post} locale={params.locale} />
               ))}
             </div>
           </div>
@@ -240,7 +240,7 @@ function BlogContent({ params }: { params: { locale: Locale } }) {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {recentPosts.map((post) => (
-              <BlogCard key={post.id} post={post} />
+              <BlogCard key={post.id} post={post} locale={params.locale} />
             ))}
           </div>
           

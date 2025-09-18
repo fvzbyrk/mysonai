@@ -28,7 +28,6 @@ export function MobileWrapper({
 
 // Export all mobile components
 export {
-  MobileProvider,
   Responsive,
   MobileOnly,
   TabletOnly,

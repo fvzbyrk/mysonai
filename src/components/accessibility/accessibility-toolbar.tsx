@@ -5,8 +5,8 @@ import { useAccessibilityContext } from './accessibility-provider';
 import { Button } from '@/components/ui/button';
 import { 
   Text, 
-  TextIncrease, 
-  TextDecrease, 
+  Plus, 
+  Minus, 
   Contrast, 
   Volume2, 
   VolumeX,
@@ -103,7 +103,7 @@ export function AccessibilityToolbar() {
                 className="flex-1"
                 aria-label="Font boyutunu azalt"
               >
-                <TextDecrease className="w-4 h-4" />
+                <Minus className="w-4 h-4" />
               </Button>
               
               <Button
@@ -123,7 +123,7 @@ export function AccessibilityToolbar() {
                 className="flex-1"
                 aria-label="Font boyutunu artır"
               >
-                <TextIncrease className="w-4 h-4" />
+                <Plus className="w-4 h-4" />
               </Button>
             </div>
           </div>
