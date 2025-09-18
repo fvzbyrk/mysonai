@@ -29,12 +29,6 @@ export function AIAssistantChat({ locale }: AIAssistantChatProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const pathname = usePathname();
-
-  // İletişim sayfasında global AI asistanı gizle
-  if (pathname.includes('/contact')) {
-    return null;
-  }
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
