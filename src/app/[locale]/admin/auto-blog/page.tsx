@@ -391,8 +391,7 @@ export default function AutoBlogAdminPage() {
             
             <Button
               onClick={handleGenerateDaily}
-              variant="outline"
-              className="border-white/20 text-white hover:bg-white/10"
+              className="bg-gradient-to-r from-blue-600 to-purple-600 text-white border-0 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-semibold"
               disabled={isLoading}
             >
               <RefreshCw className={cn("w-4 h-4 mr-2", isLoading && "animate-spin")} />
