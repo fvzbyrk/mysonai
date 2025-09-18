@@ -1,0 +1,135 @@
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Lock, Eye, EyeOff } from 'lucide-react';
+import { cn } from '@/lib/utils';
+
+export default function AdminLoginPage() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const router = useRouter();
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError('');
+
+    try {
+      const response = await fetch('/api/admin/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        // Store auth token in localStorage
+        localStorage.setItem('admin_token', result.token);
+        router.push('/tr/admin/auto-blog');
+      } else {
+        setError(result.message || 'Giriş başarısız');
+      }
+    } catch (error) {
+      setError('Bağlantı hatası');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center p-6">
+      <Card className="bg-white/10 backdrop-blur-md border-white/20 w-full max-w-md">
+        <div className="p-8">
+          <div className="text-center mb-8">
+            <div className="w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Lock className="w-8 h-8 text-purple-400" />
+            </div>
+            <h1 className="text-2xl font-bold text-white mb-2">Admin Girişi</h1>
+            <p className="text-gray-300">MySonAI yönetim paneline erişim</p>
+          </div>
+
+          <form onSubmit={handleLogin} className="space-y-6">
+            <div>
+              <Label htmlFor="username" className="text-white text-sm font-medium">
+                Kullanıcı Adı
+              </Label>
+              <Input
+                id="username"
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Kullanıcı adınızı girin"
+                className="bg-white/10 border-white/20 text-white placeholder-gray-400 mt-2"
+                required
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="password" className="text-white text-sm font-medium">
+                Şifre
+              </Label>
+              <div className="relative mt-2">
+                <Input
+                  id="password"
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Şifrenizi girin"
+                  className="bg-white/10 border-white/20 text-white placeholder-gray-400 pr-10"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"
+                >
+                  {showPassword ? (
+                    <EyeOff className="w-4 h-4" />
+                  ) : (
+                    <Eye className="w-4 h-4" />
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {error && (
+              <div className="bg-red-500/20 border border-red-500/50 rounded-lg p-3">
+                <p className="text-red-300 text-sm">{error}</p>
+              </div>
+            )}
+
+            <Button
+              type="submit"
+              disabled={isLoading || !username || !password}
+              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white border-0 hover:from-purple-700 hover:to-pink-700 transition-all duration-300"
+            >
+              {isLoading ? (
+                <div className="flex items-center">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                  Giriş yapılıyor...
+                </div>
+              ) : (
+                'Giriş Yap'
+              )}
+            </Button>
+          </form>
+
+          <div className="mt-6 text-center">
+            <p className="text-gray-400 text-sm">
+              Bu alan sadece yetkili personel içindir
+            </p>
+          </div>
+        </div>
+      </Card>
+    </div>
+  );
+}

@@ -311,46 +311,106 @@ async function generateCategoryContent(category: string) {
       }, { status: 400 });
     }
 
-    // Generate content based on category
+    // Generate content based on category with more detailed prompts
     let prompt = '';
     let title = '';
     let tags: string[] = [];
 
     switch (category) {
       case 'AI Teknolojisi':
-        prompt = 'Yapay zeka teknolojileri, makine öğrenmesi ve AI trendleri hakkında güncel bir makale yaz. Türkçe olarak yaz ve şu konuları kapsa: yeni AI modelleri, uygulama alanları, gelecek trendleri. 800-1000 kelime arasında olsun.';
+        prompt = `Yapay zeka teknolojileri, makine öğrenmesi ve AI trendleri hakkında kapsamlı ve detaylı bir makale yaz. Türkçe olarak yaz ve şu konuları detaylı şekilde ele al:
+
+1. Güncel AI modelleri ve gelişmeleri
+2. Makine öğrenmesi algoritmaları ve uygulamaları
+3. Derin öğrenme teknikleri
+4. AI'ın farklı sektörlerdeki kullanımı
+5. Gelecek trendleri ve öngörüler
+6. Etik ve güvenlik konuları
+7. Pratik örnekler ve vaka çalışmaları
+
+Makale 1500-2000 kelime arasında olsun, teknik detaylar içersin ve okuyucuya değer katsın.`;
         title = 'AI Teknolojilerinde Yeni Gelişmeler';
-        tags = ['ai', 'teknoloji', 'makine-öğrenmesi', 'trendler'];
+        tags = ['ai', 'teknoloji', 'makine-öğrenmesi', 'trendler', 'yapay-zeka'];
         break;
       
       case 'İş Dünyası':
-        prompt = 'İş süreçleri, dijital dönüşüm ve kurumsal çözümler hakkında pratik bir makale yaz. Türkçe olarak yaz ve şu konuları kapsa: dijital dönüşüm stratejileri, iş süreçleri optimizasyonu, kurumsal teknoloji çözümleri. 800-1000 kelime arasında olsun.';
+        prompt = `İş süreçleri, dijital dönüşüm ve kurumsal çözümler hakkında kapsamlı bir makale yaz. Türkçe olarak yaz ve şu konuları detaylı şekilde ele al:
+
+1. Dijital dönüşüm stratejileri ve uygulama yöntemleri
+2. İş süreçleri optimizasyonu teknikleri
+3. Kurumsal teknoloji çözümleri ve entegrasyon
+4. Veri analizi ve iş zekası uygulamaları
+5. Uzaktan çalışma ve dijital iş modelleri
+6. Müşteri deneyimi ve dijital pazarlama
+7. Başarı hikayeleri ve pratik örnekler
+
+Makale 1500-2000 kelime arasında olsun, iş dünyasına değer katsın.`;
         title = 'Dijital Dönüşümde Başarı Stratejileri';
-        tags = ['dijital-dönüşüm', 'iş-süreçleri', 'kurumsal-çözümler', 'teknoloji'];
+        tags = ['dijital-dönüşüm', 'iş-süreçleri', 'kurumsal-çözümler', 'teknoloji', 'iş-dünyası'];
         break;
       
       case 'Eğitimler':
-        prompt = 'Pratik rehberler, nasıl yapılır ve öğretici içerikler hakkında detaylı bir makale yaz. Türkçe olarak yaz ve şu konuları kapsa: adım adım rehberler, pratik ipuçları, öğrenme stratejileri. 800-1000 kelime arasında olsun.';
+        prompt = `Pratik rehberler, nasıl yapılır ve öğretici içerikler hakkında detaylı bir makale yaz. Türkçe olarak yaz ve şu konuları kapsamlı şekilde ele al:
+
+1. Adım adım rehberler ve uygulama yöntemleri
+2. Pratik ipuçları ve en iyi uygulamalar
+3. Öğrenme stratejileri ve kaynak önerileri
+4. Teknik beceri geliştirme yöntemleri
+5. Proje tabanlı öğrenme yaklaşımları
+6. Sertifikasyon ve kariyer gelişimi
+7. Gerçek örnekler ve uygulamalar
+
+Makale 1500-2000 kelime arasında olsun, öğrenmeye değer katsın.`;
         title = 'Teknoloji Öğrenme Rehberi';
-        tags = ['eğitim', 'rehber', 'öğrenme', 'pratik-ipuçları'];
+        tags = ['eğitim', 'rehber', 'öğrenme', 'pratik-ipuçları', 'beceri-geliştirme'];
         break;
       
       case 'Vaka Çalışmaları':
-        prompt = 'Gerçek projeler, başarı hikayeleri ve deneyimler hakkında detaylı bir vaka çalışması yaz. Türkçe olarak yaz ve şu konuları kapsa: proje detayları, karşılaşılan zorluklar, çözüm yöntemleri, sonuçlar. 800-1000 kelime arasında olsun.';
+        prompt = `Gerçek projeler, başarı hikayeleri ve deneyimler hakkında detaylı bir vaka çalışması yaz. Türkçe olarak yaz ve şu konuları kapsamlı şekilde ele al:
+
+1. Proje detayları ve teknik özellikler
+2. Karşılaşılan zorluklar ve çözüm yöntemleri
+3. Kullanılan teknolojiler ve araçlar
+4. Takım yönetimi ve süreç organizasyonu
+5. Sonuçlar ve başarı metrikleri
+6. Öğrenilen dersler ve öneriler
+7. Gelecek projeler için ipuçları
+
+Makale 1500-2000 kelime arasında olsun, gerçek deneyimler içersin.`;
         title = 'Başarılı Teknoloji Projesi Vaka Çalışması';
-        tags = ['vaka-çalışması', 'başarı-hikayesi', 'proje-yönetimi', 'deneyim'];
+        tags = ['vaka-çalışması', 'başarı-hikayesi', 'proje-yönetimi', 'deneyim', 'teknoloji'];
         break;
       
       case 'Haberler':
-        prompt = 'Sektör haberleri, güncellemeler ve duyurular hakkında güncel bir haber makalesi yaz. Türkçe olarak yaz ve şu konuları kapsa: son teknoloji haberleri, sektör güncellemeleri, önemli duyurular. 800-1000 kelime arasında olsun.';
+        prompt = `Sektör haberleri, güncellemeler ve duyurular hakkında güncel bir haber makalesi yaz. Türkçe olarak yaz ve şu konuları kapsamlı şekilde ele al:
+
+1. Son teknoloji haberleri ve gelişmeler
+2. Sektör güncellemeleri ve trend analizi
+3. Önemli duyurular ve lansmanlar
+4. Şirket haberleri ve yatırımlar
+5. Teknoloji etkinlikleri ve konferanslar
+6. Uzman görüşleri ve yorumlar
+7. Gelecek öngörüleri ve beklentiler
+
+Makale 1500-2000 kelime arasında olsun, güncel ve bilgilendirici olsun.`;
         title = 'Teknoloji Sektöründen Son Haberler';
-        tags = ['haberler', 'sektör-güncellemeleri', 'teknoloji-haberleri', 'duyurular'];
+        tags = ['haberler', 'sektör-güncellemeleri', 'teknoloji-haberleri', 'duyurular', 'güncel-gelişmeler'];
         break;
       
       default:
-        prompt = 'Genel teknoloji konuları hakkında bilgilendirici bir makale yaz. Türkçe olarak yaz ve güncel teknoloji trendlerini kapsa. 800-1000 kelime arasında olsun.';
+        prompt = `Genel teknoloji konuları hakkında bilgilendirici bir makale yaz. Türkçe olarak yaz ve güncel teknoloji trendlerini kapsamlı şekilde ele al:
+
+1. Güncel teknoloji trendleri ve gelişmeler
+2. Sektör analizi ve pazar durumu
+3. Teknoloji etkisi ve toplumsal değişim
+4. Gelecek öngörüleri ve beklentiler
+5. Uzman görüşleri ve analizler
+6. Pratik uygulamalar ve örnekler
+7. Öneriler ve sonuçlar
+
+Makale 1500-2000 kelime arasında olsun, okuyucuya değer katsın.`;
         title = 'Teknoloji Dünyasından Güncel Gelişmeler';
-        tags = ['teknoloji', 'güncel-gelişmeler', 'trendler'];
+        tags = ['teknoloji', 'güncel-gelişmeler', 'trendler', 'sektör-analizi'];
     }
 
     // Generate content using Gemini
@@ -391,6 +451,20 @@ async function generateCategoryContent(category: string) {
 
     // Add to mock posts
     mockPosts.push(newPost);
+
+    // Also add to auto-blog posts for admin panel
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/auto-blog`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          action: 'sync-blog-post',
+          postData: newPost
+        })
+      });
+    } catch (error) {
+      console.error('Error syncing with auto-blog:', error);
+    }
 
     return NextResponse.json({
       success: true,

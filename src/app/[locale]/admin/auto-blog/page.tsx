@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -44,6 +45,8 @@ interface BlogPost {
 }
 
 export default function AutoBlogAdminPage() {
+  const router = useRouter();
+  
   const [status, setStatus] = useState<AutoBlogStatus>({
     isRunning: false,
     lastGenerated: null,
@@ -54,9 +57,28 @@ export default function AutoBlogAdminPage() {
   });
   
   const [recentPosts, setRecentPosts] = useState<BlogPost[]>([]);
+  const [allPosts, setAllPosts] = useState<BlogPost[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState('all');
+  const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
+  const [showPostModal, setShowPostModal] = useState(false);
+  const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
+
+  const loadAllPosts = async () => {
+    try {
+      // In a real app, this would fetch from API
+      // For now, we'll use mock data
+      setAllPosts(mockPosts);
+    } catch (error) {
+      console.error('Error loading posts:', error);
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('admin_token');
+    router.push('/tr/admin/login');
+  };
 
   // Mock data for demonstration
   const mockStatus: AutoBlogStatus = {
@@ -106,10 +128,12 @@ export default function AutoBlogAdminPage() {
   ];
 
   useEffect(() => {
-    // Load status and posts
+    // Load initial data
     setStatus(mockStatus);
     setRecentPosts(mockPosts);
+    loadAllPosts();
   }, []);
+
 
   // Generate hybrid news (GPT + Gemini)
   const handleGenerateHybrid = async () => {
@@ -402,6 +426,15 @@ export default function AutoBlogAdminPage() {
           
           <div className="flex items-center space-x-4">
             <Button
+              onClick={handleLogout}
+              variant="outline"
+              className="bg-white/10 border-white/20 text-white hover:bg-white/20"
+            >
+              <Settings className="w-4 h-4 mr-2" />
+              Çıkış Yap
+            </Button>
+            
+            <Button
               onClick={handleToggleScheduler}
               variant={status.isRunning ? "destructive" : "default"}
               className={cn(
@@ -558,6 +591,35 @@ export default function AutoBlogAdminPage() {
                 Karşılaştır
               </Button>
             </div>
+          </div>
+        </Card>
+
+        {/* Daily 60 Articles Production */}
+        <Card className="bg-white/10 backdrop-blur-md border-white/20">
+          <div className="p-6">
+            <h3 className="text-lg font-semibold text-white mb-4">Günlük 60 Makale Üretimi</h3>
+            <p className="text-gray-300 mb-4">AI ile günlük 60 detaylı makale üretin - güçlü veri tabanı oluşturun</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+              <div className="bg-blue-500/20 p-4 rounded-lg">
+                <h4 className="text-white font-semibold">AI Teknolojisi</h4>
+                <p className="text-gray-300 text-sm">20 makale</p>
+              </div>
+              <div className="bg-green-500/20 p-4 rounded-lg">
+                <h4 className="text-white font-semibold">İş Dünyası</h4>
+                <p className="text-gray-300 text-sm">15 makale</p>
+              </div>
+              <div className="bg-purple-500/20 p-4 rounded-lg">
+                <h4 className="text-white font-semibold">Eğitimler</h4>
+                <p className="text-gray-300 text-sm">10 makale</p>
+              </div>
+            </div>
+            <Button
+              onClick={() => handleGenerateDaily60()}
+              className="w-full bg-gradient-to-r from-red-600 to-pink-600 text-white border-0 hover:from-red-700 hover:to-pink-700 transition-all duration-300"
+              disabled={isLoading}
+            >
+              {isLoading ? '60 Makale Üretiliyor...' : 'Günlük 60 Makale Üret'}
+            </Button>
           </div>
         </Card>
 

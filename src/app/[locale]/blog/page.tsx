@@ -32,6 +32,17 @@ interface BlogPost {
   imageAlt?: string;
 }
 
+interface Comment {
+  id: string;
+  postId: string;
+  author: string;
+  email: string;
+  content: string;
+  createdAt: string;
+  isApproved: boolean;
+  parentId?: string;
+}
+
 export default function BlogPage() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -126,13 +137,13 @@ export default function BlogPage() {
   const getPriorityBadge = (priority: string) => {
     switch (priority) {
       case 'high':
-        return <Badge className="bg-red-500">Yüksek</Badge>;
+        return <Badge className="bg-gradient-to-r from-red-600 to-red-700 text-white border-0">Yüksek</Badge>;
       case 'medium':
-        return <Badge className="bg-yellow-500">Orta</Badge>;
+        return <Badge className="bg-gradient-to-r from-yellow-600 to-yellow-700 text-white border-0">Orta</Badge>;
       case 'low':
-        return <Badge className="bg-green-500">Düşük</Badge>;
+        return <Badge className="bg-gradient-to-r from-green-600 to-green-700 text-white border-0">Düşük</Badge>;
       default:
-        return <Badge className="bg-gray-500">Bilinmiyor</Badge>;
+        return <Badge className="bg-gradient-to-r from-gray-600 to-gray-700 text-white border-0">Bilinmiyor</Badge>;
     }
   };
 
@@ -186,13 +197,13 @@ export default function BlogPage() {
         
               <div className="mb-6">
                 <div className="flex items-center space-x-2 mb-4">
-                  <Badge className="bg-blue-500">{selectedPost.category}</Badge>
+                  <Badge className="bg-gradient-to-r from-blue-600 to-blue-700 text-white border-0">{selectedPost.category}</Badge>
                   {getPriorityBadge(selectedPost.priority)}
-                  <Badge className="bg-purple-500">{selectedPost.source}</Badge>
+                  <Badge className="bg-gradient-to-r from-purple-600 to-purple-700 text-white border-0">{selectedPost.source}</Badge>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {selectedPost.tags.map((tag, index) => (
-                    <Badge key={index} variant="outline" className="border-white/20 text-white">
+                    <Badge key={index} variant="outline" className="bg-white/10 border-white/30 text-white hover:bg-white/20">
               <Tag className="w-3 h-3 mr-1" />
               {tag}
             </Badge>
@@ -232,8 +243,8 @@ export default function BlogPage() {
                   variant={selectedCategory === category ? "default" : "outline"}
                   className={cn(
                     selectedCategory === category 
-                      ? "bg-blue-600 text-white" 
-                      : "border-white/20 text-white hover:bg-white/10"
+                      ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white border-0 shadow-lg" 
+                      : "bg-white/10 border-white/30 text-white hover:bg-white/20 hover:border-white/50 backdrop-blur-sm"
                   )}
                 >
                   {category === 'all' ? 'Tümü' : category}
@@ -275,7 +286,7 @@ export default function BlogPage() {
                       <FileText className="w-5 h-5 text-purple-400" />
                     </div>
                     <div className="flex items-center space-x-2">
-                      <Badge className="bg-green-500">Yayınlandı</Badge>
+                      <Badge className="bg-gradient-to-r from-green-600 to-green-700 text-white border-0">Yayınlandı</Badge>
                       {getPriorityBadge(post.priority)}
                     </div>
                   </div>
@@ -297,8 +308,8 @@ export default function BlogPage() {
                   
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <Badge className="bg-blue-500">{post.category}</Badge>
-                      <Badge className="bg-purple-500">{post.source}</Badge>
+                      <Badge className="bg-gradient-to-r from-blue-600 to-blue-700 text-white border-0">{post.category}</Badge>
+                      <Badge className="bg-gradient-to-r from-purple-600 to-purple-700 text-white border-0">{post.source}</Badge>
                     </div>
                     <ExternalLink className="w-4 h-4 text-gray-400" />
                   </div>

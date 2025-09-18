@@ -8,7 +8,7 @@ const gptGeminiIntegration = new GptGeminiIntegration();
 
 export async function POST(request: NextRequest) {
   try {
-    const { action, config } = await request.json();
+    const { action, config, postData } = await request.json();
     
     switch (action) {
       case 'generate-daily':
@@ -16,6 +16,9 @@ export async function POST(request: NextRequest) {
       
       case 'generate-category':
         return await generateCategoryPost(config?.category || 'Genel');
+      
+      case 'sync-blog-post':
+        return await syncBlogPost(postData);
       
       default:
         return NextResponse.json({
@@ -137,6 +140,26 @@ async function generateCategoryPost(category: string) {
     return NextResponse.json({
       success: false,
       message: 'Category post generation failed',
+      error: error instanceof Error ? error.message : 'Unknown error'
+    }, { status: 500 });
+  }
+}
+
+// Sync blog post from blog API
+async function syncBlogPost(postData: any) {
+  try {
+    // In a real app, you would store this in a database
+    // For now, we'll just return success
+    return NextResponse.json({
+      success: true,
+      message: 'Blog post synced successfully',
+      data: postData
+    });
+  } catch (error) {
+    console.error('Sync blog post error:', error);
+    return NextResponse.json({
+      success: false,
+      message: 'Failed to sync blog post',
       error: error instanceof Error ? error.message : 'Unknown error'
     }, { status: 500 });
   }
