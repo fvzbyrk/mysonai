@@ -13,6 +13,7 @@ import { locales } from '@/lib/i18n';
 import { HreflangTags } from '@/components/hreflang';
 import { JsonLd } from '@/components/json-ld';
 import { CookieConsent } from '@/components/cookie-consent';
+import { AIAssistantChat } from '@/components/ai-assistant-chat';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -140,6 +141,8 @@ export default function LocaleLayout({
             <Header />
             <main className='flex-1'>{children}</main>
             <Footer />
+            {/* Global AI Assistant */}
+            <AIAssistantChat locale={params.locale} />
           </div>
           <Toaster position='top-right' richColors />
           <CookieConsent />

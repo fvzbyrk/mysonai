@@ -113,14 +113,32 @@ export function AIAssistantChat({ locale }: AIAssistantChatProps) {
     <>
       {/* Floating Chat Button */}
       {!isOpen && (
-        <div className="fixed bottom-6 right-6 z-50">
+        <div className="fixed bottom-6 right-6 z-50 group">
           <Button
             onClick={() => setIsOpen(true)}
-            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-full p-4 shadow-lg hover:shadow-xl transition-all duration-300"
+            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-full p-4 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-110"
             size="lg"
           >
             <MessageCircle className="w-6 h-6" />
           </Button>
+          
+          {/* Tooltip */}
+          <div className="absolute bottom-full right-0 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+            <div className="bg-gray-900 text-white text-sm px-3 py-2 rounded-lg shadow-lg whitespace-nowrap">
+              <div className="font-semibold mb-1">AI Asistanımız</div>
+              <div className="text-xs text-gray-300">
+                Sağ alt köşedeki chat butonuna tıklayarak AI asistanımızla anlık olarak konuşabilir, 
+                sorularınızı sorabilir ve proje danışmanlığı alabilirsiniz.
+              </div>
+              <div className="flex flex-wrap gap-1 mt-2">
+                <span className="bg-purple-500/20 text-purple-300 px-2 py-1 rounded-full text-xs">7/24 Hizmet</span>
+                <span className="bg-pink-500/20 text-pink-300 px-2 py-1 rounded-full text-xs">Anlık Yanıt</span>
+                <span className="bg-blue-500/20 text-blue-300 px-2 py-1 rounded-full text-xs">Ücretsiz Danışmanlık</span>
+              </div>
+              {/* Arrow */}
+              <div className="absolute top-full right-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+            </div>
+          </div>
         </div>
       )}
 

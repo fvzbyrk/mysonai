@@ -159,11 +159,11 @@ Daha detaylı bilgi için iletişime geçebilirsiniz.`;
 💳 **Esnek Ödeme**: Taksitli ödeme seçenekleri
 🔄 **6 Ay Destek**: Tüm projeler için ücretsiz destek
 
-Bütçe aralıkları:
-- 10.000 - 25.000 TL: Basit web siteleri
-- 25.000 - 50.000 TL: Orta ölçekli projeler
-- 50.000 - 100.000 TL: Karmaşık AI projeleri
-- 100.000 TL+: Kurumsal çözümler
+Bütçe aralıkları (+KDV):
+- 10.000 - 25.000 TL +KDV: Basit web siteleri
+- 25.000 - 50.000 TL +KDV: Orta ölçekli projeler
+- 50.000 - 100.000 TL +KDV: Karmaşık AI projeleri
+- 100.000 TL+ +KDV: Kurumsal çözümler
 
 Daha detaylı bilgi için iletişime geçebilirsiniz.`;
     }
