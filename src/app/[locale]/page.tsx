@@ -177,6 +177,7 @@ export default function HomePage({ params }: { params: { locale: Locale } }) {
               <ul className='text-gray-300 space-y-2 mb-6'>
                 <li>• Prompt mühendisliği</li>
                 <li>• AI asistanlar</li>
+                <li>• Özel uzmanlık alanı AI asistanları</li>
                 <li>• Veri analizi</li>
                 <li>• Görüntü/ses işleme</li>
               </ul>

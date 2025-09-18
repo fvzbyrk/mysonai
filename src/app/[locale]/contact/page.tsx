@@ -273,6 +273,7 @@ function ContactContent({ params }: { params: { locale: Locale } }) {
                 <select className='w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500'>
                   <option value=''>Hizmet türünü seçin</option>
                   <option value='ai-solutions'>AI Çözümleri</option>
+                  <option value='custom-ai-assistant'>Özel Uzmanlık Alanı AI Asistanı</option>
                   <option value='web-development'>Web Geliştirme</option>
                   <option value='mobile-apps'>Mobil Uygulamalar</option>
                   <option value='digital-media'>Dijital Medya</option>

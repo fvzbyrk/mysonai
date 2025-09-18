@@ -190,10 +190,17 @@ Daha detaylı bilgi için iletişime geçebilirsiniz.`;
 
 🤖 **Prompt Mühendisliği**: AI modelleri için optimize edilmiş promptlar
 🧠 **AI Asistanlar**: Özel ihtiyaçlara göre AI asistanlar
+🎯 **Özel Uzmanlık Alanı AI Asistanları**: Kendi uzmanlık alanınız için özel AI asistan geliştirme
 📊 **Veri Analizi**: AI destekli veri analizi ve raporlama
 🎨 **Görüntü İşleme**: AI destekli görüntü ve video işleme
 🎵 **Ses İşleme**: AI destekli ses analizi ve sentezi
 📝 **Doğal Dil İşleme**: Metin analizi ve anlama
+
+**Özel AI Asistan Hizmeti:**
+- Kendi uzmanlık alanınız için özel AI asistan
+- Sektörel bilgi ve deneyim entegrasyonu
+- Özel prompt mühendisliği
+- Kişiselleştirilmiş yanıt sistemi
 
 Alt markalarımız:
 - MySon Video: AI destekli animasyon
