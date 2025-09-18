@@ -63,7 +63,7 @@ const contactInfo = [
   {
     icon: MapPin,
     title: 'Adres',
-    details: ['Teknoloji Mahallesi', 'İstanbul, Türkiye'],
+    details: ['Dodurga Mah. Zakir Caddesi 11/2', 'Çankaya, ANKARA'],
     description: 'Merkez ofisimiz'
   },
   {
