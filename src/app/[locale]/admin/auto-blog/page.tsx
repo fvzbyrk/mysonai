@@ -327,6 +327,41 @@ export default function AutoBlogAdminPage() {
     }
   };
 
+  // Generate category content
+  const handleGenerateCategoryContent = async (category: string) => {
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/blog', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          action: 'generate-category',
+          postData: { category }
+        })
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        // Add new post to the list
+        setRecentPosts(prev => [result.data, ...prev]);
+        setStatus(prev => ({
+          ...prev,
+          todayPosts: prev.todayPosts + 1,
+          totalPosts: prev.totalPosts + 1
+        }));
+        alert(`✅ ${category} kategorisi için yeni makale üretildi!`);
+      } else {
+        alert(`❌ Hata: ${result.message}`);
+      }
+    } catch (error) {
+      console.error('Error generating category content:', error);
+      alert(`❌ İçerik üretme hatası: ${error}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   // Get status badge
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -521,6 +556,60 @@ export default function AutoBlogAdminPage() {
               >
                 <Settings className="w-4 h-4 mr-2" />
                 Karşılaştır
+              </Button>
+            </div>
+          </div>
+        </Card>
+
+        {/* Category Content Generation */}
+        <Card className="bg-white/10 backdrop-blur-md border-white/20">
+          <div className="p-6">
+            <h3 className="text-lg font-semibold text-white mb-4">Kategori Bazlı İçerik Üretimi</h3>
+            <p className="text-gray-300 mb-4">Her kategori için AI ile özel makaleler üretin</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+              <Button
+                onClick={() => handleGenerateCategoryContent('AI Teknolojisi')}
+                className="bg-gradient-to-r from-purple-600 to-pink-600 text-white border-0 hover:from-purple-700 hover:to-pink-700 transition-all duration-300"
+                disabled={isLoading}
+              >
+                <Bot className="w-4 h-4 mr-2" />
+                AI Teknolojisi
+              </Button>
+              
+              <Button
+                onClick={() => handleGenerateCategoryContent('İş Dünyası')}
+                className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white border-0 hover:from-blue-700 hover:to-cyan-700 transition-all duration-300"
+                disabled={isLoading}
+              >
+                <BarChart3 className="w-4 h-4 mr-2" />
+                İş Dünyası
+              </Button>
+              
+              <Button
+                onClick={() => handleGenerateCategoryContent('Eğitimler')}
+                className="bg-gradient-to-r from-green-600 to-emerald-600 text-white border-0 hover:from-green-700 hover:to-emerald-700 transition-all duration-300"
+                disabled={isLoading}
+              >
+                <FileText className="w-4 h-4 mr-2" />
+                Eğitimler
+              </Button>
+              
+              <Button
+                onClick={() => handleGenerateCategoryContent('Vaka Çalışmaları')}
+                className="bg-gradient-to-r from-orange-600 to-red-600 text-white border-0 hover:from-orange-700 hover:to-red-700 transition-all duration-300"
+                disabled={isLoading}
+              >
+                <TrendingUp className="w-4 h-4 mr-2" />
+                Vaka Çalışmaları
+              </Button>
+              
+              <Button
+                onClick={() => handleGenerateCategoryContent('Haberler')}
+                className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white border-0 hover:from-indigo-700 hover:to-purple-700 transition-all duration-300"
+                disabled={isLoading}
+              >
+                <Globe className="w-4 h-4 mr-2" />
+                Haberler
               </Button>
             </div>
           </div>
