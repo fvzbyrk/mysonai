@@ -2,6 +2,7 @@ import { Locale } from '@/lib/i18n';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { AIAssistantChat } from '@/components/ai-assistant-chat';
 import { 
   Mail,
   Phone,
@@ -144,6 +145,8 @@ const faqs = [
 function ContactContent({ params }: { params: { locale: Locale } }) {
   return (
     <div className='min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900'>
+      {/* AI Assistant Chat */}
+      <AIAssistantChat locale={params.locale} />
       {/* Hero Section */}
       <section className='relative overflow-hidden py-20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
@@ -155,6 +158,25 @@ function ContactContent({ params }: { params: { locale: Locale } }) {
               Projenizi hayata geçirmek için bizimle iletişime geçin. 
               AI çözümleri ve klasik bilişim hizmetlerimizle işinizi bir üst seviyeye taşıyın.
             </p>
+            
+            {/* AI Assistant Introduction */}
+            <div className='bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 max-w-2xl mx-auto mb-8'>
+              <div className='flex items-center justify-center mb-4'>
+                <div className='w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mr-3'>
+                  <MessageCircle className='w-6 h-6 text-white' />
+                </div>
+                <h3 className='text-2xl font-bold text-white'>AI Asistanımız</h3>
+              </div>
+              <p className='text-gray-300 mb-4'>
+                Sağ alt köşedeki chat butonuna tıklayarak AI asistanımızla anlık olarak konuşabilir, 
+                sorularınızı sorabilir ve proje danışmanlığı alabilirsiniz.
+              </p>
+              <div className='flex flex-wrap justify-center gap-2'>
+                <span className='bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full text-sm'>7/24 Hizmet</span>
+                <span className='bg-pink-500/20 text-pink-300 px-3 py-1 rounded-full text-sm'>Anlık Yanıt</span>
+                <span className='bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-sm'>Ücretsiz Danışmanlık</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
