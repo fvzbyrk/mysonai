@@ -148,6 +148,36 @@ export default function BlogPage() {
 
   const categories = ['all', ...Array.from(new Set(posts.map(post => post.category)))];
 
+  // Generate content for specific category
+  const generateCategoryContent = async (category: string) => {
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/blog', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          action: 'generate-category',
+          postData: { category }
+        })
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        // Add new post to the list
+        setPosts(prev => [result.data, ...prev]);
+        alert(`✅ ${category} kategorisi için yeni makale üretildi!`);
+      } else {
+        alert(`❌ Hata: ${result.message}`);
+      }
+    } catch (error) {
+      console.error('Error generating content:', error);
+      alert(`❌ İçerik üretme hatası: ${error}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   if (selectedPost) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 p-6">
@@ -221,7 +251,7 @@ export default function BlogPage() {
         <Card className="bg-white/10 backdrop-blur-md border-white/20">
           <div className="p-6">
             <h3 className="text-lg font-semibold text-white mb-4">Kategoriler</h3>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 mb-4">
               {categories.map((category) => (
                 <Button
                   key={category}
@@ -236,6 +266,23 @@ export default function BlogPage() {
                   {category === 'all' ? 'Tümü' : category}
                 </Button>
               ))}
+            </div>
+            
+            {/* Generate Content Buttons */}
+            <div className="mt-4">
+              <h4 className="text-sm font-medium text-white mb-3">AI ile İçerik Üret</h4>
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
+                {['AI Teknolojisi', 'İş Dünyası', 'Eğitimler', 'Vaka Çalışmaları', 'Haberler'].map((category) => (
+                  <Button
+                    key={category}
+                    onClick={() => generateCategoryContent(category)}
+                    disabled={isLoading}
+                    className="bg-gradient-to-r from-purple-600 to-pink-600 text-white border-0 hover:from-purple-700 hover:to-pink-700 text-xs"
+                  >
+                    {isLoading ? 'Üretiliyor...' : `${category} Üret`}
+                  </Button>
+                ))}
+              </div>
             </div>
           </div>
         </Card>

@@ -35,7 +35,7 @@ const mockPosts: BlogPost[] = [
     `,
     status: 'published',
     publishedAt: '2024-09-18T09:00:00Z',
-    category: 'Genel',
+    category: 'AI Teknolojisi',
     tags: ['tech', 'günlük', 'gelişmeler', 'ai'],
     source: 'Gemini AI',
     priority: 'high',
@@ -44,7 +44,7 @@ const mockPosts: BlogPost[] = [
   },
   {
     id: '2',
-    title: 'AI ve Machine Learning Trendleri',
+    title: 'Machine Learning Trendleri 2024',
     content: `
       <h2>Machine Learning'de Yeni Trendler</h2>
       <p>2024 yılında machine learning alanında önemli trendler ortaya çıktı. Bu trendler, gelecekteki teknoloji gelişmelerini etkileyecek.</p>
@@ -59,7 +59,7 @@ const mockPosts: BlogPost[] = [
     `,
     status: 'published',
     publishedAt: '2024-09-18T14:00:00Z',
-    category: 'Yapay Zeka',
+    category: 'AI Teknolojisi',
     tags: ['ai', 'machine-learning', 'trend'],
     source: 'Gemini AI',
     priority: 'medium',
@@ -68,26 +68,27 @@ const mockPosts: BlogPost[] = [
   },
   {
     id: '3',
-    title: 'Startup Ekosistemi Güncellemeleri',
+    title: 'Dijital Dönüşüm Rehberi',
     content: `
-      <h2>Startup Dünyasından Haberler</h2>
-      <p>Bu hafta startup ekosisteminde önemli gelişmeler yaşandı. Yeni yatırımlar ve başarı hikayeleri dikkat çekiyor.</p>
+      <h2>İş Dünyasında Dijital Dönüşüm</h2>
+      <p>Modern iş dünyasında dijital dönüşüm artık bir seçenek değil, zorunluluk haline geldi. Bu süreçte dikkat edilmesi gereken önemli noktalar var.</p>
       
-      <h3>Öne Çıkan Startuplar:</h3>
+      <h3>Dijital Dönüşüm Adımları:</h3>
       <ul>
-        <li>TechCorp - 50M$ yatırım aldı</li>
-        <li>AIStart - Yeni AI çözümü duyurdu</li>
-        <li>GreenTech - Sürdürülebilir teknoloji</li>
+        <li>Mevcut süreçleri analiz etme</li>
+        <li>Teknoloji altyapısını güçlendirme</li>
+        <li>Çalışan eğitimleri</li>
+        <li>Sürekli iyileştirme</li>
       </ul>
     `,
     status: 'published',
     publishedAt: '2024-09-18T16:00:00Z',
-    category: 'Startup',
-    tags: ['startup', 'ekosistem', 'güncelleme'],
+    category: 'İş Dünyası',
+    tags: ['dijital-dönüşüm', 'iş-süreçleri', 'teknoloji'],
     source: 'Gemini AI',
-    priority: 'low',
+    priority: 'medium',
     author: 'MySonAI',
-    readTime: 4
+    readTime: 6
   }
 ];
 
@@ -148,6 +149,9 @@ export async function POST(request: NextRequest) {
       
       case 'delete':
         return await deletePost(postData.id);
+      
+      case 'generate-category':
+        return await generateCategoryContent(postData.category);
       
       default:
         return NextResponse.json({
@@ -252,6 +256,115 @@ async function deletePost(postId: string) {
     return NextResponse.json({
       success: false,
       message: 'Failed to delete post',
+      error: error instanceof Error ? error.message : 'Unknown error'
+    }, { status: 500 });
+  }
+}
+
+// Generate content for specific category using AI
+async function generateCategoryContent(category: string) {
+  try {
+    // Import Gemini chat for content generation
+    const { GeminiChat } = await import('@/lib/gemini-chat');
+    const geminiChat = new GeminiChat();
+
+    // Check if Gemini is available
+    const geminiStatus = await geminiChat.getStatus();
+    
+    if (!geminiStatus.available) {
+      return NextResponse.json({
+        success: false,
+        message: 'Gemini API not available',
+        error: geminiStatus.error
+      }, { status: 400 });
+    }
+
+    // Generate content based on category
+    let prompt = '';
+    let title = '';
+    let tags: string[] = [];
+
+    switch (category) {
+      case 'AI Teknolojisi':
+        prompt = 'Yapay zeka teknolojileri, makine öğrenmesi ve AI trendleri hakkında güncel bir makale yaz. Türkçe olarak yaz ve şu konuları kapsa: yeni AI modelleri, uygulama alanları, gelecek trendleri. 800-1000 kelime arasında olsun.';
+        title = 'AI Teknolojilerinde Yeni Gelişmeler';
+        tags = ['ai', 'teknoloji', 'makine-öğrenmesi', 'trendler'];
+        break;
+      
+      case 'İş Dünyası':
+        prompt = 'İş süreçleri, dijital dönüşüm ve kurumsal çözümler hakkında pratik bir makale yaz. Türkçe olarak yaz ve şu konuları kapsa: dijital dönüşüm stratejileri, iş süreçleri optimizasyonu, kurumsal teknoloji çözümleri. 800-1000 kelime arasında olsun.';
+        title = 'Dijital Dönüşümde Başarı Stratejileri';
+        tags = ['dijital-dönüşüm', 'iş-süreçleri', 'kurumsal-çözümler', 'teknoloji'];
+        break;
+      
+      case 'Eğitimler':
+        prompt = 'Pratik rehberler, nasıl yapılır ve öğretici içerikler hakkında detaylı bir makale yaz. Türkçe olarak yaz ve şu konuları kapsa: adım adım rehberler, pratik ipuçları, öğrenme stratejileri. 800-1000 kelime arasında olsun.';
+        title = 'Teknoloji Öğrenme Rehberi';
+        tags = ['eğitim', 'rehber', 'öğrenme', 'pratik-ipuçları'];
+        break;
+      
+      case 'Vaka Çalışmaları':
+        prompt = 'Gerçek projeler, başarı hikayeleri ve deneyimler hakkında detaylı bir vaka çalışması yaz. Türkçe olarak yaz ve şu konuları kapsa: proje detayları, karşılaşılan zorluklar, çözüm yöntemleri, sonuçlar. 800-1000 kelime arasında olsun.';
+        title = 'Başarılı Teknoloji Projesi Vaka Çalışması';
+        tags = ['vaka-çalışması', 'başarı-hikayesi', 'proje-yönetimi', 'deneyim'];
+        break;
+      
+      case 'Haberler':
+        prompt = 'Sektör haberleri, güncellemeler ve duyurular hakkında güncel bir haber makalesi yaz. Türkçe olarak yaz ve şu konuları kapsa: son teknoloji haberleri, sektör güncellemeleri, önemli duyurular. 800-1000 kelime arasında olsun.';
+        title = 'Teknoloji Sektöründen Son Haberler';
+        tags = ['haberler', 'sektör-güncellemeleri', 'teknoloji-haberleri', 'duyurular'];
+        break;
+      
+      default:
+        prompt = 'Genel teknoloji konuları hakkında bilgilendirici bir makale yaz. Türkçe olarak yaz ve güncel teknoloji trendlerini kapsa. 800-1000 kelime arasında olsun.';
+        title = 'Teknoloji Dünyasından Güncel Gelişmeler';
+        tags = ['teknoloji', 'güncel-gelişmeler', 'trendler'];
+    }
+
+    // Generate content using Gemini
+    const result = await geminiChat.generateResponse([
+      {
+        role: 'user',
+        content: prompt
+      }
+    ]);
+
+    if (!result.success) {
+      return NextResponse.json({
+        success: false,
+        message: 'Failed to generate content',
+        error: result.error
+      }, { status: 400 });
+    }
+
+    // Create new blog post
+    const newPost: BlogPost = {
+      id: `generated-${Date.now()}`,
+      title: title,
+      content: result.content,
+      status: 'published',
+      publishedAt: new Date().toISOString(),
+      category: category,
+      tags: tags,
+      source: 'Gemini AI',
+      priority: 'medium',
+      author: 'MySonAI',
+      readTime: Math.ceil(result.content.length / 200) // Approximate reading time
+    };
+
+    // Add to mock posts
+    mockPosts.push(newPost);
+
+    return NextResponse.json({
+      success: true,
+      message: 'Category content generated successfully',
+      data: newPost
+    });
+  } catch (error) {
+    console.error('Generate category content error:', error);
+    return NextResponse.json({
+      success: false,
+      message: 'Failed to generate category content',
       error: error instanceof Error ? error.message : 'Unknown error'
     }, { status: 500 });
   }
