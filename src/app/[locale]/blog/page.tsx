@@ -28,6 +28,8 @@ interface BlogPost {
   priority: 'high' | 'medium' | 'low';
   author?: string;
   readTime?: number;
+  imageUrl?: string;
+  imageAlt?: string;
 }
 
 export default function BlogPage() {
@@ -253,9 +255,20 @@ export default function BlogPage() {
             {filteredPosts.map((post) => (
               <Card 
                 key={post.id} 
-                className="bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/15 transition-all duration-300 cursor-pointer"
+                className="bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/15 transition-all duration-300 cursor-pointer overflow-hidden"
                 onClick={() => setSelectedPost(post)}
               >
+                {/* Post Image */}
+                {post.imageUrl && (
+                  <div className="h-48 w-full overflow-hidden">
+                    <img 
+                      src={post.imageUrl} 
+                      alt={post.imageAlt || post.title}
+                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                )}
+                
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-4">
                     <div className="w-10 h-10 bg-purple-500/20 rounded-full flex items-center justify-center">
@@ -264,8 +277,8 @@ export default function BlogPage() {
                     <div className="flex items-center space-x-2">
                       <Badge className="bg-green-500">Yayınlandı</Badge>
                       {getPriorityBadge(post.priority)}
-          </div>
-        </div>
+                    </div>
+                  </div>
                   
                   <h3 className="text-xl font-semibold text-white mb-2 line-clamp-2">
                     {post.title}
@@ -280,16 +293,16 @@ export default function BlogPage() {
                       <Clock className="w-4 h-4 mr-1" />
                       {post.readTime} dk
                     </div>
-            </div>
-            
+                  </div>
+                  
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <Badge className="bg-blue-500">{post.category}</Badge>
                       <Badge className="bg-purple-500">{post.source}</Badge>
                     </div>
                     <ExternalLink className="w-4 h-4 text-gray-400" />
-            </div>
-          </div>
+                  </div>
+                </div>
               </Card>
             ))}
           </div>

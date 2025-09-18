@@ -12,6 +12,8 @@ interface BlogPost {
   priority: 'high' | 'medium' | 'low';
   author?: string;
   readTime?: number;
+  imageUrl?: string;
+  imageAlt?: string;
 }
 
 // Mock blog posts data - in real app, this would come from database
@@ -261,6 +263,36 @@ async function deletePost(postId: string) {
   }
 }
 
+// Get image from Unsplash based on category
+async function getCategoryImage(category: string): Promise<{url: string, alt: string}> {
+  try {
+    const searchTerms = {
+      'AI Teknolojisi': 'artificial intelligence technology',
+      'İş Dünyası': 'business technology digital',
+      'Eğitimler': 'education learning technology',
+      'Vaka Çalışmaları': 'success business case study',
+      'Haberler': 'news technology updates'
+    };
+
+    const searchTerm = searchTerms[category as keyof typeof searchTerms] || 'technology';
+    
+    // Using Unsplash Source API (no API key required for basic usage)
+    const imageUrl = `https://source.unsplash.com/800x600/?${encodeURIComponent(searchTerm)}`;
+    
+    return {
+      url: imageUrl,
+      alt: `${category} ile ilgili görsel`
+    };
+  } catch (error) {
+    console.error('Error getting category image:', error);
+    // Fallback image
+    return {
+      url: 'https://source.unsplash.com/800x600/?technology',
+      alt: 'Teknoloji görseli'
+    };
+  }
+}
+
 // Generate content for specific category using AI
 async function generateCategoryContent(category: string) {
   try {
@@ -337,6 +369,9 @@ async function generateCategoryContent(category: string) {
       }, { status: 400 });
     }
 
+    // Get image for the category
+    const imageData = await getCategoryImage(category);
+
     // Create new blog post
     const newPost: BlogPost = {
       id: `generated-${Date.now()}`,
@@ -349,7 +384,9 @@ async function generateCategoryContent(category: string) {
       source: 'Gemini AI',
       priority: 'medium',
       author: 'MySonAI',
-      readTime: Math.ceil(result.content.length / 200) // Approximate reading time
+      readTime: Math.ceil(result.content.length / 200), // Approximate reading time
+      imageUrl: imageData.url,
+      imageAlt: imageData.alt
     };
 
     // Add to mock posts
