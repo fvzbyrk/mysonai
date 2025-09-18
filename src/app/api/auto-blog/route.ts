@@ -61,7 +61,7 @@ async function generateDailyPost() {
       }, { status: 400 });
     }
 
-    // Create mock blog post data
+    // Create blog post data
     const blogPost = {
       id: `daily-${Date.now()}`,
       title: 'Günün Tech Gelişmeleri - ' + new Date().toLocaleDateString('tr-TR'),
@@ -72,8 +72,24 @@ async function generateDailyPost() {
       tags: ['tech', 'günlük', 'gelişmeler'],
       source: 'Gemini AI',
       priority: 'high',
+      author: 'MySonAI',
+      readTime: Math.ceil(result.content.length / 200),
       usage: result.usage
     };
+
+    // Save to blog API
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/blog`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          action: 'create',
+          postData: blogPost
+        })
+      });
+    } catch (error) {
+      console.error('Error saving to blog API:', error);
+    }
 
     return NextResponse.json({
       success: true,
@@ -127,8 +143,24 @@ async function generateCategoryPost(category: string) {
       tags: [category.toLowerCase(), 'güncelleme'],
       source: 'Gemini AI',
       priority: 'medium',
+      author: 'MySonAI',
+      readTime: Math.ceil(result.content.length / 200),
       usage: result.usage
     };
+
+    // Save to blog API
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/blog`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          action: 'create',
+          postData: blogPost
+        })
+      });
+    } catch (error) {
+      console.error('Error saving to blog API:', error);
+    }
 
     return NextResponse.json({
       success: true,

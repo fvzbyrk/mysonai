@@ -16,8 +16,8 @@ interface BlogPost {
   imageAlt?: string;
 }
 
-// Mock blog posts data - in real app, this would come from database
-const mockPosts: BlogPost[] = [
+// Global blog posts storage - in real app, this would be a database
+let blogPosts: BlogPost[] = [
   {
     id: '1',
     title: 'Günün Tech Gelişmeleri - 18.09.2025',
@@ -102,7 +102,7 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '10');
     const offset = parseInt(searchParams.get('offset') || '0');
 
-    let filteredPosts = mockPosts;
+    let filteredPosts = blogPosts;
 
     // Filter by status
     if (status) {
@@ -188,7 +188,7 @@ async function createPost(postData: Partial<BlogPost>) {
     };
 
     // In real app, save to database
-    mockPosts.push(newPost);
+    blogPosts.push(newPost);
 
     return NextResponse.json({
       success: true,
@@ -449,8 +449,8 @@ Makale 1500-2000 kelime arasında olsun, okuyucuya değer katsın.`;
       imageAlt: imageData.alt
     };
 
-    // Add to mock posts
-    mockPosts.push(newPost);
+    // Add to blog posts
+    blogPosts.push(newPost);
 
     // Also add to auto-blog posts for admin panel
     try {
