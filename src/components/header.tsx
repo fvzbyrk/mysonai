@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Menu, X, Sun, Moon, Bot } from 'lucide-react';
+import { Menu, X, Sun, Moon, Bot, ChevronDown } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { Button } from './ui/button';
 import { LanguageSwitcher } from './language-switcher';
@@ -17,14 +17,39 @@ export function Header() {
   const navigation = [
     { name: 'Ana Sayfa', href: `/${locale}`, feature: null },
     { name: 'Hakkımızda', href: `/${locale}/about`, feature: null },
-    { name: 'Hizmetler', href: `/${locale}/services`, feature: null },
-    { name: 'Çözümler', href: `/${locale}/solutions`, feature: null },
+    { 
+      name: 'Hizmetler', 
+      href: `/${locale}/services`, 
+      feature: null,
+      dropdown: [
+        { name: 'AI Çözümleri', href: `/${locale}/services#ai-solutions` },
+        { name: 'Klasik Bilişim', href: `/${locale}/services#classic-it` },
+        { name: 'Yazılım İhtiyaçları', href: `/${locale}/services#software-needs` },
+        { name: 'Dijital Medya', href: `/${locale}/services#digital-media` },
+        { name: 'Danışmanlık & Eğitim', href: `/${locale}/services#consulting-education` },
+        { name: 'Güvenlik', href: `/${locale}/services#security` }
+      ]
+    },
+    { 
+      name: 'Çözümler', 
+      href: `/${locale}/solutions`, 
+      feature: null,
+      dropdown: [
+        { name: 'MySon Video', href: `/${locale}/solutions#myson-video` },
+        { name: 'MySon Firmatch', href: `/${locale}/solutions#myson-firmatch` },
+        { name: 'MySon Avukat', href: `/${locale}/solutions#myson-avukat` },
+        { name: 'MySon Kids', href: `/${locale}/solutions#myson-kids` },
+        { name: 'MySon Education', href: `/${locale}/solutions#myson-education` },
+        { name: 'MySon Music', href: `/${locale}/solutions#myson-music` }
+      ]
+    },
     { name: 'Demo', href: `/${locale}/demo`, feature: 'demo' },
     { name: 'Referanslar', href: `/${locale}/references`, feature: null },
     { name: 'İletişim', href: `/${locale}/contact`, feature: 'contact' },
   ];
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const { theme, setTheme } = useTheme();
 
   return (
@@ -51,15 +76,47 @@ export function Header() {
           </button>
         </div>
 
-        <div className='hidden lg:flex lg:gap-x-12'>
+        <div className='hidden lg:flex lg:gap-x-8'>
           {navigation.map(item => (
             <FeatureGuard key={item.name} feature={item.feature as any}>
-              <Link
-                href={item.href}
-                className='text-sm font-semibold leading-6 text-gray-900 hover:text-primary-600 transition-colors'
-              >
-                {item.name}
-              </Link>
+              <div className='relative'>
+                {item.dropdown ? (
+                  <div
+                    className='flex items-center space-x-1 cursor-pointer text-sm font-semibold leading-6 text-gray-900 hover:text-primary-600 transition-colors'
+                    onMouseEnter={() => setOpenDropdown(item.name)}
+                    onMouseLeave={() => setOpenDropdown(null)}
+                  >
+                    <span>{item.name}</span>
+                    <ChevronDown className='h-4 w-4' />
+                  </div>
+                ) : (
+                  <Link
+                    href={item.href}
+                    className='text-sm font-semibold leading-6 text-gray-900 hover:text-primary-600 transition-colors'
+                  >
+                    {item.name}
+                  </Link>
+                )}
+                
+                {/* Dropdown Menu */}
+                {item.dropdown && openDropdown === item.name && (
+                  <div
+                    className='absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50'
+                    onMouseEnter={() => setOpenDropdown(item.name)}
+                    onMouseLeave={() => setOpenDropdown(null)}
+                  >
+                    {item.dropdown.map((dropdownItem, index) => (
+                      <Link
+                        key={index}
+                        href={dropdownItem.href}
+                        className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary-600 transition-colors'
+                      >
+                        {dropdownItem.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
             </FeatureGuard>
           ))}
         </div>
@@ -108,13 +165,29 @@ export function Header() {
                 <div className='space-y-2 py-6'>
                   {navigation.map(item => (
                     <FeatureGuard key={item.name} feature={item.feature as any}>
-                      <Link
-                        href={item.href}
-                        className='-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50'
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        {item.name}
-                      </Link>
+                      <div>
+                        <Link
+                          href={item.href}
+                          className='-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50'
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          {item.name}
+                        </Link>
+                        {item.dropdown && (
+                          <div className='ml-4 space-y-1'>
+                            {item.dropdown.map((dropdownItem, index) => (
+                              <Link
+                                key={index}
+                                href={dropdownItem.href}
+                                className='block px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary-600 transition-colors'
+                                onClick={() => setMobileMenuOpen(false)}
+                              >
+                                {dropdownItem.name}
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                      </div>
                     </FeatureGuard>
                   ))}
                 </div>
