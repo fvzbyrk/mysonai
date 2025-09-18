@@ -2,6 +2,7 @@ import { Locale } from '@/lib/i18n';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { ContactAIAssistant } from '@/components/contact-ai-assistant';
 import { 
   Mail,
   Phone,
@@ -187,6 +188,22 @@ function ContactContent({ params }: { params: { locale: Locale } }) {
               </Card>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* AI Assistant Section */}
+      <section className='py-20 bg-black/20'>
+        <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8'>
+          <div className='text-center mb-16'>
+            <h2 className='text-4xl font-bold text-white mb-4'>
+              AI Asistanımızla Konuşun
+            </h2>
+            <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
+              Sorularınızı sorun, proje danışmanlığı alın ve anlık yanıtlar alın
+            </p>
+          </div>
+
+          <ContactAIAssistant locale={params.locale} />
         </div>
       </section>
 
