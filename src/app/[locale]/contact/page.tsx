@@ -57,7 +57,7 @@ const contactInfo = [
   {
     icon: Phone,
     title: 'Telefon',
-    details: ['+90 (555) 123 45 67', '+90 (212) 456 78 90'],
+    details: ['+90 (553) 204 04 09', '+90 (532) 345 04 09'],
     description: 'Pazartesi-Cuma 09:00-18:00'
   },
   {
