@@ -292,16 +292,16 @@ function ContactContent({ params }: { params: { locale: Locale } }) {
               <div>
                 <label className='block text-white text-sm font-semibold mb-2'>Hizmet Türü</label>
                 <select className='w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500'>
-                  <option value=''>Hizmet türünü seçin</option>
-                  <option value='ai-solutions'>AI Çözümleri</option>
-                  <option value='custom-ai-assistant'>Özel Uzmanlık Alanı AI Asistanı</option>
-                  <option value='chatbot-ai-support'>Chatbot AI Desteği</option>
-                  <option value='web-development'>Web Geliştirme</option>
-                  <option value='mobile-apps'>Mobil Uygulamalar</option>
-                  <option value='digital-media'>Dijital Medya</option>
-                  <option value='education'>Eğitim Çözümleri</option>
-                  <option value='legal'>Hukuki Çözümler</option>
-                  <option value='consulting'>Danışmanlık</option>
+                  <option value='' className='bg-gray-800 text-white'>Hizmet türünü seçin</option>
+                  <option value='ai-solutions' className='bg-gray-800 text-white'>AI Çözümleri</option>
+                  <option value='custom-ai-assistant' className='bg-gray-800 text-white'>Özel Uzmanlık Alanı AI Asistanı</option>
+                  <option value='chatbot-ai-support' className='bg-gray-800 text-white'>Chatbot AI Desteği</option>
+                  <option value='web-development' className='bg-gray-800 text-white'>Web Geliştirme</option>
+                  <option value='mobile-apps' className='bg-gray-800 text-white'>Mobil Uygulamalar</option>
+                  <option value='digital-media' className='bg-gray-800 text-white'>Dijital Medya</option>
+                  <option value='education' className='bg-gray-800 text-white'>Eğitim Çözümleri</option>
+                  <option value='legal' className='bg-gray-800 text-white'>Hukuki Çözümler</option>
+                  <option value='consulting' className='bg-gray-800 text-white'>Danışmanlık</option>
                 </select>
               </div>
 
@@ -317,12 +317,12 @@ function ContactContent({ params }: { params: { locale: Locale } }) {
               <div>
                 <label className='block text-white text-sm font-semibold mb-2'>Bütçe Aralığı</label>
                 <select className='w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500'>
-                  <option value=''>Bütçe aralığını seçin</option>
-                  <option value='10k-25k'>10.000 - 25.000 TL +KDV</option>
-                  <option value='25k-50k'>25.000 - 50.000 TL +KDV</option>
-                  <option value='50k-100k'>50.000 - 100.000 TL +KDV</option>
-                  <option value='100k+'>100.000 TL+ +KDV</option>
-                  <option value='discuss'>Görüşelim</option>
+                  <option value='' className='bg-gray-800 text-white'>Bütçe aralığını seçin</option>
+                  <option value='10k-25k' className='bg-gray-800 text-white'>10.000 - 25.000 TL +KDV</option>
+                  <option value='25k-50k' className='bg-gray-800 text-white'>25.000 - 50.000 TL +KDV</option>
+                  <option value='50k-100k' className='bg-gray-800 text-white'>50.000 - 100.000 TL +KDV</option>
+                  <option value='100k+' className='bg-gray-800 text-white'>100.000 TL+ +KDV</option>
+                  <option value='discuss' className='bg-gray-800 text-white'>Görüşelim</option>
                 </select>
               </div>
 
