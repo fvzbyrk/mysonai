@@ -17,6 +17,7 @@ export function Header() {
   const navigation = [
     { name: 'Ana Sayfa', href: `/${locale}`, feature: null },
     { name: 'Hakkımızda', href: `/${locale}/about`, feature: null },
+    { name: 'Blog', href: `/${locale}/blog`, feature: null },
     { 
       name: 'Hizmetler', 
       href: `/${locale}/services`, 
