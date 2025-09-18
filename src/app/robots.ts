@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next';
+import { generateRobotsTxt, defaultSitemapConfig } from '@/lib/sitemap-generator';
 
 export default function robots(): MetadataRoute.Robots {
   return {

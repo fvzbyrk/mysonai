@@ -2,6 +2,8 @@
 
 import { motion } from 'framer-motion';
 import { Bot, Code, Palette, MessageSquare, Zap, Shield } from 'lucide-react';
+import { DynamicImport } from './performance/dynamic-import';
+import { VirtualScroll } from './performance/virtual-scroll';
 
 const features = [
   {

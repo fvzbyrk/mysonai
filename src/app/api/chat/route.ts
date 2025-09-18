@@ -9,6 +9,10 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || 'dummy-key',
 });
 
+// Gemini API configuration
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+const GEMINI_BASE_URL = 'https://generativelanguage.googleapis.com';
+
 // Usage checking function
 async function checkUsageLimits(userId: string | null) {
   if (!userId) {
@@ -105,8 +109,11 @@ async function updateUsage(userId: string | null, tokensUsed: number, messageCou
 
 export async function POST(request: NextRequest) {
   try {
-    // Check if API key is available
-    if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === 'dummy-key') {
+    // Check if API keys are available
+    const hasOpenAI = process.env.OPENAI_API_KEY && process.env.OPENAI_API_KEY !== 'dummy-key';
+    const hasGemini = process.env.GEMINI_API_KEY;
+    
+    if (!hasOpenAI && !hasGemini) {
       // Demo mode - return mock responses with agent recommendations
       const { messages, selectedAgent, files, enableWebSearch } = await request.json();
       const lastMessage = messages[messages.length - 1];

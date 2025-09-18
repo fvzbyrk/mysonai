@@ -1,50 +1,22 @@
 import { MetadataRoute } from 'next';
 import { locales } from '@/lib/i18n';
+import { generateSitemap, defaultSitemapConfig } from '@/lib/sitemap-generator';
+import { blogPosts, blogCategories } from '@/lib/blog-data';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://mysonai.com';
+  const config = {
+    ...defaultSitemapConfig,
+    blogPosts: blogPosts.map(post => ({
+      slug: post.slug,
+      lastmod: post.updatedAt,
+      priority: post.featured ? 0.9 : 0.7
+    })),
+    categories: blogCategories.map(category => ({
+      slug: category.slug,
+      lastmod: new Date().toISOString(),
+      priority: 0.8
+    }))
+  };
 
-  const routes = [
-    '',
-    '/assistants',
-    '/blog',
-    '/blog/mysonai-vs-pi-analysis',
-    '/blog/ai-privacy-guide',
-    '/blog/ai-companion-guide',
-    '/blog/turkish-ai-assistants',
-    '/blog/ai-productivity-tips',
-    '/blog/ai-education-benefits',
-    '/demo',
-    '/signin',
-    '/signup',
-    '/dashboard',
-    '/billing',
-    '/pricing',
-    '/contact',
-  ];
-
-  const sitemap: MetadataRoute.Sitemap = [];
-
-  // Generate sitemap for each locale
-  locales.forEach(locale => {
-    routes.forEach(route => {
-      sitemap.push({
-        url: `${baseUrl}/${locale}${route}`,
-        lastModified: new Date(),
-        changeFrequency: route === '' ? 'daily' : 'weekly',
-        priority: route === '' ? 1 : 0.8,
-        alternates: {
-          languages: locales.reduce(
-            (acc, loc) => {
-              acc[loc] = `${baseUrl}/${loc}${route}`;
-              return acc;
-            },
-            {} as Record<string, string>
-          ),
-        },
-      });
-    });
-  });
-
-  return sitemap;
+  return generateSitemap(config);
 }

@@ -1,322 +1,304 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import { useFeatureFlag } from '@/hooks/useFeatureFlags';
+import { useEffect, useState } from 'react';
+import { usePathname, useSearchParams } from 'next/navigation';
 
-interface AnalyticsEvent {
+// Google Analytics 4 Event Types
+export interface GA4Event {
   event_name: string;
-  event_category: string;
+  event_category?: string;
   event_label?: string;
   value?: number;
   custom_parameters?: Record<string, any>;
-  timestamp: number;
-  user_id?: string;
-  session_id: string;
-  page_url: string;
-  page_title: string;
-  user_agent: string;
-  referrer?: string;
 }
 
-interface UserProperties {
-  user_id?: string;
-  plan?: string;
-  signup_date?: string;
-  last_active?: string;
-  total_sessions?: number;
-  total_events?: number;
-  preferred_language?: string;
-  device_type?: string;
-  browser?: string;
-  os?: string;
+// Conversion Events
+export interface ConversionEvent {
+  event_name: string;
+  currency?: string;
+  value?: number;
+  items?: Array<{
+    item_id: string;
+    item_name: string;
+    category: string;
+    quantity: number;
+    price: number;
+  }>;
 }
 
-interface PageViewData {
-  page_title: string;
-  page_location: string;
-  page_path: string;
-  content_group1?: string;
-  content_group2?: string;
-  custom_map?: Record<string, any>;
-}
-
+// Analytics Hook
 export function useAnalytics() {
-  const { enabled: analyticsEnabled } = useFeatureFlag('analytics');
-  const [sessionId] = useState(() => generateSessionId());
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [isInitialized, setIsInitialized] = useState(false);
 
-  // Generate unique session ID
-  function generateSessionId(): string {
-    return `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-  }
+  // Initialize Google Analytics
+  useEffect(() => {
+    if (typeof window !== 'undefined' && !isInitialized) {
+      // Load Google Analytics script
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`;
+      document.head.appendChild(script);
 
-  // Initialize analytics
-  const initializeAnalytics = useCallback(() => {
-    if (!analyticsEnabled || typeof window === 'undefined') return;
+      // Initialize gtag
+      window.dataLayer = window.dataLayer || [];
+      function gtag(...args: any[]) {
+        window.dataLayer.push(args);
+      }
+      window.gtag = gtag;
 
-    // Initialize Google Analytics if available
-    if (window.gtag) {
-      window.gtag('config', process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID, {
+      gtag('js', new Date());
+      gtag('config', process.env.NEXT_PUBLIC_GA_ID!, {
         page_title: document.title,
         page_location: window.location.href,
-        custom_map: {
-          custom_parameter_1: 'session_id',
-          custom_parameter_2: 'user_plan',
-        },
+      });
+
+      setIsInitialized(true);
+    }
+  }, [isInitialized]);
+
+  // Track page views
+  useEffect(() => {
+    if (isInitialized && typeof window !== 'undefined') {
+      window.gtag('config', process.env.NEXT_PUBLIC_GA_ID!, {
+        page_path: pathname,
+        page_title: document.title,
+        page_location: window.location.href,
       });
     }
+  }, [pathname, searchParams, isInitialized]);
 
-    setIsInitialized(true);
-  }, [analyticsEnabled]);
-
-  // Track page view
-  const trackPageView = useCallback(
-    (data?: Partial<PageViewData>) => {
-      if (!analyticsEnabled || !isInitialized) return;
-
-      const pageData: PageViewData = {
-        page_title: data?.page_title || document.title,
-        page_location: data?.page_location || window.location.href,
-        page_path: data?.page_path || window.location.pathname,
-        content_group1: data?.content_group1,
-        content_group2: data?.content_group2,
-        custom_map: data?.custom_map,
-      };
-
-      // Google Analytics
-      if (window.gtag) {
-        window.gtag('event', 'page_view', pageData);
-      }
-
-      // Custom analytics (send to your own endpoint)
-      sendCustomEvent({
-        event_name: 'page_view',
-        event_category: 'navigation',
-        page_url: pageData.page_location,
-        page_title: pageData.page_title,
-        custom_parameters: pageData.custom_map,
+  // Track custom events
+  const trackEvent = (event: GA4Event) => {
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', event.event_name, {
+        event_category: event.event_category,
+        event_label: event.event_label,
+        value: event.value,
+        ...event.custom_parameters,
       });
-    },
-    [analyticsEnabled, isInitialized]
-  );
+    }
+  };
 
-  // Track custom event
-  const trackEvent = useCallback(
-    (
-      eventName: string,
-      category: string,
-      label?: string,
-      value?: number,
-      customParameters?: Record<string, any>
-    ) => {
-      if (!analyticsEnabled || !isInitialized) return;
-
-      const eventData = {
-        event_category: category,
-        event_label: label,
-        value: value,
-        ...customParameters,
-      };
-
-      // Google Analytics
-      if (window.gtag) {
-        window.gtag('event', eventName, eventData);
-      }
-
-      // Custom analytics
-      sendCustomEvent({
-        event_name: eventName,
-        event_category: category,
-        event_label: label,
-        value: value,
-        custom_parameters: customParameters,
+  // Track conversions
+  const trackConversion = (conversion: ConversionEvent) => {
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'conversion', {
+        send_to: process.env.NEXT_PUBLIC_GA_CONVERSION_ID,
+        event_category: 'conversion',
+        event_label: conversion.event_name,
+        value: conversion.value,
+        currency: conversion.currency || 'TRY',
+        items: conversion.items,
       });
-    },
-    [analyticsEnabled, isInitialized]
-  );
+    }
+  };
 
-  // Track user interaction
-  const trackInteraction = useCallback(
-    (action: string, target: string, category: string = 'user_interaction', value?: number) => {
-      trackEvent(action, category, target, value, {
-        interaction_type: 'click',
-        target_element: target,
-      });
-    },
-    [trackEvent]
-  );
+  // Track user engagement
+  const trackEngagement = (action: string, element?: string) => {
+    trackEvent({
+      event_name: 'engagement',
+      event_category: 'user_interaction',
+      event_label: `${action}${element ? `_${element}` : ''}`,
+    });
+  };
 
-  // Track form submission
-  const trackFormSubmission = useCallback(
-    (formName: string, success: boolean, errorMessage?: string) => {
-      trackEvent('form_submit', 'forms', formName, success ? 1 : 0, {
-        form_name: formName,
+  // Track form submissions
+  const trackFormSubmission = (formName: string, success: boolean = true) => {
+    trackEvent({
+      event_name: 'form_submit',
+      event_category: 'form',
+      event_label: formName,
+      custom_parameters: {
         success: success,
-        error_message: errorMessage,
-      });
-    },
-    [trackEvent]
-  );
+        form_name: formName,
+      },
+    });
+  };
 
-  // Track conversion
-  const trackConversion = useCallback(
-    (
-      conversionType: string,
-      value?: number,
-      currency?: string,
-      customParameters?: Record<string, any>
-    ) => {
-      trackEvent('conversion', 'conversions', conversionType, value, {
-        conversion_type: conversionType,
-        currency: currency || 'TRY',
-        ...customParameters,
-      });
-    },
-    [trackEvent]
-  );
+  // Track button clicks
+  const trackButtonClick = (buttonName: string, location?: string) => {
+    trackEvent({
+      event_name: 'button_click',
+      event_category: 'engagement',
+      event_label: buttonName,
+      custom_parameters: {
+        button_name: buttonName,
+        location: location || pathname,
+      },
+    });
+  };
 
-  // Track error
-  const trackError = useCallback(
-    (errorType: string, errorMessage: string, errorCode?: string, stackTrace?: string) => {
-      trackEvent('error', 'errors', errorType, 1, {
+  // Track downloads
+  const trackDownload = (fileName: string, fileType: string) => {
+    trackEvent({
+      event_name: 'file_download',
+      event_category: 'engagement',
+      event_label: fileName,
+      custom_parameters: {
+        file_name: fileName,
+        file_type: fileType,
+      },
+    });
+  };
+
+  // Track video interactions
+  const trackVideoInteraction = (action: string, videoTitle: string) => {
+    trackEvent({
+      event_name: 'video_interaction',
+      event_category: 'media',
+      event_label: `${action}_${videoTitle}`,
+      custom_parameters: {
+        video_action: action,
+        video_title: videoTitle,
+      },
+    });
+  };
+
+  // Track search queries
+  const trackSearch = (searchTerm: string, resultsCount?: number) => {
+    trackEvent({
+      event_name: 'search',
+      event_category: 'engagement',
+      event_label: searchTerm,
+      custom_parameters: {
+        search_term: searchTerm,
+        results_count: resultsCount,
+      },
+    });
+  };
+
+  // Track scroll depth
+  const trackScrollDepth = (depth: number) => {
+    trackEvent({
+      event_name: 'scroll',
+      event_category: 'engagement',
+      event_label: `${depth}%`,
+      custom_parameters: {
+        scroll_depth: depth,
+      },
+    });
+  };
+
+  // Track time on page
+  const trackTimeOnPage = (timeInSeconds: number) => {
+    trackEvent({
+      event_name: 'timing_complete',
+      event_category: 'engagement',
+      event_label: 'time_on_page',
+      custom_parameters: {
+        time_on_page: timeInSeconds,
+      },
+    });
+  };
+
+  // Track errors
+  const trackError = (errorType: string, errorMessage: string) => {
+    trackEvent({
+      event_name: 'exception',
+      event_category: 'error',
+      event_label: errorType,
+      custom_parameters: {
         error_type: errorType,
         error_message: errorMessage,
-        error_code: errorCode,
-        stack_trace: stackTrace,
         fatal: false,
-      });
-    },
-    [trackEvent]
-  );
+      },
+    });
+  };
 
-  // Track performance
-  const trackPerformance = useCallback(
-    (metricName: string, value: number, unit: string = 'ms') => {
-      trackEvent('performance', 'performance', metricName, value, {
-        metric_name: metricName,
-        unit: unit,
-      });
-    },
-    [trackEvent]
-  );
+  // Track e-commerce events
+  const trackPurchase = (transactionId: string, value: number, currency: string = 'TRY') => {
+    trackEvent({
+      event_name: 'purchase',
+      event_category: 'ecommerce',
+      event_label: transactionId,
+      value: value,
+      custom_parameters: {
+        transaction_id: transactionId,
+        currency: currency,
+      },
+    });
+  };
 
-  // Track AI usage
-  const trackAIUsage = useCallback(
-    (assistantType: string, action: string, tokensUsed?: number, responseTime?: number) => {
-      trackEvent('ai_usage', 'ai_interactions', `${assistantType}_${action}`, tokensUsed, {
-        assistant_type: assistantType,
-        action: action,
-        tokens_used: tokensUsed,
-        response_time: responseTime,
-      });
-    },
-    [trackEvent]
-  );
+  // Track add to cart
+  const trackAddToCart = (itemId: string, itemName: string, value: number) => {
+    trackEvent({
+      event_name: 'add_to_cart',
+      event_category: 'ecommerce',
+      event_label: itemName,
+      value: value,
+      custom_parameters: {
+        item_id: itemId,
+        item_name: itemName,
+      },
+    });
+  };
 
-  // Track subscription events
-  const trackSubscription = useCallback(
-    (action: 'start' | 'upgrade' | 'downgrade' | 'cancel', planName: string, value?: number) => {
-      trackEvent('subscription', 'subscriptions', `${action}_${planName}`, value, {
-        subscription_action: action,
-        plan_name: planName,
-      });
-    },
-    [trackEvent]
-  );
+  // Track newsletter signup
+  const trackNewsletterSignup = (email: string, source: string) => {
+    trackEvent({
+      event_name: 'newsletter_signup',
+      event_category: 'conversion',
+      event_label: source,
+      custom_parameters: {
+        email_domain: email.split('@')[1],
+        signup_source: source,
+      },
+    });
+  };
 
-  // Set user properties
-  const setUserProperties = useCallback(
-    (properties: UserProperties) => {
-      if (!analyticsEnabled || !isInitialized) return;
+  // Track demo requests
+  const trackDemoRequest = (demoType: string, contactMethod: string) => {
+    trackEvent({
+      event_name: 'demo_request',
+      event_category: 'conversion',
+      event_label: demoType,
+      custom_parameters: {
+        demo_type: demoType,
+        contact_method: contactMethod,
+      },
+    });
+  };
 
-      // Google Analytics user properties
-      if (window.gtag) {
-        window.gtag('config', process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID, {
-          user_id: properties.user_id,
-          custom_map: {
-            custom_parameter_1: properties.plan,
-            custom_parameter_2: properties.preferred_language,
-          },
-        });
-      }
-
-      // Custom user properties tracking
-      trackEvent('user_properties_set', 'user_management', 'properties_updated', 1, properties);
-    },
-    [analyticsEnabled, isInitialized, trackEvent]
-  );
-
-  // Send custom event to your analytics endpoint
-  const sendCustomEvent = useCallback(
-    async (
-      event: Omit<
-        AnalyticsEvent,
-        'timestamp' | 'session_id' | 'page_url' | 'page_title' | 'user_agent' | 'referrer'
-      >
-    ) => {
-      if (!analyticsEnabled) return;
-
-      const fullEvent: AnalyticsEvent = {
-        ...event,
-        timestamp: Date.now(),
-        session_id: sessionId,
-        page_url: window.location.href,
-        page_title: document.title,
-        user_agent: navigator.userAgent,
-        referrer: document.referrer,
-      };
-
-      try {
-        // Send to your custom analytics endpoint
-        await fetch('/api/analytics/track', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(fullEvent),
-        });
-      } catch (error) {
-        console.error('Failed to send analytics event:', error);
-      }
-    },
-    [analyticsEnabled, sessionId]
-  );
-
-  // Initialize on mount
-  useEffect(() => {
-    if (analyticsEnabled) {
-      initializeAnalytics();
-    }
-  }, [analyticsEnabled, initializeAnalytics]);
-
-  // Auto-track page views on route changes
-  useEffect(() => {
-    if (!analyticsEnabled || !isInitialized) return;
-
-    const handleRouteChange = () => {
-      trackPageView();
-    };
-
-    // Listen for route changes (Next.js)
-    window.addEventListener('popstate', handleRouteChange);
-
-    return () => {
-      window.removeEventListener('popstate', handleRouteChange);
-    };
-  }, [analyticsEnabled, isInitialized, trackPageView]);
+  // Track contact form submissions
+  const trackContactForm = (formType: string, success: boolean) => {
+    trackEvent({
+      event_name: 'contact_form_submit',
+      event_category: 'conversion',
+      event_label: formType,
+      custom_parameters: {
+        form_type: formType,
+        success: success,
+      },
+    });
+  };
 
   return {
-    isInitialized,
-    sessionId,
-    trackPageView,
     trackEvent,
-    trackInteraction,
-    trackFormSubmission,
     trackConversion,
+    trackEngagement,
+    trackFormSubmission,
+    trackButtonClick,
+    trackDownload,
+    trackVideoInteraction,
+    trackSearch,
+    trackScrollDepth,
+    trackTimeOnPage,
     trackError,
-    trackPerformance,
-    trackAIUsage,
-    trackSubscription,
-    setUserProperties,
+    trackPurchase,
+    trackAddToCart,
+    trackNewsletterSignup,
+    trackDemoRequest,
+    trackContactForm,
+    isInitialized,
   };
+}
+
+// Global type declarations
+declare global {
+  interface Window {
+    dataLayer: any[];
+    gtag: (...args: any[]) => void;
+  }
 }

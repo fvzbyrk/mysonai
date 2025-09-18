@@ -7,6 +7,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Locale, getLocaleFromPathname } from '@/lib/i18n';
 import { t } from '@/lib/translations';
+import { OptimizedImage } from './performance/optimized-image';
+import { DynamicImport } from './performance/dynamic-import';
 
 export function Hero() {
   const pathname = usePathname();

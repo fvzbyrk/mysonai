@@ -8,6 +8,8 @@ import { getAgentById, getAllAgents } from '@/lib/ai-agents';
 import { findSuitableTeam, getAllTeams, getTeamById, type AgentTeam } from '@/lib/agent-collaboration';
 import { type MultiAgentMode } from '@/lib/advanced-gpt-features';
 import { AdvancedAgentSelector } from '@/components/advanced-agent-selector';
+import { CardGridSkeleton, ChatMessageSkeleton } from '@/components/ui/skeleton-screens';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import JSZip from 'jszip';
 
 // Speech API tipleri
@@ -595,21 +597,25 @@ export default function DemoPage() {
                 </p>
               </div>
 
-              <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 max-w-6xl mx-auto'>
-                {agents.map(agent => (
-                  <button
-                    key={agent.id}
-                    onClick={() => selectAgent(agent.id)}
-                    className='bg-white/10 backdrop-blur-md rounded-xl p-3 sm:p-4 border border-white/20 text-center hover:bg-white/20 transition-all duration-200 group min-h-[120px] sm:min-h-[140px]'
-                  >
-                    <div className='text-2xl sm:text-3xl mb-2 group-hover:scale-110 transition-transform'>
-                      {agent.icon}
-                    </div>
-                    <h3 className='text-white font-semibold text-sm sm:text-base mb-1'>{agent.name}</h3>
-                    <p className='text-purple-300 text-xs sm:text-sm'>{agent.role}</p>
-                  </button>
-                ))}
-              </div>
+              {agents.length === 0 ? (
+                <CardGridSkeleton count={10} />
+              ) : (
+                <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 max-w-6xl mx-auto'>
+                  {agents.map(agent => (
+                    <button
+                      key={agent.id}
+                      onClick={() => selectAgent(agent.id)}
+                      className='bg-white/10 backdrop-blur-md rounded-xl p-3 sm:p-4 border border-white/20 text-center hover:bg-white/20 transition-all duration-200 group min-h-[120px] sm:min-h-[140px]'
+                    >
+                      <div className='text-2xl sm:text-3xl mb-2 group-hover:scale-110 transition-transform'>
+                        {agent.icon}
+                      </div>
+                      <h3 className='text-white font-semibold text-sm sm:text-base mb-1'>{agent.name}</h3>
+                      <p className='text-purple-300 text-xs sm:text-sm'>{agent.role}</p>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
@@ -971,7 +977,7 @@ export default function DemoPage() {
                   <div className='flex justify-start'>
                     <div className='bg-white/10 border border-white/20 rounded-lg px-4 py-3'>
                       <div className='flex items-center space-x-2'>
-                        <Loader2 className='w-4 h-4 text-white animate-spin' />
+                        <LoadingSpinner size="sm" />
                         <span className='text-white text-sm'>Yazıyor...</span>
                       </div>
                     </div>

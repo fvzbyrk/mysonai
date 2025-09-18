@@ -14,6 +14,14 @@ import { HreflangTags } from '@/components/hreflang';
 import { JsonLd } from '@/components/json-ld';
 import { CookieConsent } from '@/components/cookie-consent';
 import { AIAssistantChat } from '@/components/ai-assistant-chat';
+import { AnalyticsWrapper } from '@/components/analytics/analytics-wrapper';
+import { PerformanceWrapper } from '@/components/performance/performance-wrapper';
+import { AccessibilityWrapper } from '@/components/accessibility/accessibility-wrapper';
+import { MobileWrapper } from '@/components/mobile/mobile-wrapper';
+import { SEOWrapper } from '@/components/seo/seo-wrapper';
+import { UXWrapper } from '@/components/ux/ux-wrapper';
+import { SecurityWrapper } from '@/components/security/security-wrapper';
+import { ConversionWrapper } from '@/components/conversion/conversion-wrapper';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -137,15 +145,31 @@ export default function LocaleLayout({
       )}
       <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
         <AuthProvider>
-          <div className='min-h-screen flex flex-col'>
-            <Header />
-            <main className='flex-1'>{children}</main>
-            <Footer />
-            {/* Global AI Assistant */}
-            <AIAssistantChat locale={params.locale} />
-          </div>
-          <Toaster position='top-right' richColors />
-          <CookieConsent />
+          <AnalyticsWrapper>
+            <PerformanceWrapper>
+              <AccessibilityWrapper>
+                <MobileWrapper>
+                  <SEOWrapper>
+                    <UXWrapper>
+                      <SecurityWrapper>
+                        <ConversionWrapper>
+                          <div className='min-h-screen flex flex-col'>
+                            <Header />
+                            <main className='flex-1'>{children}</main>
+                            <Footer />
+                            {/* Global AI Assistant */}
+                            <AIAssistantChat locale={params.locale} />
+                          </div>
+                          <Toaster position='top-right' richColors />
+                          <CookieConsent />
+                        </ConversionWrapper>
+                      </SecurityWrapper>
+                    </UXWrapper>
+                  </SEOWrapper>
+                </MobileWrapper>
+              </AccessibilityWrapper>
+            </PerformanceWrapper>
+          </AnalyticsWrapper>
         </AuthProvider>
       </ThemeProvider>
     </>

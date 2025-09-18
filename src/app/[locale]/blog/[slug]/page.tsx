@@ -1,182 +1,240 @@
 import { Locale } from '@/lib/i18n';
-import { t } from '@/lib/translations';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { 
+  getBlogPostBySlug, 
+  getRecentBlogPosts,
+  blogCategories,
+  type BlogPost 
+} from '@/lib/blog-data';
 import Link from 'next/link';
-import { Calendar, Clock, ArrowLeft, Share2, BookOpen, User } from 'lucide-react';
-import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-
-// Blog post data - In real app, this would come from CMS or database
-const blogPosts = {
-  'mysonai-vs-pi-analysis': {
-    title: 'MySonAI vs Pi: Hız, Gizlilik ve Empati Analizi',
-    excerpt:
-      "Pi kullanıcılarının yaşadığı sorunları çözen MySonAI'ın avantajlarını detaylı analiz ediyoruz.",
-    category: 'Karşılaştırma',
-    readTime: '8 dk',
-    date: '2024-01-15',
-    author: 'MySonAI Ekibi',
-    content: `
-      <h2>Giriş</h2>
-      <p>Kişisel AI asistanı pazarında Pi, kullanıcıların empatik bir yoldaş aradığında ilk tercih ettikleri platformlardan biri. Ancak son zamanlarda kullanıcı geri bildirimleri, Pi'nin bazı kritik alanlarda yetersiz kaldığını gösteriyor. Bu yazıda, MySonAI'ın bu sorunları nasıl çözdüğünü detaylı olarak inceleyeceğiz.</p>
-
-      <h2>Hız Karşılaştırması</h2>
-      <p><strong>Pi'nin Sorunu:</strong> Kullanıcılar Pi ile sohbet ederken yarım ila bir dakika arasında yanıt beklemek zorunda kalıyor. Bu, özellikle hızlı karar verme gerektiren durumlarda büyük bir dezavantaj.</p>
-      
-      <p><strong>MySonAI'ın Çözümü:</strong> Optimize edilmiş altyapı sayesinde MySonAI, Pi'den <strong>10 kat daha hızlı</strong> yanıt veriyor. Ortalama yanıt süresi 2-3 saniye.</p>
-
-      <h2>Gizlilik ve Güvenlik</h2>
-      <p><strong>Pi'nin Sorunu:</strong> Kullanıcılar verilerinin karıştırılması ve üçüncü tarafların konuşmaları dinlemesi konusunda endişe duyuyor.</p>
-      
-      <p><strong>MySonAI'ın Çözümü:</strong> %100 şeffaf gizlilik politikası ve end-to-end şifreleme ile verileriniz tamamen güvende.</p>
-
-      <h2>Empati ve Kişiselleştirme</h2>
-      <p>Her iki platform da empatik yaklaşımı benimsiyor, ancak MySonAI'ın Türkçe dil desteği ve kültürel uyumu, Türk kullanıcılar için daha doğal bir deneyim sunuyor.</p>
-
-      <h2>Sonuç</h2>
-      <p>MySonAI, Pi'nin güçlü yanlarını korurken, zayıf noktalarını başarıyla gideriyor. Hız, güvenlik ve kültürel uyum açısından Türk kullanıcılar için daha iyi bir seçenek sunuyor.</p>
-    `,
-    relatedPosts: [
-      { id: 'ai-privacy-guide', title: 'Kişisel AI Asistanınız Güvenli Mi?' },
-      { id: 'ai-companion-guide', title: 'AI Yoldaşı Nasıl Kullanılır?' },
-    ],
-  },
-  'ai-privacy-guide': {
-    title: 'Kişisel AI Asistanınız Güvenli Mi? Gizlilik Rehberi',
-    excerpt:
-      "AI asistanlarında veri güvenliği nasıl sağlanır? MySonAI'ın gizlilik politikası ve güvenlik önlemleri.",
-    category: 'Güvenlik',
-    readTime: '6 dk',
-    date: '2024-01-12',
-    author: 'Güvenlik Uzmanı',
-    content: `
-      <h2>AI Asistanlarında Veri Güvenliği</h2>
-      <p>Kişisel AI asistanları kullanırken en önemli endişelerden biri veri güvenliği. Bu yazıda, MySonAI'ın verilerinizi nasıl koruduğunu detaylı olarak açıklıyoruz.</p>
-
-      <h2>End-to-End Şifreleme</h2>
-      <p>MySonAI, tüm konuşmalarınızı end-to-end şifreleme ile koruyor. Bu, verilerinizin sadece siz ve AI asistanınız arasında görülebileceği anlamına geliyor.</p>
-
-      <h2>Veri Saklama Politikası</h2>
-      <p>Konuşmalarınız sadece geçici olarak saklanıyor ve belirli bir süre sonra otomatik olarak siliniyor. Bu, uzun vadeli veri birikimini önlüyor.</p>
-
-      <h2>Üçüncü Taraf Paylaşımı</h2>
-      <p>MySonAI, verilerinizi hiçbir üçüncü taraf ile paylaşmıyor. Bu, tamamen şeffaf bir yaklaşım.</p>
-    `,
-    relatedPosts: [
-      { id: 'mysonai-vs-pi-analysis', title: 'MySonAI vs Pi Analizi' },
-      { id: 'turkish-ai-assistants', title: 'Türkçe AI Asistanları' },
-    ],
-  },
-};
+import { 
+  Calendar, 
+  Clock, 
+  User, 
+  Tag, 
+  ArrowLeft,
+  ArrowRight,
+  Share2,
+  Bookmark,
+  ThumbsUp,
+  MessageCircle,
+  Eye,
+  TrendingUp
+} from 'lucide-react';
+import type { Metadata } from 'next';
 
 export async function generateMetadata({
   params,
 }: {
   params: { locale: Locale; slug: string };
 }): Promise<Metadata> {
-  const post = blogPosts[params.slug as keyof typeof blogPosts];
-
+  const post = getBlogPostBySlug(params.slug);
+  
   if (!post) {
     return {
-      title: 'Yazı Bulunamadı | MySonAI Blog',
+      title: 'Makale Bulunamadı | MySonAI Blog',
+      description: 'Aradığınız makale bulunamadı.',
     };
   }
 
-  const isTurkish = params.locale === 'tr';
-
   return {
-    title: isTurkish ? `${post.title} | MySonAI Blog` : `${post.title} | MySonAI Blog`,
-    description: post.excerpt,
-    keywords: isTurkish
-      ? 'AI blog, yapay zeka blog, AI asistanları, MySonAI, Pi karşılaştırma'
-      : 'AI blog, artificial intelligence blog, AI assistants, MySonAI, Pi comparison',
+    title: post.seo.title,
+    description: post.seo.description,
+    keywords: post.seo.keywords.join(', '),
+    openGraph: {
+      title: post.seo.title,
+      description: post.seo.description,
+      type: 'article',
+      publishedTime: post.publishedAt,
+      modifiedTime: post.updatedAt,
+      authors: [post.author.name],
+      tags: post.tags,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.seo.title,
+      description: post.seo.description,
+    },
   };
 }
 
-export default function BlogPostPage({ params }: { params: { locale: Locale; slug: string } }) {
-  const post = blogPosts[params.slug as keyof typeof blogPosts];
-
-  if (!post) {
-    notFound();
-  }
-
+function BlogPostContent({ post }: { post: BlogPost }) {
+  const category = blogCategories.find(cat => cat.id === post.category);
+  const recentPosts = getRecentBlogPosts(3);
+  
   return (
-    <div className='min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900'>
-      {/* Header */}
-      <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-8'>
-        <Link
-          href={`/${params.locale}/blog`}
-          className='inline-flex items-center text-purple-400 hover:text-purple-300 mb-8'
-        >
-          <ArrowLeft className='w-4 h-4 mr-2' />
-          Blog'a Dön
-        </Link>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      {/* Back Button */}
+      <div className="pt-8 pb-4">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Link 
+            href={`/${params.locale}/blog`}
+            className="inline-flex items-center text-purple-300 hover:text-purple-200 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Blog'a Dön
+          </Link>
+        </div>
       </div>
 
-      {/* Article */}
-      <article className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16'>
-        <Card className='bg-white/10 backdrop-blur-md border-white/20 overflow-hidden'>
-          {/* Article Header */}
-          <div className='p-8 border-b border-white/20'>
-            <div className='flex items-center gap-2 mb-4'>
-              <Badge variant='secondary'>{post.category}</Badge>
-              <span className='text-gray-400'>•</span>
-              <div className='flex items-center text-gray-400 text-sm'>
-                <Clock className='w-4 h-4 mr-1' />
-                {post.readTime}
-              </div>
-              <span className='text-gray-400'>•</span>
-              <div className='flex items-center text-gray-400 text-sm'>
-                <Calendar className='w-4 h-4 mr-1' />
-                {post.date}
-              </div>
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+        {/* Article Header */}
+        <article className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 mb-8">
+          {/* Category and Featured Badge */}
+          <div className="flex items-center gap-3 mb-6">
+            {category && (
+              <Badge 
+                variant="secondary" 
+                className={`bg-gradient-to-r ${category.color} text-white border-0`}
+              >
+                {category.name}
+              </Badge>
+            )}
+            {post.featured && (
+              <Badge className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white border-0">
+                <TrendingUp className="w-3 h-3 mr-1" />
+                Öne Çıkan
+              </Badge>
+            )}
+          </div>
+
+          {/* Title */}
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
+            {post.title}
+          </h1>
+
+          {/* Excerpt */}
+          <p className="text-xl text-gray-300 mb-8 leading-relaxed">
+            {post.excerpt}
+          </p>
+
+          {/* Meta Information */}
+          <div className="flex flex-wrap items-center gap-6 text-sm text-gray-400 mb-8">
+            <div className="flex items-center space-x-2">
+              <User className="w-4 h-4" />
+              <span>{post.author.name}</span>
             </div>
-
-            <h1 className='text-4xl md:text-5xl font-bold text-white mb-4'>{post.title}</h1>
-
-            <p className='text-xl text-gray-300 mb-6'>{post.excerpt}</p>
-
-            <div className='flex items-center justify-between'>
-              <div className='flex items-center text-gray-400'>
-                <User className='w-4 h-4 mr-2' />
-                <span>{post.author}</span>
-              </div>
-
-              <Button variant='outline' size='sm'>
-                <Share2 className='w-4 h-4 mr-2' />
-                Paylaş
-              </Button>
+            <div className="flex items-center space-x-2">
+              <Calendar className="w-4 h-4" />
+              <span>{new Date(post.publishedAt).toLocaleDateString('tr-TR', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+              })}</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Clock className="w-4 h-4" />
+              <span>{post.readTime} dakika okuma</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Eye className="w-4 h-4" />
+              <span>1.2k görüntüleme</span>
             </div>
           </div>
+
+          {/* Tags */}
+          <div className="flex flex-wrap gap-2 mb-8">
+            {post.tags.map((tag, index) => (
+              <Badge key={index} variant="outline" className="border-white/20 text-gray-300">
+                <Tag className="w-3 h-3 mr-1" />
+                {tag}
+              </Badge>
+            ))}
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex flex-wrap gap-3 mb-8">
+            <Button 
+              variant="outline" 
+              className="border-white/20 text-white hover:bg-white/10"
+            >
+              <Bookmark className="w-4 h-4 mr-2" />
+              Kaydet
+            </Button>
+            <Button 
+              variant="outline" 
+              className="border-white/20 text-white hover:bg-white/10"
+            >
+              <Share2 className="w-4 h-4 mr-2" />
+              Paylaş
+            </Button>
+            <Button 
+              variant="outline" 
+              className="border-white/20 text-white hover:bg-white/10"
+            >
+              <ThumbsUp className="w-4 h-4 mr-2" />
+              Beğen
+            </Button>
+          </div>
+
+          {/* Featured Image */}
+          {post.image && (
+            <div className="w-full h-64 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg mb-8 flex items-center justify-center">
+              <div className="text-center text-white">
+                <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <TrendingUp className="w-8 h-8" />
+                </div>
+                <p className="text-sm opacity-80">Makale Görseli</p>
+              </div>
+            </div>
+          )}
 
           {/* Article Content */}
-          <div className='p-8'>
-            <div
-              className='prose prose-invert prose-lg max-w-none'
-              dangerouslySetInnerHTML={{ __html: post.content }}
+          <div className="prose prose-invert prose-lg max-w-none">
+            <div 
+              className="text-gray-300 leading-relaxed"
+              dangerouslySetInnerHTML={{ 
+                __html: post.content.replace(/\n/g, '<br>').replace(/#{1,6}\s/g, '<h1>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>')
+              }}
             />
           </div>
-        </Card>
+
+          {/* Author Bio */}
+          <div className="mt-12 pt-8 border-t border-white/10">
+            <div className="flex items-start space-x-4">
+              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                <span className="text-white font-bold text-lg">{post.author.avatar}</span>
+              </div>
+              <div className="flex-1">
+                <h3 className="text-xl font-bold text-white mb-2">{post.author.name}</h3>
+                <p className="text-gray-300 mb-4">{post.author.bio}</p>
+                <Button 
+                  variant="outline" 
+                  className="border-white/20 text-white hover:bg-white/10"
+                >
+                  Profili Görüntüle
+                </Button>
+              </div>
+            </div>
+          </div>
+        </article>
 
         {/* Related Posts */}
-        {post.relatedPosts && post.relatedPosts.length > 0 && (
-          <div className='mt-16'>
-            <h2 className='text-3xl font-bold text-white mb-8 text-center'>İlgili Yazılar</h2>
-
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-              {post.relatedPosts.map(relatedPost => (
-                <Card
-                  key={relatedPost.id}
-                  className='bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/15 transition-all duration-300'
-                >
-                  <div className='p-6'>
-                    <h3 className='text-xl font-bold text-white mb-3'>{relatedPost.title}</h3>
-                    <Link href={`/${params.locale}/blog/${relatedPost.id}`}>
-                      <Button variant='outline' className='w-full'>
-                        <BookOpen className='w-4 h-4 mr-2' />
+        {recentPosts.length > 0 && (
+          <div className="mb-12">
+            <h2 className="text-2xl font-bold text-white mb-6">
+              İlgili Makaleler
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {recentPosts.map((relatedPost) => (
+                <Card key={relatedPost.id} className="bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/15 transition-all duration-300">
+                  <div className="p-6">
+                    <h3 className="text-lg font-bold text-white mb-3 line-clamp-2">
+                      {relatedPost.title}
+                    </h3>
+                    <p className="text-gray-300 text-sm mb-4 line-clamp-3">
+                      {relatedPost.excerpt}
+                    </p>
+                    <Link href={`/${params.locale}/blog/${relatedPost.slug}`}>
+                      <Button 
+                        variant="outline" 
+                        className="w-full border-white/20 text-white hover:bg-white/10"
+                      >
                         Devamını Oku
+                        <ArrowRight className="w-4 h-4 ml-2" />
                       </Button>
                     </Link>
                   </div>
@@ -186,34 +244,77 @@ export default function BlogPostPage({ params }: { params: { locale: Locale; slu
           </div>
         )}
 
-        {/* CTA Section */}
-        <div className='mt-16'>
-          <Card className='bg-gradient-to-r from-purple-600/20 to-pink-600/20 backdrop-blur-md border-white/20'>
-            <div className='p-8 text-center'>
-              <h2 className='text-3xl font-bold text-white mb-4'>
-                AI Asistanlarınızla Tanışmaya Hazır mısınız?
-              </h2>
-              <p className='text-xl text-gray-300 mb-6'>
-                Bu yazıyı beğendiyseniz, MySonAI'ı deneyimleyin
-              </p>
-              <div className='flex flex-col sm:flex-row gap-4 justify-center'>
-                <Link
-                  href={`/${params.locale}/demo`}
-                  className='bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-full font-semibold text-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-300'
-                >
-                  Demo Başlat
-                </Link>
-                <Link
-                  href={`/${params.locale}/assistants`}
-                  className='bg-white/10 backdrop-blur-md text-white px-8 py-4 rounded-full font-semibold text-lg border border-white/20 hover:bg-white/20 transition-all duration-300'
-                >
-                  Asistanları Gör
-                </Link>
+        {/* Comments Section */}
+        <Card className="bg-white/10 backdrop-blur-md border-white/20 p-8">
+          <h2 className="text-2xl font-bold text-white mb-6 flex items-center">
+            <MessageCircle className="w-6 h-6 mr-3" />
+            Yorumlar
+          </h2>
+          
+          <div className="space-y-6">
+            {/* Comment Form */}
+            <div className="bg-white/5 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-white mb-4">Yorum Yap</h3>
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    placeholder="Adınız"
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                  <input
+                    type="email"
+                    placeholder="E-posta"
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                </div>
+                <textarea
+                  placeholder="Yorumunuz..."
+                  rows={4}
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+                <Button className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-300">
+                  Yorum Gönder
+                </Button>
               </div>
             </div>
-          </Card>
-        </div>
-      </article>
+
+            {/* Sample Comments */}
+            <div className="space-y-4">
+              <div className="bg-white/5 rounded-lg p-4">
+                <div className="flex items-start space-x-3">
+                  <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center">
+                    <span className="text-white font-bold text-sm">AY</span>
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <h4 className="text-white font-semibold">Ahmet Yılmaz</h4>
+                      <span className="text-gray-400 text-sm">2 gün önce</span>
+                    </div>
+                    <p className="text-gray-300">
+                      Çok faydalı bir makale olmuş. AI teknolojilerinin geleceği hakkında düşüncelerimizi şekillendiriyor.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Card>
+      </div>
     </div>
   );
+}
+
+export default function BlogPostPage({ 
+  params 
+}: { 
+  params: { locale: Locale; slug: string } 
+}) {
+  const post = getBlogPostBySlug(params.slug);
+  
+  if (!post) {
+    notFound();
+  }
+
+  return <BlogPostContent post={post} />;
 }
