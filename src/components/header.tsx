@@ -52,9 +52,6 @@ export function Header() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const { theme, setTheme } = useTheme();
 
-  // Debug: Navigation array'ini kontrol et
-  console.log('Navigation array:', navigation);
-
   return (
     <header className='sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
       <nav
@@ -81,8 +78,49 @@ export function Header() {
 
         <div className='hidden lg:flex lg:gap-x-8'>
           {navigation.map(item => (
-            <FeatureGuard key={item.name} feature={item.feature as any}>
-              <div className='relative'>
+            item.feature ? (
+              <FeatureGuard key={item.name} feature={item.feature as any}>
+                <div className='relative'>
+                  {item.dropdown ? (
+                    <div
+                      className='flex items-center space-x-1 cursor-pointer text-sm font-semibold leading-6 text-gray-900 hover:text-primary-600 transition-colors'
+                      onMouseEnter={() => setOpenDropdown(item.name)}
+                      onMouseLeave={() => setOpenDropdown(null)}
+                    >
+                      <span>{item.name}</span>
+                      <ChevronDown className='h-4 w-4' />
+                    </div>
+                  ) : (
+                    <Link
+                      href={item.href}
+                      className='text-sm font-semibold leading-6 text-gray-900 hover:text-primary-600 transition-colors'
+                    >
+                      {item.name}
+                    </Link>
+                  )}
+                  
+                  {/* Dropdown Menu */}
+                  {item.dropdown && openDropdown === item.name && (
+                    <div
+                      className='absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50'
+                      onMouseEnter={() => setOpenDropdown(item.name)}
+                      onMouseLeave={() => setOpenDropdown(null)}
+                    >
+                      {item.dropdown.map((dropdownItem, index) => (
+                        <Link
+                          key={index}
+                          href={dropdownItem.href}
+                          className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary-600 transition-colors'
+                        >
+                          {dropdownItem.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </FeatureGuard>
+            ) : (
+              <div key={item.name} className='relative'>
                 {item.dropdown ? (
                   <div
                     className='flex items-center space-x-1 cursor-pointer text-sm font-semibold leading-6 text-gray-900 hover:text-primary-600 transition-colors'
@@ -120,7 +158,7 @@ export function Header() {
                   </div>
                 )}
               </div>
-            </FeatureGuard>
+            )
           ))}
         </div>
 
@@ -167,8 +205,34 @@ export function Header() {
               <div className='-my-6 divide-y divide-gray-500/10'>
                 <div className='space-y-2 py-6'>
                   {navigation.map(item => (
-                    <FeatureGuard key={item.name} feature={item.feature as any}>
-                      <div>
+                    item.feature ? (
+                      <FeatureGuard key={item.name} feature={item.feature as any}>
+                        <div>
+                          <Link
+                            href={item.href}
+                            className='-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50'
+                            onClick={() => setMobileMenuOpen(false)}
+                          >
+                            {item.name}
+                          </Link>
+                          {item.dropdown && (
+                            <div className='ml-4 space-y-1'>
+                              {item.dropdown.map((dropdownItem, index) => (
+                                <Link
+                                  key={index}
+                                  href={dropdownItem.href}
+                                  className='block px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary-600 transition-colors'
+                                  onClick={() => setMobileMenuOpen(false)}
+                                >
+                                  {dropdownItem.name}
+                                </Link>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </FeatureGuard>
+                    ) : (
+                      <div key={item.name}>
                         <Link
                           href={item.href}
                           className='-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50'
@@ -191,7 +255,7 @@ export function Header() {
                           </div>
                         )}
                       </div>
-                    </FeatureGuard>
+                    )
                   ))}
                 </div>
                 <div className='py-6'>
