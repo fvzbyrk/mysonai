@@ -11,29 +11,34 @@ export function Footer() {
   const locale = getLocaleFromPathname(pathname) || 'tr';
 
   const footerLinks = {
-    product: [
-      { name: t(locale as Locale, 'nav.assistants'), href: '/tools' },
-      { name: t(locale as Locale, 'nav.demo'), href: '/demo' },
-      { name: t(locale as Locale, 'nav.pricing'), href: '/pricing' },
-      { name: t(locale as Locale, 'nav.api'), href: '/api' },
+    services: [
+      { name: 'AI Çözümleri', href: `/${locale}/services#ai-solutions` },
+      { name: 'Klasik Bilişim', href: `/${locale}/services#classic-it` },
+      { name: 'Yazılım İhtiyaçları', href: `/${locale}/services#software-needs` },
+      { name: 'Dijital Medya', href: `/${locale}/services#digital-media` },
+      { name: 'Danışmanlık & Eğitim', href: `/${locale}/services#consulting-education` },
     ],
-    resources: [
-      { name: t(locale as Locale, 'nav.docs'), href: '/docs' },
-      { name: t(locale as Locale, 'nav.blog'), href: '/blog' },
-      { name: 'Tutorial', href: '/tutorial' },
-      { name: t(locale as Locale, 'nav.faq'), href: '/faq' },
+    solutions: [
+      { name: 'MySon Video', href: `/${locale}/solutions#myson-video` },
+      { name: 'MySon Firmatch', href: `/${locale}/solutions#myson-firmatch` },
+      { name: 'MySon Avukat', href: `/${locale}/solutions#myson-avukat` },
+      { name: 'MySon Kids', href: `/${locale}/solutions#myson-kids` },
+      { name: 'MySon Education', href: `/${locale}/solutions#myson-education` },
+      { name: 'MySon Music', href: `/${locale}/solutions#myson-music` },
     ],
     company: [
-      { name: t(locale as Locale, 'nav.about'), href: '/about' },
-      { name: t(locale as Locale, 'nav.careers'), href: '/careers' },
-      { name: t(locale as Locale, 'nav.contact'), href: '/contact' },
-      { name: t(locale as Locale, 'nav.press'), href: '/press' },
+      { name: 'Hakkımızda', href: `/${locale}/about` },
+      { name: 'Hizmetler', href: `/${locale}/services` },
+      { name: 'Çözümler', href: `/${locale}/solutions` },
+      { name: 'Demo', href: `/${locale}/demo` },
+      { name: 'Referanslar', href: `/${locale}/references` },
+      { name: 'İletişim', href: `/${locale}/contact` },
     ],
     legal: [
-      { name: t(locale as Locale, 'nav.privacy'), href: '/privacy' },
-      { name: t(locale as Locale, 'nav.terms'), href: '/terms' },
-      { name: t(locale as Locale, 'nav.cookies'), href: '/cookies' },
-      { name: t(locale as Locale, 'nav.gdpr'), href: '/gdpr' },
+      { name: 'Gizlilik Politikası', href: `/${locale}/privacy` },
+      { name: 'Kullanım Şartları', href: `/${locale}/terms` },
+      { name: 'Çerez Politikası', href: `/${locale}/cookies` },
+      { name: 'KVKK', href: `/${locale}/gdpr` },
     ],
   };
 
@@ -48,7 +53,8 @@ export function Footer() {
               <span className='text-xl font-bold gradient-text'>MySonAI</span>
             </Link>
             <p className='text-gray-400 mb-4'>
-              Yapay zeka teknolojilerinin gücünü keşfedin. AI asistanlarınızla geleceği inşa edin.
+              AI çözümleri ve klasik bilişim hizmetleri ile işinizi bir üst seviyeye taşıyın. 
+              Güvenilir teknoloji ortağınız.
             </p>
             <div className='flex space-x-4'>
               <a
@@ -78,13 +84,13 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Product */}
+          {/* Services */}
           <div>
             <h3 className='text-sm font-semibold text-gray-300 uppercase tracking-wider mb-4'>
-              Ürün
+              Hizmetler
             </h3>
             <ul className='space-y-3'>
-              {footerLinks.product.map(link => (
+              {footerLinks.services.map(link => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
@@ -97,13 +103,13 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Resources */}
+          {/* Solutions */}
           <div>
             <h3 className='text-sm font-semibold text-gray-300 uppercase tracking-wider mb-4'>
-              Kaynaklar
+              Çözümler
             </h3>
             <ul className='space-y-3'>
-              {footerLinks.resources.map(link => (
+              {footerLinks.solutions.map(link => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
