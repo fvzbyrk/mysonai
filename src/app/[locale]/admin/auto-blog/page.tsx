@@ -481,8 +481,7 @@ export default function AutoBlogAdminPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
               <Button
                 onClick={() => handleGenerateHybrid()}
-                variant="outline"
-                className="border-white/20 text-white hover:bg-white/10"
+                className="bg-gradient-to-r from-purple-600 to-pink-600 text-white border-0 hover:from-purple-700 hover:to-pink-700 transition-all duration-300"
                 disabled={isLoading}
               >
                 <Bot className="w-4 h-4 mr-2" />
@@ -491,8 +490,7 @@ export default function AutoBlogAdminPage() {
               
               <Button
                 onClick={() => handleGenerateGPT()}
-                variant="outline"
-                className="border-white/20 text-white hover:bg-white/10"
+                className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white border-0 hover:from-blue-700 hover:to-cyan-700 transition-all duration-300"
                 disabled={isLoading}
               >
                 <BarChart3 className="w-4 h-4 mr-2" />
@@ -501,8 +499,7 @@ export default function AutoBlogAdminPage() {
               
               <Button
                 onClick={() => handleGenerateGemini()}
-                variant="outline"
-                className="border-white/20 text-white hover:bg-white/10"
+                className="bg-gradient-to-r from-green-600 to-emerald-600 text-white border-0 hover:from-green-700 hover:to-emerald-700 transition-all duration-300"
                 disabled={isLoading}
               >
                 <Zap className="w-4 h-4 mr-2" />
@@ -511,8 +508,7 @@ export default function AutoBlogAdminPage() {
               
               <Button
                 onClick={() => handleTestGemini()}
-                variant="outline"
-                className="border-white/20 text-white hover:bg-white/10"
+                className="bg-gradient-to-r from-orange-600 to-red-600 text-white border-0 hover:from-orange-700 hover:to-red-700 transition-all duration-300"
                 disabled={isLoading}
               >
                 <CheckCircle className="w-4 h-4 mr-2" />
@@ -521,8 +517,7 @@ export default function AutoBlogAdminPage() {
               
               <Button
                 onClick={() => handleCompareSources()}
-                variant="outline"
-                className="border-white/20 text-white hover:bg-white/10"
+                className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white border-0 hover:from-indigo-700 hover:to-purple-700 transition-all duration-300"
                 disabled={isLoading}
               >
                 <Settings className="w-4 h-4 mr-2" />
