@@ -143,35 +143,19 @@ export default function LocaleLayout({
           </Script>
         </>
       )}
-      <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
-        <AuthProvider>
-          <AnalyticsWrapper>
-            <PerformanceWrapper>
-              <AccessibilityWrapper>
-                <MobileWrapper>
-                  <SEOWrapper>
-                    <UXWrapper>
-                      <SecurityWrapper>
-                        <ConversionWrapper>
-                          <div className='min-h-screen flex flex-col'>
-                            <Header />
-                            <main className='flex-1'>{children}</main>
-                            <Footer />
-                            {/* Global AI Assistant */}
-                            <AIAssistantChat locale={params.locale} />
-                          </div>
-                          <Toaster position='top-right' richColors />
-                          <CookieConsent />
-                        </ConversionWrapper>
-                      </SecurityWrapper>
-                    </UXWrapper>
-                  </SEOWrapper>
-                </MobileWrapper>
-              </AccessibilityWrapper>
-            </PerformanceWrapper>
-          </AnalyticsWrapper>
-        </AuthProvider>
-      </ThemeProvider>
+        <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
+          <AuthProvider>
+            <div className='min-h-screen flex flex-col'>
+              <Header />
+              <main className='flex-1'>{children}</main>
+              <Footer />
+              {/* Global AI Assistant */}
+              <AIAssistantChat locale={params.locale} />
+            </div>
+            <Toaster position='top-right' richColors />
+            <CookieConsent />
+          </AuthProvider>
+        </ThemeProvider>
     </>
   );
 }
