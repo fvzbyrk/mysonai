@@ -411,3 +411,4 @@ export const defaultGPTGeminiConfig: HybridConfig = {
 };
 
 export const gptGeminiHybrid = new GPTGeminiHybrid(defaultGPTGeminiConfig);
+export { GPTGeminiHybrid as GptGeminiHybridNews };

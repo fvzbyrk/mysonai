@@ -411,3 +411,4 @@ export const defaultGPTGeminiConfig: AINewsConfig = {
 };
 
 export const gptGeminiIntegration = new GPTGeminiIntegration(defaultGPTGeminiConfig);
+export { GPTGeminiIntegration as GptGeminiIntegration };

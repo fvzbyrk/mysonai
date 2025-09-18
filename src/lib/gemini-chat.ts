@@ -24,6 +24,14 @@ class GeminiChat {
     this.baseUrl = 'https://generativelanguage.googleapis.com';
   }
 
+  // Get status
+  async getStatus() {
+    return {
+      available: !!this.apiKey,
+      error: this.apiKey ? null : 'GEMINI_API_KEY not set'
+    };
+  }
+
   // Generate response using Gemini
   async generateResponse(
     messages: GeminiMessage[],
@@ -290,3 +298,4 @@ class GeminiChat {
 }
 
 export const geminiChat = new GeminiChat();
+export { GeminiChat };

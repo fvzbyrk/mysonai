@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { gptGeminiHybrid, HybridConfig } from '@/lib/gpt-gemini-hybrid';
+import { GptGeminiHybridNews, HybridConfig } from '@/lib/gpt-gemini-hybrid';
+
+// Create instance
+const gptGeminiHybrid = new GptGeminiHybridNews();
 
 // GPT + Gemini hybrid news generation endpoint
 export async function POST(request: NextRequest) {
