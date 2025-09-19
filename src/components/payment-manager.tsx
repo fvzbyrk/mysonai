@@ -18,7 +18,7 @@ import {
   Calendar,
   DollarSign,
 } from 'lucide-react';
-import { PlanType, PLANS } from '@/lib/stripe';
+import { PlanType } from '@/lib/stripe';
 
 interface PaymentManagerProps {
   className?: string;

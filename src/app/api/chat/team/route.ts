@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getTeamById, getTeamAgents } from '@/lib/agent-collaboration';
-import { getAgentById } from '@/lib/ai-agents';
+import { getTeamAgents } from '@/lib/agent-collaboration';
 
 export async function POST(request: NextRequest) {
   try {

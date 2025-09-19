@@ -1,10 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GeminiChat } from '@/lib/gemini-chat';
-import { GptGeminiIntegration } from '@/lib/gpt-gemini-integration';
-
 // Create instances
 const geminiChat = new GeminiChat();
-const gptGeminiIntegration = new GptGeminiIntegration();
 
 export async function POST(request: NextRequest) {
   try {
