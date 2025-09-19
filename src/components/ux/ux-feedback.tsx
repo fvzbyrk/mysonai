@@ -188,7 +188,8 @@ export function UXFeedback({
         <Button
           onClick={() => setIsOpen(true)}
           className={cn(
-            'fixed bottom-4 right-4 z-50 bg-purple-600 hover:bg-purple-700 text-white rounded-full p-3 shadow-lg transition-all duration-300',
+            'fixed bottom-4 right-4 z-50 bg-purple-600 hover:bg-purple-700 ' +
+            'text-white rounded-full p-3 shadow-lg transition-all duration-300',
             className
           )}
         >

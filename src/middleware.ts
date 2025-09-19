@@ -14,7 +14,13 @@ export function middleware(request: NextRequest) {
   // Content Security Policy
   response.headers.set(
     'Content-Security-Policy',
-    "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://vercel.live; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.openai.com https://generativelanguage.googleapis.com; frame-src 'none';"
+    "default-src 'self'; " +
+    "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://vercel.live; " +
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
+    "font-src 'self' https://fonts.gstatic.com; " +
+    "img-src 'self' data: https:; " +
+    "connect-src 'self' https://api.openai.com https://generativelanguage.googleapis.com; " +
+    "frame-src 'none';"
   );
 
   // HSTS for HTTPS
