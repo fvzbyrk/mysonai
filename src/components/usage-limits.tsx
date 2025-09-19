@@ -68,7 +68,7 @@ export function UsageLimits({ usage, isGuest, onUpgrade }: UsageLimitsProps) {
                 : 'bg-gradient-to-r from-purple-500 to-pink-500'
             }`}
             style={{
-              width: `${usage.monthlyLimit.messages === -1 ? 100 : 
+              width: `${usage.monthlyLimit.messages === -1 ? 100 :
                 Math.min((usage.totalMessages / usage.monthlyLimit.messages) * 100, 100)}%`,
             }}
           />
@@ -93,7 +93,7 @@ export function UsageLimits({ usage, isGuest, onUpgrade }: UsageLimitsProps) {
                 : 'bg-gradient-to-r from-blue-500 to-cyan-500'
             }`}
             style={{
-              width: `${usage.monthlyLimit.tokens === -1 ? 100 : 
+              width: `${usage.monthlyLimit.tokens === -1 ? 100 :
                 Math.min((usage.totalTokens / usage.monthlyLimit.tokens) * 100, 100)}%`,
             }}
           />
