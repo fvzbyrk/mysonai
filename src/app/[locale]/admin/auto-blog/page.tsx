@@ -20,8 +20,10 @@ import {
   BarChart3,
   FileText,
   Globe,
-  Zap
+  Zap,
+  ArrowLeft
 } from 'lucide-react';
+import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
 interface AutoBlogStatus {
@@ -419,9 +421,17 @@ export default function AutoBlogAdminPage() {
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-white">Otomatik Blog Yönetimi</h1>
-            <p className="text-gray-300">Grok AI ile otomatik tech haber yayınlama sistemi</p>
+          <div className="flex items-center space-x-4">
+            <Link href="/tr/admin">
+              <Button variant="outline" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Dashboard
+              </Button>
+            </Link>
+            <div>
+              <h1 className="text-3xl font-bold text-white">Otomatik Blog Yönetimi</h1>
+              <p className="text-gray-300">Grok AI ile otomatik tech haber yayınlama sistemi</p>
+            </div>
           </div>
           
           <div className="flex items-center space-x-4">

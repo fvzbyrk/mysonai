@@ -17,7 +17,6 @@ export function Header() {
   const navigation = [
     { name: 'Ana Sayfa', href: `/${locale}`, feature: null },
     { name: 'Hakkımızda', href: `/${locale}/about`, feature: null },
-    { name: 'Blog', href: `/${locale}/blog`, feature: null },
     { 
       name: 'Hizmetler', 
       href: `/${locale}/services`, 
@@ -44,7 +43,6 @@ export function Header() {
         { name: 'MySon Music', href: `/${locale}/solutions#myson-music` }
       ]
     },
-    { name: 'Blog', href: `/${locale}/blog`, feature: null },
     { name: 'Demo', href: `/${locale}/demo`, feature: 'demo' },
     { name: 'Referanslar', href: `/${locale}/references`, feature: null },
     { name: 'İletişim', href: `/${locale}/contact`, feature: 'contact' },

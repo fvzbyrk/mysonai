@@ -1,131 +1,65 @@
 import { NextRequest, NextResponse } from 'next/server';
-
-interface BlogPost {
-  id: string;
-  title: string;
-  content: string;
-  status: 'draft' | 'published' | 'scheduled';
-  publishedAt: string;
-  category: string;
-  tags: string[];
-  source: string;
-  priority: 'high' | 'medium' | 'low';
-  author?: string;
-  readTime?: number;
-  imageUrl?: string;
-  imageAlt?: string;
-}
-
-// Global blog posts storage - in real app, this would be a database
-let blogPosts: BlogPost[] = [
-  {
-    id: '1',
-    title: 'Günün Tech Gelişmeleri - 18.09.2025',
-    content: `
-      <h2>Yapay Zeka ve Gelecek</h2>
-      <p>Bugün yapay zeka alanında önemli gelişmeler yaşandı. OpenAI'nin yeni GPT-5 modeli duyuruldu ve performans testleri başladı.</p>
-      
-      <h3>Öne Çıkan Gelişmeler:</h3>
-      <ul>
-        <li>OpenAI GPT-5 duyurusu</li>
-        <li>Google Gemini 2.0 beta sürümü</li>
-        <li>Microsoft Copilot güncellemeleri</li>
-        <li>AI güvenlik standartları</li>
-      </ul>
-      
-      <p>Bu gelişmeler, yapay zeka teknolojisinin geleceğini şekillendirecek önemli adımlar olarak değerlendiriliyor.</p>
-    `,
-    status: 'published',
-    publishedAt: '2024-09-18T09:00:00Z',
-    category: 'AI Teknolojisi',
-    tags: ['tech', 'günlük', 'gelişmeler', 'ai'],
-    source: 'Gemini AI',
-    priority: 'high',
-    author: 'MySonAI',
-    readTime: 5
-  },
-  {
-    id: '2',
-    title: 'Machine Learning Trendleri 2024',
-    content: `
-      <h2>Machine Learning'de Yeni Trendler</h2>
-      <p>2024 yılında machine learning alanında önemli trendler ortaya çıktı. Bu trendler, gelecekteki teknoloji gelişmelerini etkileyecek.</p>
-      
-      <h3>Önemli Trendler:</h3>
-      <ul>
-        <li>Federated Learning</li>
-        <li>AutoML platformları</li>
-        <li>Edge AI uygulamaları</li>
-        <li>Explainable AI</li>
-      </ul>
-    `,
-    status: 'published',
-    publishedAt: '2024-09-18T14:00:00Z',
-    category: 'AI Teknolojisi',
-    tags: ['ai', 'machine-learning', 'trend'],
-    source: 'Gemini AI',
-    priority: 'medium',
-    author: 'MySonAI',
-    readTime: 7
-  },
-  {
-    id: '3',
-    title: 'Dijital Dönüşüm Rehberi',
-    content: `
-      <h2>İş Dünyasında Dijital Dönüşüm</h2>
-      <p>Modern iş dünyasında dijital dönüşüm artık bir seçenek değil, zorunluluk haline geldi. Bu süreçte dikkat edilmesi gereken önemli noktalar var.</p>
-      
-      <h3>Dijital Dönüşüm Adımları:</h3>
-      <ul>
-        <li>Mevcut süreçleri analiz etme</li>
-        <li>Teknoloji altyapısını güçlendirme</li>
-        <li>Çalışan eğitimleri</li>
-        <li>Sürekli iyileştirme</li>
-      </ul>
-    `,
-    status: 'published',
-    publishedAt: '2024-09-18T16:00:00Z',
-    category: 'İş Dünyası',
-    tags: ['dijital-dönüşüm', 'iş-süreçleri', 'teknoloji'],
-    source: 'Gemini AI',
-    priority: 'medium',
-    author: 'MySonAI',
-    readTime: 6
-  }
-];
+import { blogStorage, BlogPost } from '@/lib/blog-storage';
 
 export async function GET(request: NextRequest) {
   try {
+    // Initialize default posts if needed
+    await blogStorage.initializeDefaultPosts();
+
     const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+    
+    // If ID is provided, return single post
+    if (id) {
+      const post = await blogStorage.getPostById(id);
+      if (!post) {
+        return NextResponse.json({
+          success: false,
+          message: 'Post not found'
+        }, { status: 404 });
+      }
+      
+      return NextResponse.json({
+        success: true,
+        data: { post }
+      });
+    }
+
     const category = searchParams.get('category');
     const status = searchParams.get('status') || 'published';
     const limit = parseInt(searchParams.get('limit') || '10');
     const offset = parseInt(searchParams.get('offset') || '0');
+    const search = searchParams.get('search');
 
-    let filteredPosts = blogPosts;
+    let posts = await blogStorage.getAllPosts();
 
     // Filter by status
     if (status) {
-      filteredPosts = filteredPosts.filter(post => post.status === status);
+      posts = posts.filter(post => post.status === status);
     }
 
     // Filter by category
     if (category && category !== 'all') {
-      filteredPosts = filteredPosts.filter(post => post.category === category);
+      posts = posts.filter(post => post.category === category);
+    }
+
+    // Search functionality
+    if (search) {
+      posts = await blogStorage.searchPosts(search);
     }
 
     // Sort by published date (newest first)
-    filteredPosts.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+    posts.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
 
     // Apply pagination
-    const paginatedPosts = filteredPosts.slice(offset, offset + limit);
+    const paginatedPosts = posts.slice(offset, offset + limit);
 
     return NextResponse.json({
       success: true,
       data: {
         posts: paginatedPosts,
-        total: filteredPosts.length,
-        hasMore: offset + limit < filteredPosts.length
+        total: posts.length,
+        hasMore: offset + limit < posts.length
       }
     });
   } catch (error) {
@@ -173,8 +107,7 @@ export async function POST(request: NextRequest) {
 
 async function createPost(postData: Partial<BlogPost>) {
   try {
-    const newPost: BlogPost = {
-      id: `post-${Date.now()}`,
+    const newPost = await blogStorage.createPost({
       title: postData.title || 'Yeni Post',
       content: postData.content || '',
       status: postData.status || 'draft',
@@ -184,11 +117,10 @@ async function createPost(postData: Partial<BlogPost>) {
       source: postData.source || 'MySonAI',
       priority: postData.priority || 'medium',
       author: postData.author || 'MySonAI',
-      readTime: postData.readTime || 5
-    };
-
-    // In real app, save to database
-    blogPosts.push(newPost);
+      readTime: postData.readTime || 5,
+      imageUrl: postData.imageUrl,
+      imageAlt: postData.imageAlt
+    });
 
     return NextResponse.json({
       success: true,
@@ -207,22 +139,19 @@ async function createPost(postData: Partial<BlogPost>) {
 
 async function updatePost(postData: Partial<BlogPost> & { id: string }) {
   try {
-    const postIndex = mockPosts.findIndex(post => post.id === postData.id);
+    const updatedPost = await blogStorage.updatePost(postData.id, postData);
     
-    if (postIndex === -1) {
+    if (!updatedPost) {
       return NextResponse.json({
         success: false,
         message: 'Post not found'
       }, { status: 404 });
     }
 
-    // Update post
-    mockPosts[postIndex] = { ...mockPosts[postIndex], ...postData };
-
     return NextResponse.json({
       success: true,
       message: 'Post updated successfully',
-      data: mockPosts[postIndex]
+      data: updatedPost
     });
   } catch (error) {
     console.error('Update post error:', error);
@@ -236,22 +165,18 @@ async function updatePost(postData: Partial<BlogPost> & { id: string }) {
 
 async function deletePost(postId: string) {
   try {
-    const postIndex = mockPosts.findIndex(post => post.id === postId);
+    const deleted = await blogStorage.deletePost(postId);
     
-    if (postIndex === -1) {
+    if (!deleted) {
       return NextResponse.json({
         success: false,
         message: 'Post not found'
       }, { status: 404 });
     }
 
-    // Remove post
-    const deletedPost = mockPosts.splice(postIndex, 1)[0];
-
     return NextResponse.json({
       success: true,
-      message: 'Post deleted successfully',
-      data: deletedPost
+      message: 'Post deleted successfully'
     });
   } catch (error) {
     console.error('Delete post error:', error);
@@ -449,8 +374,8 @@ Makale 1500-2000 kelime arasında olsun, okuyucuya değer katsın.`;
       imageAlt: imageData.alt
     };
 
-    // Add to blog posts
-    blogPosts.push(newPost);
+    // Add to blog posts using storage
+    await blogStorage.createPost(newPost);
 
     // Also add to auto-blog posts for admin panel
     try {

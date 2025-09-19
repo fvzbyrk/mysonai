@@ -1,404 +1,268 @@
-import { Locale } from '@/lib/i18n';
-import { t } from '@/lib/translations';
+import { Metadata } from 'next';
 import { Card } from '@/components/ui/card';
-import { FeatureGuard } from '@/components/feature-guard';
-import { FileText, Scale, Users, Shield, AlertCircle, CheckCircle } from 'lucide-react';
-import type { Metadata } from 'next';
+import { FileText, Scale, Shield, AlertTriangle, CheckCircle, XCircle } from 'lucide-react';
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { locale: Locale };
-}): Promise<Metadata> {
-  const isTurkish = params.locale === 'tr';
+export const metadata: Metadata = {
+  title: 'Kullanım Şartları - MySonAI',
+  description: 'MySonAI kullanım şartları ve hizmet koşulları.',
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 
-  return {
-    title: isTurkish
-      ? 'Kullanım Koşulları - MySonAI Hizmet Şartları'
-      : 'Terms of Service - MySonAI Service Terms',
-    description: isTurkish
-      ? 'MySonAI kullanım koşulları ve hizmet şartları. Platformumuzu kullanırken uymanız gereken kurallar ve koşullar.'
-      : 'MySonAI terms of service and service conditions. Rules and conditions you must follow when using our platform.',
-    keywords: isTurkish
-      ? 'kullanım koşulları, hizmet şartları, MySonAI, platform kuralları'
-      : 'terms of service, service conditions, MySonAI, platform rules',
-  };
-}
-
-function TermsContent({ params }: { params: { locale: Locale } }) {
-  const isTurkish = params.locale === 'tr';
-
+export default function TermsOfServicePage() {
   return (
-    <div className='min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900'>
-      {/* Hero Section */}
-      <section className='relative overflow-hidden py-20'>
-        <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8'>
-          <div className='text-center'>
-            <div className='w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6'>
-              <FileText className='w-10 h-10 text-green-400' />
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 py-12">
+      <div className="max-w-4xl mx-auto px-6">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-white mb-4">Kullanım Şartları</h1>
+          <p className="text-gray-300 text-lg">Hizmetlerimizi kullanmadan önce lütfen bu şartları okuyun</p>
+          <p className="text-gray-400 text-sm mt-2">Son güncelleme: 18 Aralık 2024</p>
+        </div>
+
+        <div className="space-y-8">
+          {/* Giriş */}
+          <Card className="bg-white/10 backdrop-blur-md border-white/20">
+            <div className="p-8">
+              <div className="flex items-center mb-4">
+                <FileText className="w-6 h-6 text-blue-400 mr-3" />
+                <h2 className="text-2xl font-semibold text-white">1. Giriş ve Kabul</h2>
+              </div>
+              <p className="text-gray-300 leading-relaxed">
+                Bu kullanım şartları, MySonAI platformunu kullanan tüm kullanıcılar için geçerlidir. 
+                Platformu kullanarak bu şartları kabul etmiş sayılırsınız. Eğer bu şartları kabul etmiyorsanız, 
+                lütfen platformu kullanmayın.
+              </p>
             </div>
-            <h1 className='text-4xl md:text-5xl font-bold text-white mb-6'>
-              {isTurkish ? 'Kullanım Koşulları' : 'Terms of Service'}
-            </h1>
-            <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
-              {isTurkish
-                ? 'MySonAI platformunu kullanırken uymanız gereken kurallar ve koşullar. Hizmetlerimizi kullanarak bu koşulları kabul etmiş olursunuz.'
-                : 'Rules and conditions you must follow when using the MySonAI platform. By using our services, you agree to these terms.'}
-            </p>
-            <p className='text-sm text-gray-400 mt-4'>
-              {isTurkish ? 'Son güncelleme: 15 Ocak 2024' : 'Last updated: January 15, 2024'}
-            </p>
-          </div>
-        </div>
-      </section>
+          </Card>
 
-      {/* Content */}
-      <section className='py-16'>
-        <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8'>
-          <div className='space-y-8'>
-            {/* 1. Hizmet Tanımı */}
-            <Card className='bg-white/10 backdrop-blur-md border-white/20 p-8'>
-              <div className='flex items-start gap-4'>
-                <div className='w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center flex-shrink-0'>
-                  <Scale className='w-6 h-6 text-blue-400' />
-                </div>
-                <div>
-                  <h2 className='text-2xl font-bold text-white mb-4'>
-                    {isTurkish ? '1. Hizmet Tanımı' : '1. Service Description'}
-                  </h2>
-                  <div className='space-y-4 text-gray-300'>
-                    <p>
-                      {isTurkish
-                        ? 'MySonAI, yapay zeka teknolojileri kullanarak çeşitli AI asistanları sunan bir platformdur. Hizmetlerimiz şunları içerir:'
-                        : 'MySonAI is a platform that offers various AI assistants using artificial intelligence technologies. Our services include:'}
-                    </p>
-                    <ul className='list-disc list-inside space-y-1 ml-4'>
-                      <li>
-                        {isTurkish ? 'AI asistan sohbet hizmetleri' : 'AI assistant chat services'}
-                      </li>
-                      <li>{isTurkish ? 'Görsel üretim araçları' : 'Visual generation tools'}</li>
-                      <li>
-                        {isTurkish ? 'Kod üretim yardımcıları' : 'Code generation assistants'}
-                      </li>
-                      <li>{isTurkish ? 'Kullanıcı hesap yönetimi' : 'User account management'}</li>
-                      <li>
-                        {isTurkish
-                          ? 'Ödeme ve abonelik hizmetleri'
-                          : 'Payment and subscription services'}
-                      </li>
-                    </ul>
-                  </div>
-                </div>
+          {/* Hizmet Tanımı */}
+          <Card className="bg-white/10 backdrop-blur-md border-white/20">
+            <div className="p-8">
+              <div className="flex items-center mb-4">
+                <Scale className="w-6 h-6 text-green-400 mr-3" />
+                <h2 className="text-2xl font-semibold text-white">2. Hizmet Tanımı</h2>
               </div>
-            </Card>
-
-            {/* 2. Kullanıcı Yükümlülükleri */}
-            <Card className='bg-white/10 backdrop-blur-md border-white/20 p-8'>
-              <div className='flex items-start gap-4'>
-                <div className='w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center flex-shrink-0'>
-                  <Users className='w-6 h-6 text-purple-400' />
-                </div>
-                <div>
-                  <h2 className='text-2xl font-bold text-white mb-4'>
-                    {isTurkish ? '2. Kullanıcı Yükümlülükleri' : '2. User Obligations'}
-                  </h2>
-                  <div className='space-y-4 text-gray-300'>
-                    <div>
-                      <h3 className='text-lg font-semibold text-white mb-2'>
-                        {isTurkish ? 'Yasaklanan Kullanımlar' : 'Prohibited Uses'}
-                      </h3>
-                      <ul className='list-disc list-inside space-y-1 ml-4'>
-                        <li>
-                          {isTurkish ? 'Yasadışı içerik üretimi' : 'Illegal content generation'}
-                        </li>
-                        <li>
-                          {isTurkish
-                            ? 'Zararlı yazılım geliştirme'
-                            : 'Malicious software development'}
-                        </li>
-                        <li>{isTurkish ? 'Telif hakkı ihlali' : 'Copyright infringement'}</li>
-                        <li>{isTurkish ? 'Spam veya kötüye kullanım' : 'Spam or abuse'}</li>
-                        <li>
-                          {isTurkish
-                            ? 'Başkalarının haklarını ihlal etme'
-                            : "Violating others' rights"}
-                        </li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h3 className='text-lg font-semibold text-white mb-2'>
-                        {isTurkish ? 'Kullanıcı Sorumlulukları' : 'User Responsibilities'}
-                      </h3>
-                      <ul className='list-disc list-inside space-y-1 ml-4'>
-                        <li>
-                          {isTurkish
-                            ? 'Doğru ve güncel bilgi sağlama'
-                            : 'Providing accurate and up-to-date information'}
-                        </li>
-                        <li>
-                          {isTurkish ? 'Hesap güvenliğini sağlama' : 'Maintaining account security'}
-                        </li>
-                        <li>
-                          {isTurkish ? 'Kullanım limitlerine uyma' : 'Complying with usage limits'}
-                        </li>
-                        <li>
-                          {isTurkish
-                            ? 'Ödeme yükümlülüklerini yerine getirme'
-                            : 'Fulfilling payment obligations'}
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Card>
-
-            {/* 3. Hizmet Sağlayıcı Yükümlülükleri */}
-            <Card className='bg-white/10 backdrop-blur-md border-white/20 p-8'>
-              <div className='flex items-start gap-4'>
-                <div className='w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center flex-shrink-0'>
-                  <Shield className='w-6 h-6 text-green-400' />
-                </div>
-                <div>
-                  <h2 className='text-2xl font-bold text-white mb-4'>
-                    {isTurkish
-                      ? '3. Hizmet Sağlayıcı Yükümlülükleri'
-                      : '3. Service Provider Obligations'}
-                  </h2>
-                  <div className='space-y-4 text-gray-300'>
-                    <ul className='list-disc list-inside space-y-2 ml-4'>
-                      <li>
-                        {isTurkish
-                          ? 'Hizmetlerin sürekli erişilebilirliğini sağlama'
-                          : 'Ensuring continuous accessibility of services'}
-                      </li>
-                      <li>
-                        {isTurkish
-                          ? 'Kullanıcı verilerinin güvenliğini koruma'
-                          : 'Protecting user data security'}
-                      </li>
-                      <li>
-                        {isTurkish
-                          ? 'Gizlilik politikasına uygun hareket etme'
-                          : 'Acting in accordance with privacy policy'}
-                      </li>
-                      <li>{isTurkish ? 'Teknik destek sağlama' : 'Providing technical support'}</li>
-                      <li>
-                        {isTurkish
-                          ? 'Hizmet kalitesini sürekli iyileştirme'
-                          : 'Continuously improving service quality'}
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </Card>
-
-            {/* 4. Ödeme ve Faturalandırma */}
-            <Card className='bg-white/10 backdrop-blur-md border-white/20 p-8'>
-              <div className='flex items-start gap-4'>
-                <div className='w-12 h-12 bg-yellow-500/20 rounded-full flex items-center justify-center flex-shrink-0'>
-                  <CheckCircle className='w-6 h-6 text-yellow-400' />
-                </div>
-                <div>
-                  <h2 className='text-2xl font-bold text-white mb-4'>
-                    {isTurkish ? '4. Ödeme ve Faturalandırma' : '4. Payment and Billing'}
-                  </h2>
-                  <div className='space-y-4 text-gray-300'>
-                    <div>
-                      <h3 className='text-lg font-semibold text-white mb-2'>
-                        {isTurkish ? 'Abonelik Modelleri' : 'Subscription Models'}
-                      </h3>
-                      <ul className='list-disc list-inside space-y-1 ml-4'>
-                        <li>
-                          {isTurkish
-                            ? 'Ücretsiz Plan: Sınırlı kullanım'
-                            : 'Free Plan: Limited usage'}
-                        </li>
-                        <li>
-                          {isTurkish
-                            ? 'Pro Plan: Aylık abonelik'
-                            : 'Pro Plan: Monthly subscription'}
-                        </li>
-                        <li>
-                          {isTurkish
-                            ? 'Enterprise Plan: Kurumsal çözümler'
-                            : 'Enterprise Plan: Enterprise solutions'}
-                        </li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h3 className='text-lg font-semibold text-white mb-2'>
-                        {isTurkish ? 'Ödeme Koşulları' : 'Payment Terms'}
-                      </h3>
-                      <ul className='list-disc list-inside space-y-1 ml-4'>
-                        <li>
-                          {isTurkish
-                            ? 'Ödemeler Stripe aracılığıyla işlenir'
-                            : 'Payments are processed via Stripe'}
-                        </li>
-                        <li>
-                          {isTurkish
-                            ? 'Abonelikler otomatik yenilenir'
-                            : 'Subscriptions auto-renew'}
-                        </li>
-                        <li>
-                          {isTurkish
-                            ? 'İptal işlemi 24 saat içinde gerçekleşir'
-                            : 'Cancellation takes effect within 24 hours'}
-                        </li>
-                        <li>
-                          {isTurkish
-                            ? 'Para iadesi politikası geçerlidir'
-                            : 'Refund policy applies'}
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Card>
-
-            {/* 5. Sorumluluk Sınırları */}
-            <Card className='bg-white/10 backdrop-blur-md border-white/20 p-8'>
-              <div className='flex items-start gap-4'>
-                <div className='w-12 h-12 bg-red-500/20 rounded-full flex items-center justify-center flex-shrink-0'>
-                  <AlertCircle className='w-6 h-6 text-red-400' />
-                </div>
-                <div>
-                  <h2 className='text-2xl font-bold text-white mb-4'>
-                    {isTurkish ? '5. Sorumluluk Sınırları' : '5. Liability Limitations'}
-                  </h2>
-                  <div className='space-y-4 text-gray-300'>
-                    <div>
-                      <h3 className='text-lg font-semibold text-white mb-2'>
-                        {isTurkish ? 'Hizmet Kesintileri' : 'Service Interruptions'}
-                      </h3>
-                      <p className='ml-4'>
-                        {isTurkish
-                          ? 'Teknik sorunlar, bakım çalışmaları veya güvenlik güncellemeleri nedeniyle hizmet kesintileri yaşanabilir. Bu durumlarda sorumluluk kabul etmeyiz.'
-                          : 'Service interruptions may occur due to technical issues, maintenance work or security updates. We do not accept responsibility in these cases.'}
-                      </p>
-                    </div>
-                    <div>
-                      <h3 className='text-lg font-semibold text-white mb-2'>
-                        {isTurkish ? 'AI Yanıtları' : 'AI Responses'}
-                      </h3>
-                      <p className='ml-4'>
-                        {isTurkish
-                          ? 'AI asistanlarımızın verdiği yanıtlar bilgilendirme amaçlıdır. Önemli kararlar için profesyonel danışmanlık almanızı öneririz.'
-                          : 'Responses from our AI assistants are for informational purposes. We recommend seeking professional advice for important decisions.'}
-                      </p>
-                    </div>
-                    <div>
-                      <h3 className='text-lg font-semibold text-white mb-2'>
-                        {isTurkish ? 'Maksimum Sorumluluk' : 'Maximum Liability'}
-                      </h3>
-                      <p className='ml-4'>
-                        {isTurkish
-                          ? 'Sorumluluğumuz, kullanıcının son 12 ayda ödediği toplam ücretle sınırlıdır.'
-                          : 'Our liability is limited to the total amount paid by the user in the last 12 months.'}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Card>
-
-            {/* 6. Hizmet Değişiklikleri */}
-            <Card className='bg-white/10 backdrop-blur-md border-white/20 p-8'>
-              <div className='flex items-start gap-4'>
-                <div className='w-12 h-12 bg-indigo-500/20 rounded-full flex items-center justify-center flex-shrink-0'>
-                  <FileText className='w-6 h-6 text-indigo-400' />
-                </div>
-                <div>
-                  <h2 className='text-2xl font-bold text-white mb-4'>
-                    {isTurkish ? '6. Hizmet Değişiklikleri' : '6. Service Changes'}
-                  </h2>
-                  <div className='space-y-4 text-gray-300'>
-                    <ul className='list-disc list-inside space-y-2 ml-4'>
-                      <li>
-                        {isTurkish
-                          ? 'Hizmetlerimizi önceden bildirim yaparak değiştirebiliriz'
-                          : 'We may change our services with prior notice'}
-                      </li>
-                      <li>
-                        {isTurkish
-                          ? 'Önemli değişiklikler 30 gün önceden bildirilir'
-                          : 'Important changes are notified 30 days in advance'}
-                      </li>
-                      <li>
-                        {isTurkish
-                          ? 'Değişiklikleri kabul etmeyen kullanıcılar hizmeti iptal edebilir'
-                          : 'Users who do not accept changes can cancel the service'}
-                      </li>
-                      <li>
-                        {isTurkish
-                          ? 'Güvenlik güncellemeleri anında uygulanabilir'
-                          : 'Security updates can be applied immediately'}
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </Card>
-
-            {/* 7. Uygulanacak Hukuk */}
-            <Card className='bg-white/10 backdrop-blur-md border-white/20 p-8'>
-              <div className='text-center'>
-                <h2 className='text-2xl font-bold text-white mb-4'>
-                  {isTurkish
-                    ? '7. Uygulanacak Hukuk ve Yetki'
-                    : '7. Applicable Law and Jurisdiction'}
-                </h2>
-                <div className='space-y-4 text-gray-300'>
-                  <p>
-                    {isTurkish
-                      ? 'Bu kullanım koşulları Türk hukukuna tabidir. Herhangi bir uyuşmazlık durumunda İstanbul mahkemeleri yetkilidir.'
-                      : 'These terms of service are subject to Turkish law. In case of any dispute, Istanbul courts are authorized.'}
-                  </p>
-                  <p>
-                    {isTurkish
-                      ? 'Uyuşmazlıklar öncelikle dostane yollarla çözülmeye çalışılır.'
-                      : 'Disputes are first attempted to be resolved through friendly means.'}
-                  </p>
-                </div>
-              </div>
-            </Card>
-
-            {/* 8. İletişim */}
-            <Card className='bg-white/10 backdrop-blur-md border-white/20 p-8'>
-              <div className='text-center'>
-                <h2 className='text-2xl font-bold text-white mb-4'>
-                  {isTurkish ? '8. İletişim' : '8. Contact'}
-                </h2>
-                <p className='text-gray-300 mb-6'>
-                  {isTurkish
-                    ? 'Kullanım koşulları hakkında sorularınız varsa, bizimle iletişime geçin:'
-                    : 'If you have questions about the terms of service, please contact us:'}
+              <div className="space-y-4">
+                <p className="text-gray-300">
+                  MySonAI, yapay zeka teknolojileri kullanarak çeşitli hizmetler sunan bir platformdur:
                 </p>
-                <div className='space-y-2'>
-                  <p className='text-white'>
-                    <strong>E-posta:</strong> legal@mysonai.com
+                <ul className="text-gray-300 space-y-2 ml-4">
+                  <li>• AI asistan hizmetleri</li>
+                  <li>• Metin üretimi ve düzenleme</li>
+                  <li>• Görsel üretimi</li>
+                  <li>• Kod yazma ve analiz</li>
+                  <li>• Eğitim ve danışmanlık hizmetleri</li>
+                </ul>
+              </div>
+            </div>
+          </Card>
+
+          {/* Kullanıcı Yükümlülükleri */}
+          <Card className="bg-white/10 backdrop-blur-md border-white/20">
+            <div className="p-8">
+              <div className="flex items-center mb-4">
+                <Shield className="w-6 h-6 text-purple-400 mr-3" />
+                <h2 className="text-2xl font-semibold text-white">3. Kullanıcı Yükümlülükleri</h2>
+              </div>
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Yasaklı Kullanımlar</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="flex items-start space-x-2">
+                      <XCircle className="w-5 h-5 text-red-400 mt-1 flex-shrink-0" />
+                      <span className="text-gray-300 text-sm">Yasadışı içerik üretimi</span>
+                    </div>
+                    <div className="flex items-start space-x-2">
+                      <XCircle className="w-5 h-5 text-red-400 mt-1 flex-shrink-0" />
+                      <span className="text-gray-300 text-sm">Telif hakkı ihlali</span>
+                    </div>
+                    <div className="flex items-start space-x-2">
+                      <XCircle className="w-5 h-5 text-red-400 mt-1 flex-shrink-0" />
+                      <span className="text-gray-300 text-sm">Zararlı yazılım üretimi</span>
+                    </div>
+                    <div className="flex items-start space-x-2">
+                      <XCircle className="w-5 h-5 text-red-400 mt-1 flex-shrink-0" />
+                      <span className="text-gray-300 text-sm">Spam ve kötüye kullanım</span>
+                    </div>
+                    <div className="flex items-start space-x-2">
+                      <XCircle className="w-5 h-5 text-red-400 mt-1 flex-shrink-0" />
+                      <span className="text-gray-300 text-sm">Kişisel veri ihlali</span>
+                    </div>
+                    <div className="flex items-start space-x-2">
+                      <XCircle className="w-5 h-5 text-red-400 mt-1 flex-shrink-0" />
+                      <span className="text-gray-300 text-sm">Sistem güvenliğini tehdit etme</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Kullanıcı Sorumlulukları</h3>
+                  <div className="space-y-2">
+                    <div className="flex items-start space-x-2">
+                      <CheckCircle className="w-5 h-5 text-green-400 mt-1 flex-shrink-0" />
+                      <span className="text-gray-300 text-sm">Hesap bilgilerinizi güvenli tutun</span>
+                    </div>
+                    <div className="flex items-start space-x-2">
+                      <CheckCircle className="w-5 h-5 text-green-400 mt-1 flex-shrink-0" />
+                      <span className="text-gray-300 text-sm">Doğru ve güncel bilgi sağlayın</span>
+                    </div>
+                    <div className="flex items-start space-x-2">
+                      <CheckCircle className="w-5 h-5 text-green-400 mt-1 flex-shrink-0" />
+                      <span className="text-gray-300 text-sm">Hizmet şartlarına uyun</span>
+                    </div>
+                    <div className="flex items-start space-x-2">
+                      <CheckCircle className="w-5 h-5 text-green-400 mt-1 flex-shrink-0" />
+                      <span className="text-gray-300 text-sm">Yasal düzenlemelere uygun hareket edin</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          {/* Fikri Mülkiyet */}
+          <Card className="bg-white/10 backdrop-blur-md border-white/20">
+            <div className="p-8">
+              <div className="flex items-center mb-4">
+                <Scale className="w-6 h-6 text-yellow-400 mr-3" />
+                <h2 className="text-2xl font-semibold text-white">4. Fikri Mülkiyet Hakları</h2>
+              </div>
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Platform İçeriği</h3>
+                  <p className="text-gray-300 text-sm">
+                    MySonAI platformu, yazılımı ve tüm içeriği telif hakkı ve diğer fikri mülkiyet 
+                    yasaları ile korunmaktadır.
                   </p>
-                  <p className='text-white'>
-                    <strong>{isTurkish ? 'Adres:' : 'Address:'}</strong>{' '}
-                    {isTurkish ? 'İstanbul, Türkiye' : 'Istanbul, Turkey'}
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Kullanıcı İçeriği</h3>
+                  <p className="text-gray-300 text-sm">
+                    Kullanıcılar tarafından oluşturulan içeriklerin sahipliği kullanıcıya aittir. 
+                    Ancak, hizmet sunumu için gerekli lisanslar verilmiş sayılır.
+                  </p>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-2">AI Üretimi İçerik</h3>
+                  <p className="text-gray-300 text-sm">
+                    AI tarafından üretilen içeriklerin sahipliği ve kullanım hakları, 
+                    ilgili yasal düzenlemelere tabidir.
                   </p>
                 </div>
               </div>
-            </Card>
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-}
+            </div>
+          </Card>
 
-export default function TermsPage({ params }: { params: { locale: Locale } }) {
-  return (
-    <FeatureGuard feature='terms' fallback={<div>Kullanım koşulları sayfası devre dışı</div>}>
-      <TermsContent params={params} />
-    </FeatureGuard>
+          {/* Sorumluluk Sınırları */}
+          <Card className="bg-white/10 backdrop-blur-md border-white/20">
+            <div className="p-8">
+              <div className="flex items-center mb-4">
+                <AlertTriangle className="w-6 h-6 text-orange-400 mr-3" />
+                <h2 className="text-2xl font-semibold text-white">5. Sorumluluk Sınırları</h2>
+              </div>
+              <div className="space-y-4">
+                <div className="bg-orange-500/10 border border-orange-500/20 p-4 rounded-lg">
+                  <h3 className="text-lg font-semibold text-orange-400 mb-2">Önemli Uyarı</h3>
+                  <p className="text-gray-300 text-sm">
+                    MySonAI, AI teknolojilerinin doğası gereği %100 doğru sonuçlar garanti etmez. 
+                    Kullanıcılar, AI üretimi içerikleri kendi sorumluluklarında kullanmalıdır.
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  <p className="text-gray-300 text-sm">
+                    • Hizmet kesintileri ve teknik sorunlar için sorumluluk kabul edilmez
+                  </p>
+                  <p className="text-gray-300 text-sm">
+                    • Üçüncü taraf hizmetlerin kullanımından doğan sorunlar için sorumluluk alınmaz
+                  </p>
+                  <p className="text-gray-300 text-sm">
+                    • Kullanıcı hatalarından kaynaklanan veri kayıpları için sorumluluk kabul edilmez
+                  </p>
+                  <p className="text-gray-300 text-sm">
+                    • Yasal düzenlemelerdeki değişikliklerden kaynaklanan sorunlar için sorumluluk alınmaz
+                  </p>
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          {/* Hizmet Değişiklikleri */}
+          <Card className="bg-white/10 backdrop-blur-md border-white/20">
+            <div className="p-8">
+              <div className="flex items-center mb-4">
+                <FileText className="w-6 h-6 text-blue-400 mr-3" />
+                <h2 className="text-2xl font-semibold text-white">6. Hizmet Değişiklikleri</h2>
+              </div>
+              <div className="space-y-4">
+                <p className="text-gray-300">
+                  MySonAI, hizmetlerini önceden bildirim yaparak değiştirme, güncelleme veya 
+                  sonlandırma hakkını saklı tutar.
+                </p>
+                <div className="bg-blue-500/10 border border-blue-500/20 p-4 rounded-lg">
+                  <h3 className="text-lg font-semibold text-blue-400 mb-2">Bildirim Süreci</h3>
+                  <ul className="text-gray-300 text-sm space-y-1">
+                    <li>• Önemli değişiklikler 30 gün önceden bildirilir</li>
+                    <li>• Acil güvenlik güncellemeleri anında uygulanabilir</li>
+                    <li>• Kullanıcılar değişiklikleri kabul etmek zorundadır</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          {/* Uygulanacak Hukuk */}
+          <Card className="bg-white/10 backdrop-blur-md border-white/20">
+            <div className="p-8">
+              <div className="flex items-center mb-4">
+                <Scale className="w-6 h-6 text-red-400 mr-3" />
+                <h2 className="text-2xl font-semibold text-white">7. Uygulanacak Hukuk ve Yetki</h2>
+              </div>
+              <div className="space-y-4">
+                <p className="text-gray-300">
+                  Bu kullanım şartları Türk hukukuna tabidir. Uyuşmazlıklar İstanbul mahkemelerinde 
+                  çözülecektir.
+                </p>
+                <div className="bg-red-500/10 border border-red-500/20 p-4 rounded-lg">
+                  <h3 className="text-lg font-semibold text-red-400 mb-2">Uyuşmazlık Çözümü</h3>
+                  <ul className="text-gray-300 text-sm space-y-1">
+                    <li>• Öncelikle dostane çözüm aranır</li>
+                    <li>• Arabuluculuk süreci uygulanabilir</li>
+                    <li>• Son çare olarak mahkeme yoluna başvurulur</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          {/* İletişim */}
+          <Card className="bg-white/10 backdrop-blur-md border-white/20">
+            <div className="p-8">
+              <div className="flex items-center mb-4">
+                <FileText className="w-6 h-6 text-green-400 mr-3" />
+                <h2 className="text-2xl font-semibold text-white">8. İletişim</h2>
+              </div>
+              <div className="space-y-4">
+                <p className="text-gray-300">
+                  Kullanım şartları hakkında sorularınız için bizimle iletişime geçebilirsiniz:
+                </p>
+                <div className="bg-white/5 p-4 rounded-lg">
+                  <p className="text-white font-semibold mb-2">E-posta:</p>
+                  <p className="text-gray-300">legal@mysonai.com</p>
+                </div>
+                <div className="bg-white/5 p-4 rounded-lg">
+                  <p className="text-white font-semibold mb-2">Adres:</p>
+                  <p className="text-gray-300">
+                    MySonAI Teknoloji A.Ş.<br />
+                    İstanbul, Türkiye
+                  </p>
+                </div>
+              </div>
+            </div>
+          </Card>
+        </div>
+      </div>
+    </div>
   );
 }

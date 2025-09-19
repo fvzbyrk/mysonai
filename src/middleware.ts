@@ -7,43 +7,30 @@ export function middleware(request: NextRequest) {
   // Security headers
   response.headers.set('X-Frame-Options', 'DENY');
   response.headers.set('X-Content-Type-Options', 'nosniff');
-  response.headers.set('X-XSS-Protection', '1; mode=block');
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-  response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), interest-cohort=()');
+  response.headers.set('X-XSS-Protection', '1; mode=block');
+  response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
   
-  // HSTS header (only for HTTPS)
+  // Content Security Policy
+  response.headers.set(
+    'Content-Security-Policy',
+    "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://vercel.live; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.openai.com https://generativelanguage.googleapis.com; frame-src 'none';"
+  );
+
+  // HSTS for HTTPS
   if (request.nextUrl.protocol === 'https:') {
-    response.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
+    response.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
   }
 
-  // Rate limiting headers
-  response.headers.set('X-RateLimit-Limit', '1000');
-  response.headers.set('X-RateLimit-Remaining', '999');
-  response.headers.set('X-RateLimit-Reset', Math.floor(Date.now() / 1000) + 3600);
-
-  // Cache control for static assets
-  if (request.nextUrl.pathname.startsWith('/_next/static/')) {
-    response.headers.set('Cache-Control', 'public, max-age=31536000, immutable');
-  }
-
-  // Security headers for API routes
-  if (request.nextUrl.pathname.startsWith('/api/')) {
-    response.headers.set('X-Content-Type-Options', 'nosniff');
-    response.headers.set('X-Frame-Options', 'DENY');
-    response.headers.set('X-XSS-Protection', '1; mode=block');
-  }
-
-  // CORS headers for API routes
-  if (request.nextUrl.pathname.startsWith('/api/')) {
-    response.headers.set('Access-Control-Allow-Origin', request.nextUrl.origin);
-    response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    response.headers.set('Access-Control-Max-Age', '86400');
-  }
-
-  // Handle preflight requests
-  if (request.method === 'OPTIONS') {
-    return new Response(null, { status: 200, headers: response.headers });
+  // Admin route protection
+  if (request.nextUrl.pathname.startsWith('/tr/admin') && 
+      !request.nextUrl.pathname.startsWith('/tr/admin/login')) {
+    
+    const token = request.cookies.get('admin_token')?.value;
+    
+    if (!token) {
+      return NextResponse.redirect(new URL('/tr/admin/login', request.url));
+    }
   }
 
   return response;
@@ -53,10 +40,11 @@ export const config = {
   matcher: [
     /*
      * Match all request paths except for the ones starting with:
+     * - api (API routes)
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      */
-    '/((?!_next/static|_next/image|favicon.ico).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
   ],
 };

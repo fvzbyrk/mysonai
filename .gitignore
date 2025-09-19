@@ -90,3 +90,12 @@ temp/
 
 # Deployment files
 mysonai-deploy.zip
+
+# Blog data files (keep backups but ignore main data)
+data/blog-posts.json
+data/blog-posts-backup-*.json
+
+# Test results
+test-results/
+playwright-report/
+playwright/.cache/

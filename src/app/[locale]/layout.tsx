@@ -14,14 +14,6 @@ import { HreflangTags } from '@/components/hreflang';
 import { JsonLd } from '@/components/json-ld';
 import { CookieConsent } from '@/components/cookie-consent';
 import { AIAssistantChat } from '@/components/ai-assistant-chat';
-import { AnalyticsWrapper } from '@/components/analytics/analytics-wrapper';
-import { PerformanceWrapper } from '@/components/performance/performance-wrapper';
-import { AccessibilityWrapper } from '@/components/accessibility/accessibility-wrapper';
-import { MobileWrapper } from '@/components/mobile/mobile-wrapper';
-import { SEOWrapper } from '@/components/seo/seo-wrapper';
-import { UXWrapper } from '@/components/ux/ux-wrapper';
-import { SecurityWrapper } from '@/components/security/security-wrapper';
-import { ConversionWrapper } from '@/components/conversion/conversion-wrapper';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -45,6 +37,11 @@ export async function generateMetadata({
     authors: [{ name: 'MySonAI Team' }],
     creator: 'MySonAI',
     publisher: 'MySonAI',
+    icons: {
+      icon: 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>',
+      shortcut: 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>',
+      apple: 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>',
+    },
     formatDetection: {
       email: false,
       address: false,
@@ -143,19 +140,19 @@ export default function LocaleLayout({
           </Script>
         </>
       )}
-        <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
-          <AuthProvider>
-            <div className='min-h-screen flex flex-col'>
-              <Header />
-              <main className='flex-1'>{children}</main>
-              <Footer />
-              {/* Global AI Assistant */}
-              <AIAssistantChat locale={params.locale} />
-            </div>
-            <Toaster position='top-right' richColors />
-            <CookieConsent />
-          </AuthProvider>
-        </ThemeProvider>
+      <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
+        <AuthProvider>
+          <div className='min-h-screen flex flex-col'>
+            <Header />
+            <main className='flex-1'>{children}</main>
+            <Footer />
+            {/* Global AI Assistant */}
+            <AIAssistantChat locale={params.locale} />
+          </div>
+          <Toaster position='top-right' richColors />
+          <CookieConsent />
+        </AuthProvider>
+      </ThemeProvider>
     </>
   );
 }

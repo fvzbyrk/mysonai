@@ -17,7 +17,8 @@ import {
   Tag,
   User,
   Clock,
-  ArrowLeft
+  ArrowLeft,
+  FileText
 } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
@@ -96,13 +97,63 @@ export default function BlogManagementPage() {
   ];
 
   useEffect(() => {
-    // Simulate loading posts
-    setTimeout(() => {
+    loadPosts();
+  }, []);
+
+  const loadPosts = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch('/api/blog');
+      const data = await response.json();
+      
+      if (data.success) {
+        setPosts(data.data.posts);
+        setFilteredPosts(data.data.posts);
+      } else {
+        console.error('Failed to load posts:', data.message);
+        // Fallback to mock data
+        setPosts(mockPosts);
+        setFilteredPosts(mockPosts);
+      }
+    } catch (error) {
+      console.error('Error loading posts:', error);
+      // Fallback to mock data
       setPosts(mockPosts);
       setFilteredPosts(mockPosts);
+    } finally {
       setIsLoading(false);
-    }, 1000);
-  }, []);
+    }
+  };
+
+  const handleDelete = async (postId: string) => {
+    if (!confirm('Bu makaleyi silmek istediğinizden emin misiniz?')) {
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/blog', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          action: 'delete',
+          postData: { id: postId }
+        })
+      });
+
+      const data = await response.json();
+      
+      if (data.success) {
+        // Reload posts
+        await loadPosts();
+        alert('Makale başarıyla silindi!');
+      } else {
+        alert('Makale silinirken hata oluştu: ' + data.message);
+      }
+    } catch (error) {
+      console.error('Error deleting post:', error);
+      alert('Makale silinirken hata oluştu');
+    }
+  };
 
   useEffect(() => {
     // Filter posts based on search and filters
@@ -194,10 +245,12 @@ export default function BlogManagementPage() {
               <p className="text-gray-300">Makaleleri yönet, düzenle ve yayınla</p>
             </div>
           </div>
-          <Button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white border-0 hover:from-blue-700 hover:to-purple-700">
-            <Plus className="w-4 h-4 mr-2" />
-            Yeni Makale
-          </Button>
+          <Link href="/tr/admin/blog/new">
+            <Button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white border-0 hover:from-blue-700 hover:to-purple-700">
+              <Plus className="w-4 h-4 mr-2" />
+              Yeni Makale
+            </Button>
+          </Link>
         </div>
 
         {/* Filters */}
@@ -318,13 +371,22 @@ export default function BlogManagementPage() {
                   </div>
                   
                   <div className="flex items-center space-x-2 ml-4">
-                    <Button size="sm" variant="outline" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
-                      <Eye className="w-4 h-4" />
-                    </Button>
-                    <Button size="sm" variant="outline" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
-                      <Edit className="w-4 h-4" />
-                    </Button>
-                    <Button size="sm" variant="outline" className="bg-red-500/20 border-red-500/50 text-red-400 hover:bg-red-500/30">
+                    <Link href={`/tr/admin/blog/${post.id}`}>
+                      <Button size="sm" variant="outline" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
+                        <Eye className="w-4 h-4" />
+                      </Button>
+                    </Link>
+                    <Link href={`/tr/admin/blog/${post.id}/edit`}>
+                      <Button size="sm" variant="outline" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
+                        <Edit className="w-4 h-4" />
+                      </Button>
+                    </Link>
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
+                      className="bg-red-500/20 border-red-500/50 text-red-400 hover:bg-red-500/30"
+                      onClick={() => handleDelete(post.id)}
+                    >
                       <Trash2 className="w-4 h-4" />
                     </Button>
                   </div>
