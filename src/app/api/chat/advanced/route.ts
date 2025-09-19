@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
-import { 
-  createAdvancedGPTRequest, 
-  GPT_FUNCTIONS, 
+import {
+  createAdvancedGPTRequest,
+  GPT_FUNCTIONS,
   type AdvancedGPTParams,
   type MultiAgentMode,
-  MultiAgentCoordinator
+  MultiAgentCoordinator,
 } from '@/lib/advanced-gpt-features';
 import { getAgentById } from '@/lib/ai-agents';
 import { masterPromptValidator, promptMonitor } from '@/lib/master-prompt-system';
@@ -19,14 +19,8 @@ const coordinator = new MultiAgentCoordinator();
 
 export async function POST(request: NextRequest) {
   try {
-    const { 
-      messages, 
-      selectedAgents, 
-      multiAgentMode, 
-      gptParams,
-      enableFeatures,
-      userQuery 
-    } = await request.json();
+    const { messages, selectedAgents, multiAgentMode, gptParams, enableFeatures, userQuery } =
+      await request.json();
 
     // Varsayılan GPT parametreleri
     const defaultParams: AdvancedGPTParams = {
@@ -37,7 +31,7 @@ export async function POST(request: NextRequest) {
       frequencyPenalty: 0,
       presencePenalty: 0,
       stream: false,
-      ...gptParams
+      ...gptParams,
     };
 
     // Aktif özellikler
@@ -48,7 +42,7 @@ export async function POST(request: NextRequest) {
       webSearch: enableFeatures?.webSearch ?? false,
       fileAnalysis: enableFeatures?.fileAnalysis ?? false,
       memory: enableFeatures?.memory ?? false,
-      streaming: enableFeatures?.streaming ?? false
+      streaming: enableFeatures?.streaming ?? false,
     };
 
     // Demo mode kontrolü
@@ -63,7 +57,6 @@ export async function POST(request: NextRequest) {
 
     // Tek ajan modu
     return handleSingleAgentMode(messages, selectedAgents?.[0], defaultParams, activeFeatures);
-
   } catch (error) {
     console.error('Advanced chat error:', error);
     return NextResponse.json(
@@ -81,38 +74,38 @@ async function handleDemoMode(
   activeFeatures: any
 ) {
   const agents = selectedAgents?.map(id => getAgentById(id)).filter(Boolean) || [];
-  
-  let response = `🚀 **Gelişmiş Çoklu Ajan Sistemi** (Demo Mode)\n\n`;
-  
+
+  let response = '🚀 **Gelişmiş Çoklu Ajan Sistemi** (Demo Mode)\n\n';
+
   if (agents.length > 1) {
-    response += `**Aktif Ajanlar:**\n`;
+    response += '**Aktif Ajanlar:**\n';
     agents.forEach(agent => {
       response += `• ${agent.icon} ${agent.name} - ${agent.role}\n`;
     });
-    
+
     response += `\n**İşbirliği Modu:** ${getModeDescription(multiAgentMode)}\n\n`;
   } else if (agents.length === 1) {
     response += `**Aktif Ajan:** ${agents[0].icon} ${agents[0].name}\n\n`;
   }
-  
-  response += `**Aktif Özellikler:**\n`;
+
+  response += '**Aktif Özellikler:**\n';
   Object.entries(activeFeatures).forEach(([feature, enabled]) => {
     if (enabled) {
       response += `✅ ${getFeatureDescription(feature)}\n`;
     }
   });
-  
+
   response += `\n**Sorgunuz:** "${userQuery}"\n\n`;
   response += `**Yanıt:** Bu gelişmiş sistem ile ${agents.length > 1 ? 'çoklu ajan işbirliği' : 'tek ajan'} modunda kapsamlı bir çözüm sunabiliriz. `;
-  response += `Aktif özellikler sayesinde daha zengin ve etkileşimli deneyim yaşayabilirsiniz.\n\n`;
-  response += `*Not: Bu demo modudur. Gerçek API key ile tüm özellikler aktif olacaktır.*`;
+  response += 'Aktif özellikler sayesinde daha zengin ve etkileşimli deneyim yaşayabilirsiniz.\n\n';
+  response += '*Not: Bu demo modudur. Gerçek API key ile tüm özellikler aktif olacaktır.*';
 
   return NextResponse.json({
     message: response,
     agents: agents,
     mode: multiAgentMode,
     features: activeFeatures,
-    isDemo: true
+    isDemo: true,
   });
 }
 
@@ -126,26 +119,26 @@ async function handleMultiAgentMode(
   try {
     // Ajan yarışı başlat
     const race = await coordinator.startRace(selectedAgents, userQuery, mode);
-    
+
     // Yarış sonucunu değerlendir
     const winner = race.responses.length > 0 ? race.responses[0].agentId : null;
-    
+
     let response = `🏆 **${getModeDescription(mode)} Sonucu**\n\n`;
-    
+
     if (race.responses.length > 0) {
-      response += `**Katılan Ajanlar:**\n`;
+      response += '**Katılan Ajanlar:**\n';
       race.responses.forEach(r => {
         const agent = getAgentById(r.agentId);
         response += `• ${agent?.icon} ${agent?.name}: ${r.time}ms, Kalite: ${r.quality}/10\n`;
       });
-      
+
       if (winner) {
         const winnerAgent = getAgentById(winner);
         response += `\n🏆 **Kazanan:** ${winnerAgent?.icon} ${winnerAgent?.name}\n\n`;
         response += `**Kazanan Yanıt:**\n${race.responses.find(r => r.agentId === winner)?.response}`;
       }
     } else {
-      response += `Hiçbir ajan yanıt veremedi.`;
+      response += 'Hiçbir ajan yanıt veremedi.';
     }
 
     return NextResponse.json({
@@ -153,15 +146,11 @@ async function handleMultiAgentMode(
       race: race,
       winner: winner,
       mode: mode,
-      isDemo: false
+      isDemo: false,
     });
-
   } catch (error) {
     console.error('Multi-agent mode error:', error);
-    return NextResponse.json(
-      { error: 'Çoklu ajan modu sırasında hata oluştu' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Çoklu ajan modu sırasında hata oluştu' }, { status: 500 });
   }
 }
 
@@ -174,17 +163,11 @@ async function handleSingleAgentMode(
 ) {
   const agent = getAgentById(selectedAgent);
   if (!agent) {
-    return NextResponse.json(
-      { error: 'Ajan bulunamadı' },
-      { status: 404 }
-    );
+    return NextResponse.json({ error: 'Ajan bulunamadı' }, { status: 404 });
   }
 
   // Master Prompt Validation
-  const validationResult = masterPromptValidator.validatePrompt(
-    selectedAgent,
-    agent.systemPrompt
-  );
+  const validationResult = masterPromptValidator.validatePrompt(selectedAgent, agent.systemPrompt);
 
   if (validationResult.riskLevel === 'high') {
     return NextResponse.json(
@@ -194,16 +177,30 @@ async function handleSingleAgentMode(
   }
 
   // Prompt monitoring
-  promptMonitor.logPromptUsage(selectedAgent, messages[messages.length - 1]?.content || '', validationResult);
+  promptMonitor.logPromptUsage(
+    selectedAgent,
+    messages[messages.length - 1]?.content || '',
+    validationResult
+  );
 
   // Fonksiyonları hazırla
   const functions = [];
   if (activeFeatures.functionCalling) {
-    if (activeFeatures.webSearch) functions.push(GPT_FUNCTIONS.webSearch);
-    if (activeFeatures.fileAnalysis) functions.push(GPT_FUNCTIONS.fileAnalysis);
-    if (activeFeatures.codeInterpreter) functions.push(GPT_FUNCTIONS.codeInterpreter);
-    if (activeFeatures.vision) functions.push(GPT_FUNCTIONS.visionAnalysis);
-    if (activeFeatures.memory) functions.push(GPT_FUNCTIONS.memoryOperations);
+    if (activeFeatures.webSearch) {
+      functions.push(GPT_FUNCTIONS.webSearch);
+    }
+    if (activeFeatures.fileAnalysis) {
+      functions.push(GPT_FUNCTIONS.fileAnalysis);
+    }
+    if (activeFeatures.codeInterpreter) {
+      functions.push(GPT_FUNCTIONS.codeInterpreter);
+    }
+    if (activeFeatures.vision) {
+      functions.push(GPT_FUNCTIONS.visionAnalysis);
+    }
+    if (activeFeatures.memory) {
+      functions.push(GPT_FUNCTIONS.memoryOperations);
+    }
   }
 
   // Gelişmiş sistem promptu
@@ -213,7 +210,7 @@ async function handleSingleAgentMode(
   const gptRequest = createAdvancedGPTRequest(
     [
       { role: 'system', content: masterPromptValidator.createSecurePrompt(systemPrompt) },
-      ...messages
+      ...messages,
     ],
     { ...params, functions }
   );
@@ -227,35 +224,35 @@ async function handleSingleAgentMode(
     message: response,
     agent: agent,
     features: activeFeatures,
-    isDemo: false
+    isDemo: false,
   });
 }
 
 // Gelişmiş sistem promptu oluştur
 function createAdvancedSystemPrompt(agent: any, features: any): string {
   let prompt = agent.systemPrompt;
-  
-  prompt += `\n\n## 🚀 Gelişmiş Özellikler\n`;
-  
+
+  prompt += '\n\n## 🚀 Gelişmiş Özellikler\n';
+
   if (features.functionCalling) {
-    prompt += `- Fonksiyon çağırma yeteneğin var\n`;
+    prompt += '- Fonksiyon çağırma yeteneğin var\n';
   }
   if (features.webSearch) {
-    prompt += `- Web arama yapabilirsin\n`;
+    prompt += '- Web arama yapabilirsin\n';
   }
   if (features.fileAnalysis) {
-    prompt += `- Dosya analizi yapabilirsin\n`;
+    prompt += '- Dosya analizi yapabilirsin\n';
   }
   if (features.codeInterpreter) {
-    prompt += `- Kod yorumlama ve çalıştırma yeteneğin var\n`;
+    prompt += '- Kod yorumlama ve çalıştırma yeteneğin var\n';
   }
   if (features.vision) {
-    prompt += `- Görü analizi yapabilirsin\n`;
+    prompt += '- Görü analizi yapabilirsin\n';
   }
   if (features.memory) {
-    prompt += `- Uzun süreli hafıza kullanabilirsin\n`;
+    prompt += '- Uzun süreli hafıza kullanabilirsin\n';
   }
-  
+
   return prompt;
 }
 
@@ -267,7 +264,7 @@ function getModeDescription(mode: MultiAgentMode): string {
     debate: 'Tartışma Modu - En detaylı cevap kazanır',
     collaborative: 'İşbirliği Modu - Ajanlar birlikte çalışır',
     sequential: 'Sıralı Mod - Ajanlar sırayla çalışır',
-    parallel: 'Paralel Mod - Ajanlar aynı anda çalışır'
+    parallel: 'Paralel Mod - Ajanlar aynı anda çalışır',
   };
   return descriptions[mode] || 'Bilinmeyen Mod';
 }
@@ -281,7 +278,7 @@ function getFeatureDescription(feature: string): string {
     webSearch: 'Web Arama',
     fileAnalysis: 'Dosya Analizi',
     memory: 'Uzun Süreli Hafıza',
-    streaming: 'Gerçek Zamanlı Yanıt'
+    streaming: 'Gerçek Zamanlı Yanıt',
   };
   return descriptions[feature] || feature;
 }

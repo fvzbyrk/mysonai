@@ -28,7 +28,7 @@ class GeminiChat {
   async getStatus() {
     return {
       available: !!this.apiKey,
-      error: this.apiKey ? null : 'GEMINI_API_KEY not set'
+      error: this.apiKey ? null : 'GEMINI_API_KEY not set',
     };
   }
 
@@ -44,7 +44,7 @@ class GeminiChat {
         return {
           success: false,
           content: 'Gemini API key not configured',
-          error: 'API_KEY_MISSING'
+          error: 'API_KEY_MISSING',
         };
       }
 
@@ -65,27 +65,27 @@ class GeminiChat {
               maxOutputTokens: maxTokens,
               topP: 0.8,
               topK: 40,
-              stopSequences: []
+              stopSequences: [],
             },
             safetySettings: [
               {
                 category: 'HARM_CATEGORY_HARASSMENT',
-                threshold: 'BLOCK_MEDIUM_AND_ABOVE'
+                threshold: 'BLOCK_MEDIUM_AND_ABOVE',
               },
               {
                 category: 'HARM_CATEGORY_HATE_SPEECH',
-                threshold: 'BLOCK_MEDIUM_AND_ABOVE'
+                threshold: 'BLOCK_MEDIUM_AND_ABOVE',
               },
               {
                 category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
-                threshold: 'BLOCK_MEDIUM_AND_ABOVE'
+                threshold: 'BLOCK_MEDIUM_AND_ABOVE',
               },
               {
                 category: 'HARM_CATEGORY_DANGEROUS_CONTENT',
-                threshold: 'BLOCK_MEDIUM_AND_ABOVE'
-              }
-            ]
-          })
+                threshold: 'BLOCK_MEDIUM_AND_ABOVE',
+              },
+            ],
+          }),
         }
       );
 
@@ -94,7 +94,7 @@ class GeminiChat {
         return {
           success: false,
           content: `Gemini API error: ${response.status}`,
-          error: errorData.error?.message || 'UNKNOWN_ERROR'
+          error: errorData.error?.message || 'UNKNOWN_ERROR',
         };
       }
 
@@ -105,7 +105,7 @@ class GeminiChat {
         return {
           success: false,
           content: 'No response generated',
-          error: 'NO_RESPONSE'
+          error: 'NO_RESPONSE',
         };
       }
 
@@ -120,15 +120,15 @@ class GeminiChat {
         usage: {
           promptTokens,
           completionTokens,
-          totalTokens
-        }
+          totalTokens,
+        },
       };
     } catch (error) {
       console.error('Gemini API error:', error);
       return {
         success: false,
         content: 'An error occurred while generating response',
-        error: error instanceof Error ? error.message : 'UNKNOWN_ERROR'
+        error: error instanceof Error ? error.message : 'UNKNOWN_ERROR',
       };
     }
   }
@@ -136,22 +136,26 @@ class GeminiChat {
   // Convert messages to Gemini format
   private convertMessagesToGemini(messages: GeminiMessage[], systemPrompt?: string): any[] {
     const contents: any[] = [];
-    
+
     // Add system prompt if provided
     if (systemPrompt) {
       contents.push({
-        parts: [{
-          text: systemPrompt
-        }]
+        parts: [
+          {
+            text: systemPrompt,
+          },
+        ],
       });
     }
 
     // Convert conversation messages
     for (const message of messages) {
       contents.push({
-        parts: [{
-          text: message.content
-        }]
+        parts: [
+          {
+            text: message.content,
+          },
+        ],
       });
     }
 
@@ -165,7 +169,9 @@ class GeminiChat {
   }
 
   // Generate tech news using Gemini
-  async generateTechNews(categories: string[] = ['AI', 'Web Development', 'Mobile', 'Security']): Promise<GeminiResponse> {
+  async generateTechNews(
+    categories: string[] = ['AI', 'Web Development', 'Mobile', 'Security']
+  ): Promise<GeminiResponse> {
     const prompt = `
       Bugünün en önemli tech gelişmelerini Türkçe olarak özetle.
       Aşağıdaki kategorilerde güncel haberler ver:
@@ -184,13 +190,16 @@ class GeminiChat {
     return this.generateResponse([
       {
         role: 'user',
-        content: prompt
-      }
+        content: prompt,
+      },
     ]);
   }
 
   // Generate blog post using Gemini
-  async generateBlogPost(topic: string, style: 'formal' | 'casual' | 'technical' = 'casual'): Promise<GeminiResponse> {
+  async generateBlogPost(
+    topic: string,
+    style: 'formal' | 'casual' | 'technical' = 'casual'
+  ): Promise<GeminiResponse> {
     const prompt = `
       "${topic}" konusunda ${style} tarzda bir blog yazısı yaz.
       Türkçe olarak yaz ve şu yapıyı kullan:
@@ -205,13 +214,16 @@ class GeminiChat {
     return this.generateResponse([
       {
         role: 'user',
-        content: prompt
-      }
+        content: prompt,
+      },
     ]);
   }
 
   // Generate SEO content using Gemini
-  async generateSEOContent(keyword: string, targetAudience: string = 'genel'): Promise<GeminiResponse> {
+  async generateSEOContent(
+    keyword: string,
+    targetAudience: string = 'genel'
+  ): Promise<GeminiResponse> {
     const prompt = `
       "${keyword}" anahtar kelimesi için SEO dostu içerik oluştur.
       Hedef kitle: ${targetAudience}
@@ -230,17 +242,20 @@ class GeminiChat {
     return this.generateResponse([
       {
         role: 'user',
-        content: prompt
-      }
+        content: prompt,
+      },
     ]);
   }
 
   // Generate social media content using Gemini
-  async generateSocialMediaContent(platform: 'twitter' | 'linkedin' | 'instagram', topic: string): Promise<GeminiResponse> {
+  async generateSocialMediaContent(
+    platform: 'twitter' | 'linkedin' | 'instagram',
+    topic: string
+  ): Promise<GeminiResponse> {
     const platformLimits = {
       twitter: '280 karakter',
       linkedin: '1300 karakter',
-      instagram: '2200 karakter'
+      instagram: '2200 karakter',
     };
 
     const prompt = `
@@ -259,8 +274,8 @@ class GeminiChat {
     return this.generateResponse([
       {
         role: 'user',
-        content: prompt
-      }
+        content: prompt,
+      },
     ]);
   }
 
@@ -280,18 +295,18 @@ class GeminiChat {
       const response = await this.generateResponse([
         {
           role: 'user',
-          content: 'Merhaba'
-        }
+          content: 'Merhaba',
+        },
       ]);
 
       return {
         available: response.success,
-        error: response.error
+        error: response.error,
       };
     } catch (error) {
       return {
         available: false,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? error.message : 'Unknown error',
       };
     }
   }

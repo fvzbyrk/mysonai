@@ -4,11 +4,11 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
-import { 
-  Newspaper, 
-  Download, 
-  Mail, 
-  Phone, 
+import {
+  Newspaper,
+  Download,
+  Mail,
+  Phone,
   ArrowRight,
   CheckCircle,
   Star,
@@ -24,7 +24,7 @@ import {
   Rocket,
   Calendar,
   FileText,
-  ExternalLink
+  ExternalLink,
 } from 'lucide-react';
 import type { Metadata } from 'next';
 
@@ -51,13 +51,14 @@ export async function generateMetadata({
 // Press releases
 const pressReleases = [
   {
-    title: 'MySonAI, Türkiye\'nin En Hızlı AI Asistan Platformunu Lansman Etti',
+    title: "MySonAI, Türkiye'nin En Hızlı AI Asistan Platformunu Lansman Etti",
     date: '2024-01-15',
     category: 'Lansman',
-    summary: 'MySonAI, 18 uzman AI asistanı ile Türkiye\'nin en hızlı yapay zeka platformunu kullanıma sundu.',
+    summary:
+      "MySonAI, 18 uzman AI asistanı ile Türkiye'nin en hızlı yapay zeka platformunu kullanıma sundu.",
     highlights: [
       '18 uzman AI asistanı ile hizmet',
-      'Pi\'den 10x daha hızlı yanıtlar',
+      "Pi'den 10x daha hızlı yanıtlar",
       'Tamamen Türkçe konuşan asistanlar',
       'Güvenli ve özel veri koruması',
     ],
@@ -66,7 +67,8 @@ const pressReleases = [
     title: 'MySonAI, 10.000 Aktif Kullanıcıya Ulaştı',
     date: '2024-01-10',
     category: 'Büyüme',
-    summary: 'Platform, lansmanından sadece 3 ay sonra 10.000 aktif kullanıcıya ulaşarak hızlı büyüme gösterdi.',
+    summary:
+      'Platform, lansmanından sadece 3 ay sonra 10.000 aktif kullanıcıya ulaşarak hızlı büyüme gösterdi.',
     highlights: [
       '10.000 aktif kullanıcı',
       '1 milyon+ mesaj işlendi',
@@ -78,7 +80,8 @@ const pressReleases = [
     title: 'MySonAI, Kurumsal Çözümlerini Duyurdu',
     date: '2024-01-05',
     category: 'Ürün',
-    summary: 'Şirket, büyük işletmeler için özel AI asistan çözümlerini ve API entegrasyonlarını duyurdu.',
+    summary:
+      'Şirket, büyük işletmeler için özel AI asistan çözümlerini ve API entegrasyonlarını duyurdu.',
     highlights: [
       'Kurumsal API paketleri',
       'Özel asistan geliştirme',
@@ -92,14 +95,14 @@ const pressReleases = [
 const mediaCoverage = [
   {
     outlet: 'TechCrunch Türkiye',
-    title: 'MySonAI: Türkiye\'nin ChatGPT\'i',
+    title: "MySonAI: Türkiye'nin ChatGPT'i",
     date: '2024-01-12',
     type: 'Makale',
     url: '#',
   },
   {
     outlet: 'Webrazzi',
-    title: 'Yapay Zeka Asistanları Türkiye\'de Hızla Yaygınlaşıyor',
+    title: "Yapay Zeka Asistanları Türkiye'de Hızla Yaygınlaşıyor",
     date: '2024-01-08',
     type: 'Haber',
     url: '#',
@@ -201,14 +204,12 @@ function PressContent({ params }: { params: { locale: Locale } }) {
       <section className='relative overflow-hidden py-20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center'>
-            <h1 className='text-5xl md:text-6xl font-bold text-white mb-6'>
-              Basın
-            </h1>
+            <h1 className='text-5xl md:text-6xl font-bold text-white mb-6'>Basın</h1>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto mb-8'>
-              MySonAI hakkında en güncel haberler, duyurular ve basın materyalleri. 
-              AI teknolojisindeki gelişmeleri takip edin.
+              MySonAI hakkında en güncel haberler, duyurular ve basın materyalleri. AI
+              teknolojisindeki gelişmeleri takip edin.
             </p>
-            
+
             {/* Quick Actions */}
             <div className='flex flex-col sm:flex-row gap-4 justify-center mb-8'>
               <Link
@@ -218,9 +219,7 @@ function PressContent({ params }: { params: { locale: Locale } }) {
                 <Mail className='w-6 h-6 inline mr-2' />
                 İletişime Geç
               </Link>
-              <Button
-                className='bg-white/10 backdrop-blur-md text-white px-8 py-4 rounded-full font-semibold text-lg border border-white/20 hover:bg-white/20 transition-all duration-300'
-              >
+              <Button className='bg-white/10 backdrop-blur-md text-white px-8 py-4 rounded-full font-semibold text-lg border border-white/20 hover:bg-white/20 transition-all duration-300'>
                 <Download className='w-6 h-6 inline mr-2' />
                 Basın Kiti İndir
               </Button>
@@ -233,17 +232,16 @@ function PressContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Şirket İstatistikleri
-            </h2>
-            <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
-              MySonAI'ın büyüme rakamları
-            </p>
+            <h2 className='text-4xl font-bold text-white mb-4'>Şirket İstatistikleri</h2>
+            <p className='text-xl text-gray-300 max-w-3xl mx-auto'>MySonAI'ın büyüme rakamları</p>
           </div>
 
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
             {companyStats.map((stat, index) => (
-              <Card key={index} className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'>
+              <Card
+                key={index}
+                className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'
+              >
                 <div className='text-4xl font-bold text-white mb-2'>{stat.number}</div>
                 <div className='text-xl font-semibold text-purple-300 mb-2'>{stat.label}</div>
                 <div className='text-gray-400 text-sm'>{stat.description}</div>
@@ -257,9 +255,7 @@ function PressContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16 bg-black/20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Basın Bültenleri
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>Basın Bültenleri</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               En güncel duyurular ve haberler
             </p>
@@ -267,7 +263,10 @@ function PressContent({ params }: { params: { locale: Locale } }) {
 
           <div className='space-y-8'>
             {pressReleases.map((release, index) => (
-              <Card key={index} className='bg-white/10 backdrop-blur-md border-white/20 p-8 hover:bg-white/15 transition-all duration-300'>
+              <Card
+                key={index}
+                className='bg-white/10 backdrop-blur-md border-white/20 p-8 hover:bg-white/15 transition-all duration-300'
+              >
                 <div className='flex flex-col lg:flex-row lg:items-start lg:justify-between mb-6'>
                   <div className='flex-1'>
                     <div className='flex items-center space-x-4 mb-4'>
@@ -322,9 +321,7 @@ function PressContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Medya Kapsamı
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>Medya Kapsamı</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               MySonAI hakkında yazılan haberler ve makaleler
             </p>
@@ -332,7 +329,10 @@ function PressContent({ params }: { params: { locale: Locale } }) {
 
           <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
             {mediaCoverage.map((coverage, index) => (
-              <Card key={index} className='bg-white/10 backdrop-blur-md border-white/20 p-6 hover:bg-white/15 transition-all duration-300'>
+              <Card
+                key={index}
+                className='bg-white/10 backdrop-blur-md border-white/20 p-6 hover:bg-white/15 transition-all duration-300'
+              >
                 <div className='flex items-start justify-between mb-4'>
                   <div>
                     <h3 className='text-xl font-bold text-white mb-2'>{coverage.title}</h3>
@@ -365,9 +365,7 @@ function PressContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16 bg-black/20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Basın Kiti
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>Basın Kiti</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               Medya için hazırlanmış materyaller
             </p>
@@ -375,7 +373,10 @@ function PressContent({ params }: { params: { locale: Locale } }) {
 
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
             {pressKit.map((item, index) => (
-              <Card key={index} className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'>
+              <Card
+                key={index}
+                className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'
+              >
                 <div className='w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4'>
                   <Download className='w-8 h-8 text-white' />
                 </div>
@@ -402,9 +403,7 @@ function PressContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Basın İletişimi
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>Basın İletişimi</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               Basın soruları ve röportaj talepleri için iletişim bilgileri
             </p>
@@ -412,7 +411,10 @@ function PressContent({ params }: { params: { locale: Locale } }) {
 
           <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
             {contactInfo.map((contact, index) => (
-              <Card key={index} className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'>
+              <Card
+                key={index}
+                className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'
+              >
                 <div className='w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4'>
                   <contact.icon className='w-8 h-8 text-white' />
                 </div>
@@ -429,12 +431,10 @@ function PressContent({ params }: { params: { locale: Locale } }) {
       <section className='py-20'>
         <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center'>
           <div className='bg-white/10 backdrop-blur-md rounded-2xl p-10 border border-white/20'>
-            <h2 className='text-4xl font-bold text-white mb-6'>
-              Basın ile İletişim
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-6'>Basın ile İletişim</h2>
             <p className='text-xl text-gray-300 mb-8'>
-              MySonAI hakkında haber yapmak veya röportaj yapmak istiyorsanız, 
-              bizimle iletişime geçin. Size en kısa sürede dönüş yapacağız.
+              MySonAI hakkında haber yapmak veya röportaj yapmak istiyorsanız, bizimle iletişime
+              geçin. Size en kısa sürede dönüş yapacağız.
             </p>
             <div className='flex flex-col sm:flex-row gap-4 justify-center'>
               <Link
@@ -444,9 +444,7 @@ function PressContent({ params }: { params: { locale: Locale } }) {
                 <Mail className='w-6 h-6 inline mr-2' />
                 İletişime Geç
               </Link>
-              <Button
-                className='bg-white/10 backdrop-blur-md text-white px-8 py-4 rounded-full font-semibold text-lg border border-white/20 hover:bg-white/20 transition-all duration-300'
-              >
+              <Button className='bg-white/10 backdrop-blur-md text-white px-8 py-4 rounded-full font-semibold text-lg border border-white/20 hover:bg-white/20 transition-all duration-300'>
                 <Download className='w-6 h-6 inline mr-2' />
                 Basın Kiti İndir
               </Button>

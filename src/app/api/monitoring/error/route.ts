@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { createServerSupabaseClient } from '@/lib/supabase-server'
+import { NextRequest, NextResponse } from 'next/server';
+import { createServerSupabaseClient } from '@/lib/supabase-server';
 
 interface ErrorInfo {
   message: string
@@ -18,17 +18,17 @@ interface ErrorInfo {
 
 export async function POST(request: NextRequest) {
   try {
-    const errorInfo: ErrorInfo = await request.json()
+    const errorInfo: ErrorInfo = await request.json();
 
     // Validate required fields
     if (!errorInfo.message || !errorInfo.sessionId) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
-      )
+      );
     }
 
-    const supabase = createServerSupabaseClient()
+    const supabase = createServerSupabaseClient();
 
     // Insert error into monitoring table
     const { error } = await supabase
@@ -47,14 +47,14 @@ export async function POST(request: NextRequest) {
         category: errorInfo.category,
         context: errorInfo.context,
         created_at: new Date().toISOString(),
-      })
+      });
 
     if (error) {
-      console.error('Error monitoring error:', error)
+      console.error('Error monitoring error:', error);
       return NextResponse.json(
         { error: 'Failed to log error' },
         { status: 500 }
-      )
+      );
     }
 
     // Update error statistics
@@ -69,83 +69,83 @@ export async function POST(request: NextRequest) {
       }, {
         onConflict: 'date,category,severity',
         ignoreDuplicates: false,
-      })
+      });
 
     // Send critical errors to notification service
     if (errorInfo.severity === 'critical') {
-      await sendCriticalErrorNotification(errorInfo)
+      await sendCriticalErrorNotification(errorInfo);
     }
 
-    return NextResponse.json({ success: true })
+    return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error monitoring API error:', error)
+    console.error('Error monitoring API error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
-    )
+    );
   }
 }
 
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createServerSupabaseClient()
-    const { searchParams } = new URL(request.url)
-    
-    const userId = searchParams.get('user_id')
-    const sessionId = searchParams.get('session_id')
-    const category = searchParams.get('category')
-    const severity = searchParams.get('severity')
-    const startDate = searchParams.get('start_date')
-    const endDate = searchParams.get('end_date')
-    const limit = parseInt(searchParams.get('limit') || '100')
+    const supabase = createServerSupabaseClient();
+    const { searchParams } = new URL(request.url);
+
+    const userId = searchParams.get('user_id');
+    const sessionId = searchParams.get('session_id');
+    const category = searchParams.get('category');
+    const severity = searchParams.get('severity');
+    const startDate = searchParams.get('start_date');
+    const endDate = searchParams.get('end_date');
+    const limit = parseInt(searchParams.get('limit') || '100');
 
     let query = supabase
       .from('error_monitoring')
       .select('*')
       .order('timestamp', { ascending: false })
-      .limit(limit)
+      .limit(limit);
 
     if (userId) {
-      query = query.eq('user_id', userId)
+      query = query.eq('user_id', userId);
     }
 
     if (sessionId) {
-      query = query.eq('session_id', sessionId)
+      query = query.eq('session_id', sessionId);
     }
 
     if (category) {
-      query = query.eq('category', category)
+      query = query.eq('category', category);
     }
 
     if (severity) {
-      query = query.eq('severity', severity)
+      query = query.eq('severity', severity);
     }
 
     if (startDate) {
-      query = query.gte('timestamp', startDate)
+      query = query.gte('timestamp', startDate);
     }
 
     if (endDate) {
-      query = query.lte('timestamp', endDate)
+      query = query.lte('timestamp', endDate);
     }
 
-    const { data, error } = await query
+    const { data, error } = await query;
 
     if (error) {
-      console.error('Error monitoring fetch error:', error)
+      console.error('Error monitoring fetch error:', error);
       return NextResponse.json(
         { error: 'Failed to fetch error data' },
         { status: 500 }
-      )
+      );
     }
 
-    return NextResponse.json({ errors: data })
+    return NextResponse.json({ errors: data });
   } catch (error) {
-    console.error('Error monitoring GET API error:', error)
+    console.error('Error monitoring GET API error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
-    )
+    );
   }
 }
 
@@ -166,8 +166,8 @@ async function sendCriticalErrorNotification(errorInfo: ErrorInfo) {
           timestamp: new Date().toISOString(),
         },
       }),
-    })
+    });
   } catch (error) {
-    console.error('Failed to send critical error notification:', error)
+    console.error('Failed to send critical error notification:', error);
   }
 }

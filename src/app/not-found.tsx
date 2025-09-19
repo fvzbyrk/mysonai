@@ -52,13 +52,8 @@ export default function NotFound() {
 
         {/* Additional help */}
         <div className='mt-6 pt-6 border-t border-white/10'>
-          <p className='text-gray-400 text-sm mb-2'>
-            Sorun devam ederse bizimle iletişime geçin
-          </p>
-          <Link 
-            href='/contact' 
-            className='text-purple-400 hover:text-purple-300 text-sm underline'
-          >
+          <p className='text-gray-400 text-sm mb-2'>Sorun devam ederse bizimle iletişime geçin</p>
+          <Link href='/contact' className='text-purple-400 hover:text-purple-300 text-sm underline'>
             İletişim Sayfası
           </Link>
         </div>

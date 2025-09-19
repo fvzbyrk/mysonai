@@ -17,21 +17,24 @@ interface AccessibleButtonProps extends ButtonProps {
 }
 
 export const AccessibleButton = forwardRef<HTMLButtonElement, AccessibleButtonProps>(
-  ({
-    children,
-    loading = false,
-    loadingText = 'Yükleniyor...',
-    success = false,
-    successText = 'Başarılı',
-    error = false,
-    errorText = 'Hata oluştu',
-    description,
-    ariaDescribedBy,
-    className,
-    disabled,
-    onClick,
-    ...props
-  }, ref) => {
+  (
+    {
+      children,
+      loading = false,
+      loadingText = 'Yükleniyor...',
+      success = false,
+      successText = 'Başarılı',
+      error = false,
+      errorText = 'Hata oluştu',
+      description,
+      ariaDescribedBy,
+      className,
+      disabled,
+      onClick,
+      ...props
+    },
+    ref
+  ) => {
     const { announce, focusVisible } = useAccessibilityContext();
     const buttonRef = useRef<HTMLButtonElement>(null);
     const combinedRef = ref || buttonRef;
@@ -48,13 +51,15 @@ export const AccessibleButton = forwardRef<HTMLButtonElement, AccessibleButtonPr
     }, [loading, success, error, loadingText, successText, errorText, announce]);
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-      if (loading || disabled) return;
-      
+      if (loading || disabled) {
+        return;
+      }
+
       // Announce action
       if (typeof children === 'string') {
         announce(`${children} butonuna tıklandı`);
       }
-      
+
       onClick?.(e);
     };
 
@@ -85,27 +90,25 @@ export const AccessibleButton = forwardRef<HTMLButtonElement, AccessibleButtonPr
         {...props}
       >
         {loading ? (
-          <div className="flex items-center">
-            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
+          <div className='flex items-center'>
+            <div className='w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2' />
             {loadingText}
           </div>
         ) : success ? (
-          <div className="flex items-center">
-            <span className="mr-2">✓</span>
+          <div className='flex items-center'>
+            <span className='mr-2'>✓</span>
             {successText}
           </div>
         ) : error ? (
-          <div className="flex items-center">
-            <span className="mr-2">✗</span>
+          <div className='flex items-center'>
+            <span className='mr-2'>✗</span>
             {errorText}
           </div>
         ) : (
           children
         )}
-        
-        {description && (
-          <span className="sr-only">{description}</span>
-        )}
+
+        {description && <span className='sr-only'>{description}</span>}
       </Button>
     );
   }

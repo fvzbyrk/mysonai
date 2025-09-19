@@ -18,22 +18,22 @@ export function useMobile() {
     const checkDevice = () => {
       const width = window.innerWidth;
       const height = window.innerHeight;
-      
+
       setScreenWidth(width);
       setScreenHeight(height);
-      
+
       // Device type detection
       const mobile = width < 768;
       const tablet = width >= 768 && width < 1024;
       const desktop = width >= 1024;
-      
+
       setIsMobile(mobile);
       setIsTablet(tablet);
       setIsDesktop(desktop);
-      
+
       // Orientation detection
       setOrientation(width > height ? 'landscape' : 'portrait');
-      
+
       // Touch device detection
       const touchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
       setIsTouchDevice(touchDevice);
@@ -67,7 +67,10 @@ export function useMobile() {
   const preventZoom = useCallback(() => {
     const viewport = document.querySelector('meta[name="viewport"]');
     if (viewport) {
-      viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+      viewport.setAttribute(
+        'content',
+        'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
+      );
     }
   }, []);
 
@@ -119,30 +122,58 @@ export function useMobile() {
   }, []);
 
   // Responsive utilities
-  const getResponsiveValue = useCallback(<T>(mobile: T, tablet: T, desktop: T): T => {
-    if (isMobile) return mobile;
-    if (isTablet) return tablet;
-    return desktop;
-  }, [isMobile, isTablet]);
+  const getResponsiveValue = useCallback(
+    <T>(mobile: T, tablet: T, desktop: T): T => {
+      if (isMobile) {
+        return mobile;
+      }
+      if (isTablet) {
+        return tablet;
+      }
+      return desktop;
+    },
+    [isMobile, isTablet]
+  );
 
-  const getResponsiveClass = useCallback((mobile: string, tablet: string, desktop: string): string => {
-    if (isMobile) return mobile;
-    if (isTablet) return tablet;
-    return desktop;
-  }, [isMobile, isTablet]);
+  const getResponsiveClass = useCallback(
+    (mobile: string, tablet: string, desktop: string): string => {
+      if (isMobile) {
+        return mobile;
+      }
+      if (isTablet) {
+        return tablet;
+      }
+      return desktop;
+    },
+    [isMobile, isTablet]
+  );
 
   // Mobile-specific CSS classes
   const getMobileClasses = useCallback(() => {
     const classes = [];
-    
-    if (isMobile) classes.push('mobile');
-    if (isTablet) classes.push('tablet');
-    if (isDesktop) classes.push('desktop');
-    if (isTouchDevice) classes.push('touch');
-    if (orientation === 'landscape') classes.push('landscape');
-    if (orientation === 'portrait') classes.push('portrait');
-    if (!isOnline) classes.push('offline');
-    
+
+    if (isMobile) {
+      classes.push('mobile');
+    }
+    if (isTablet) {
+      classes.push('tablet');
+    }
+    if (isDesktop) {
+      classes.push('desktop');
+    }
+    if (isTouchDevice) {
+      classes.push('touch');
+    }
+    if (orientation === 'landscape') {
+      classes.push('landscape');
+    }
+    if (orientation === 'portrait') {
+      classes.push('portrait');
+    }
+    if (!isOnline) {
+      classes.push('offline');
+    }
+
     return classes.join(' ');
   }, [isMobile, isTablet, isDesktop, isTouchDevice, orientation, isOnline]);
 
@@ -153,9 +184,12 @@ export function useMobile() {
     desktop: 1280,
   };
 
-  const isBreakpoint = useCallback((breakpoint: keyof typeof breakpoints) => {
-    return screenWidth < breakpoints[breakpoint];
-  }, [screenWidth]);
+  const isBreakpoint = useCallback(
+    (breakpoint: keyof typeof breakpoints) => {
+      return screenWidth < breakpoints[breakpoint];
+    },
+    [screenWidth]
+  );
 
   return {
     // Device detection
@@ -167,7 +201,7 @@ export function useMobile() {
     orientation,
     isTouchDevice,
     isOnline,
-    
+
     // Utilities
     preventZoom,
     allowZoom,

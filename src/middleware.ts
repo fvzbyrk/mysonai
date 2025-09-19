@@ -10,7 +10,7 @@ export function middleware(request: NextRequest) {
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
   response.headers.set('X-XSS-Protection', '1; mode=block');
   response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
-  
+
   // Content Security Policy
   response.headers.set(
     'Content-Security-Policy',
@@ -23,11 +23,12 @@ export function middleware(request: NextRequest) {
   }
 
   // Admin route protection
-  if (request.nextUrl.pathname.startsWith('/tr/admin') && 
-      !request.nextUrl.pathname.startsWith('/tr/admin/login')) {
-    
+  if (
+    request.nextUrl.pathname.startsWith('/tr/admin') &&
+    !request.nextUrl.pathname.startsWith('/tr/admin/login')
+  ) {
     const token = request.cookies.get('admin_token')?.value;
-    
+
     if (!token) {
       return NextResponse.redirect(new URL('/tr/admin/login', request.url));
     }

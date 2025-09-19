@@ -23,7 +23,7 @@ export const trackEvent = (eventName: string, properties?: Record<string, any>) 
     }
 
     // Console log for development
-    console.log('Analytics Event:', eventName, properties);
+    // Analytics event tracked
   }
 };
 
@@ -38,7 +38,7 @@ export const trackPageView = (pageName: string, properties?: Record<string, any>
       });
     }
 
-    console.log('Page View:', pageName, properties);
+    // Page view tracked
   }
 };
 
@@ -54,7 +54,7 @@ export const trackConversion = (conversionType: string, value?: number, currency
       });
     }
 
-    console.log('Conversion:', conversionType, value, currency);
+    // Conversion tracked
   }
 };
 
@@ -73,7 +73,7 @@ export const trackPurchase = (
       items: items,
     });
   }
-  console.log('Purchase:', transactionId, value, currency, items);
+  // Purchase tracked
 };
 
 export const trackSubscribe = (
@@ -90,7 +90,7 @@ export const trackSubscribe = (
       currency: currency,
     });
   }
-  console.log('Subscribe:', subscriptionId, plan, value, currency);
+  // Subscribe tracked
 };
 
 // AI Assistant events

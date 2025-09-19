@@ -16,8 +16,9 @@ interface AIAssistantRequest {
 // AI asistan sistem promptu
 const getSystemPrompt = (locale: string) => {
   const isTurkish = locale === 'tr';
-  
-  return isTurkish ? `
+
+  return isTurkish
+    ? `
 Sen MySonAI'nin AI asistanısın. Görevin müşterilere yardımcı olmak ve onları doğru hizmetlere yönlendirmek.
 
 **Rol Tanımı:**
@@ -63,7 +64,8 @@ Sen MySonAI'nin AI asistanısın. Görevin müşterilere yardımcı olmak ve onl
 - Adres: Teknoloji Mahallesi, İstanbul, Türkiye
 
 Yanıtlarını bu bilgilere göre ver ve müşteriyi doğru yönlendir.
-` : `
+`
+    : `
 You are MySonAI's AI assistant. Your task is to help customers and direct them to the right services.
 
 **Role Definition:**
@@ -119,10 +121,10 @@ export async function POST(request: NextRequest) {
 
     // Basit AI yanıt sistemi (gerçek AI entegrasyonu için OpenAI API kullanılabilir)
     const systemPrompt = getSystemPrompt(locale);
-    
+
     // Mesaj analizi ve yanıt üretimi
     let response = '';
-    
+
     // Hizmetler hakkında sorular
     if (message.toLowerCase().includes('hizmet') || message.toLowerCase().includes('service')) {
       response = `MySonAI olarak şu hizmetleri sunuyoruz:
@@ -137,7 +139,11 @@ export async function POST(request: NextRequest) {
 Daha detaylı bilgi için iletişime geçebilirsiniz.`;
     }
     // Proje süreci hakkında sorular
-    else if (message.toLowerCase().includes('proje') || message.toLowerCase().includes('süreç') || message.toLowerCase().includes('process')) {
+    else if (
+      message.toLowerCase().includes('proje') ||
+      message.toLowerCase().includes('süreç') ||
+      message.toLowerCase().includes('process')
+    ) {
       response = `Proje sürecimiz 5 aşamadan oluşuyor:
 
 1️⃣ **İhtiyaç Analizi**: Projenizi detaylı olarak analiz ediyoruz
@@ -151,7 +157,12 @@ Proje süresi proje büyüklüğüne göre değişir. Basit web siteleri 2-4 haf
 Daha detaylı bilgi için iletişime geçebilirsiniz.`;
     }
     // Fiyatlandırma hakkında sorular
-    else if (message.toLowerCase().includes('fiyat') || message.toLowerCase().includes('ücret') || message.toLowerCase().includes('price') || message.toLowerCase().includes('cost')) {
+    else if (
+      message.toLowerCase().includes('fiyat') ||
+      message.toLowerCase().includes('ücret') ||
+      message.toLowerCase().includes('price') ||
+      message.toLowerCase().includes('cost')
+    ) {
       response = `Fiyatlandırmamız proje kapsamına göre özel olarak yapılır:
 
 💰 **Proje Analizi**: Ücretsiz danışmanlık ve teklif hazırlığı
@@ -168,7 +179,12 @@ Bütçe aralıkları (+KDV):
 Daha detaylı bilgi için iletişime geçebilirsiniz.`;
     }
     // Teknik destek hakkında sorular
-    else if (message.toLowerCase().includes('teknik') || message.toLowerCase().includes('destek') || message.toLowerCase().includes('technical') || message.toLowerCase().includes('support')) {
+    else if (
+      message.toLowerCase().includes('teknik') ||
+      message.toLowerCase().includes('destek') ||
+      message.toLowerCase().includes('technical') ||
+      message.toLowerCase().includes('support')
+    ) {
       response = `Teknik destek hizmetlerimiz:
 
 🛠️ **7/24 E-posta Desteği**: info@mysonai.com
@@ -185,7 +201,11 @@ Destek süreçleri:
 Daha detaylı bilgi için iletişime geçebilirsiniz.`;
     }
     // AI çözümleri hakkında sorular
-    else if (message.toLowerCase().includes('ai') || message.toLowerCase().includes('yapay zeka') || message.toLowerCase().includes('artificial intelligence')) {
+    else if (
+      message.toLowerCase().includes('ai') ||
+      message.toLowerCase().includes('yapay zeka') ||
+      message.toLowerCase().includes('artificial intelligence')
+    ) {
       response = `AI çözümlerimiz:
 
 🤖 **Prompt Mühendisliği**: AI modelleri için optimize edilmiş promptlar
@@ -219,7 +239,12 @@ Alt markalarımız:
 Daha detaylı bilgi için iletişime geçebilirsiniz.`;
     }
     // Chatbot AI desteği hakkında sorular
-    else if (message.toLowerCase().includes('chatbot') || message.toLowerCase().includes('chat bot') || message.toLowerCase().includes('sohbet botu') || message.toLowerCase().includes('ai desteği')) {
+    else if (
+      message.toLowerCase().includes('chatbot') ||
+      message.toLowerCase().includes('chat bot') ||
+      message.toLowerCase().includes('sohbet botu') ||
+      message.toLowerCase().includes('ai desteği')
+    ) {
       response = `Chatbot AI Desteği hizmetlerimiz:
 
 💬 **Mevcut Chatbot Güçlendirme**: 
@@ -249,7 +274,12 @@ Daha detaylı bilgi için iletişime geçebilirsiniz.`;
 Daha detaylı bilgi için iletişime geçebilirsiniz.`;
     }
     // İletişim bilgileri
-    else if (message.toLowerCase().includes('iletişim') || message.toLowerCase().includes('contact') || message.toLowerCase().includes('telefon') || message.toLowerCase().includes('phone')) {
+    else if (
+      message.toLowerCase().includes('iletişim') ||
+      message.toLowerCase().includes('contact') ||
+      message.toLowerCase().includes('telefon') ||
+      message.toLowerCase().includes('phone')
+    ) {
       response = `İletişim bilgilerimiz:
 
 📧 **E-posta**: 
@@ -286,9 +316,6 @@ Daha detaylı bilgi için iletişime geçebilirsiniz.`;
     return NextResponse.json({ response });
   } catch (error) {
     console.error('AI asistan hatası:', error);
-    return NextResponse.json(
-      { error: 'AI asistan yanıt veremedi' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'AI asistan yanıt veremedi' }, { status: 500 });
   }
 }

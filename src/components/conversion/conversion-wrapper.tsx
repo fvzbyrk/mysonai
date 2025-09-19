@@ -21,11 +21,28 @@ interface ConversionContextType {
   averageOrderValue: number;
   customerLifetimeValue: number;
   trackConversion: (conversion: any) => void;
-  trackGoalCompletion: (goalName: string, value: number, source: string, medium: string, campaign: string) => void;
+  trackGoalCompletion: (
+    goalName: string,
+    value: number,
+    source: string,
+    medium: string,
+    campaign: string
+  ) => void;
   trackCTAClick: (ctaId: string, text: string, type: string, location: string) => void;
-  trackFormAbandonment: (formName: string, step: number, totalSteps: number, fields: string[], completedFields: string[]) => void;
+  trackFormAbandonment: (
+    formName: string,
+    step: number,
+    totalSteps: number,
+    fields: string[],
+    completedFields: string[]
+  ) => void;
   trackCartAbandonment: (items: any[], totalValue: number, reason?: string) => void;
-  trackExitIntent: (page: string, timeOnPage: number, scrollDepth: number, actions: string[]) => void;
+  trackExitIntent: (
+    page: string,
+    timeOnPage: number,
+    scrollDepth: number,
+    actions: string[]
+  ) => void;
   updateConversionRate: () => void;
   updateFunnelSteps: () => void;
   getConversionInsights: () => string[];
@@ -38,11 +55,7 @@ const ConversionContext = createContext<ConversionContextType | undefined>(undef
 export function ConversionProvider({ children }: { children: ReactNode }) {
   const conversion = useConversion();
 
-  return (
-    <ConversionContext.Provider value={conversion}>
-      {children}
-    </ConversionContext.Provider>
-  );
+  return <ConversionContext.Provider value={conversion}>{children}</ConversionContext.Provider>;
 }
 
 export function useConversionContext() {
@@ -60,17 +73,17 @@ interface ConversionWrapperProps {
   enableRecommendations?: boolean;
 }
 
-export function ConversionWrapper({ 
+export function ConversionWrapper({
   children,
   enableOptimization = true,
   enableABTesting = true,
-  enableRecommendations = true
+  enableRecommendations = true,
 }: ConversionWrapperProps) {
   return (
     <ConversionProvider>
       {children}
       {enableOptimization && (
-        <ConversionOptimizer 
+        <ConversionOptimizer
           enableABTesting={enableABTesting}
           enableRecommendations={enableRecommendations}
         />

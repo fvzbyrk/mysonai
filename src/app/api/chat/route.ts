@@ -1,6 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
-import { getAgentById, generateProductResponse, ProductRequest, getAgentRecommendation, generateAgentRedirectMessage } from '@/lib/ai-agents';
+import {
+  getAgentById,
+  generateProductResponse,
+  ProductRequest,
+  getAgentRecommendation,
+  generateAgentRedirectMessage,
+} from '@/lib/ai-agents';
 import { createServerSupabaseClient } from '@/lib/supabase-server';
 import { PLANS } from '@/lib/stripe';
 import { masterPromptValidator, promptMonitor } from '@/lib/master-prompt-system';
@@ -30,7 +36,10 @@ async function checkUsageLimits(userId: string | null) {
 
     if (error || !user) {
       // If Supabase is not configured, allow demo mode
-      if (process.env.NEXT_PUBLIC_SUPABASE_URL?.includes('placeholder') || !process.env.NEXT_PUBLIC_SUPABASE_URL) {
+      if (
+        process.env.NEXT_PUBLIC_SUPABASE_URL?.includes('placeholder') ||
+        !process.env.NEXT_PUBLIC_SUPABASE_URL
+      ) {
         return { canProceed: true };
       }
       return { canProceed: false, reason: 'User not found' };
@@ -71,7 +80,9 @@ async function checkUsageLimits(userId: string | null) {
 
 // Usage updating function
 async function updateUsage(userId: string | null, tokensUsed: number, messageCount: number = 1) {
-  if (!userId) return;
+  if (!userId) {
+    return;
+  }
 
   const supabase = createServerSupabaseClient();
 
@@ -112,25 +123,25 @@ export async function POST(request: NextRequest) {
     // Check if API keys are available
     const hasOpenAI = process.env.OPENAI_API_KEY && process.env.OPENAI_API_KEY !== 'dummy-key';
     const hasGemini = process.env.GEMINI_API_KEY;
-    
+
     if (!hasOpenAI && !hasGemini) {
       // Demo mode - return mock responses with agent recommendations
       const { messages, selectedAgent, files, enableWebSearch } = await request.json();
       const lastMessage = messages[messages.length - 1];
-      
+
       let mockResponse = '';
       let recommendedAgent = null;
-      
+
       if (selectedAgent && lastMessage?.content) {
         const agent = getAgentById(selectedAgent);
-        
+
         // Master Prompt Validation
         const validationResult = masterPromptValidator.validatePrompt(
-          selectedAgent, 
-          agent?.systemPrompt || '', 
+          selectedAgent,
+          agent?.systemPrompt || '',
           lastMessage.content
         );
-        
+
         // Log prompt usage for monitoring
         promptMonitor.logPromptUsage(
           selectedAgent,
@@ -138,18 +149,21 @@ export async function POST(request: NextRequest) {
           validationResult,
           'demo_mode_request'
         );
-        
+
         // Check for high-risk violations
         if (validationResult.riskLevel === 'high') {
-          return NextResponse.json({
-            error: 'Güvenlik ihlali tespit edildi. Lütfen talebinizi yeniden formüle edin.',
-            violations: validationResult.violations,
-            suggestions: validationResult.suggestions
-          }, { status: 400 });
+          return NextResponse.json(
+            {
+              error: 'Güvenlik ihlali tespit edildi. Lütfen talebinizi yeniden formüle edin.',
+              violations: validationResult.violations,
+              suggestions: validationResult.suggestions,
+            },
+            { status: 400 }
+          );
         }
-        
+
         const recommendation = getAgentRecommendation(selectedAgent, lastMessage.content);
-        
+
         if (recommendation) {
           // Generate redirect message
           mockResponse = generateAgentRedirectMessage(agent!, recommendation, lastMessage.content);
@@ -157,8 +171,10 @@ export async function POST(request: NextRequest) {
         } else {
           // Check if files are attached
           const hasFiles = files && files.length > 0;
-          const fileInfo = hasFiles ? `\n\n📎 Eklenen dosyaları inceledim:\n${files.map((f: any) => `• ${f.name} (${f.type})`).join('\n')}` : '';
-          
+          const fileInfo = hasFiles
+            ? `\n\n📎 Eklenen dosyaları inceledim:\n${files.map((f: any) => `• ${f.name} (${f.type})`).join('\n')}`
+            : '';
+
           // Tacettin için özel insancıl response
           if (selectedAgent === 'tacettin') {
             mockResponse = `Merhaba! Ben Tacettin. ${lastMessage.content} konusunda size yardımcı olabilirim.${fileInfo}\n\nBu konuda elimden gelenin en iyisini yapacağım. Merak etmeyin, birlikte yol alacağız.\n\nBu demo modunda çalışıyoruz, gerçek AI yanıtları için OpenAI API key'i gerekli.`;
@@ -172,9 +188,10 @@ export async function POST(request: NextRequest) {
         const agent = getAgentById(selectedAgent);
         mockResponse = `Merhaba! Ben ${agent?.name || 'AI Asistan'}, ${agent?.role || 'Yardımcı'}. Size nasıl yardımcı olabilirim? Bu demo modunda çalışıyoruz, gerçek AI yanıtları için OpenAI API key'i gerekli.`;
       } else {
-        mockResponse = `Merhaba! MySonAI demo modunda çalışıyor. Size nasıl yardımcı olabilirim? Gerçek AI yanıtları için OpenAI API key'i gerekli.`;
+        mockResponse =
+          "Merhaba! MySonAI demo modunda çalışıyor. Size nasıl yardımcı olabilirim? Gerçek AI yanıtları için OpenAI API key'i gerekli.";
       }
-      
+
       return NextResponse.json({
         message: mockResponse,
         agent: selectedAgent || 'demo',
@@ -183,7 +200,8 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    const { messages, userId, selectedAgent, productRequest, files, enableWebSearch } = await request.json();
+    const { messages, userId, selectedAgent, productRequest, files, enableWebSearch } =
+      await request.json();
 
     // Skip usage check for demo (no userId provided)
     if (userId) {
@@ -239,12 +257,14 @@ Bu talebi karşılamak için ajanlar arası işbirliği yap ve detaylı bir plan
 
       // Check if user query suggests another agent would be better
       const lastMessage = messages[messages.length - 1];
-      const recommendation = lastMessage?.content ? getAgentRecommendation(selectedAgent, lastMessage.content) : null;
-      
+      const recommendation = lastMessage?.content
+        ? getAgentRecommendation(selectedAgent, lastMessage.content)
+        : null;
+
       if (recommendation) {
         // Generate redirect message instead of normal response
         responseContent = generateAgentRedirectMessage(agent, recommendation, lastMessage.content);
-        
+
         return NextResponse.json({
           message: responseContent,
           agent: selectedAgent,
@@ -255,11 +275,11 @@ Bu talebi karşılamak için ajanlar arası işbirliği yap ve detaylı bir plan
 
       // Master Prompt Validation
       const validationResult = masterPromptValidator.validatePrompt(
-        selectedAgent, 
-        agent.systemPrompt, 
+        selectedAgent,
+        agent.systemPrompt,
         lastMessage?.content || ''
       );
-      
+
       // Log prompt usage for monitoring
       promptMonitor.logPromptUsage(
         selectedAgent,
@@ -267,14 +287,17 @@ Bu talebi karşılamak için ajanlar arası işbirliği yap ve detaylı bir plan
         validationResult,
         'openai_api_request'
       );
-      
+
       // Check for high-risk violations
       if (validationResult.riskLevel === 'high') {
-        return NextResponse.json({
-          error: 'Güvenlik ihlali tespit edildi. Lütfen talebinizi yeniden formüle edin.',
-          violations: validationResult.violations,
-          suggestions: validationResult.suggestions
-        }, { status: 400 });
+        return NextResponse.json(
+          {
+            error: 'Güvenlik ihlali tespit edildi. Lütfen talebinizi yeniden formüle edin.',
+            violations: validationResult.violations,
+            suggestions: validationResult.suggestions,
+          },
+          { status: 400 }
+        );
       }
 
       // Create secure prompt with master prompt system
@@ -309,12 +332,16 @@ Her zaman Türkçe konuş ve kullanıcı dostu ol.`;
           content: msg.content,
         })),
         // Add file information if available
-        ...(files && files.length > 0 ? [{
-          role: 'user' as const,
-          content: `\n\n📎 Eklenen Dosyalar:\n${files.map((f: any) => 
-            `• ${f.name} (${f.type})\nİçerik: ${f.content}`
-          ).join('\n\n')}`
-        }] : []),
+        ...(files && files.length > 0
+          ? [
+              {
+                role: 'user' as const,
+                content: `\n\n📎 Eklenen Dosyalar:\n${files
+                  .map((f: any) => `• ${f.name} (${f.type})\nİçerik: ${f.content}`)
+                  .join('\n\n')}`,
+              },
+            ]
+          : []),
       ],
       max_tokens: 1000,
       temperature: 0.7,
@@ -349,10 +376,13 @@ Her zaman Türkçe konuş ve kullanıcı dostu ol.`;
     });
   } catch (error) {
     console.error('Chat API error:', error);
-    return NextResponse.json({ 
-      error: 'Internal server error',
-      details: process.env.NODE_ENV === 'development' ? error.message : undefined
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        error: 'Internal server error',
+        details: process.env.NODE_ENV === 'development' ? error.message : undefined,
+      },
+      { status: 500 }
+    );
   }
 }
 

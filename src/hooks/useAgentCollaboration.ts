@@ -24,40 +24,43 @@ export function useAgentCollaboration() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const checkCollaboration = useCallback(async (userQuery: string, currentAgentId?: string): Promise<CollaborationResult> => {
-    setLoading(true);
-    setError(null);
+  const checkCollaboration = useCallback(
+    async (userQuery: string, currentAgentId?: string): Promise<CollaborationResult> => {
+      setLoading(true);
+      setError(null);
 
-    try {
-      const response = await fetch('/api/chat/collaboration', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userQuery,
-          currentAgentId,
-        }),
-      });
+      try {
+        const response = await fetch('/api/chat/collaboration', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userQuery,
+            currentAgentId,
+          }),
+        });
 
-      const data = await response.json();
+        const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.error || 'İşbirliği kontrolü başarısız');
+        if (!response.ok) {
+          throw new Error(data.error || 'İşbirliği kontrolü başarısız');
+        }
+
+        return data;
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : 'Bilinmeyen hata';
+        setError(errorMessage);
+        return {
+          success: false,
+          error: errorMessage,
+        };
+      } finally {
+        setLoading(false);
       }
-
-      return data;
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Bilinmeyen hata';
-      setError(errorMessage);
-      return {
-        success: false,
-        error: errorMessage,
-      };
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+    },
+    []
+  );
 
   const getCollaborationSuggestion = useCallback((userQuery: string): AgentTeam | null => {
     return findSuitableTeam(userQuery);

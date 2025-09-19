@@ -65,7 +65,7 @@ const plans = (locale: Locale) => [
       'Gelişmiş analitik',
     ],
     popular: true,
-    cta: 'Pro\'ya Geç',
+    cta: "Pro'ya Geç",
     highlight: true,
     icon: Crown,
     color: 'from-purple-500 to-pink-500',
@@ -141,13 +141,11 @@ function PricingContent({ params }: { params: { locale: Locale } }) {
       <section className='relative overflow-hidden py-20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center'>
-            <h1 className='text-5xl md:text-6xl font-bold text-white mb-6'>
-              Fiyatlandırma
-            </h1>
+            <h1 className='text-5xl md:text-6xl font-bold text-white mb-6'>Fiyatlandırma</h1>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto mb-8'>
               Her ihtiyaca uygun plan. Ücretsiz başlayın, ihtiyacınıza göre yükseltin.
             </p>
-            
+
             {/* Trust Indicators */}
             <div className='flex flex-col sm:flex-row items-center justify-center gap-6 text-gray-400 text-sm mb-8'>
               <div className='flex items-center space-x-2'>
@@ -171,7 +169,7 @@ function PricingContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
-            {plans(params.locale).map((plan) => (
+            {plans(params.locale).map(plan => (
               <Card
                 key={plan.id}
                 className={`relative bg-white/10 backdrop-blur-md border-white/20 overflow-hidden hover:bg-white/15 transition-all duration-300 ${
@@ -184,11 +182,13 @@ function PricingContent({ params }: { params: { locale: Locale } }) {
                     En Popüler
                   </div>
                 )}
-                
-                <div className={`h-32 bg-gradient-to-r ${plan.color} flex items-center justify-center`}>
+
+                <div
+                  className={`h-32 bg-gradient-to-r ${plan.color} flex items-center justify-center`}
+                >
                   <plan.icon className='w-12 h-12 text-white' />
                 </div>
-                
+
                 <div className='p-6'>
                   <div className='text-center mb-6'>
                     <h3 className='text-2xl font-bold text-white mb-2'>{plan.name}</h3>
@@ -216,7 +216,13 @@ function PricingContent({ params }: { params: { locale: Locale } }) {
                         : 'bg-white/10 hover:bg-white/20 border border-white/20'
                     } text-white`}
                   >
-                    <Link href={plan.id === 'enterprise' ? `/${params.locale}/contact` : `/${params.locale}/signup`}>
+                    <Link
+                      href={
+                        plan.id === 'enterprise'
+                          ? `/${params.locale}/contact`
+                          : `/${params.locale}/signup`
+                      }
+                    >
                       {plan.cta}
                       <ArrowRight className='w-4 h-4 ml-2' />
                     </Link>
@@ -232,12 +238,8 @@ function PricingContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16 bg-black/20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-12'>
-            <h2 className='text-3xl font-bold text-white mb-4'>
-              Plan Karşılaştırması
-            </h2>
-            <p className='text-xl text-gray-300'>
-              Hangi planın size uygun olduğunu görün
-            </p>
+            <h2 className='text-3xl font-bold text-white mb-4'>Plan Karşılaştırması</h2>
+            <p className='text-xl text-gray-300'>Hangi planın size uygun olduğunu görün</p>
           </div>
 
           <div className='bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 overflow-hidden'>
@@ -271,12 +273,8 @@ function PricingContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16'>
         <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-12'>
-            <h2 className='text-3xl font-bold text-white mb-4'>
-              Sık Sorulan Sorular
-            </h2>
-            <p className='text-xl text-gray-300'>
-              Fiyatlandırma hakkında merak ettikleriniz
-            </p>
+            <h2 className='text-3xl font-bold text-white mb-4'>Sık Sorulan Sorular</h2>
+            <p className='text-xl text-gray-300'>Fiyatlandırma hakkında merak ettikleriniz</p>
           </div>
 
           <div className='space-y-6'>
@@ -285,8 +283,8 @@ function PricingContent({ params }: { params: { locale: Locale } }) {
                 Ücretsiz plan gerçekten ücretsiz mi?
               </h3>
               <p className='text-gray-300'>
-                Evet! Ücretsiz plan tamamen ücretsizdir. Kredi kartı bilgisi istemiyoruz. 
-                5 AI asistanı ve 100 mesaj ile MySonAI'ı deneyebilirsiniz.
+                Evet! Ücretsiz plan tamamen ücretsizdir. Kredi kartı bilgisi istemiyoruz. 5 AI
+                asistanı ve 100 mesaj ile MySonAI'ı deneyebilirsiniz.
               </p>
             </Card>
 
@@ -295,7 +293,7 @@ function PricingContent({ params }: { params: { locale: Locale } }) {
                 Plan değişikliği yapabilir miyim?
               </h3>
               <p className='text-gray-300'>
-                Tabii ki! İstediğiniz zaman planınızı yükseltebilir veya düşürebilirsiniz. 
+                Tabii ki! İstediğiniz zaman planınızı yükseltebilir veya düşürebilirsiniz.
                 Değişiklikler anında geçerli olur ve fark ücreti alınmaz.
               </p>
             </Card>
@@ -305,8 +303,8 @@ function PricingContent({ params }: { params: { locale: Locale } }) {
                 İptal ettiğimde para iadesi alabilir miyim?
               </h3>
               <p className='text-gray-300'>
-                İlk 7 gün içinde iptal ederseniz tam para iadesi alırsınız. 
-                Sonrasında kullanmadığınız süre için orantılı iade yapılır.
+                İlk 7 gün içinde iptal ederseniz tam para iadesi alırsınız. Sonrasında
+                kullanmadığınız süre için orantılı iade yapılır.
               </p>
             </Card>
 
@@ -315,8 +313,8 @@ function PricingContent({ params }: { params: { locale: Locale } }) {
                 Kurumsal plan için özel fiyat var mı?
               </h3>
               <p className='text-gray-300'>
-                Kurumsal planlar için özel fiyatlandırma yapıyoruz. 
-                İhtiyaçlarınıza göre özel çözümler sunuyoruz. İletişime geçin!
+                Kurumsal planlar için özel fiyatlandırma yapıyoruz. İhtiyaçlarınıza göre özel
+                çözümler sunuyoruz. İletişime geçin!
               </p>
             </Card>
           </div>
@@ -327,9 +325,7 @@ function PricingContent({ params }: { params: { locale: Locale } }) {
       <section className='py-20'>
         <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center'>
           <div className='bg-white/10 backdrop-blur-md rounded-2xl p-10 border border-white/20'>
-            <h2 className='text-4xl font-bold text-white mb-6'>
-              Hangi Plan Size Uygun?
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-6'>Hangi Plan Size Uygun?</h2>
             <p className='text-xl text-gray-300 mb-8'>
               Ücretsiz başlayın, ihtiyacınıza göre yükseltin. 7 gün ücretsiz deneme!
             </p>

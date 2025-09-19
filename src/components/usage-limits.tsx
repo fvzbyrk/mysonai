@@ -10,11 +10,17 @@ interface UsageLimitsProps {
 }
 
 export function UsageLimits({ usage, isGuest, onUpgrade }: UsageLimitsProps) {
-  if (!usage) return null;
+  if (!usage) {
+    return null;
+  }
 
   const getUsageIcon = (percentage: number) => {
-    if (percentage >= 90) return <XCircle className='w-4 h-4' />;
-    if (percentage >= 75) return <AlertTriangle className='w-4 h-4' />;
+    if (percentage >= 90) {
+      return <XCircle className='w-4 h-4' />;
+    }
+    if (percentage >= 75) {
+      return <AlertTriangle className='w-4 h-4' />;
+    }
     return <CheckCircle className='w-4 h-4' />;
   };
 

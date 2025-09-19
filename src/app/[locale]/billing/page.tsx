@@ -77,7 +77,9 @@ export default function BillingPage() {
   };
 
   const handleManageSubscription = async () => {
-    if (!user) return;
+    if (!user) {
+      return;
+    }
 
     setLoading(true);
     try {
@@ -104,7 +106,9 @@ export default function BillingPage() {
   };
 
   const handleUpgrade = async (plan: string) => {
-    if (!user) return;
+    if (!user) {
+      return;
+    }
 
     setLoading(true);
     try {

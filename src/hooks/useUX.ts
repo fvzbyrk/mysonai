@@ -10,7 +10,7 @@ export function useUX() {
     language: 'tr',
     notifications: true,
     animations: true,
-    reducedMotion: false
+    reducedMotion: false,
   });
   const [userJourney, setUserJourney] = useState<string[]>([]);
   const [sessionStart, setSessionStart] = useState<number>(Date.now());
@@ -60,7 +60,7 @@ export function useUX() {
     const updateScreenSize = () => {
       setScreenSize({
         width: window.innerWidth,
-        height: window.innerHeight
+        height: window.innerHeight,
       });
       setOrientation(window.innerWidth > window.innerHeight ? 'landscape' : 'portrait');
     };
@@ -97,7 +97,11 @@ export function useUX() {
     if ('connection' in navigator) {
       const connection = (navigator as any).connection;
       if (connection.effectiveType) {
-        setConnectionSpeed(connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g' ? 'slow' : 'fast');
+        setConnectionSpeed(
+          connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g'
+            ? 'slow'
+            : 'fast'
+        );
       }
     }
 
@@ -136,16 +140,19 @@ export function useUX() {
   }, []);
 
   // Save user preferences
-  const saveUserPreferences = useCallback((preferences: Partial<typeof userPreferences>) => {
-    const newPreferences = { ...userPreferences, ...preferences };
-    setUserPreferences(newPreferences);
-    localStorage.setItem('userPreferences', JSON.stringify(newPreferences));
-  }, [userPreferences]);
+  const saveUserPreferences = useCallback(
+    (preferences: Partial<typeof userPreferences>) => {
+      const newPreferences = { ...userPreferences, ...preferences };
+      setUserPreferences(newPreferences);
+      localStorage.setItem('userPreferences', JSON.stringify(newPreferences));
+    },
+    [userPreferences]
+  );
 
   // Track interactions
   const trackInteraction = useCallback((type: string, data?: any) => {
     setInteractions(prev => prev + 1);
-    
+
     // Log interaction for analytics
     console.log('UX Interaction:', { type, data, timestamp: Date.now() });
   }, []);
@@ -195,25 +202,37 @@ export function useUX() {
   // Get user experience score
   const getUXScore = useCallback(() => {
     let score = 100;
-    
+
     // Deduct points for errors
-    if (hasError) score -= 20;
-    
+    if (hasError) {
+      score -= 20;
+    }
+
     // Deduct points for slow loading
-    if (isLoading && timeOnPage > 3000) score -= 15;
-    
+    if (isLoading && timeOnPage > 3000) {
+      score -= 15;
+    }
+
     // Deduct points for low scroll depth
-    if (scrollDepth < 25) score -= 10;
-    
+    if (scrollDepth < 25) {
+      score -= 10;
+    }
+
     // Deduct points for short time on page
-    if (timeOnPage < 10000) score -= 5;
-    
+    if (timeOnPage < 10000) {
+      score -= 5;
+    }
+
     // Deduct points for slow connection
-    if (connectionSpeed === 'slow') score -= 10;
-    
+    if (connectionSpeed === 'slow') {
+      score -= 10;
+    }
+
     // Deduct points for low battery
-    if (batteryLevel && batteryLevel < 0.2) score -= 5;
-    
+    if (batteryLevel && batteryLevel < 0.2) {
+      score -= 5;
+    }
+
     return Math.max(0, score);
   }, [hasError, isLoading, timeOnPage, scrollDepth, connectionSpeed, batteryLevel]);
 
@@ -222,65 +241,70 @@ export function useUX() {
     const interactionsPerMinute = interactions / (timeOnPage / 60000);
     const scrollEngagement = scrollDepth / 100;
     const timeEngagement = Math.min(timeOnPage / 60000, 1);
-    
-    const engagementScore = (interactionsPerMinute * 0.3) + (scrollEngagement * 0.4) + (timeEngagement * 0.3);
-    
-    if (engagementScore > 0.7) return 'high';
-    if (engagementScore > 0.4) return 'medium';
+
+    const engagementScore =
+      interactionsPerMinute * 0.3 + scrollEngagement * 0.4 + timeEngagement * 0.3;
+
+    if (engagementScore > 0.7) {
+      return 'high';
+    }
+    if (engagementScore > 0.4) {
+      return 'medium';
+    }
     return 'low';
   }, [interactions, timeOnPage, scrollDepth]);
 
   // Get user behavior insights
   const getBehaviorInsights = useCallback(() => {
     const insights = [];
-    
+
     if (scrollDepth < 25) {
       insights.push('User may not be finding relevant content');
     }
-    
+
     if (timeOnPage < 10000) {
       insights.push('User may be leaving too quickly');
     }
-    
+
     if (interactions < 3) {
       insights.push('User may not be engaging with content');
     }
-    
+
     if (connectionSpeed === 'slow') {
       insights.push('User may be experiencing slow loading');
     }
-    
+
     if (batteryLevel && batteryLevel < 0.2) {
       insights.push('User may be on low battery');
     }
-    
+
     return insights;
   }, [scrollDepth, timeOnPage, interactions, connectionSpeed, batteryLevel]);
 
   // Get recommendations
   const getRecommendations = useCallback(() => {
     const recommendations = [];
-    
+
     if (scrollDepth < 25) {
       recommendations.push('Consider improving content relevance');
     }
-    
+
     if (timeOnPage < 10000) {
       recommendations.push('Consider improving page loading speed');
     }
-    
+
     if (interactions < 3) {
       recommendations.push('Consider adding more interactive elements');
     }
-    
+
     if (connectionSpeed === 'slow') {
       recommendations.push('Consider optimizing for slow connections');
     }
-    
+
     if (batteryLevel && batteryLevel < 0.2) {
       recommendations.push('Consider reducing battery usage');
     }
-    
+
     return recommendations;
   }, [scrollDepth, timeOnPage, interactions, connectionSpeed, batteryLevel]);
 
@@ -296,7 +320,7 @@ export function useUX() {
       uxScore: getUXScore(),
       engagementLevel: getEngagementLevel(),
       behaviorInsights: getBehaviorInsights(),
-      recommendations: getRecommendations()
+      recommendations: getRecommendations(),
     };
   }, [
     sessionStart,
@@ -308,7 +332,7 @@ export function useUX() {
     getUXScore,
     getEngagementLevel,
     getBehaviorInsights,
-    getRecommendations
+    getRecommendations,
   ]);
 
   return {
@@ -333,7 +357,7 @@ export function useUX() {
     orientation,
     batteryLevel,
     connectionSpeed,
-    
+
     // Actions
     saveUserPreferences,
     trackInteraction,
@@ -343,12 +367,12 @@ export function useUX() {
     showSuccess,
     clearMessages,
     addToJourney,
-    
+
     // Analytics
     getUXScore,
     getEngagementLevel,
     getBehaviorInsights,
     getRecommendations,
-    getSessionSummary
+    getSessionSummary,
   };
 }

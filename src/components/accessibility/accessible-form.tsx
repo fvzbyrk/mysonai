@@ -26,15 +26,18 @@ interface FormFieldProps {
 }
 
 export const AccessibleForm = forwardRef<HTMLFormElement, AccessibleFormProps>(
-  ({
-    children,
-    onSubmit,
-    onError,
-    validateOnChange = true,
-    validateOnBlur = true,
-    className,
-    ...props
-  }, ref) => {
+  (
+    {
+      children,
+      onSubmit,
+      onError,
+      validateOnChange = true,
+      validateOnBlur = true,
+      className,
+      ...props
+    },
+    ref
+  ) => {
     const { announce } = useAccessibilityContext();
     const [errors, setErrors] = useState<FormErrors>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -82,7 +85,7 @@ export const AccessibleForm = forwardRef<HTMLFormElement, AccessibleFormProps>(
 
       setErrors(prev => ({
         ...prev,
-        [fieldName]: error
+        [fieldName]: error,
       }));
 
       return error;
@@ -94,7 +97,9 @@ export const AccessibleForm = forwardRef<HTMLFormElement, AccessibleFormProps>(
 
       // Validate all fields
       const form = e.currentTarget;
-      const fields = form.querySelectorAll('input, textarea, select') as NodeListOf<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>;
+      const fields = form.querySelectorAll('input, textarea, select') as NodeListOf<
+        HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+      >;
       const newErrors: FormErrors = {};
 
       fields.forEach(field => {
@@ -123,13 +128,17 @@ export const AccessibleForm = forwardRef<HTMLFormElement, AccessibleFormProps>(
       }
     };
 
-    const handleFieldChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const handleFieldChange = (
+      e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    ) => {
       if (validateOnChange) {
         validateField(e.target);
       }
     };
 
-    const handleFieldBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const handleFieldBlur = (
+      e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    ) => {
       if (validateOnBlur) {
         validateField(e.target);
       }
@@ -141,12 +150,12 @@ export const AccessibleForm = forwardRef<HTMLFormElement, AccessibleFormProps>(
         onSubmit={handleSubmit}
         className={cn('space-y-4', className)}
         noValidate
-        aria-live="polite"
+        aria-live='polite'
         {...props}
       >
         {children}
         {isSubmitting && (
-          <div className="sr-only" aria-live="polite">
+          <div className='sr-only' aria-live='polite'>
             Form gönderiliyor...
           </div>
         )}
@@ -158,14 +167,7 @@ export const AccessibleForm = forwardRef<HTMLFormElement, AccessibleFormProps>(
 AccessibleForm.displayName = 'AccessibleForm';
 
 export const FormField = forwardRef<HTMLDivElement, FormFieldProps>(
-  ({
-    label,
-    error,
-    required = false,
-    description,
-    children,
-    className
-  }, ref) => {
+  ({ label, error, required = false, description, children, className }, ref) => {
     const fieldId = `field-${Math.random().toString(36).substr(2, 9)}`;
     const errorId = `${fieldId}-error`;
     const descriptionId = `${fieldId}-description`;
@@ -174,30 +176,30 @@ export const FormField = forwardRef<HTMLDivElement, FormFieldProps>(
       <div ref={ref} className={cn('space-y-2', className)}>
         <label
           htmlFor={fieldId}
-          className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          className='block text-sm font-medium text-gray-700 dark:text-gray-300'
         >
           {label}
           {required && (
-            <span className="text-red-500 ml-1" aria-label="zorunlu alan">
+            <span className='text-red-500 ml-1' aria-label='zorunlu alan'>
               *
             </span>
           )}
         </label>
-        
+
         {description && (
-          <p id={descriptionId} className="text-sm text-gray-500 dark:text-gray-400">
+          <p id={descriptionId} className='text-sm text-gray-500 dark:text-gray-400'>
             {description}
           </p>
         )}
-        
-        <div className="relative">
+
+        <div className='relative'>
           {children}
           {error && (
             <p
               id={errorId}
-              className="mt-1 text-sm text-red-600 dark:text-red-400"
-              role="alert"
-              aria-live="polite"
+              className='mt-1 text-sm text-red-600 dark:text-red-400'
+              role='alert'
+              aria-live='polite'
             >
               {error}
             </p>
@@ -210,50 +212,52 @@ export const FormField = forwardRef<HTMLDivElement, FormFieldProps>(
 
 FormField.displayName = 'FormField';
 
-export const AccessibleInput = forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement> & { error?: string }>(
-  ({ error, className, ...props }, ref) => {
-    const fieldId = `input-${Math.random().toString(36).substr(2, 9)}`;
-    const errorId = `${fieldId}-error`;
+export const AccessibleInput = forwardRef<
+  HTMLInputElement,
+  React.InputHTMLAttributes<HTMLInputElement> & { error?: string }
+>(({ error, className, ...props }, ref) => {
+  const fieldId = `input-${Math.random().toString(36).substr(2, 9)}`;
+  const errorId = `${fieldId}-error`;
 
-    return (
-      <input
-        ref={ref}
-        id={fieldId}
-        className={cn(
-          'w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent',
-          error && 'border-red-500 focus:ring-red-500',
-          className
-        )}
-        aria-invalid={!!error}
-        aria-describedby={error ? errorId : undefined}
-        {...props}
-      />
-    );
-  }
-);
+  return (
+    <input
+      ref={ref}
+      id={fieldId}
+      className={cn(
+        'w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent',
+        error && 'border-red-500 focus:ring-red-500',
+        className
+      )}
+      aria-invalid={!!error}
+      aria-describedby={error ? errorId : undefined}
+      {...props}
+    />
+  );
+});
 
 AccessibleInput.displayName = 'AccessibleInput';
 
-export const AccessibleTextarea = forwardRef<HTMLTextAreaElement, React.TextareaHTMLAttributes<HTMLTextAreaElement> & { error?: string }>(
-  ({ error, className, ...props }, ref) => {
-    const fieldId = `textarea-${Math.random().toString(36).substr(2, 9)}`;
-    const errorId = `${fieldId}-error`;
+export const AccessibleTextarea = forwardRef<
+  HTMLTextAreaElement,
+  React.TextareaHTMLAttributes<HTMLTextAreaElement> & { error?: string }
+>(({ error, className, ...props }, ref) => {
+  const fieldId = `textarea-${Math.random().toString(36).substr(2, 9)}`;
+  const errorId = `${fieldId}-error`;
 
-    return (
-      <textarea
-        ref={ref}
-        id={fieldId}
-        className={cn(
-          'w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-vertical',
-          error && 'border-red-500 focus:ring-red-500',
-          className
-        )}
-        aria-invalid={!!error}
-        aria-describedby={error ? errorId : undefined}
-        {...props}
-      />
-    );
-  }
-);
+  return (
+    <textarea
+      ref={ref}
+      id={fieldId}
+      className={cn(
+        'w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-vertical',
+        error && 'border-red-500 focus:ring-red-500',
+        className
+      )}
+      aria-invalid={!!error}
+      aria-describedby={error ? errorId : undefined}
+      {...props}
+    />
+  );
+});
 
 AccessibleTextarea.displayName = 'AccessibleTextarea';

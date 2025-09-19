@@ -31,10 +31,11 @@ export function generateSitemap(config: SitemapConfig): MetadataRoute.Sitemap {
   config.pages.forEach(page => {
     // Add page for each locale
     config.locales.forEach(locale => {
-      const url = locale === config.defaultLocale 
-        ? `${config.baseUrl}${page.path}`
-        : `${config.baseUrl}/${locale}${page.path}`;
-      
+      const url =
+        locale === config.defaultLocale
+          ? `${config.baseUrl}${page.path}`
+          : `${config.baseUrl}/${locale}${page.path}`;
+
       sitemap.push({
         url,
         lastModified: page.lastmod ? new Date(page.lastmod) : new Date(),
@@ -48,10 +49,11 @@ export function generateSitemap(config: SitemapConfig): MetadataRoute.Sitemap {
   if (config.blogPosts) {
     config.blogPosts.forEach(post => {
       config.locales.forEach(locale => {
-        const url = locale === config.defaultLocale
-          ? `${config.baseUrl}/blog/${post.slug}`
-          : `${config.baseUrl}/${locale}/blog/${post.slug}`;
-        
+        const url =
+          locale === config.defaultLocale
+            ? `${config.baseUrl}/blog/${post.slug}`
+            : `${config.baseUrl}/${locale}/blog/${post.slug}`;
+
         sitemap.push({
           url,
           lastModified: new Date(post.lastmod),
@@ -66,10 +68,11 @@ export function generateSitemap(config: SitemapConfig): MetadataRoute.Sitemap {
   if (config.categories) {
     config.categories.forEach(category => {
       config.locales.forEach(locale => {
-        const url = locale === config.defaultLocale
-          ? `${config.baseUrl}/blog/kategori/${category.slug}`
-          : `${config.baseUrl}/${locale}/blog/kategori/${category.slug}`;
-        
+        const url =
+          locale === config.defaultLocale
+            ? `${config.baseUrl}/blog/kategori/${category.slug}`
+            : `${config.baseUrl}/${locale}/blog/kategori/${category.slug}`;
+
         sitemap.push({
           url,
           lastModified: new Date(category.lastmod),
@@ -182,9 +185,7 @@ export function generateHreflangTags(
 ): Array<{ lang: string; url: string }> {
   return locales.map(locale => ({
     lang: locale,
-    url: locale === defaultLocale
-      ? `${baseUrl}${path}`
-      : `${baseUrl}/${locale}${path}`
+    url: locale === defaultLocale ? `${baseUrl}${path}` : `${baseUrl}/${locale}${path}`,
   }));
 }
 
@@ -200,10 +201,7 @@ export class SEOUtils {
   }
 
   // Generate meta description
-  static generateDescription(
-    description: string,
-    maxLength: number = 160
-  ): string {
+  static generateDescription(description: string, maxLength: number = 160): string {
     if (description.length <= maxLength) {
       return description;
     }
@@ -211,10 +209,7 @@ export class SEOUtils {
   }
 
   // Generate keywords
-  static generateKeywords(
-    keywords: string[],
-    additionalKeywords: string[] = []
-  ): string {
+  static generateKeywords(keywords: string[], additionalKeywords: string[] = []): string {
     const allKeywords = [...keywords, ...additionalKeywords];
     return [...new Set(allKeywords)].join(', ');
   }
@@ -279,20 +274,24 @@ export class SEOUtils {
       url,
       logo,
       description,
-      address: address ? {
-        '@type': 'PostalAddress',
-        streetAddress: address.streetAddress,
-        addressLocality: address.addressLocality,
-        addressRegion: address.addressRegion,
-        postalCode: address.postalCode,
-        addressCountry: address.addressCountry
-      } : undefined,
-      contactPoint: contactPoint ? {
-        '@type': 'ContactPoint',
-        telephone: contactPoint.telephone,
-        contactType: contactPoint.contactType,
-        email: contactPoint.email
-      } : undefined
+      address: address
+        ? {
+            '@type': 'PostalAddress',
+            streetAddress: address.streetAddress,
+            addressLocality: address.addressLocality,
+            addressRegion: address.addressRegion,
+            postalCode: address.postalCode,
+            addressCountry: address.addressCountry,
+          }
+        : undefined,
+      contactPoint: contactPoint
+        ? {
+            '@type': 'ContactPoint',
+            telephone: contactPoint.telephone,
+            contactType: contactPoint.contactType,
+            email: contactPoint.email,
+          }
+        : undefined,
     };
   }
 
@@ -316,8 +315,8 @@ export class SEOUtils {
       potentialAction: potentialAction || {
         '@type': 'SearchAction',
         target: `${url}/search?q={search_term_string}`,
-        'query-input': 'required name=search_term_string'
-      }
+        'query-input': 'required name=search_term_string',
+      },
     };
   }
 }

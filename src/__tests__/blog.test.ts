@@ -54,8 +54,8 @@ describe('Blog API', () => {
           author: 'Test Author',
           tags: ['test', 'blog'],
           priority: 'medium',
-          source: 'Manual'
-        }
+          source: 'Manual',
+        },
       };
 
       const request = new NextRequest('http://localhost:3000/api/blog', {
@@ -95,9 +95,9 @@ describe('Blog API', () => {
     it('should generate category content', async () => {
       const request = new NextRequest('http://localhost:3000/api/blog', {
         method: 'POST',
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           action: 'generate-category-content',
-          category: 'AI Teknolojisi'
+          category: 'AI Teknolojisi',
         }),
         headers: {
           'Content-Type': 'application/json',
@@ -114,4 +114,3 @@ describe('Blog API', () => {
     });
   });
 });
-

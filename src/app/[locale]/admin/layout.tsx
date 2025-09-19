@@ -23,7 +23,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     // Check authentication for all other admin pages
     const checkAuth = async () => {
       const token = localStorage.getItem('admin_token');
-      
+
       if (!token) {
         console.log('No admin token found, redirecting to login');
         router.push('/tr/admin/login');
@@ -35,14 +35,14 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         const response = await fetch('/api/admin/auth', {
           method: 'GET',
           headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
         });
 
         const result = await response.json();
         console.log('Auth result:', result);
-        
+
         if (result.success) {
           console.log('Authentication successful');
           setIsAuthenticated(true);
@@ -66,10 +66,10 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   // Show loading while checking auth
   if (isCheckingAuth) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-          <p className="text-white">Kimlik doğrulanıyor...</p>
+      <div className='min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center'>
+        <div className='text-center'>
+          <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4'></div>
+          <p className='text-white'>Kimlik doğrulanıyor...</p>
         </div>
       </div>
     );

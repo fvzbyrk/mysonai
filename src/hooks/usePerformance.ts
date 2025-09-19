@@ -67,7 +67,9 @@ export function usePerformance() {
 
   // Measure Core Web Vitals
   const measureCoreWebVitals = useCallback(() => {
-    if (!isSupported) return;
+    if (!isSupported) {
+      return;
+    }
 
     const observers: PerformanceObserver[] = [];
 
@@ -123,7 +125,9 @@ export function usePerformance() {
 
   // Measure page load metrics
   const measurePageLoadMetrics = useCallback(() => {
-    if (!isSupported) return;
+    if (!isSupported) {
+      return;
+    }
 
     const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
 
@@ -141,7 +145,9 @@ export function usePerformance() {
 
   // Get memory usage
   const getMemoryUsage = useCallback(() => {
-    if (!isSupported || !('memory' in performance)) return;
+    if (!isSupported || !('memory' in performance)) {
+      return;
+    }
 
     const memory = (performance as any).memory;
     setMetrics(prev => ({
@@ -156,7 +162,9 @@ export function usePerformance() {
 
   // Get network information
   const getNetworkInfo = useCallback(() => {
-    if (!isSupported || !('connection' in navigator)) return;
+    if (!isSupported || !('connection' in navigator)) {
+      return;
+    }
 
     const connection = (navigator as any).connection;
     setMetrics(prev => ({
@@ -171,7 +179,9 @@ export function usePerformance() {
 
   // Start monitoring
   useEffect(() => {
-    if (!isSupported) return;
+    if (!isSupported) {
+      return;
+    }
 
     const cleanup = measureCoreWebVitals();
 
@@ -193,21 +203,32 @@ export function usePerformance() {
 
   // Performance score calculation
   const getPerformanceScore = useCallback(() => {
-    if (!metrics.lcp || !metrics.fid || !metrics.cls) return null;
+    if (!metrics.lcp || !metrics.fid || !metrics.cls) {
+      return null;
+    }
 
     let score = 100;
 
     // LCP scoring (0-100)
-    if (metrics.lcp > 4000) score -= 30;
-    else if (metrics.lcp > 2500) score -= 15;
+    if (metrics.lcp > 4000) {
+      score -= 30;
+    } else if (metrics.lcp > 2500) {
+      score -= 15;
+    }
 
     // FID scoring (0-100)
-    if (metrics.fid > 300) score -= 30;
-    else if (metrics.fid > 100) score -= 15;
+    if (metrics.fid > 300) {
+      score -= 30;
+    } else if (metrics.fid > 100) {
+      score -= 15;
+    }
 
     // CLS scoring (0-100)
-    if (metrics.cls > 0.25) score -= 30;
-    else if (metrics.cls > 0.1) score -= 15;
+    if (metrics.cls > 0.25) {
+      score -= 30;
+    } else if (metrics.cls > 0.1) {
+      score -= 15;
+    }
 
     return Math.max(0, score);
   }, [metrics]);

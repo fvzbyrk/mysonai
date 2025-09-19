@@ -30,8 +30,8 @@ export default function CookiePolicyPage() {
                 <h2 className="text-2xl font-semibold text-white">Çerez Nedir?</h2>
               </div>
               <p className="text-gray-300 leading-relaxed">
-                Çerezler, web sitelerini ziyaret ettiğinizde tarayıcınızda saklanan küçük metin dosyalarıdır. 
-                Bu dosyalar, web sitesinin daha iyi çalışmasını sağlar ve kullanıcı deneyimini geliştirir. 
+                Çerezler, web sitelerini ziyaret ettiğinizde tarayıcınızda saklanan küçük metin dosyalarıdır.
+                Bu dosyalar, web sitesinin daha iyi çalışmasını sağlar ve kullanıcı deneyimini geliştirir.
                 MySonAI olarak, çerezleri belirli amaçlarla kullanırız ve bu kullanım hakkında sizleri bilgilendirmek isteriz.
               </p>
             </div>
@@ -52,7 +52,7 @@ export default function CookiePolicyPage() {
                     <h3 className="text-lg font-semibold text-red-400">Zorunlu Çerezler</h3>
                   </div>
                   <p className="text-gray-300 text-sm mb-3">
-                    Web sitesinin temel işlevlerini yerine getirmesi için gerekli çerezlerdir. 
+                    Web sitesinin temel işlevlerini yerine getirmesi için gerekli çerezlerdir.
                     Bu çerezler olmadan site düzgün çalışmaz.
                   </p>
                   <ul className="text-gray-300 text-sm space-y-1">
@@ -194,7 +194,7 @@ export default function CookiePolicyPage() {
                   <p className="text-gray-300 mb-4">
                     Çerez kullanımı konusunda tercihlerinizi aşağıdaki yöntemlerle yönetebilirsiniz:
                   </p>
-                  
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="bg-white/5 p-4 rounded-lg">
                       <h4 className="text-white font-semibold mb-2">Tarayıcı Ayarları</h4>
@@ -202,13 +202,13 @@ export default function CookiePolicyPage() {
                         Tarayıcınızın ayarlarından çerezleri yönetebilirsiniz.
                       </p>
                       <ul className="text-gray-300 text-sm space-y-1">
-                        <li>• Chrome: Ayarlar > Gizlilik ve güvenlik > Çerezler</li>
-                        <li>• Firefox: Seçenekler > Gizlilik ve güvenlik</li>
-                        <li>• Safari: Tercihler > Gizlilik</li>
-                        <li>• Edge: Ayarlar > Çerezler ve site izinleri</li>
+                        <li>• Chrome: Ayarlar &gt; Gizlilik ve güvenlik &gt; Çerezler</li>
+                        <li>• Firefox: Seçenekler &gt; Gizlilik ve güvenlik</li>
+                        <li>• Safari: Tercihler &gt; Gizlilik</li>
+                        <li>• Edge: Ayarlar &gt; Çerezler ve site izinleri</li>
                       </ul>
                     </div>
-                    
+
                     <div className="bg-white/5 p-4 rounded-lg">
                       <h4 className="text-white font-semibold mb-2">Site Ayarları</h4>
                       <p className="text-gray-300 text-sm mb-3">
@@ -232,7 +232,7 @@ export default function CookiePolicyPage() {
                 <div className="bg-yellow-500/10 border border-yellow-500/20 p-4 rounded-lg">
                   <h4 className="text-lg font-semibold text-yellow-400 mb-2">Önemli Uyarı</h4>
                   <p className="text-gray-300 text-sm">
-                    Zorunlu çerezleri reddetmeniz durumunda web sitemizin bazı özellikleri düzgün çalışmayabilir. 
+                    Zorunlu çerezleri reddetmeniz durumunda web sitemizin bazı özellikleri düzgün çalışmayabilir.
                     Bu durumda kullanıcı deneyiminiz olumsuz etkilenebilir.
                   </p>
                 </div>
@@ -251,7 +251,7 @@ export default function CookiePolicyPage() {
                 <p className="text-gray-300">
                   Web sitemizde aşağıdaki üçüncü taraf hizmetlerin çerezleri kullanılmaktadır:
                 </p>
-                
+
                 <div className="space-y-4">
                   <div className="bg-white/5 p-4 rounded-lg">
                     <h4 className="text-white font-semibold mb-2">Google Analytics</h4>
@@ -262,7 +262,7 @@ export default function CookiePolicyPage() {
                       Daha fazla bilgi: <a href="https://policies.google.com/privacy" className="text-blue-400 hover:underline">Google Privacy Policy</a>
                     </p>
                   </div>
-                  
+
                   <div className="bg-white/5 p-4 rounded-lg">
                     <h4 className="text-white font-semibold mb-2">OpenAI</h4>
                     <p className="text-gray-300 text-sm mb-2">
@@ -272,7 +272,7 @@ export default function CookiePolicyPage() {
                       Daha fazla bilgi: <a href="https://openai.com/privacy" className="text-blue-400 hover:underline">OpenAI Privacy Policy</a>
                     </p>
                   </div>
-                  
+
                   <div className="bg-white/5 p-4 rounded-lg">
                     <h4 className="text-white font-semibold mb-2">Supabase</h4>
                     <p className="text-gray-300 text-sm mb-2">

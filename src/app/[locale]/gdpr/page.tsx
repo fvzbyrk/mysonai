@@ -4,12 +4,12 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
-import { 
-  Shield, 
-  Eye, 
-  Lock, 
-  Trash2, 
-  Download, 
+import {
+  Shield,
+  Eye,
+  Lock,
+  Trash2,
+  Download,
   ArrowRight,
   CheckCircle,
   Star,
@@ -26,7 +26,7 @@ import {
   FileText,
   Mail,
   Phone,
-  AlertTriangle
+  AlertTriangle,
 } from 'lucide-react';
 import type { Metadata } from 'next';
 
@@ -211,14 +211,12 @@ function GDPRContent({ params }: { params: { locale: Locale } }) {
       <section className='relative overflow-hidden py-20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center'>
-            <h1 className='text-5xl md:text-6xl font-bold text-white mb-6'>
-              GDPR Uyumluluğu
-            </h1>
+            <h1 className='text-5xl md:text-6xl font-bold text-white mb-6'>GDPR Uyumluluğu</h1>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto mb-8'>
-              MySonAI olarak veri koruma ve gizlilik haklarınıza saygı gösteriyoruz. 
-              GDPR uyumlu veri işleme politikalarımızı öğrenin.
+              MySonAI olarak veri koruma ve gizlilik haklarınıza saygı gösteriyoruz. GDPR uyumlu
+              veri işleme politikalarımızı öğrenin.
             </p>
-            
+
             {/* Quick Actions */}
             <div className='flex flex-col sm:flex-row gap-4 justify-center mb-8'>
               <Link
@@ -244,9 +242,7 @@ function GDPRContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              GDPR İlkelerimiz
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>GDPR İlkelerimiz</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               Veri koruma konusundaki temel yaklaşımımız
             </p>
@@ -254,8 +250,13 @@ function GDPRContent({ params }: { params: { locale: Locale } }) {
 
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
             {gdprPrinciples.map((principle, index) => (
-              <Card key={index} className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'>
-                <div className={`w-16 h-16 bg-gradient-to-r ${principle.color} rounded-full flex items-center justify-center mx-auto mb-4`}>
+              <Card
+                key={index}
+                className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'
+              >
+                <div
+                  className={`w-16 h-16 bg-gradient-to-r ${principle.color} rounded-full flex items-center justify-center mx-auto mb-4`}
+                >
                   <principle.icon className='w-8 h-8 text-white' />
                 </div>
                 <h3 className='text-xl font-bold text-white mb-3'>{principle.title}</h3>
@@ -270,9 +271,7 @@ function GDPRContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16 bg-black/20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Kullanıcı Haklarınız
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>Kullanıcı Haklarınız</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               GDPR kapsamında sahip olduğunuz haklar
             </p>
@@ -280,7 +279,10 @@ function GDPRContent({ params }: { params: { locale: Locale } }) {
 
           <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
             {userRights.map((right, index) => (
-              <Card key={index} className='bg-white/10 backdrop-blur-md border-white/20 p-6 hover:bg-white/15 transition-all duration-300'>
+              <Card
+                key={index}
+                className='bg-white/10 backdrop-blur-md border-white/20 p-6 hover:bg-white/15 transition-all duration-300'
+              >
                 <div className='flex items-start space-x-4'>
                   <div className='w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center flex-shrink-0'>
                     <right.icon className='w-6 h-6 text-white' />
@@ -308,9 +310,7 @@ function GDPRContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Veri İşleme
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>Veri İşleme</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               Hangi verilerinizi nasıl işliyoruz?
             </p>
@@ -325,7 +325,9 @@ function GDPRContent({ params }: { params: { locale: Locale } }) {
                     <h4 className='text-lg font-semibold text-purple-300 mb-2'>Veri Türleri</h4>
                     <ul className='space-y-1'>
                       {processing.data.map((item, itemIndex) => (
-                        <li key={itemIndex} className='text-gray-300 text-sm'>• {item}</li>
+                        <li key={itemIndex} className='text-gray-300 text-sm'>
+                          • {item}
+                        </li>
                       ))}
                     </ul>
                   </div>
@@ -352,9 +354,7 @@ function GDPRContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16 bg-black/20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Güvenlik Önlemleri
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>Güvenlik Önlemleri</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               Verilerinizi korumak için aldığımız önlemler
             </p>
@@ -362,7 +362,10 @@ function GDPRContent({ params }: { params: { locale: Locale } }) {
 
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
             {securityMeasures.map((measure, index) => (
-              <Card key={index} className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'>
+              <Card
+                key={index}
+                className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'
+              >
                 <div className='w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4'>
                   <measure.icon className='w-8 h-8 text-white' />
                 </div>
@@ -378,9 +381,7 @@ function GDPRContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              İletişim Bilgileri
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>İletişim Bilgileri</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               GDPR soruları ve veri koruma talepleri için iletişim
             </p>
@@ -388,7 +389,10 @@ function GDPRContent({ params }: { params: { locale: Locale } }) {
 
           <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
             {contactInfo.map((contact, index) => (
-              <Card key={index} className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'>
+              <Card
+                key={index}
+                className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'
+              >
                 <div className='w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4'>
                   <contact.icon className='w-8 h-8 text-white' />
                 </div>
@@ -405,12 +409,10 @@ function GDPRContent({ params }: { params: { locale: Locale } }) {
       <section className='py-20'>
         <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center'>
           <div className='bg-white/10 backdrop-blur-md rounded-2xl p-10 border border-white/20'>
-            <h2 className='text-4xl font-bold text-white mb-6'>
-              Veri Haklarınızı Kullanın
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-6'>Veri Haklarınızı Kullanın</h2>
             <p className='text-xl text-gray-300 mb-8'>
-              GDPR kapsamında sahip olduğunuz hakları kullanmak için 
-              bizimle iletişime geçin. 30 gün içinde yanıtlayacağız.
+              GDPR kapsamında sahip olduğunuz hakları kullanmak için bizimle iletişime geçin. 30 gün
+              içinde yanıtlayacağız.
             </p>
             <div className='flex flex-col sm:flex-row gap-4 justify-center'>
               <Link

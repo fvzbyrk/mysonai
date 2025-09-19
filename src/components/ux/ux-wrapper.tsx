@@ -10,11 +10,11 @@ interface UXWrapperProps {
   enableOptimization?: boolean;
 }
 
-export function UXWrapper({ 
+export function UXWrapper({
   children,
   enableFeedback = true,
   enableAnalytics = true,
-  enableOptimization = true
+  enableOptimization = true,
 }: UXWrapperProps) {
   return (
     <UXProvider>

@@ -1,24 +1,24 @@
-import { Locale } from '@/lib/i18n'
-import { t } from '@/lib/translations'
-import { Card } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { FeatureGuard } from '@/components/feature-guard'
-import Link from 'next/link'
-import { 
-  BookOpen, 
-  Code, 
-  Zap, 
-  Shield, 
-  Users, 
-  Settings, 
+import { Locale } from '@/lib/i18n';
+import { t } from '@/lib/translations';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { FeatureGuard } from '@/components/feature-guard';
+import Link from 'next/link';
+import {
+  BookOpen,
+  Code,
+  Zap,
+  Shield,
+  Users,
+  Settings,
   ArrowRight,
   Search,
   Filter,
   Clock,
   Star
-} from 'lucide-react'
-import type { Metadata } from 'next'
+} from 'lucide-react';
+import type { Metadata } from 'next';
 
 export async function generateMetadata({
   params,
@@ -26,9 +26,9 @@ export async function generateMetadata({
   params: { locale: Locale }
 }): Promise<Metadata> {
   const isTurkish = params.locale === 'tr';
-  
+
   return {
-    title: isTurkish 
+    title: isTurkish
       ? 'Dokümantasyon - MySonAI API ve Kullanım Kılavuzu'
       : 'Documentation - MySonAI API and Usage Guide',
     description: isTurkish
@@ -137,7 +137,7 @@ function DocsContent({
             <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
               MySonAI API dokümantasyonu, entegrasyon kılavuzları ve kullanım örnekleri
             </p>
-            
+
             {/* Search Bar */}
             <div className="max-w-md mx-auto mb-8">
               <div className="relative">
@@ -179,11 +179,11 @@ function DocsContent({
                   <h3 className="text-xl font-bold text-white mb-3">
                     {section.title}
                   </h3>
-                  
+
                   <p className="text-gray-300 mb-4">
                     {section.description}
                   </p>
-                  
+
                   <div className="space-y-2 mb-4">
                     {section.articles.slice(0, 3).map((article) => (
                       <div key={article.id} className="flex items-center justify-between text-sm">
@@ -200,7 +200,7 @@ function DocsContent({
                       </div>
                     )}
                   </div>
-                  
+
                   <Link href={`/${params.locale}/docs/${section.id}`}>
                     <Button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700">
                       Bölümü Görüntüle
@@ -225,7 +225,7 @@ function DocsContent({
               MySonAI\'a 5 dakikada başlayın
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card className="bg-white/10 backdrop-blur-md border-white/20 p-6">
               <div className="text-center">
@@ -245,7 +245,7 @@ function DocsContent({
                 </Link>
               </div>
             </Card>
-            
+
             <Card className="bg-white/10 backdrop-blur-md border-white/20 p-6">
               <div className="text-center">
                 <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -263,7 +263,7 @@ function DocsContent({
                 </Button>
               </div>
             </Card>
-            
+
             <Card className="bg-white/10 backdrop-blur-md border-white/20 p-6">
               <div className="text-center">
                 <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -320,5 +320,5 @@ export default function DocsPage({
     <FeatureGuard feature="api" fallback={<div>Dokümantasyon sayfası devre dışı</div>}>
       <DocsContent params={params} />
     </FeatureGuard>
-  )
+  );
 }

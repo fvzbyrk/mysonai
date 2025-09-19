@@ -45,7 +45,7 @@ export const contentAuditData: ContentAuditItem[] = [
     description: 'Ana sayfa - hero section, features, testimonials',
     issues: [],
     recommendations: ['Add more testimonials', 'Update hero content', 'Add video demo'],
-    lastUpdated: '2024-01-15'
+    lastUpdated: '2024-01-15',
   },
   {
     id: 'about',
@@ -57,7 +57,7 @@ export const contentAuditData: ContentAuditItem[] = [
     description: 'Şirket hakkında bilgiler, ekip, misyon, vizyon',
     issues: [],
     recommendations: ['Add team photos', 'Update company story', 'Add awards section'],
-    lastUpdated: '2024-01-10'
+    lastUpdated: '2024-01-10',
   },
   {
     id: 'services',
@@ -69,7 +69,7 @@ export const contentAuditData: ContentAuditItem[] = [
     description: 'AI çözümleri, klasik bilişim, yazılım ihtiyaçları',
     issues: [],
     recommendations: ['Add service pricing', 'Add case studies', 'Add service comparison'],
-    lastUpdated: '2024-01-12'
+    lastUpdated: '2024-01-12',
   },
   {
     id: 'solutions',
@@ -78,10 +78,15 @@ export const contentAuditData: ContentAuditItem[] = [
     status: 'complete',
     priority: 'high',
     category: 'core',
-    description: 'MySon Video, MySon Firmatch, MySon Avukat, MySon Kids, MySon Education, MySon Music',
+    description:
+      'MySon Video, MySon Firmatch, MySon Avukat, MySon Kids, MySon Education, MySon Music',
     issues: [],
-    recommendations: ['Add solution demos', 'Add pricing for each solution', 'Add integration guides'],
-    lastUpdated: '2024-01-14'
+    recommendations: [
+      'Add solution demos',
+      'Add pricing for each solution',
+      'Add integration guides',
+    ],
+    lastUpdated: '2024-01-14',
   },
   {
     id: 'pricing',
@@ -93,7 +98,7 @@ export const contentAuditData: ContentAuditItem[] = [
     description: 'Plan fiyatları, özellikler, karşılaştırma',
     issues: [],
     recommendations: ['Add annual discounts', 'Add enterprise pricing', 'Add free trial info'],
-    lastUpdated: '2024-01-13'
+    lastUpdated: '2024-01-13',
   },
   {
     id: 'contact',
@@ -105,7 +110,7 @@ export const contentAuditData: ContentAuditItem[] = [
     description: 'İletişim formu, adres, telefon, e-posta',
     issues: [],
     recommendations: ['Add live chat', 'Add office hours', 'Add map integration'],
-    lastUpdated: '2024-01-11'
+    lastUpdated: '2024-01-11',
   },
 
   // Blog System
@@ -119,7 +124,7 @@ export const contentAuditData: ContentAuditItem[] = [
     description: 'Blog ana sayfası, makale listesi, kategoriler',
     issues: [],
     recommendations: ['Add more blog posts', 'Add newsletter signup', 'Add related posts'],
-    lastUpdated: '2024-01-15'
+    lastUpdated: '2024-01-15',
   },
   {
     id: 'blog-post',
@@ -131,7 +136,7 @@ export const contentAuditData: ContentAuditItem[] = [
     description: 'Blog makale detay sayfası',
     issues: [],
     recommendations: ['Add more blog posts', 'Add social sharing', 'Add comment system'],
-    lastUpdated: '2024-01-15'
+    lastUpdated: '2024-01-15',
   },
   {
     id: 'blog-category',
@@ -143,7 +148,7 @@ export const contentAuditData: ContentAuditItem[] = [
     description: 'Blog kategori sayfası',
     issues: [],
     recommendations: ['Add category descriptions', 'Add category images'],
-    lastUpdated: '2024-01-15'
+    lastUpdated: '2024-01-15',
   },
 
   // User Pages
@@ -157,7 +162,7 @@ export const contentAuditData: ContentAuditItem[] = [
     description: 'Kullanıcı giriş sayfası',
     issues: [],
     recommendations: ['Add social login', 'Add forgot password', 'Add remember me'],
-    lastUpdated: '2024-01-10'
+    lastUpdated: '2024-01-10',
   },
   {
     id: 'signup',
@@ -169,7 +174,7 @@ export const contentAuditData: ContentAuditItem[] = [
     description: 'Kullanıcı kayıt sayfası',
     issues: [],
     recommendations: ['Add email verification', 'Add terms acceptance', 'Add referral system'],
-    lastUpdated: '2024-01-10'
+    lastUpdated: '2024-01-10',
   },
   {
     id: 'dashboard',
@@ -181,7 +186,7 @@ export const contentAuditData: ContentAuditItem[] = [
     description: 'Kullanıcı dashboard',
     issues: [],
     recommendations: ['Add usage analytics', 'Add quick actions', 'Add recent activity'],
-    lastUpdated: '2024-01-12'
+    lastUpdated: '2024-01-12',
   },
   {
     id: 'billing',
@@ -193,7 +198,7 @@ export const contentAuditData: ContentAuditItem[] = [
     description: 'Fatura ve ödeme sayfası',
     issues: [],
     recommendations: ['Add payment history', 'Add invoice download', 'Add payment methods'],
-    lastUpdated: '2024-01-12'
+    lastUpdated: '2024-01-12',
   },
 
   // Demo & Tools
@@ -207,7 +212,7 @@ export const contentAuditData: ContentAuditItem[] = [
     description: 'AI asistanları demo sayfası',
     issues: [],
     recommendations: ['Add more demo scenarios', 'Add video tutorials', 'Add interactive examples'],
-    lastUpdated: '2024-01-14'
+    lastUpdated: '2024-01-14',
   },
   {
     id: 'tools',
@@ -219,7 +224,7 @@ export const contentAuditData: ContentAuditItem[] = [
     description: 'AI araçları sayfası',
     issues: [],
     recommendations: ['Add tool descriptions', 'Add usage examples', 'Add tool comparison'],
-    lastUpdated: '2024-01-13'
+    lastUpdated: '2024-01-13',
   },
 
   // Legal Pages
@@ -233,7 +238,7 @@ export const contentAuditData: ContentAuditItem[] = [
     description: 'Gizlilik politikası sayfası',
     issues: [],
     recommendations: ['Update GDPR compliance', 'Add cookie policy', 'Add data retention info'],
-    lastUpdated: '2024-01-08'
+    lastUpdated: '2024-01-08',
   },
   {
     id: 'terms',
@@ -244,8 +249,12 @@ export const contentAuditData: ContentAuditItem[] = [
     category: 'legal',
     description: 'Kullanım şartları sayfası',
     issues: [],
-    recommendations: ['Update terms for new features', 'Add dispute resolution', 'Add liability info'],
-    lastUpdated: '2024-01-08'
+    recommendations: [
+      'Update terms for new features',
+      'Add dispute resolution',
+      'Add liability info',
+    ],
+    lastUpdated: '2024-01-08',
   },
   {
     id: 'cookies',
@@ -257,7 +266,7 @@ export const contentAuditData: ContentAuditItem[] = [
     description: 'Çerez politikası sayfası',
     issues: [],
     recommendations: ['Add cookie categories', 'Add opt-out options', 'Add third-party cookies'],
-    lastUpdated: '2024-01-08'
+    lastUpdated: '2024-01-08',
   },
   {
     id: 'gdpr',
@@ -269,7 +278,7 @@ export const contentAuditData: ContentAuditItem[] = [
     description: 'GDPR uyumluluk sayfası',
     issues: [],
     recommendations: ['Add data processing info', 'Add user rights', 'Add contact for GDPR'],
-    lastUpdated: '2024-01-08'
+    lastUpdated: '2024-01-08',
   },
 
   // Support Pages
@@ -283,7 +292,7 @@ export const contentAuditData: ContentAuditItem[] = [
     description: 'SSS sayfası',
     issues: [],
     recommendations: ['Add more FAQs', 'Add search functionality', 'Add category filters'],
-    lastUpdated: '2024-01-09'
+    lastUpdated: '2024-01-09',
   },
   {
     id: 'docs',
@@ -294,8 +303,13 @@ export const contentAuditData: ContentAuditItem[] = [
     category: 'support',
     description: 'API dokümantasyonu, kullanım kılavuzu',
     issues: ['Missing API documentation', 'Missing integration guides', 'Missing code examples'],
-    recommendations: ['Add API documentation', 'Add integration guides', 'Add code examples', 'Add SDKs'],
-    lastUpdated: '2024-01-05'
+    recommendations: [
+      'Add API documentation',
+      'Add integration guides',
+      'Add code examples',
+      'Add SDKs',
+    ],
+    lastUpdated: '2024-01-05',
   },
   {
     id: 'tutorial',
@@ -305,9 +319,18 @@ export const contentAuditData: ContentAuditItem[] = [
     priority: 'medium',
     category: 'support',
     description: 'Eğitim videoları, rehberler',
-    issues: ['Missing video tutorials', 'Missing step-by-step guides', 'Missing beginner tutorials'],
-    recommendations: ['Add video tutorials', 'Add step-by-step guides', 'Add beginner tutorials', 'Add advanced tutorials'],
-    lastUpdated: '2024-01-05'
+    issues: [
+      'Missing video tutorials',
+      'Missing step-by-step guides',
+      'Missing beginner tutorials',
+    ],
+    recommendations: [
+      'Add video tutorials',
+      'Add step-by-step guides',
+      'Add beginner tutorials',
+      'Add advanced tutorials',
+    ],
+    lastUpdated: '2024-01-05',
   },
 
   // Company Pages
@@ -320,8 +343,13 @@ export const contentAuditData: ContentAuditItem[] = [
     category: 'company',
     description: 'İş ilanları, kariyer fırsatları',
     issues: ['Missing job listings', 'Missing company culture', 'Missing benefits info'],
-    recommendations: ['Add job listings', 'Add company culture', 'Add benefits info', 'Add application process'],
-    lastUpdated: '2024-01-05'
+    recommendations: [
+      'Add job listings',
+      'Add company culture',
+      'Add benefits info',
+      'Add application process',
+    ],
+    lastUpdated: '2024-01-05',
   },
   {
     id: 'press',
@@ -332,8 +360,13 @@ export const contentAuditData: ContentAuditItem[] = [
     category: 'company',
     description: 'Basın bültenleri, medya kiti',
     issues: ['Missing press releases', 'Missing media kit', 'Missing press contacts'],
-    recommendations: ['Add press releases', 'Add media kit', 'Add press contacts', 'Add company logos'],
-    lastUpdated: '2024-01-05'
+    recommendations: [
+      'Add press releases',
+      'Add media kit',
+      'Add press contacts',
+      'Add company logos',
+    ],
+    lastUpdated: '2024-01-05',
   },
   {
     id: 'references',
@@ -344,8 +377,13 @@ export const contentAuditData: ContentAuditItem[] = [
     category: 'company',
     description: 'Müşteri referansları, başarı hikayeleri',
     issues: ['Missing customer testimonials', 'Missing case studies', 'Missing success stories'],
-    recommendations: ['Add customer testimonials', 'Add case studies', 'Add success stories', 'Add customer logos'],
-    lastUpdated: '2024-01-05'
+    recommendations: [
+      'Add customer testimonials',
+      'Add case studies',
+      'Add success stories',
+      'Add customer logos',
+    ],
+    lastUpdated: '2024-01-05',
   },
 
   // Developer Pages
@@ -358,8 +396,13 @@ export const contentAuditData: ContentAuditItem[] = [
     category: 'developer',
     description: 'Geliştirici kaynakları, API, SDK',
     issues: ['Missing API documentation', 'Missing SDKs', 'Missing developer tools'],
-    recommendations: ['Add API documentation', 'Add SDKs', 'Add developer tools', 'Add code examples'],
-    lastUpdated: '2024-01-05'
+    recommendations: [
+      'Add API documentation',
+      'Add SDKs',
+      'Add developer tools',
+      'Add code examples',
+    ],
+    lastUpdated: '2024-01-05',
   },
   {
     id: 'api',
@@ -368,10 +411,15 @@ export const contentAuditData: ContentAuditItem[] = [
     status: 'incomplete',
     priority: 'high',
     category: 'developer',
-    description: 'API dokümantasyonu, endpoint\'ler',
+    description: "API dokümantasyonu, endpoint'ler",
     issues: ['Missing API endpoints', 'Missing authentication', 'Missing rate limits'],
-    recommendations: ['Add API endpoints', 'Add authentication', 'Add rate limits', 'Add API examples'],
-    lastUpdated: '2024-01-05'
+    recommendations: [
+      'Add API endpoints',
+      'Add authentication',
+      'Add rate limits',
+      'Add API examples',
+    ],
+    lastUpdated: '2024-01-05',
   },
 
   // Missing Pages
@@ -385,7 +433,7 @@ export const contentAuditData: ContentAuditItem[] = [
     description: 'Site haritası sayfası',
     issues: ['Page not found'],
     recommendations: ['Create sitemap page', 'Add page categories', 'Add search functionality'],
-    lastUpdated: null
+    lastUpdated: null,
   },
   {
     id: 'search',
@@ -397,7 +445,7 @@ export const contentAuditData: ContentAuditItem[] = [
     description: 'Site içi arama sayfası',
     issues: ['Page not found'],
     recommendations: ['Create search page', 'Add search filters', 'Add search suggestions'],
-    lastUpdated: null
+    lastUpdated: null,
   },
   {
     id: 'newsletter',
@@ -409,7 +457,7 @@ export const contentAuditData: ContentAuditItem[] = [
     description: 'Newsletter kayıt sayfası',
     issues: ['Page not found'],
     recommendations: ['Create newsletter page', 'Add subscription form', 'Add newsletter archive'],
-    lastUpdated: null
+    lastUpdated: null,
   },
   {
     id: 'affiliate',
@@ -421,7 +469,7 @@ export const contentAuditData: ContentAuditItem[] = [
     description: 'Affiliate program sayfası',
     issues: ['Page not found'],
     recommendations: ['Create affiliate page', 'Add program details', 'Add commission rates'],
-    lastUpdated: null
+    lastUpdated: null,
   },
   {
     id: 'partners',
@@ -433,8 +481,8 @@ export const contentAuditData: ContentAuditItem[] = [
     description: 'Ortaklık sayfası',
     issues: ['Page not found'],
     recommendations: ['Create partners page', 'Add partnership info', 'Add partner logos'],
-    lastUpdated: null
-  }
+    lastUpdated: null,
+  },
 ];
 
 // Generate content audit report
@@ -444,11 +492,17 @@ export function generateContentAuditReport(): ContentAuditReport {
   const incompletePages = contentAuditData.filter(item => item.status === 'incomplete').length;
   const missingPages = contentAuditData.filter(item => item.status === 'missing').length;
   const needsUpdatePages = contentAuditData.filter(item => item.status === 'needs-update').length;
-  
-  const highPriorityIssues = contentAuditData.filter(item => item.priority === 'high' && item.status !== 'complete').length;
-  const mediumPriorityIssues = contentAuditData.filter(item => item.priority === 'medium' && item.status !== 'complete').length;
-  const lowPriorityIssues = contentAuditData.filter(item => item.priority === 'low' && item.status !== 'complete').length;
-  
+
+  const highPriorityIssues = contentAuditData.filter(
+    item => item.priority === 'high' && item.status !== 'complete'
+  ).length;
+  const mediumPriorityIssues = contentAuditData.filter(
+    item => item.priority === 'medium' && item.status !== 'complete'
+  ).length;
+  const lowPriorityIssues = contentAuditData.filter(
+    item => item.priority === 'low' && item.status !== 'complete'
+  ).length;
+
   const categories = contentAuditData.reduce((acc, item) => {
     if (!acc[item.category]) {
       acc[item.category] = { total: 0, complete: 0, incomplete: 0, missing: 0 };
@@ -457,7 +511,7 @@ export function generateContentAuditReport(): ContentAuditReport {
     acc[item.category][item.status]++;
     return acc;
   }, {} as any);
-  
+
   const recommendations = [
     'Complete missing high-priority pages',
     'Update incomplete pages with missing content',
@@ -468,9 +522,9 @@ export function generateContentAuditReport(): ContentAuditReport {
     'Add search functionality',
     'Improve mobile experience',
     'Add more interactive demos',
-    'Create comprehensive FAQ section'
+    'Create comprehensive FAQ section',
   ];
-  
+
   return {
     totalPages,
     completePages,
@@ -481,7 +535,7 @@ export function generateContentAuditReport(): ContentAuditReport {
     mediumPriorityIssues,
     lowPriorityIssues,
     categories,
-    recommendations
+    recommendations,
   };
 }
 

@@ -53,7 +53,9 @@ export function OptimizedImage({
   const imgRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (priority || !lazy || isInView) return;
+    if (priority || !lazy || isInView) {
+      return;
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -108,12 +110,14 @@ export function OptimizedImage({
 
   // Generate responsive sizes if not provided
   const getResponsiveSizes = () => {
-    if (sizes) return sizes;
-    
+    if (sizes) {
+      return sizes;
+    }
+
     if (fill) {
       return '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw';
     }
-    
+
     return '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw';
   };
 
@@ -123,7 +127,9 @@ export function OptimizedImage({
       className={cn(
         'relative overflow-hidden',
         aspectRatio && `aspect-${aspectRatio}`,
-        !isLoaded && !hasError && 'bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900',
+        !isLoaded &&
+          !hasError &&
+          'bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900',
         className
       )}
       style={{
@@ -133,17 +139,17 @@ export function OptimizedImage({
     >
       {/* Loading skeleton */}
       {!isInView && !priority && (
-        <div className="absolute inset-0">
-          <Skeleton className="w-full h-full" />
+        <div className='absolute inset-0'>
+          <Skeleton className='w-full h-full' />
         </div>
       )}
 
       {/* Loading indicator */}
       {isLoading && !isLoaded && !hasError && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900">
-          <div className="flex flex-col items-center space-y-2">
-            <div className="w-6 h-6 border-2 border-gray-300 border-t-purple-500 rounded-full animate-spin"></div>
-            <div className="text-xs text-gray-500">Yükleniyor...</div>
+        <div className='absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900'>
+          <div className='flex flex-col items-center space-y-2'>
+            <div className='w-6 h-6 border-2 border-gray-300 border-t-purple-500 rounded-full animate-spin'></div>
+            <div className='text-xs text-gray-500'>Yükleniyor...</div>
           </div>
         </div>
       )}
@@ -178,17 +184,17 @@ export function OptimizedImage({
 
       {/* Error state */}
       {hasError && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20">
-          <div className="text-center">
-            <div className="text-3xl mb-2">📷</div>
-            <div className="text-sm text-red-600 dark:text-red-400">Resim yüklenemedi</div>
+        <div className='absolute inset-0 flex items-center justify-center bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20'>
+          <div className='text-center'>
+            <div className='text-3xl mb-2'>📷</div>
+            <div className='text-sm text-red-600 dark:text-red-400'>Resim yüklenemedi</div>
             <button
               onClick={() => {
                 setHasError(false);
                 setIsInView(true);
                 setIsLoading(true);
               }}
-              className="mt-2 px-3 py-1 text-xs bg-red-100 hover:bg-red-200 dark:bg-red-900/30 dark:hover:bg-red-900/50 text-red-700 dark:text-red-300 rounded transition-colors"
+              className='mt-2 px-3 py-1 text-xs bg-red-100 hover:bg-red-200 dark:bg-red-900/30 dark:hover:bg-red-900/50 text-red-700 dark:text-red-300 rounded transition-colors'
             >
               Tekrar Dene
             </button>

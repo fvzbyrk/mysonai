@@ -18,7 +18,7 @@ describe('Security Tests', () => {
     it('should validate email format', () => {
       const validEmail = 'test@example.com';
       const invalidEmail = 'not-an-email';
-      
+
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       expect(emailRegex.test(validEmail)).toBe(true);
       expect(emailRegex.test(invalidEmail)).toBe(false);
@@ -29,7 +29,7 @@ describe('Security Tests', () => {
     it('should require strong passwords', () => {
       const weakPassword = '123';
       const strongPassword = 'MyStr0ng!P@ssw0rd';
-      
+
       const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
       expect(passwordRegex.test(weakPassword)).toBe(false);
       expect(passwordRegex.test(strongPassword)).toBe(true);
@@ -37,16 +37,19 @@ describe('Security Tests', () => {
 
     it('should implement rate limiting', async () => {
       // Test rate limiting implementation
-      const requests = Array(10).fill(null).map(() => 
-        new NextRequest('http://localhost:3000/api/admin/auth', {
-          method: 'POST',
-          body: JSON.stringify({
-            username: 'wrong',
-            password: 'wrong'
-          }),
-          headers: { 'Content-Type': 'application/json' }
-        })
-      );
+      const requests = Array(10)
+        .fill(null)
+        .map(
+          () =>
+            new NextRequest('http://localhost:3000/api/admin/auth', {
+              method: 'POST',
+              body: JSON.stringify({
+                username: 'wrong',
+                password: 'wrong',
+              }),
+              headers: { 'Content-Type': 'application/json' },
+            })
+        );
 
       // Should implement rate limiting after multiple failed attempts
       expect(requests.length).toBe(10);
@@ -57,10 +60,10 @@ describe('Security Tests', () => {
     it('should validate CSRF tokens', () => {
       const validToken = 'valid-csrf-token';
       const invalidToken = 'invalid-csrf-token';
-      
+
       // Mock CSRF validation
       const validateCSRF = (token: string) => token === 'valid-csrf-token';
-      
+
       expect(validateCSRF(validToken)).toBe(true);
       expect(validateCSRF(invalidToken)).toBe(false);
     });
@@ -75,7 +78,7 @@ describe('Security Tests', () => {
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#x27;');
-      
+
       expect(escaped).not.toContain('<script>');
       expect(escaped).toContain('&lt;script&gt;');
     });
@@ -86,7 +89,7 @@ describe('Security Tests', () => {
       const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
       const maliciousFile = { type: 'application/x-executable' };
       const validFile = { type: 'image/jpeg' };
-      
+
       expect(allowedTypes.includes(maliciousFile.type)).toBe(false);
       expect(allowedTypes.includes(validFile.type)).toBe(true);
     });
@@ -95,7 +98,7 @@ describe('Security Tests', () => {
       const maxSize = 5 * 1024 * 1024; // 5MB
       const largeFile = { size: 10 * 1024 * 1024 }; // 10MB
       const validFile = { size: 2 * 1024 * 1024 }; // 2MB
-      
+
       expect(largeFile.size > maxSize).toBe(true);
       expect(validFile.size <= maxSize).toBe(true);
     });
@@ -108,13 +111,12 @@ describe('Security Tests', () => {
         'X-Content-Type-Options': 'nosniff',
         'X-XSS-Protection': '1; mode=block',
         'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
-        'Content-Security-Policy': "default-src 'self'"
+        'Content-Security-Policy': "default-src 'self'",
       };
-      
+
       expect(headers['X-Frame-Options']).toBe('DENY');
       expect(headers['X-Content-Type-Options']).toBe('nosniff');
       expect(headers['X-XSS-Protection']).toBe('1; mode=block');
     });
   });
 });
-

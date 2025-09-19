@@ -4,14 +4,14 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
-import { 
-  Users, 
-  Target, 
-  Heart, 
-  Zap, 
-  Shield, 
-  Globe, 
-  Award, 
+import {
+  Users,
+  Target,
+  Heart,
+  Zap,
+  Shield,
+  Globe,
+  Award,
   ArrowRight,
   Star,
   CheckCircle,
@@ -23,7 +23,7 @@ import {
   Video,
   Music,
   GraduationCap,
-  Briefcase
+  Briefcase,
 } from 'lucide-react';
 import type { Metadata } from 'next';
 
@@ -84,25 +84,29 @@ const values = [
   {
     icon: Heart,
     title: 'Müşteri Odaklılık',
-    description: 'Her projede müşteri memnuniyetini ön planda tutuyoruz. İhtiyaçlarını anlayıp en uygun çözümleri sunuyoruz.',
+    description:
+      'Her projede müşteri memnuniyetini ön planda tutuyoruz. İhtiyaçlarını anlayıp en uygun çözümleri sunuyoruz.',
     color: 'from-red-500 to-pink-500',
   },
   {
     icon: Zap,
     title: 'İnovasyon',
-    description: 'Sürekli gelişen teknoloji dünyasında yenilikçi çözümler üretiyoruz. Geleceği bugünden şekillendiriyoruz.',
+    description:
+      'Sürekli gelişen teknoloji dünyasında yenilikçi çözümler üretiyoruz. Geleceği bugünden şekillendiriyoruz.',
     color: 'from-yellow-500 to-orange-500',
   },
   {
     icon: Shield,
     title: 'Güvenilirlik',
-    description: 'Projelerimizde güvenilirlik ve kalite standartlarını en üst seviyede tutuyoruz. Verileriniz güvende.',
+    description:
+      'Projelerimizde güvenilirlik ve kalite standartlarını en üst seviyede tutuyoruz. Verileriniz güvende.',
     color: 'from-blue-500 to-cyan-500',
   },
   {
     icon: Globe,
     title: 'Uzmanlık',
-    description: 'AI ve klasik bilişim alanında derin uzmanlık. Her projede en iyi çözümleri sunuyoruz.',
+    description:
+      'AI ve klasik bilişim alanında derin uzmanlık. Her projede en iyi çözümleri sunuyoruz.',
     color: 'from-green-500 to-emerald-500',
   },
 ];
@@ -143,15 +147,13 @@ function AboutContent({ params }: { params: { locale: Locale } }) {
       <section className='relative overflow-hidden py-20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center'>
-            <h1 className='text-5xl md:text-6xl font-bold text-white mb-6'>
-              Hakkımızda
-            </h1>
+            <h1 className='text-5xl md:text-6xl font-bold text-white mb-6'>Hakkımızda</h1>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto mb-8'>
-              MySonAI, AI çözümleri ve klasik bilişim hizmetleri sunan teknoloji firmasıdır. 
-              Geleceği bugün şekillendiren yenilikçi yaklaşımımızla, işletmelerin dijital 
-              dönüşüm yolculuğunda güvenilir partneri oluyoruz.
+              MySonAI, AI çözümleri ve klasik bilişim hizmetleri sunan teknoloji firmasıdır.
+              Geleceği bugün şekillendiren yenilikçi yaklaşımımızla, işletmelerin dijital dönüşüm
+              yolculuğunda güvenilir partneri oluyoruz.
             </p>
-            
+
             {/* Stats */}
             <div className='grid grid-cols-2 md:grid-cols-4 gap-8 mt-12'>
               <div className='text-center'>
@@ -180,17 +182,15 @@ function AboutContent({ params }: { params: { locale: Locale } }) {
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='grid grid-cols-1 lg:grid-cols-2 gap-12 items-center'>
             <div>
-              <h2 className='text-4xl font-bold text-white mb-6'>
-                Misyonumuz
-              </h2>
+              <h2 className='text-4xl font-bold text-white mb-6'>Misyonumuz</h2>
               <p className='text-lg text-gray-300 mb-6'>
-                AI çözümleri ve klasik bilişim hizmetleri ile işletmelerin dijital 
-                dönüşüm yolculuğunda güvenilir partner olmak. Her projede mükemmellik 
-                ve müşteri memnuniyeti odaklı yaklaşım sergiliyoruz.
+                AI çözümleri ve klasik bilişim hizmetleri ile işletmelerin dijital dönüşüm
+                yolculuğunda güvenilir partner olmak. Her projede mükemmellik ve müşteri memnuniyeti
+                odaklı yaklaşım sergiliyoruz.
               </p>
               <p className='text-lg text-gray-300 mb-8'>
-                Teknolojinin gücünü iş süreçlerine entegre ederek, müşterilerimizin 
-                rekabet avantajı elde etmelerini sağlıyoruz.
+                Teknolojinin gücünü iş süreçlerine entegre ederek, müşterilerimizin rekabet avantajı
+                elde etmelerini sağlıyoruz.
               </p>
               <div className='flex flex-col sm:flex-row gap-4'>
                 <Link
@@ -213,13 +213,10 @@ function AboutContent({ params }: { params: { locale: Locale } }) {
                   <div className='w-24 h-24 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-6'>
                     <Target className='w-12 h-12 text-white' />
                   </div>
-                  <h3 className='text-2xl font-bold text-white mb-4'>
-                    Vizyonumuz
-                  </h3>
+                  <h3 className='text-2xl font-bold text-white mb-4'>Vizyonumuz</h3>
                   <p className='text-gray-300'>
-                    Türkiye'nin önde gelen teknoloji firması olmak. AI ve klasik bilişim 
-                    alanında yenilikçi çözümlerle iş dünyasının dijital dönüşümüne 
-                    öncülük etmek.
+                    Türkiye'nin önde gelen teknoloji firması olmak. AI ve klasik bilişim alanında
+                    yenilikçi çözümlerle iş dünyasının dijital dönüşümüne öncülük etmek.
                   </p>
                 </div>
               </div>
@@ -232,9 +229,7 @@ function AboutContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Alt Markalarımız
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>Alt Markalarımız</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               Her biri kendi alanında uzmanlaşmış 6 alt markamızla hizmet veriyoruz
             </p>
@@ -277,7 +272,9 @@ function AboutContent({ params }: { params: { locale: Locale } }) {
                 <Users className='w-8 h-8 text-white' />
               </div>
               <h3 className='text-xl font-bold text-white mb-3'>MySon Kids</h3>
-              <p className='text-gray-300 text-sm mb-4'>Çocuk hikâyeleri, animasyon, sesli kitaplar</p>
+              <p className='text-gray-300 text-sm mb-4'>
+                Çocuk hikâyeleri, animasyon, sesli kitaplar
+              </p>
               <div className='text-sm text-green-400 font-semibold'>👶 Çocuk İçerikleri</div>
             </Card>
 
@@ -308,9 +305,7 @@ function AboutContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16 bg-black/20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Değerlerimiz
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>Değerlerimiz</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               MySonAI'ı benzersiz kılan değerler ve ilkelerimiz
             </p>
@@ -318,8 +313,13 @@ function AboutContent({ params }: { params: { locale: Locale } }) {
 
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
             {values.map((value, index) => (
-              <Card key={index} className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'>
-                <div className={`w-16 h-16 bg-gradient-to-r ${value.color} rounded-full flex items-center justify-center mx-auto mb-4`}>
+              <Card
+                key={index}
+                className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'
+              >
+                <div
+                  className={`w-16 h-16 bg-gradient-to-r ${value.color} rounded-full flex items-center justify-center mx-auto mb-4`}
+                >
                   <value.icon className='w-8 h-8 text-white' />
                 </div>
                 <h3 className='text-xl font-bold text-white mb-3'>{value.title}</h3>
@@ -334,9 +334,7 @@ function AboutContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16 bg-black/20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Ekibimiz
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>Ekibimiz</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               MySonAI'ı hayata geçiren uzman ekibimizle tanışın
             </p>
@@ -344,7 +342,10 @@ function AboutContent({ params }: { params: { locale: Locale } }) {
 
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
             {teamMembers.map((member, index) => (
-              <Card key={index} className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'>
+              <Card
+                key={index}
+                className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'
+              >
                 <div className='w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4'>
                   <span className='text-2xl font-bold text-white'>{member.avatar}</span>
                 </div>
@@ -368,12 +369,8 @@ function AboutContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16'>
         <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Yolculuğumuz
-            </h2>
-            <p className='text-xl text-gray-300'>
-              MySonAI'ın gelişim süreci ve kilometre taşları
-            </p>
+            <h2 className='text-4xl font-bold text-white mb-4'>Yolculuğumuz</h2>
+            <p className='text-xl text-gray-300'>MySonAI'ın gelişim süreci ve kilometre taşları</p>
           </div>
 
           <div className='space-y-8'>
@@ -398,9 +395,7 @@ function AboutContent({ params }: { params: { locale: Locale } }) {
       <section className='py-20'>
         <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center'>
           <div className='bg-white/10 backdrop-blur-md rounded-2xl p-10 border border-white/20'>
-            <h2 className='text-4xl font-bold text-white mb-6'>
-              Projenizi Hayata Geçirin
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-6'>Projenizi Hayata Geçirin</h2>
             <p className='text-xl text-gray-300 mb-8'>
               AI çözümleri ve klasik bilişim hizmetlerimizle işinizi bir üst seviyeye taşıyın
             </p>

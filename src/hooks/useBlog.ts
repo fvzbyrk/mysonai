@@ -127,7 +127,9 @@ export function useBlog() {
 
   // Fetch blog posts
   const fetchPosts = async () => {
-    if (!blogEnabled) return;
+    if (!blogEnabled) {
+      return;
+    }
 
     setLoading(true);
     setError(null);
@@ -186,7 +188,9 @@ export function useBlog() {
 
   // Search posts
   const searchPosts = (query: string): BlogPost[] => {
-    if (!query.trim()) return posts;
+    if (!query.trim()) {
+      return posts;
+    }
 
     const lowercaseQuery = query.toLowerCase();
     return posts.filter(
@@ -200,7 +204,9 @@ export function useBlog() {
   // Get related posts
   const getRelatedPosts = (postId: string, limit: number = 3): BlogPost[] => {
     const currentPost = getPost(postId);
-    if (!currentPost) return [];
+    if (!currentPost) {
+      return [];
+    }
 
     return posts
       .filter(post => post.id !== postId && post.category === currentPost.category)

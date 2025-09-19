@@ -3,26 +3,19 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ContactAIAssistant } from '@/components/contact-ai-assistant';
-import { 
+import {
   Mail,
   Phone,
   MapPin,
   Clock,
   Send,
   MessageCircle,
-  ArrowRight,
-  CheckCircle,
-  Star,
-  Users,
   Target,
-  Zap,
-  Heart,
   Globe,
   Briefcase,
   Video,
-  Music,
   GraduationCap,
-  Shield
+  Shield,
 } from 'lucide-react';
 import type { Metadata } from 'next';
 
@@ -52,26 +45,26 @@ const contactInfo = [
     icon: Mail,
     title: 'E-posta',
     details: ['info@mysonai.com', 'projeler@mysonai.com'],
-    description: '7/24 e-posta desteği'
+    description: '7/24 e-posta desteği',
   },
   {
     icon: Phone,
     title: 'Telefon',
     details: ['+90 (553) 204 04 09', '+90 (532) 345 04 09'],
-    description: 'Pazartesi-Cuma 09:00-18:00'
+    description: 'Pazartesi-Cuma 09:00-18:00',
   },
   {
     icon: MapPin,
     title: 'Adres',
     details: ['Dodurga Mah. Zakir Caddesi 11/2', 'Çankaya, ANKARA'],
-    description: 'Merkez ofisimiz'
+    description: 'Merkez ofisimiz',
   },
   {
     icon: Clock,
     title: 'Çalışma Saatleri',
     details: ['Pazartesi-Cuma: 09:00-18:00', 'Cumartesi: 10:00-16:00'],
-    description: 'Hafta sonu destek'
-  }
+    description: 'Hafta sonu destek',
+  },
 ];
 
 // Service areas
@@ -80,66 +73,72 @@ const serviceAreas = [
     title: 'AI Çözümleri',
     icon: Target,
     color: 'from-purple-500 to-pink-500',
-    description: 'Prompt mühendisliği, AI asistanlar, veri analizi'
+    description: 'Prompt mühendisliği, AI asistanlar, veri analizi',
   },
   {
     title: 'Web Geliştirme',
     icon: Globe,
     color: 'from-blue-500 to-cyan-500',
-    description: 'Kurumsal web siteleri, e-ticaret, web uygulamaları'
+    description: 'Kurumsal web siteleri, e-ticaret, web uygulamaları',
   },
   {
     title: 'Mobil Uygulamalar',
     icon: Briefcase,
     color: 'from-green-500 to-emerald-500',
-    description: 'iOS, Android, cross-platform çözümler'
+    description: 'iOS, Android, cross-platform çözümler',
   },
   {
     title: 'Dijital Medya',
     icon: Video,
     color: 'from-red-500 to-pink-500',
-    description: 'Video prodüksiyon, animasyon, sesli kitap'
+    description: 'Video prodüksiyon, animasyon, sesli kitap',
   },
   {
     title: 'Eğitim Çözümleri',
     icon: GraduationCap,
     color: 'from-yellow-500 to-orange-500',
-    description: 'Eğitim platformları, öğrenme yönetimi'
+    description: 'Eğitim platformları, öğrenme yönetimi',
   },
   {
     title: 'Hukuki Çözümler',
     icon: Shield,
     color: 'from-indigo-500 to-purple-500',
-    description: 'Hukuki otomasyon, sözleşme analizi'
-  }
+    description: 'Hukuki otomasyon, sözleşme analizi',
+  },
 ];
 
 // FAQ data
 const faqs = [
   {
     question: 'Proje süreci nasıl işliyor?',
-    answer: 'İhtiyaç analizi, çözüm tasarımı, geliştirme, test ve teslim aşamalarından oluşan 5 adımlı süreç izliyoruz.'
+    answer:
+      'İhtiyaç analizi, çözüm tasarımı, geliştirme, test ve teslim aşamalarından oluşan 5 adımlı süreç izliyoruz.',
   },
   {
     question: 'AI çözümleri için ön koşul var mı?',
-    answer: 'Hayır, mevcut sisteminizle entegre edilebilir çözümler sunuyoruz. Teknik altyapı analizi yapıyoruz.'
+    answer:
+      'Hayır, mevcut sisteminizle entegre edilebilir çözümler sunuyoruz. Teknik altyapı analizi yapıyoruz.',
   },
   {
     question: 'Proje süresi ne kadar?',
-    answer: 'Proje büyüklüğüne göre değişir. Basit web siteleri 2-4 hafta, karmaşık AI projeleri 2-6 ay sürebilir.'
+    answer:
+      'Proje büyüklüğüne göre değişir. Basit web siteleri 2-4 hafta, karmaşık AI projeleri 2-6 ay sürebilir.',
   },
   {
     question: 'Destek hizmeti veriyor musunuz?',
-    answer: 'Evet, tüm projelerimiz için 6 ay ücretsiz destek, sonrasında ücretli destek hizmeti sunuyoruz.'
+    answer:
+      'Evet, tüm projelerimiz için 6 ay ücretsiz destek, sonrasında ücretli destek hizmeti sunuyoruz.',
   },
   {
     question: 'Fiyatlandırma nasıl yapılıyor?',
-    answer: 'Proje kapsamına göre özel fiyatlandırma yapıyoruz. Ücretsiz danışmanlık ve teklif hazırlıyoruz.'
+    answer:
+      'Proje kapsamına göre özel fiyatlandırma yapıyoruz. Ücretsiz danışmanlık ve teklif hazırlıyoruz.',
   },
   {
     question: 'Hangi teknolojileri kullanıyorsunuz?',
-    answer: 'Modern teknoloji stack kullanıyoruz: React, Next.js, Node.js, Python, AI/ML kütüphaneleri, bulut servisleri.'
-  }
+    answer:
+      'Modern teknoloji stack kullanıyoruz: React, Next.js, Node.js, Python, AI/ML kütüphaneleri, bulut servisleri.',
+  },
 ];
 
 function ContactContent({ params }: { params: { locale: Locale } }) {
@@ -149,12 +148,10 @@ function ContactContent({ params }: { params: { locale: Locale } }) {
       <section className='relative overflow-hidden py-20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center'>
-            <h1 className='text-5xl md:text-6xl font-bold text-white mb-6'>
-              İletişim
-            </h1>
+            <h1 className='text-5xl md:text-6xl font-bold text-white mb-6'>İletişim</h1>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto mb-8'>
-              Projenizi hayata geçirmek için bizimle iletişime geçin. 
-              AI çözümleri ve klasik bilişim hizmetlerimizle işinizi bir üst seviyeye taşıyın.
+              Projenizi hayata geçirmek için bizimle iletişime geçin. AI çözümleri ve klasik bilişim
+              hizmetlerimizle işinizi bir üst seviyeye taşıyın.
             </p>
           </div>
         </div>
@@ -164,9 +161,7 @@ function ContactContent({ params }: { params: { locale: Locale } }) {
       <section className='py-20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              İletişim Bilgileri
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>İletişim Bilgileri</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               Size en uygun iletişim kanalını seçin
             </p>
@@ -174,14 +169,19 @@ function ContactContent({ params }: { params: { locale: Locale } }) {
 
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
             {contactInfo.map((info, index) => (
-              <Card key={index} className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'>
+              <Card
+                key={index}
+                className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'
+              >
                 <div className='w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4'>
                   <info.icon className='w-8 h-8 text-white' />
                 </div>
                 <h3 className='text-xl font-bold text-white mb-3'>{info.title}</h3>
                 <div className='space-y-2 mb-4'>
                   {info.details.map((detail, detailIndex) => (
-                    <div key={detailIndex} className='text-gray-300 text-sm'>{detail}</div>
+                    <div key={detailIndex} className='text-gray-300 text-sm'>
+                      {detail}
+                    </div>
                   ))}
                 </div>
                 <div className='text-purple-300 text-sm'>{info.description}</div>
@@ -195,9 +195,7 @@ function ContactContent({ params }: { params: { locale: Locale } }) {
       <section className='py-20 bg-gradient-to-b from-black/30 to-black/50'>
         <div className='max-w-6xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-6'>
-              Hemen Sorunuzu Sorun
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-6'>Hemen Sorunuzu Sorun</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               AI asistanımızla anında konuşun, proje danışmanlığı alın
             </p>
@@ -215,9 +213,7 @@ function ContactContent({ params }: { params: { locale: Locale } }) {
       <section className='py-20 bg-black/20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Hizmet Alanlarımız
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>Hizmet Alanlarımız</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               Uzmanlaştığımız alanlar ve sunduğumuz çözümler
             </p>
@@ -225,8 +221,13 @@ function ContactContent({ params }: { params: { locale: Locale } }) {
 
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
             {serviceAreas.map((area, index) => (
-              <Card key={index} className='bg-white/10 backdrop-blur-md border-white/20 p-6 hover:bg-white/15 transition-all duration-300 group'>
-                <div className={`w-16 h-16 bg-gradient-to-r ${area.color} rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}>
+              <Card
+                key={index}
+                className='bg-white/10 backdrop-blur-md border-white/20 p-6 hover:bg-white/15 transition-all duration-300 group'
+              >
+                <div
+                  className={`w-16 h-16 bg-gradient-to-r ${area.color} rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}
+                >
                   <area.icon className='w-8 h-8 text-white' />
                 </div>
                 <h3 className='text-xl font-bold text-white mb-3 text-center'>{area.title}</h3>
@@ -241,9 +242,7 @@ function ContactContent({ params }: { params: { locale: Locale } }) {
       <section className='py-20'>
         <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Proje Teklifi Alın
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>Proje Teklifi Alın</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               Projenizi detaylandırın, size özel çözüm önerisi hazırlayalım
             </p>
@@ -292,21 +291,43 @@ function ContactContent({ params }: { params: { locale: Locale } }) {
               <div>
                 <label className='block text-white text-sm font-semibold mb-2'>Hizmet Türü</label>
                 <select className='w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500'>
-                  <option value='' className='bg-gray-800 text-white'>Hizmet türünü seçin</option>
-                  <option value='ai-solutions' className='bg-gray-800 text-white'>AI Çözümleri</option>
-                  <option value='custom-ai-assistant' className='bg-gray-800 text-white'>Özel Uzmanlık Alanı AI Asistanı</option>
-                  <option value='chatbot-ai-support' className='bg-gray-800 text-white'>Chatbot AI Desteği</option>
-                  <option value='web-development' className='bg-gray-800 text-white'>Web Geliştirme</option>
-                  <option value='mobile-apps' className='bg-gray-800 text-white'>Mobil Uygulamalar</option>
-                  <option value='digital-media' className='bg-gray-800 text-white'>Dijital Medya</option>
-                  <option value='education' className='bg-gray-800 text-white'>Eğitim Çözümleri</option>
-                  <option value='legal' className='bg-gray-800 text-white'>Hukuki Çözümler</option>
-                  <option value='consulting' className='bg-gray-800 text-white'>Danışmanlık</option>
+                  <option value='' className='bg-gray-800 text-white'>
+                    Hizmet türünü seçin
+                  </option>
+                  <option value='ai-solutions' className='bg-gray-800 text-white'>
+                    AI Çözümleri
+                  </option>
+                  <option value='custom-ai-assistant' className='bg-gray-800 text-white'>
+                    Özel Uzmanlık Alanı AI Asistanı
+                  </option>
+                  <option value='chatbot-ai-support' className='bg-gray-800 text-white'>
+                    Chatbot AI Desteği
+                  </option>
+                  <option value='web-development' className='bg-gray-800 text-white'>
+                    Web Geliştirme
+                  </option>
+                  <option value='mobile-apps' className='bg-gray-800 text-white'>
+                    Mobil Uygulamalar
+                  </option>
+                  <option value='digital-media' className='bg-gray-800 text-white'>
+                    Dijital Medya
+                  </option>
+                  <option value='education' className='bg-gray-800 text-white'>
+                    Eğitim Çözümleri
+                  </option>
+                  <option value='legal' className='bg-gray-800 text-white'>
+                    Hukuki Çözümler
+                  </option>
+                  <option value='consulting' className='bg-gray-800 text-white'>
+                    Danışmanlık
+                  </option>
                 </select>
               </div>
 
               <div>
-                <label className='block text-white text-sm font-semibold mb-2'>Proje Açıklaması</label>
+                <label className='block text-white text-sm font-semibold mb-2'>
+                  Proje Açıklaması
+                </label>
                 <textarea
                   rows={4}
                   className='w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500'
@@ -317,12 +338,24 @@ function ContactContent({ params }: { params: { locale: Locale } }) {
               <div>
                 <label className='block text-white text-sm font-semibold mb-2'>Bütçe Aralığı</label>
                 <select className='w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500'>
-                  <option value='' className='bg-gray-800 text-white'>Bütçe aralığını seçin</option>
-                  <option value='10k-25k' className='bg-gray-800 text-white'>10.000 - 25.000 TL +KDV</option>
-                  <option value='25k-50k' className='bg-gray-800 text-white'>25.000 - 50.000 TL +KDV</option>
-                  <option value='50k-100k' className='bg-gray-800 text-white'>50.000 - 100.000 TL +KDV</option>
-                  <option value='100k+' className='bg-gray-800 text-white'>100.000 TL+ +KDV</option>
-                  <option value='discuss' className='bg-gray-800 text-white'>Görüşelim</option>
+                  <option value='' className='bg-gray-800 text-white'>
+                    Bütçe aralığını seçin
+                  </option>
+                  <option value='10k-25k' className='bg-gray-800 text-white'>
+                    10.000 - 25.000 TL +KDV
+                  </option>
+                  <option value='25k-50k' className='bg-gray-800 text-white'>
+                    25.000 - 50.000 TL +KDV
+                  </option>
+                  <option value='50k-100k' className='bg-gray-800 text-white'>
+                    50.000 - 100.000 TL +KDV
+                  </option>
+                  <option value='100k+' className='bg-gray-800 text-white'>
+                    100.000 TL+ +KDV
+                  </option>
+                  <option value='discuss' className='bg-gray-800 text-white'>
+                    Görüşelim
+                  </option>
                 </select>
               </div>
 
@@ -344,12 +377,8 @@ function ContactContent({ params }: { params: { locale: Locale } }) {
       <section className='py-20 bg-black/20'>
         <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Sıkça Sorulan Sorular
-            </h2>
-            <p className='text-xl text-gray-300'>
-              Merak ettiğiniz konular hakkında bilgi alın
-            </p>
+            <h2 className='text-4xl font-bold text-white mb-4'>Sıkça Sorulan Sorular</h2>
+            <p className='text-xl text-gray-300'>Merak ettiğiniz konular hakkında bilgi alın</p>
           </div>
 
           <div className='space-y-6'>
@@ -367,9 +396,7 @@ function ContactContent({ params }: { params: { locale: Locale } }) {
       <section className='py-20'>
         <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center'>
           <div className='bg-white/10 backdrop-blur-md rounded-2xl p-10 border border-white/20'>
-            <h2 className='text-4xl font-bold text-white mb-6'>
-              Hemen Başlayın
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-6'>Hemen Başlayın</h2>
             <p className='text-xl text-gray-300 mb-8'>
               Projenizi hayata geçirmek için ilk adımı atın. Ücretsiz danışmanlık alın.
             </p>

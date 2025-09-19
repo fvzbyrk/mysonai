@@ -15,9 +15,7 @@ export function AnalyticsWrapper({ children }: AnalyticsWrapperProps) {
     <AnalyticsProvider>
       <ErrorTracker>
         <ScrollTracker>
-          <TimeTracker>
-            {children}
-          </TimeTracker>
+          <TimeTracker>{children}</TimeTracker>
         </ScrollTracker>
       </ErrorTracker>
     </AnalyticsProvider>

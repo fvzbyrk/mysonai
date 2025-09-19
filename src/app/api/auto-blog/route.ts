@@ -9,30 +9,36 @@ const gptGeminiIntegration = new GptGeminiIntegration();
 export async function POST(request: NextRequest) {
   try {
     const { action, config, postData } = await request.json();
-    
+
     switch (action) {
       case 'generate-daily':
         return await generateDailyPost();
-      
+
       case 'generate-category':
         return await generateCategoryPost(config?.category || 'Genel');
-      
+
       case 'sync-blog-post':
         return await syncBlogPost(postData);
-      
+
       default:
-        return NextResponse.json({
-          success: false,
-          message: 'Invalid action'
-        }, { status: 400 });
+        return NextResponse.json(
+          {
+            success: false,
+            message: 'Invalid action',
+          },
+          { status: 400 }
+        );
     }
   } catch (error) {
     console.error('Auto-blog API error:', error);
-    return NextResponse.json({
-      success: false,
-      message: 'Auto-blog generation failed',
-      error: error instanceof Error ? error.message : 'Unknown error'
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        success: false,
+        message: 'Auto-blog generation failed',
+        error: error instanceof Error ? error.message : 'Unknown error',
+      },
+      { status: 500 }
+    );
   }
 }
 
@@ -41,24 +47,35 @@ async function generateDailyPost() {
   try {
     // Check if Gemini is available
     const geminiStatus = await geminiChat.getStatus();
-    
+
     if (!geminiStatus.available) {
-      return NextResponse.json({
-        success: false,
-        message: 'Gemini API not available',
-        error: geminiStatus.error
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Gemini API not available',
+          error: geminiStatus.error,
+        },
+        { status: 400 }
+      );
     }
 
     // Generate daily tech news using Gemini
-    const result = await geminiChat.generateTechNews(['AI', 'Web Development', 'Mobile', 'Security']);
-    
+    const result = await geminiChat.generateTechNews([
+      'AI',
+      'Web Development',
+      'Mobile',
+      'Security',
+    ]);
+
     if (!result.success) {
-      return NextResponse.json({
-        success: false,
-        message: 'Failed to generate daily post',
-        error: result.error
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Failed to generate daily post',
+          error: result.error,
+        },
+        { status: 400 }
+      );
     }
 
     // Create blog post data
@@ -74,7 +91,7 @@ async function generateDailyPost() {
       priority: 'high',
       author: 'MySonAI',
       readTime: Math.ceil(result.content.length / 200),
-      usage: result.usage
+      usage: result.usage,
     };
 
     // Save to blog API
@@ -82,10 +99,10 @@ async function generateDailyPost() {
       await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/blog`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           action: 'create',
-          postData: blogPost
-        })
+          postData: blogPost,
+        }),
       });
     } catch (error) {
       console.error('Error saving to blog API:', error);
@@ -94,15 +111,18 @@ async function generateDailyPost() {
     return NextResponse.json({
       success: true,
       message: 'Daily post generated successfully',
-      data: blogPost
+      data: blogPost,
     });
   } catch (error) {
     console.error('Daily post generation error:', error);
-    return NextResponse.json({
-      success: false,
-      message: 'Daily post generation failed',
-      error: error instanceof Error ? error.message : 'Unknown error'
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        success: false,
+        message: 'Daily post generation failed',
+        error: error instanceof Error ? error.message : 'Unknown error',
+      },
+      { status: 500 }
+    );
   }
 }
 
@@ -110,13 +130,16 @@ async function generateDailyPost() {
 async function generateCategoryPost(category: string) {
   try {
     const geminiStatus = await geminiChat.getStatus();
-    
+
     if (!geminiStatus.available) {
-      return NextResponse.json({
-        success: false,
-        message: 'Gemini API not available',
-        error: geminiStatus.error
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Gemini API not available',
+          error: geminiStatus.error,
+        },
+        { status: 400 }
+      );
     }
 
     // Generate category-specific content
@@ -124,13 +147,16 @@ async function generateCategoryPost(category: string) {
       `${category} konusunda güncel gelişmeler`,
       'technical'
     );
-    
+
     if (!result.success) {
-      return NextResponse.json({
-        success: false,
-        message: 'Failed to generate category post',
-        error: result.error
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Failed to generate category post',
+          error: result.error,
+        },
+        { status: 400 }
+      );
     }
 
     const blogPost = {
@@ -145,7 +171,7 @@ async function generateCategoryPost(category: string) {
       priority: 'medium',
       author: 'MySonAI',
       readTime: Math.ceil(result.content.length / 200),
-      usage: result.usage
+      usage: result.usage,
     };
 
     // Save to blog API
@@ -153,10 +179,10 @@ async function generateCategoryPost(category: string) {
       await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/blog`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           action: 'create',
-          postData: blogPost
-        })
+          postData: blogPost,
+        }),
       });
     } catch (error) {
       console.error('Error saving to blog API:', error);
@@ -165,15 +191,18 @@ async function generateCategoryPost(category: string) {
     return NextResponse.json({
       success: true,
       message: 'Category post generated successfully',
-      data: blogPost
+      data: blogPost,
     });
   } catch (error) {
     console.error('Category post generation error:', error);
-    return NextResponse.json({
-      success: false,
-      message: 'Category post generation failed',
-      error: error instanceof Error ? error.message : 'Unknown error'
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        success: false,
+        message: 'Category post generation failed',
+        error: error instanceof Error ? error.message : 'Unknown error',
+      },
+      { status: 500 }
+    );
   }
 }
 
@@ -185,14 +214,17 @@ async function syncBlogPost(postData: any) {
     return NextResponse.json({
       success: true,
       message: 'Blog post synced successfully',
-      data: postData
+      data: postData,
     });
   } catch (error) {
     console.error('Sync blog post error:', error);
-    return NextResponse.json({
-      success: false,
-      message: 'Failed to sync blog post',
-      error: error instanceof Error ? error.message : 'Unknown error'
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        success: false,
+        message: 'Failed to sync blog post',
+        error: error instanceof Error ? error.message : 'Unknown error',
+      },
+      { status: 500 }
+    );
   }
 }

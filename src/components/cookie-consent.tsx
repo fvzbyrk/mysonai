@@ -99,7 +99,9 @@ export function CookieConsent({ onAccept, onReject }: CookieConsentProps) {
   };
 
   const togglePreference = (key: keyof CookiePreferences) => {
-    if (key === 'essential') return; // Essential cookies cannot be disabled
+    if (key === 'essential') {
+      return;
+    } // Essential cookies cannot be disabled
 
     setPreferences(prev => ({
       ...prev,
@@ -107,7 +109,9 @@ export function CookieConsent({ onAccept, onReject }: CookieConsentProps) {
     }));
   };
 
-  if (!isVisible) return null;
+  if (!isVisible) {
+    return null;
+  }
 
   return (
     <FeatureGuard feature='cookies'>

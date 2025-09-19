@@ -28,10 +28,10 @@ export function ErrorTracker({ children }: ErrorTrackerProps) {
 
     // Track JavaScript errors
     window.addEventListener('error', handleError);
-    
+
     // Track unhandled promise rejections
     window.addEventListener('unhandledrejection', handleUnhandledRejection);
-    
+
     // Track resource loading errors
     window.addEventListener('error', handleResourceError, true);
 

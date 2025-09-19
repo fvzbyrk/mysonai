@@ -57,7 +57,7 @@ export function SEOWrapper({
   structuredData,
   hreflangs,
   breadcrumbItems,
-  showBreadcrumb = false
+  showBreadcrumb = false,
 }: SEOWrapperProps) {
   return (
     <SEOProvider>
@@ -85,11 +85,9 @@ export function SEOWrapper({
         structuredData={structuredData}
         hreflangs={hreflangs}
       />
-      
-      {showBreadcrumb && breadcrumbItems && (
-        <Breadcrumb items={breadcrumbItems} />
-      )}
-      
+
+      {showBreadcrumb && breadcrumbItems && <Breadcrumb items={breadcrumbItems} />}
+
       {children}
     </SEOProvider>
   );

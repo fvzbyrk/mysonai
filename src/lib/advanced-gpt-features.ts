@@ -8,33 +8,33 @@ export interface GPTFeatureConfig {
     gpt35Turbo: boolean;
     custom: boolean;
   };
-  
+
   // Gelişmiş özellikler
   features: {
-    functionCalling: boolean;        // Fonksiyon çağırma
-    vision: boolean;                 // Görü analizi
-    codeInterpreter: boolean;        // Kod yorumlama
-    webSearch: boolean;              // Web arama
-    fileAnalysis: boolean;           // Dosya analizi
-    memory: boolean;                 // Uzun süreli hafıza
-    streaming: boolean;              // Gerçek zamanlı yanıt
-    parallelProcessing: boolean;     // Paralel işlem
-    customInstructions: boolean;     // Özel talimatlar
-    temperature: boolean;            // Yaratıcılık kontrolü
-    maxTokens: boolean;              // Token limiti
-    topP: boolean;                   // Çeşitlilik kontrolü
-    frequencyPenalty: boolean;       // Tekrar cezası
-    presencePenalty: boolean;        // Varlık cezası
+    functionCalling: boolean; // Fonksiyon çağırma
+    vision: boolean; // Görü analizi
+    codeInterpreter: boolean; // Kod yorumlama
+    webSearch: boolean; // Web arama
+    fileAnalysis: boolean; // Dosya analizi
+    memory: boolean; // Uzun süreli hafıza
+    streaming: boolean; // Gerçek zamanlı yanıt
+    parallelProcessing: boolean; // Paralel işlem
+    customInstructions: boolean; // Özel talimatlar
+    temperature: boolean; // Yaratıcılık kontrolü
+    maxTokens: boolean; // Token limiti
+    topP: boolean; // Çeşitlilik kontrolü
+    frequencyPenalty: boolean; // Tekrar cezası
+    presencePenalty: boolean; // Varlık cezası
   };
-  
+
   // Çoklu ajan özellikleri
   multiAgent: {
-    raceMode: boolean;               // Yarış modu (hızlı cevap)
-    consensusMode: boolean;          // Fikir birliği modu
-    debateMode: boolean;             // Tartışma modu
-    collaborativeMode: boolean;      // İşbirliği modu
-    sequentialMode: boolean;         // Sıralı mod
-    parallelMode: boolean;           // Paralel mod
+    raceMode: boolean; // Yarış modu (hızlı cevap)
+    consensusMode: boolean; // Fikir birliği modu
+    debateMode: boolean; // Tartışma modu
+    collaborativeMode: boolean; // İşbirliği modu
+    sequentialMode: boolean; // Sıralı mod
+    parallelMode: boolean; // Paralel mod
   };
 }
 
@@ -44,7 +44,7 @@ export const DEFAULT_GPT_CONFIG: GPTFeatureConfig = {
     gpt4: true,
     gpt4Turbo: true,
     gpt35Turbo: true,
-    custom: false
+    custom: false,
   },
   features: {
     functionCalling: true,
@@ -60,41 +60,41 @@ export const DEFAULT_GPT_CONFIG: GPTFeatureConfig = {
     maxTokens: true,
     topP: true,
     frequencyPenalty: true,
-    presencePenalty: true
+    presencePenalty: true,
   },
   multiAgent: {
-    raceMode: false,  // Yarış modu varsayılan olarak kapalı
+    raceMode: false, // Yarış modu varsayılan olarak kapalı
     consensusMode: true,
     debateMode: true,
-    collaborativeMode: true,  // İşbirliği modu varsayılan
+    collaborativeMode: true, // İşbirliği modu varsayılan
     sequentialMode: true,
-    parallelMode: true
-  }
+    parallelMode: true,
+  },
 };
 
 // Gelişmiş GPT parametreleri
 export interface AdvancedGPTParams {
   model: 'gpt-4' | 'gpt-4-turbo' | 'gpt-3.5-turbo';
-  temperature: number;              // 0-2 arası
-  maxTokens: number;               // Token limiti
-  topP: number;                    // 0-1 arası
-  frequencyPenalty: number;        // -2 ile 2 arası
-  presencePenalty: number;         // -2 ile 2 arası
-  stream: boolean;                 // Streaming aktif mi
-  functions?: any[];               // Fonksiyon tanımları
+  temperature: number; // 0-2 arası
+  maxTokens: number; // Token limiti
+  topP: number; // 0-1 arası
+  frequencyPenalty: number; // -2 ile 2 arası
+  presencePenalty: number; // -2 ile 2 arası
+  stream: boolean; // Streaming aktif mi
+  functions?: any[]; // Fonksiyon tanımları
   functionCall?: 'auto' | 'none' | { name: string };
-  tools?: any[];                   // Araçlar
+  tools?: any[]; // Araçlar
   toolChoice?: 'auto' | 'none' | { type: string; function: { name: string } };
 }
 
 // Çoklu ajan modları
-export type MultiAgentMode = 
-  | 'race'           // En hızlı cevap kazanır
-  | 'consensus'      // Fikir birliği aranır
-  | 'debate'         // Ajanlar tartışır
-  | 'collaborative'  // Birlikte çalışır
-  | 'sequential'     // Sırayla çalışır
-  | 'parallel';      // Aynı anda çalışır
+export type MultiAgentMode =
+  | 'race' // En hızlı cevap kazanır
+  | 'consensus' // Fikir birliği aranır
+  | 'debate' // Ajanlar tartışır
+  | 'collaborative' // Birlikte çalışır
+  | 'sequential' // Sırayla çalışır
+  | 'parallel'; // Aynı anda çalışır
 
 // Ajan yarış sistemi
 export interface AgentRace {
@@ -121,12 +121,12 @@ export const GPT_FUNCTIONS = {
       type: 'object',
       properties: {
         query: { type: 'string', description: 'Arama sorgusu' },
-        maxResults: { type: 'number', description: 'Maksimum sonuç sayısı' }
+        maxResults: { type: 'number', description: 'Maksimum sonuç sayısı' },
       },
-      required: ['query']
-    }
+      required: ['query'],
+    },
   },
-  
+
   // Dosya analizi
   fileAnalysis: {
     name: 'analyze_file',
@@ -135,12 +135,12 @@ export const GPT_FUNCTIONS = {
       type: 'object',
       properties: {
         filePath: { type: 'string', description: 'Dosya yolu' },
-        analysisType: { type: 'string', enum: ['text', 'code', 'image', 'pdf'] }
+        analysisType: { type: 'string', enum: ['text', 'code', 'image', 'pdf'] },
       },
-      required: ['filePath', 'analysisType']
-    }
+      required: ['filePath', 'analysisType'],
+    },
   },
-  
+
   // Kod yorumlama
   codeInterpreter: {
     name: 'execute_code',
@@ -149,12 +149,12 @@ export const GPT_FUNCTIONS = {
       type: 'object',
       properties: {
         code: { type: 'string', description: 'Çalıştırılacak kod' },
-        language: { type: 'string', description: 'Programlama dili' }
+        language: { type: 'string', description: 'Programlama dili' },
       },
-      required: ['code', 'language']
-    }
+      required: ['code', 'language'],
+    },
   },
-  
+
   // Görü analizi
   visionAnalysis: {
     name: 'analyze_image',
@@ -162,13 +162,13 @@ export const GPT_FUNCTIONS = {
     parameters: {
       type: 'object',
       properties: {
-        imageUrl: { type: 'string', description: 'Görü URL\'si' },
-        analysisType: { type: 'string', enum: ['description', 'objects', 'text', 'faces'] }
+        imageUrl: { type: 'string', description: "Görü URL'si" },
+        analysisType: { type: 'string', enum: ['description', 'objects', 'text', 'faces'] },
       },
-      required: ['imageUrl', 'analysisType']
-    }
+      required: ['imageUrl', 'analysisType'],
+    },
   },
-  
+
   // Hafıza işlemleri
   memoryOperations: {
     name: 'memory_operation',
@@ -178,11 +178,11 @@ export const GPT_FUNCTIONS = {
       properties: {
         operation: { type: 'string', enum: ['store', 'retrieve', 'update', 'delete'] },
         key: { type: 'string', description: 'Hafıza anahtarı' },
-        value: { type: 'string', description: 'Hafıza değeri' }
+        value: { type: 'string', description: 'Hafıza değeri' },
       },
-      required: ['operation', 'key']
-    }
-  }
+      required: ['operation', 'key'],
+    },
+  },
 };
 
 // Gelişmiş GPT isteği oluştur
@@ -199,7 +199,7 @@ export function createAdvancedGPTRequest(
     top_p: params.topP,
     frequency_penalty: params.frequencyPenalty,
     presence_penalty: params.presencePenalty,
-    stream: params.stream
+    stream: params.stream,
   };
 
   // Fonksiyon çağırma
@@ -233,48 +233,50 @@ export function startAgentRace(
     agents,
     mode,
     startTime: new Date(),
-    responses: []
+    responses: [],
   };
 }
 
 // Yarış sonucunu değerlendir
 export function evaluateRaceResult(race: AgentRace): string | null {
-  if (race.responses.length === 0) return null;
+  if (race.responses.length === 0) {
+    return null;
+  }
 
   switch (race.mode) {
     case 'race':
       // En hızlı cevap kazanır - ama kullanıcıya faydalı mesaj ver
-      const fastest = race.responses.reduce((fastest, current) => 
+      const fastest = race.responses.reduce((fastest, current) =>
         current.time < fastest.time ? current : fastest
       );
       return fastest.agentId;
-      
+
     case 'consensus':
       // En yüksek kalite puanı kazanır
-      const best = race.responses.reduce((best, current) => 
+      const best = race.responses.reduce((best, current) =>
         current.quality > best.quality ? current : best
       );
       return best.agentId;
-      
+
     case 'debate':
       // En uzun ve detaylı cevap kazanır
-      const longest = race.responses.reduce((longest, current) => 
+      const longest = race.responses.reduce((longest, current) =>
         current.response.length > longest.response.length ? current : longest
       );
       return longest.agentId;
-      
+
     case 'collaborative':
       // İşbirliği modunda tüm ajanlar birlikte çalışır
       return 'collaborative';
-      
+
     case 'sequential':
       // Sıralı modda ilk ajan
       return race.responses[0].agentId;
-      
+
     case 'parallel':
       // Paralel modda tüm ajanlar
       return 'parallel';
-      
+
     default:
       return race.responses[0].agentId;
   }
@@ -287,7 +289,7 @@ export function createStreamingHandler(
   onError: (error: Error) => void
 ) {
   let fullResponse = '';
-  
+
   return {
     onChunk: (chunk: string) => {
       fullResponse += chunk;
@@ -298,7 +300,7 @@ export function createStreamingHandler(
     },
     onError: (error: Error) => {
       onError(error);
-    }
+    },
   };
 }
 
@@ -306,15 +308,15 @@ export function createStreamingHandler(
 export class MultiAgentCoordinator {
   private agents: Map<string, any> = new Map();
   private activeRaces: Map<string, AgentRace> = new Map();
-  
+
   constructor() {
     this.initializeAgents();
   }
-  
+
   private initializeAgents() {
     // Ajanları başlat
   }
-  
+
   // Ajan yarışı başlat
   async startRace(
     agents: string[],
@@ -323,63 +325,65 @@ export class MultiAgentCoordinator {
   ): Promise<AgentRace> {
     const race = startAgentRace(agents, userQuery, mode);
     this.activeRaces.set(race.id, race);
-    
+
     // Paralel olarak tüm ajanlara istek gönder
-    const promises = agents.map(agentId => 
-      this.queryAgent(agentId, userQuery, race.id)
-    );
-    
+    const promises = agents.map(agentId => this.queryAgent(agentId, userQuery, race.id));
+
     await Promise.allSettled(promises);
-    
+
     return race;
   }
-  
+
   // Tek ajan sorgusu
-  private async queryAgent(
-    agentId: string,
-    query: string,
-    raceId: string
-  ): Promise<void> {
+  private async queryAgent(agentId: string, query: string, raceId: string): Promise<void> {
     const startTime = Date.now();
-    
+
     try {
       // Ajan sorgusu burada yapılacak
       const response = await this.callAgent(agentId, query);
       const endTime = Date.now();
-      
+
       const race = this.activeRaces.get(raceId);
       if (race) {
         race.responses.push({
           agentId,
           response,
           time: endTime - startTime,
-          quality: this.evaluateResponseQuality(response)
+          quality: this.evaluateResponseQuality(response),
         });
       }
     } catch (error) {
       console.error(`Agent ${agentId} error:`, error);
     }
   }
-  
+
   // Ajan çağırma (placeholder)
   private async callAgent(agentId: string, query: string): Promise<string> {
     // Gerçek ajan çağırma implementasyonu
     return `Agent ${agentId} response to: ${query}`;
   }
-  
+
   // Yanıt kalitesi değerlendirme
   private evaluateResponseQuality(response: string): number {
     // Basit kalite değerlendirmesi
     let quality = 5; // Başlangıç puanı
-    
+
     // Uzunluk bonusu
-    if (response.length > 500) quality += 1;
-    if (response.length > 1000) quality += 1;
-    
+    if (response.length > 500) {
+      quality += 1;
+    }
+    if (response.length > 1000) {
+      quality += 1;
+    }
+
     // Detay bonusu
-    if (response.includes('•') || response.includes('-')) quality += 1;
-    if (response.includes('**') || response.includes('##')) quality += 1;
-    
+    if (response.includes('•') || response.includes('-')) {
+      quality += 1;
+    }
+    if (response.includes('**') || response.includes('##')) {
+      quality += 1;
+    }
+
     return Math.min(quality, 10);
   }
 }

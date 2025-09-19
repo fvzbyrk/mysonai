@@ -1,11 +1,30 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Bot, Sparkles, ArrowLeft, Send, Loader2, Paperclip, X, Maximize2, Minimize2, Mic, MicOff, Volume2, VolumeX } from 'lucide-react';
+import {
+  Bot,
+  Sparkles,
+  ArrowLeft,
+  Send,
+  Loader2,
+  Paperclip,
+  X,
+  Maximize2,
+  Minimize2,
+  Mic,
+  MicOff,
+  Volume2,
+  VolumeX,
+} from 'lucide-react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { getAgentById, getAllAgents } from '@/lib/ai-agents';
-import { findSuitableTeam, getAllTeams, getTeamById, type AgentTeam } from '@/lib/agent-collaboration';
+import {
+  findSuitableTeam,
+  getAllTeams,
+  getTeamById,
+  type AgentTeam,
+} from '@/lib/agent-collaboration';
 import { type MultiAgentMode } from '@/lib/advanced-gpt-features';
 import { AdvancedAgentSelector } from '@/components/advanced-agent-selector';
 import JSZip from 'jszip';
@@ -61,7 +80,7 @@ export default function DemoPage() {
     webSearch: false,
     fileAnalysis: false,
     memory: false,
-    streaming: false
+    streaming: false,
   }); // Aktif özellikler
   const [showAdvancedSelector, setShowAdvancedSelector] = useState(false); // Gelişmiş seçici göster
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -80,27 +99,27 @@ export default function DemoPage() {
     if (typeof window !== 'undefined') {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       const SpeechSynthesis = window.speechSynthesis;
-      
+
       if (SpeechRecognition && SpeechSynthesis) {
         setSpeechSupported(true);
-        
+
         // Speech Recognition ayarları
         const recognition = new SpeechRecognition();
         recognition.continuous = false;
         recognition.interimResults = false;
         recognition.lang = 'tr-TR';
-        
+
         recognition.onstart = () => setIsListening(true);
         recognition.onend = () => setIsListening(false);
-        recognition.onresult = (event) => {
+        recognition.onresult = event => {
           const transcript = event.results[0][0].transcript;
           setInputValue(transcript);
         };
-        recognition.onerror = (event) => {
+        recognition.onerror = event => {
           console.error('Speech recognition error:', event.error);
           setIsListening(false);
         };
-        
+
         recognitionRef.current = recognition;
       }
     }
@@ -110,18 +129,20 @@ export default function DemoPage() {
   const readFileContent = async (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      
-      reader.onload = (e) => {
+
+      reader.onload = e => {
         const result = e.target?.result;
-        
+
         // UDF dosyaları için özel işlem
         if (file.name.toLowerCase().endsWith('.udf')) {
           if (result instanceof ArrayBuffer) {
-            parseUDFContent(result).then(content => {
-              resolve(content);
-            }).catch(error => {
-              reject(error);
-            });
+            parseUDFContent(result)
+              .then(content => {
+                resolve(content);
+              })
+              .catch(error => {
+                reject(error);
+              });
           } else {
             reject(new Error('UDF file must be read as ArrayBuffer'));
           }
@@ -131,9 +152,9 @@ export default function DemoPage() {
           reject(new Error('Failed to read file as text'));
         }
       };
-      
+
       reader.onerror = () => reject(new Error('File reading failed'));
-      
+
       if (file.name.toLowerCase().endsWith('.udf')) {
         // UDF dosyalarını binary olarak oku
         reader.readAsArrayBuffer(file);
@@ -170,23 +191,23 @@ export default function DemoPage() {
       // UDF dosyası aslında ZIP arşivi
       const zip = new JSZip();
       const zipFile = await zip.loadAsync(buffer);
-      
+
       // content.xml dosyasını bul
       const contentXml = zipFile.file('content.xml');
       if (!contentXml) {
         return `UDF Dosyası: content.xml bulunamadı\n\nBu dosya UYAP sistemi tarafından oluşturulmuş bir hukuki belgedir.\n\nDosya boyutu: ${(buffer.byteLength / 1024).toFixed(2)} KB\n\nNot: Bu dosya UYAP Doküman Editör ile açılabilir.`;
       }
-      
+
       // XML içeriğini oku
       const xmlContent = await contentXml.async('text');
-      
+
       // XML'i parse et ve metin çıkar
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(xmlContent, 'text/xml');
-      
+
       // Tüm paragraf ve başlık metinlerini çıkar
       const paragraphs: string[] = [];
-      
+
       // text:p etiketlerini bul (paragraflar)
       const textPs = xmlDoc.querySelectorAll('text\\:p, p');
       textPs.forEach(p => {
@@ -194,7 +215,7 @@ export default function DemoPage() {
           paragraphs.push(p.textContent.trim());
         }
       });
-      
+
       // text:h etiketlerini bul (başlıklar)
       const textHs = xmlDoc.querySelectorAll('text\\:h, h1, h2, h3, h4, h5, h6');
       textHs.forEach(h => {
@@ -202,7 +223,7 @@ export default function DemoPage() {
           paragraphs.push(h.textContent.trim());
         }
       });
-      
+
       // Eğer hiç metin bulunamadıysa, tüm text node'ları al
       if (paragraphs.length === 0) {
         const allTextNodes = xmlDoc.querySelectorAll('*');
@@ -212,18 +233,18 @@ export default function DemoPage() {
           }
         });
       }
-      
+
       // Metinleri birleştir
       let fullText = paragraphs.join('\n\n');
-      
+
       // Kişisel verileri maskele
       fullText = maskPersonalData(fullText);
-      
+
       // Eğer içerik çok kısa ise, XML'i ham olarak göster
       if (fullText.length < 100) {
         return `UDF Dosyası: ${buffer.byteLength} byte\n\nBu dosya UYAP sistemi tarafından oluşturulmuş bir hukuki belgedir.\n\nDosya boyutu: ${(buffer.byteLength / 1024).toFixed(2)} KB\n\nXML İçeriği:\n${xmlContent.substring(0, 1000)}...`;
       }
-      
+
       return fullText;
     } catch (error) {
       console.error('UDF parsing error:', error);
@@ -235,13 +256,13 @@ export default function DemoPage() {
   const maskPersonalData = (text: string): string => {
     // TCKN maskeleme (11 haneli sayı)
     text = text.replace(/\b\d{11}\b/g, '***');
-    
+
     // Telefon numarası maskeleme (10-11 haneli sayı)
     text = text.replace(/\b\d{10,11}\b/g, '***');
-    
+
     // E-posta maskeleme
     text = text.replace(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g, '***');
-    
+
     return text;
   };
 
@@ -286,14 +307,20 @@ export default function DemoPage() {
   }, [isLoading]);
 
   const handleSendMessage = async () => {
-    if ((!inputValue.trim() && attachedFiles.length === 0) || isLoading) return;
+    if ((!inputValue.trim() && attachedFiles.length === 0) || isLoading) {
+      return;
+    }
 
     // Prepare file information for the message
-    const fileInfo = attachedFiles.length > 0 
-      ? `\n\n📎 Eklenen Dosyalar:\n${attachedFiles.map(f => 
-          `• ${f.file.name} (${f.type})\n${f.content ? `İçerik: ${f.content.substring(0, 500)}${f.content.length > 500 ? '...' : ''}` : 'İçerik okunamadı'}`
-        ).join('\n\n')}`
-      : '';
+    const fileInfo =
+      attachedFiles.length > 0
+        ? `\n\n📎 Eklenen Dosyalar:\n${attachedFiles
+            .map(
+              f =>
+                `• ${f.file.name} (${f.type})\n${f.content ? `İçerik: ${f.content.substring(0, 500)}${f.content.length > 500 ? '...' : ''}` : 'İçerik okunamadı'}`
+            )
+            .join('\n\n')}`
+        : '';
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -315,16 +342,20 @@ export default function DemoPage() {
       // Önce uygun takım var mı kontrol et
       const suitableTeam = findSuitableTeam(inputValue);
       setSuggestedTeam(suitableTeam);
-      
+
       // Eğer takım önerisi varsa ve kullanıcı henüz takım seçmediyse
       if (suitableTeam && !selectedTeam && !selectedAgent) {
         // Takım önerisi göster ama kullanıcıyı zorlamadan
         const teamSuggestionMessage: Message = {
           id: Date.now().toString(),
-          content: `💡 **Ajan İşbirliği Önerisi**\n\n"${inputValue}" konusunda **${suitableTeam.name}** takımımız size daha kapsamlı yardım sağlayabilir.\n\n**Takım Üyeleri:**\n${suitableTeam.agents.map(agentId => {
-            const agent = getAgentById(agentId);
-            return `• ${agent?.icon} ${agent?.name} (${agent?.role})`;
-          }).join('\n')}\n\n**İşbirliği Tipi:** ${suitableTeam.collaborationType === 'integrated' ? 'Entegre' : suitableTeam.collaborationType === 'sequential' ? 'Sıralı' : suitableTeam.collaborationType === 'parallel' ? 'Paralel' : 'Danışmanlık'}\n\n**Seçenekleriniz:**\n1. 🚀 Takım ile devam et (önerilen)\n2. 👤 Tek ajan ile devam et\n3. 🔄 Farklı takım seç`,
+          content: `💡 **Ajan İşbirliği Önerisi**\n\n"${inputValue}" konusunda **${suitableTeam.name}** takımımız size daha kapsamlı yardım sağlayabilir.\n\n**Takım Üyeleri:**\n${suitableTeam.agents
+            .map(agentId => {
+              const agent = getAgentById(agentId);
+              return `• ${agent?.icon} ${agent?.name} (${agent?.role})`;
+            })
+            .join(
+              '\n'
+            )}\n\n**İşbirliği Tipi:** ${suitableTeam.collaborationType === 'integrated' ? 'Entegre' : suitableTeam.collaborationType === 'sequential' ? 'Sıralı' : suitableTeam.collaborationType === 'parallel' ? 'Paralel' : 'Danışmanlık'}\n\n**Seçenekleriniz:**\n1. 🚀 Takım ile devam et (önerilen)\n2. 👤 Tek ajan ile devam et\n3. 🔄 Farklı takım seç`,
           role: 'assistant',
           timestamp: new Date(),
         };
@@ -341,7 +372,7 @@ export default function DemoPage() {
       } else if (selectedAgents.length > 1) {
         apiEndpoint = '/api/chat/advanced';
       }
-      
+
       const response = await fetch(apiEndpoint, {
         method: 'POST',
         headers: {
@@ -362,14 +393,14 @@ export default function DemoPage() {
             model: 'gpt-4',
             temperature: 0.7,
             maxTokens: 2000,
-            stream: false
+            stream: false,
           },
           files: attachedFiles.map(f => ({
             name: f.file.name,
             type: f.file.type,
             size: f.file.size,
-            content: f.content || 'Dosya içeriği okunamadı'
-          }))
+            content: f.content || 'Dosya içeriği okunamadı',
+          })),
         }),
       });
 
@@ -388,10 +419,10 @@ export default function DemoPage() {
       };
 
       setMessages(prev => [...prev, assistantMessage]);
-      
+
       // Scroll to bottom after assistant response
       scrollToBottom();
-      
+
       // Sesli cevap sadece sesli sohbet modunda otomatik verilir
       if (voiceMode && speechSupported) {
         setTimeout(() => {
@@ -407,7 +438,7 @@ export default function DemoPage() {
         timestamp: new Date(),
       };
       setMessages(prev => [...prev, errorMessage]);
-      
+
       // Scroll to bottom after error message
       scrollToBottom();
     } finally {
@@ -460,20 +491,22 @@ export default function DemoPage() {
   };
 
   const handleFileSelect = async (files: FileList | null) => {
-    if (!files) return;
-    
+    if (!files) {
+      return;
+    }
+
     const newFiles: FileAttachment[] = [];
-    
+
     for (const file of Array.from(files)) {
       try {
         const content = await readFileContent(file);
         const type = getFileType(file);
-        
+
         newFiles.push({
           file,
           id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
           content: content.substring(0, 10000), // Limit content to 10KB
-          type
+          type,
         });
       } catch (error) {
         console.error('Error reading file:', error);
@@ -481,11 +514,11 @@ export default function DemoPage() {
         newFiles.push({
           file,
           id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
-          type: getFileType(file)
+          type: getFileType(file),
         });
       }
     }
-    
+
     setAttachedFiles(prev => [...prev, ...newFiles]);
   };
 
@@ -511,8 +544,10 @@ export default function DemoPage() {
 
   // Ses tanıma başlat/durdur
   const toggleListening = () => {
-    if (!recognitionRef.current) return;
-    
+    if (!recognitionRef.current) {
+      return;
+    }
+
     if (isListening) {
       recognitionRef.current.stop();
     } else {
@@ -522,21 +557,23 @@ export default function DemoPage() {
 
   // Sesli cevap ver
   const speakResponse = (text: string) => {
-    if (!speechSupported || !window.speechSynthesis) return;
-    
+    if (!speechSupported || !window.speechSynthesis) {
+      return;
+    }
+
     // Önceki konuşmayı durdur
     window.speechSynthesis.cancel();
-    
+
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'tr-TR';
     utterance.rate = 0.9;
     utterance.pitch = 1;
     utterance.volume = 0.8;
-    
+
     utterance.onstart = () => setIsSpeaking(true);
     utterance.onend = () => setIsSpeaking(false);
     utterance.onerror = () => setIsSpeaking(false);
-    
+
     synthesisRef.current = utterance;
     window.speechSynthesis.speak(utterance);
   };
@@ -550,7 +587,9 @@ export default function DemoPage() {
   };
 
   return (
-    <div className={`${isFullscreen ? 'fixed inset-0 z-50' : 'h-screen'} bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex flex-col`}>
+    <div
+      className={`${isFullscreen ? 'fixed inset-0 z-50' : 'h-screen'} bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex flex-col`}
+    >
       {/* Header */}
       {!isFullscreen && (
         <div className='bg-white/10 backdrop-blur-md border-b border-white/20 flex-shrink-0'>
@@ -605,7 +644,9 @@ export default function DemoPage() {
                     <div className='text-2xl sm:text-3xl mb-2 group-hover:scale-110 transition-transform'>
                       {agent.icon}
                     </div>
-                    <h3 className='text-white font-semibold text-sm sm:text-base mb-1'>{agent.name}</h3>
+                    <h3 className='text-white font-semibold text-sm sm:text-base mb-1'>
+                      {agent.name}
+                    </h3>
                     <p className='text-purple-300 text-xs sm:text-sm'>{agent.role}</p>
                   </button>
                 ))}
@@ -633,9 +674,13 @@ export default function DemoPage() {
                     <h2 className='text-2xl font-bold text-white mb-2'>{suggestedTeam.name}</h2>
                     <p className='text-gray-300 mb-4'>{suggestedTeam.description}</p>
                     <div className='inline-block bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full text-sm'>
-                      {suggestedTeam.collaborationType === 'integrated' ? 'Entegre İşbirliği' : 
-                       suggestedTeam.collaborationType === 'sequential' ? 'Sıralı İşbirliği' : 
-                       suggestedTeam.collaborationType === 'parallel' ? 'Paralel İşbirliği' : 'Danışmanlık İşbirliği'}
+                      {suggestedTeam.collaborationType === 'integrated'
+                        ? 'Entegre İşbirliği'
+                        : suggestedTeam.collaborationType === 'sequential'
+                          ? 'Sıralı İşbirliği'
+                          : suggestedTeam.collaborationType === 'parallel'
+                            ? 'Paralel İşbirliği'
+                            : 'Danışmanlık İşbirliği'}
                     </div>
                   </div>
 
@@ -643,15 +688,22 @@ export default function DemoPage() {
                   <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mb-6'>
                     {suggestedTeam.agents.map(agentId => {
                       const agent = getAgentById(agentId);
-                      if (!agent) return null;
+                      if (!agent) {
+                        return null;
+                      }
                       return (
-                        <div key={agentId} className='bg-white/5 rounded-xl p-4 border border-white/10'>
+                        <div
+                          key={agentId}
+                          className='bg-white/5 rounded-xl p-4 border border-white/10'
+                        >
                           <div className='flex items-center space-x-3'>
                             <div className='text-2xl'>{agent.icon}</div>
                             <div>
                               <h3 className='text-white font-semibold'>{agent.name}</h3>
                               <p className='text-gray-300 text-sm'>{agent.role}</p>
-                              <p className='text-gray-400 text-xs mt-1'>{agent.expertise.join(', ')}</p>
+                              <p className='text-gray-400 text-xs mt-1'>
+                                {agent.expertise.join(', ')}
+                              </p>
                             </div>
                           </div>
                         </div>
@@ -679,7 +731,7 @@ export default function DemoPage() {
                     >
                       🚀 Bu Takım ile Devam Et
                     </button>
-                    
+
                     <button
                       onClick={() => {
                         setShowTeamSelection(false);
@@ -696,29 +748,33 @@ export default function DemoPage() {
                 <div className='text-center'>
                   <h3 className='text-white font-semibold mb-4'>Diğer Takımlar</h3>
                   <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
-                    {teams.filter(team => team.id !== suggestedTeam.id).map(team => (
-                      <button
-                        key={team.id}
-                        onClick={() => {
-                          setSelectedTeam(team.id);
-                          setShowTeamSelection(false);
-                          setShowAgentSelection(false);
-                          // Takım seçimi mesajı ekle
-                          const teamSelectionMessage: Message = {
-                            id: Date.now().toString(),
-                            content: `🚀 **${team.name}** takımı seçildi!\n\nTakım üyelerimiz birlikte size yardımcı olacak. Ne yapmak istiyorsunuz?`,
-                            role: 'assistant',
-                            timestamp: new Date(),
-                          };
-                          setMessages(prev => [...prev, teamSelectionMessage]);
-                        }}
-                        className='bg-white/5 backdrop-blur-md rounded-xl p-4 border border-white/20 text-center hover:bg-white/10 transition-all duration-200 group'
-                      >
-                        <div className='text-2xl mb-2 group-hover:scale-110 transition-transform'>{team.icon}</div>
-                        <h4 className='text-white font-semibold text-sm mb-1'>{team.name}</h4>
-                        <p className='text-gray-300 text-xs'>{team.description}</p>
-                      </button>
-                    ))}
+                    {teams
+                      .filter(team => team.id !== suggestedTeam.id)
+                      .map(team => (
+                        <button
+                          key={team.id}
+                          onClick={() => {
+                            setSelectedTeam(team.id);
+                            setShowTeamSelection(false);
+                            setShowAgentSelection(false);
+                            // Takım seçimi mesajı ekle
+                            const teamSelectionMessage: Message = {
+                              id: Date.now().toString(),
+                              content: `🚀 **${team.name}** takımı seçildi!\n\nTakım üyelerimiz birlikte size yardımcı olacak. Ne yapmak istiyorsunuz?`,
+                              role: 'assistant',
+                              timestamp: new Date(),
+                            };
+                            setMessages(prev => [...prev, teamSelectionMessage]);
+                          }}
+                          className='bg-white/5 backdrop-blur-md rounded-xl p-4 border border-white/20 text-center hover:bg-white/10 transition-all duration-200 group'
+                        >
+                          <div className='text-2xl mb-2 group-hover:scale-110 transition-transform'>
+                            {team.icon}
+                          </div>
+                          <h4 className='text-white font-semibold text-sm mb-1'>{team.name}</h4>
+                          <p className='text-gray-300 text-xs'>{team.description}</p>
+                        </button>
+                      ))}
                   </div>
                 </div>
               </div>
@@ -727,7 +783,9 @@ export default function DemoPage() {
 
           {/* Chat Interface */}
           {!showAgentSelection && !showTeamSelection && (
-            <div className={`${isFullscreen ? 'h-full w-full' : 'h-full max-w-4xl mx-auto'} flex flex-col`}>
+            <div
+              className={`${isFullscreen ? 'h-full w-full' : 'h-full max-w-4xl mx-auto'} flex flex-col`}
+            >
               {/* Chat Header - Minimal GPT Style */}
               <div className='bg-white/5 backdrop-blur-md border-b border-white/10 flex-shrink-0 px-3 sm:px-6 py-2 sm:py-3'>
                 <div className='flex items-center justify-between'>
@@ -740,16 +798,22 @@ export default function DemoPage() {
                             {getTeamById(selectedTeam)?.name}
                           </h3>
                           <p className='text-gray-300 text-xs'>
-                            {getTeamById(selectedTeam)?.collaborationType === 'integrated' ? 'Entegre İşbirliği' : 
-                             getTeamById(selectedTeam)?.collaborationType === 'sequential' ? 'Sıralı İşbirliği' : 
-                             getTeamById(selectedTeam)?.collaborationType === 'parallel' ? 'Paralel İşbirliği' : 'Danışmanlık İşbirliği'}
+                            {getTeamById(selectedTeam)?.collaborationType === 'integrated'
+                              ? 'Entegre İşbirliği'
+                              : getTeamById(selectedTeam)?.collaborationType === 'sequential'
+                                ? 'Sıralı İşbirliği'
+                                : getTeamById(selectedTeam)?.collaborationType === 'parallel'
+                                  ? 'Paralel İşbirliği'
+                                  : 'Danışmanlık İşbirliği'}
                           </p>
                         </div>
                       </>
                     )}
                     {selectedAgent && !selectedTeam && (
                       <>
-                        <div className='text-lg sm:text-xl'>{getAgentById(selectedAgent)?.icon}</div>
+                        <div className='text-lg sm:text-xl'>
+                          {getAgentById(selectedAgent)?.icon}
+                        </div>
                         <div>
                           <h3 className='text-white font-medium text-sm sm:text-base'>
                             {getAgentById(selectedAgent)?.name}
@@ -763,22 +827,24 @@ export default function DemoPage() {
                     <button
                       onClick={() => setShowAdvancedSelector(!showAdvancedSelector)}
                       className={`transition-colors text-xs px-2 py-1 rounded min-h-[32px] ${
-                        showAdvancedSelector 
-                          ? 'text-blue-400 bg-blue-500/20 hover:bg-blue-500/30' 
+                        showAdvancedSelector
+                          ? 'text-blue-400 bg-blue-500/20 hover:bg-blue-500/30'
                           : 'text-gray-400 hover:text-white hover:bg-white/10'
                       }`}
-                      title={showAdvancedSelector ? 'Gelişmiş Seçici: Açık' : 'Gelişmiş Seçici: Kapalı'}
+                      title={
+                        showAdvancedSelector ? 'Gelişmiş Seçici: Açık' : 'Gelişmiş Seçici: Kapalı'
+                      }
                     >
                       {showAdvancedSelector ? '🚀 Gelişmiş' : '⚙️ Basit'}
                     </button>
-                    
+
                     {/* Sesli Sohbet Modu Toggle */}
                     {speechSupported && (
                       <button
                         onClick={() => setVoiceMode(!voiceMode)}
                         className={`transition-colors text-xs px-2 py-1 rounded min-h-[32px] ${
-                          voiceMode 
-                            ? 'text-green-400 bg-green-500/20 hover:bg-green-500/30' 
+                          voiceMode
+                            ? 'text-green-400 bg-green-500/20 hover:bg-green-500/30'
                             : 'text-gray-400 hover:text-white hover:bg-white/10'
                         }`}
                         title={voiceMode ? 'Sesli Sohbet Modu: Açık' : 'Sesli Sohbet Modu: Kapalı'}
@@ -797,7 +863,11 @@ export default function DemoPage() {
                       className='text-gray-400 hover:text-white transition-colors p-1 rounded hover:bg-white/10 min-h-[32px] min-w-[32px] flex items-center justify-center'
                       title={isFullscreen ? 'Küçült' : 'Tam Ekran'}
                     >
-                      {isFullscreen ? <Minimize2 className='w-3 h-3' /> : <Maximize2 className='w-3 h-3' />}
+                      {isFullscreen ? (
+                        <Minimize2 className='w-3 h-3' />
+                      ) : (
+                        <Maximize2 className='w-3 h-3' />
+                      )}
                     </button>
                   </div>
                 </div>
@@ -807,7 +877,7 @@ export default function DemoPage() {
               {showAdvancedSelector && (
                 <div className='px-3 sm:px-6 py-4 border-b border-white/10'>
                   <AdvancedAgentSelector
-                    onAgentSelect={(agentId) => {
+                    onAgentSelect={agentId => {
                       setSelectedAgent(agentId);
                       setSelectedTeam('');
                       setSelectedAgents([]);
@@ -827,7 +897,7 @@ export default function DemoPage() {
                         setMessages([agentSelectionMessage]);
                       }
                     }}
-                    onTeamSelect={(teamId) => {
+                    onTeamSelect={teamId => {
                       setSelectedTeam(teamId);
                       setSelectedAgent('');
                       setSelectedAgents([]);
@@ -868,7 +938,7 @@ export default function DemoPage() {
                     onFeatureToggle={(feature, enabled) => {
                       setActiveFeatures(prev => ({
                         ...prev,
-                        [feature]: enabled
+                        [feature]: enabled,
                       }));
                     }}
                     selectedAgents={selectedAgents}
@@ -880,7 +950,10 @@ export default function DemoPage() {
               )}
 
               {/* Messages - GPT Style */}
-              <div ref={messagesContainerRef} className={`flex-1 overflow-y-auto px-3 sm:px-6 py-4 space-y-6 ${isFullscreen ? '' : 'max-h-96'}`}>
+              <div
+                ref={messagesContainerRef}
+                className={`flex-1 overflow-y-auto px-3 sm:px-6 py-4 space-y-6 ${isFullscreen ? '' : 'max-h-96'}`}
+              >
                 {messages.map(message => (
                   <div
                     key={message.id}
@@ -908,7 +981,7 @@ export default function DemoPage() {
                                     key={index}
                                     href={linkUrl}
                                     className='text-blue-300 hover:text-blue-200 underline'
-                                    onClick={(e) => {
+                                    onClick={e => {
                                       e.preventDefault();
                                       if (linkUrl.includes('demo?agent=')) {
                                         const agentId = linkUrl.split('agent=')[1];
@@ -939,7 +1012,7 @@ export default function DemoPage() {
                                 minute: '2-digit',
                               })}
                             </p>
-                            
+
                             {/* Sesli Oynatma Butonu (Sadece AI mesajları için) */}
                             {message.role === 'assistant' && speechSupported && (
                               <button
@@ -951,13 +1024,17 @@ export default function DemoPage() {
                                   }
                                 }}
                                 className={`transition-colors p-1 rounded ${
-                                  isSpeaking 
-                                    ? 'text-red-400 hover:text-red-300' 
+                                  isSpeaking
+                                    ? 'text-red-400 hover:text-red-300'
                                     : 'text-gray-400 hover:text-white'
                                 }`}
                                 title={isSpeaking ? 'Sesli Cevabı Durdur' : 'Sesli Dinle'}
                               >
-                                {isSpeaking ? <VolumeX className='w-3 h-3' /> : <Volume2 className='w-3 h-3' />}
+                                {isSpeaking ? (
+                                  <VolumeX className='w-3 h-3' />
+                                ) : (
+                                  <Volume2 className='w-3 h-3' />
+                                )}
                               </button>
                             )}
                           </div>
@@ -986,10 +1063,15 @@ export default function DemoPage() {
                 <div className='bg-white/5 px-3 sm:px-6 py-3 border-t border-white/20 flex-shrink-0'>
                   <div className='flex flex-wrap gap-2'>
                     {attachedFiles.map(file => (
-                      <div key={file.id} className='flex items-center space-x-2 bg-white/10 rounded-lg px-2 sm:px-3 py-2'>
+                      <div
+                        key={file.id}
+                        className='flex items-center space-x-2 bg-white/10 rounded-lg px-2 sm:px-3 py-2'
+                      >
                         <span className='text-white text-xs sm:text-sm truncate max-w-[200px] sm:max-w-none'>
                           {file.type === 'udf' ? '⚖️' : '📎'} {file.file.name}
-                          {file.type === 'udf' && <span className='ml-1 sm:ml-2 text-xs text-blue-300'>(UYAP)</span>}
+                          {file.type === 'udf' && (
+                            <span className='ml-1 sm:ml-2 text-xs text-blue-300'>(UYAP)</span>
+                          )}
                         </span>
                         <button
                           onClick={() => removeFile(file.id)}
@@ -1004,7 +1086,7 @@ export default function DemoPage() {
               )}
 
               {/* Input - GPT Style */}
-              <div 
+              <div
                 className={`bg-white/5 px-3 sm:px-6 py-4 border-t border-white/10 flex-shrink-0 ${isDragOver ? 'bg-purple-500/20' : ''}`}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
@@ -1018,37 +1100,49 @@ export default function DemoPage() {
                   >
                     <Paperclip className='w-5 h-5' />
                   </button>
-                  
+
                   {/* Ses Tanıma Butonu */}
                   {speechSupported && (
                     <button
                       onClick={toggleListening}
                       disabled={isLoading}
                       className={`transition-colors p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full hover:bg-white/10 ${
-                        isListening 
-                          ? 'text-red-400 bg-red-500/20' 
-                          : voiceMode 
-                            ? 'text-green-400 bg-green-500/20 hover:bg-green-500/30' 
+                        isListening
+                          ? 'text-red-400 bg-red-500/20'
+                          : voiceMode
+                            ? 'text-green-400 bg-green-500/20 hover:bg-green-500/30'
                             : 'text-gray-400 hover:text-white'
                       }`}
-                      title={isListening ? 'Dinlemeyi Durdur' : voiceMode ? 'Sesli Sohbet - Mikrofon' : 'Sesli Mesaj Gönder'}
+                      title={
+                        isListening
+                          ? 'Dinlemeyi Durdur'
+                          : voiceMode
+                            ? 'Sesli Sohbet - Mikrofon'
+                            : 'Sesli Mesaj Gönder'
+                      }
                     >
                       {isListening ? <MicOff className='w-5 h-5' /> : <Mic className='w-5 h-5' />}
                     </button>
                   )}
-                  
+
                   <div className='flex-1 relative'>
                     <textarea
                       value={inputValue}
                       onChange={e => setInputValue(e.target.value)}
                       onKeyPress={handleKeyPress}
-                      placeholder={isDragOver ? 'Dosyaları buraya bırakın...' : voiceMode ? 'Sesli sohbet modu - Mikrofon butonuna basın veya yazın...' : 'Mesajınızı yazın...'}
+                      placeholder={
+                        isDragOver
+                          ? 'Dosyaları buraya bırakın...'
+                          : voiceMode
+                            ? 'Sesli sohbet modu - Mikrofon butonuna basın veya yazın...'
+                            : 'Mesajınızı yazın...'
+                      }
                       className='w-full bg-white/20 border border-white/30 rounded-2xl px-4 py-3 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none text-base min-h-[44px] max-h-32'
                       rows={1}
                       disabled={isLoading}
                     />
                   </div>
-                  
+
                   <button
                     onClick={handleSendMessage}
                     disabled={(!inputValue.trim() && attachedFiles.length === 0) || isLoading}
@@ -1057,7 +1151,7 @@ export default function DemoPage() {
                     <Send className='w-5 h-5' />
                   </button>
                 </div>
-                
+
                 <input
                   ref={fileInputRef}
                   type='file'

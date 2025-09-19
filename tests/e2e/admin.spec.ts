@@ -32,8 +32,8 @@ test.describe('Admin Panel E2E Tests', () => {
         body: JSON.stringify({
           success: true,
           message: 'Giriş başarılı',
-          token: 'mock-jwt-token'
-        })
+          token: 'mock-jwt-token',
+        }),
       });
     });
 
@@ -45,7 +45,9 @@ test.describe('Admin Panel E2E Tests', () => {
     await expect(page).toHaveURL('/tr/admin');
   });
 
-  test('should redirect to login when accessing protected routes without auth', async ({ page }) => {
+  test('should redirect to login when accessing protected routes without auth', async ({
+    page,
+  }) => {
     await page.goto('/tr/admin');
     await expect(page).toHaveURL('/tr/admin/login');
   });
@@ -92,13 +94,13 @@ test.describe('Admin Panel E2E Tests', () => {
     });
 
     await page.goto('/tr/admin');
-    
+
     // Click logout button
     await page.click('text=Çıkış Yap');
-    
+
     // Should redirect to login page
     await expect(page).toHaveURL('/tr/admin/login');
-    
+
     // Token should be removed
     const token = await page.evaluate(() => localStorage.getItem('admin_token'));
     expect(token).toBeNull();
@@ -121,7 +123,7 @@ test.describe('Blog Management E2E Tests', () => {
 
   test('should allow creating new blog post', async ({ page }) => {
     await page.goto('/tr/admin/blog');
-    
+
     // Mock API response
     await page.route('**/api/blog', async route => {
       await route.fulfill({
@@ -134,9 +136,9 @@ test.describe('Blog Management E2E Tests', () => {
             id: '1',
             title: 'Test Post',
             content: 'Test content',
-            status: 'published'
-          }
-        })
+            status: 'published',
+          },
+        }),
       });
     });
 
@@ -158,20 +160,19 @@ test.describe('Public Blog E2E Tests', () => {
 
   test('should allow searching posts', async ({ page }) => {
     await page.goto('/tr/blog');
-    
+
     const searchInput = page.locator('input[placeholder*="Makale ara"]');
     await searchInput.fill('AI');
     await searchInput.press('Enter');
-    
+
     // Should show search results
     await expect(page.locator('text=AI')).toBeVisible();
   });
 
   test('should filter posts by category', async ({ page }) => {
     await page.goto('/tr/blog');
-    
+
     await page.click('text=AI Teknolojisi');
     // Should show filtered results
   });
 });
-

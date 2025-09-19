@@ -4,12 +4,12 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
-import { 
-  BookOpen, 
-  Play, 
-  Clock, 
-  Users, 
-  Star, 
+import {
+  BookOpen,
+  Play,
+  Clock,
+  Users,
+  Star,
   ArrowRight,
   CheckCircle,
   Lightbulb,
@@ -19,7 +19,7 @@ import {
   Globe,
   Code,
   Bot,
-  MessageCircle
+  MessageCircle,
 } from 'lucide-react';
 import type { Metadata } from 'next';
 
@@ -48,7 +48,7 @@ const tutorialCategories = [
   {
     icon: Play,
     title: 'Başlangıç',
-    description: 'MySonAI\'a hızlıca başlamak için temel adımlar',
+    description: "MySonAI'a hızlıca başlamak için temel adımlar",
     color: 'from-green-500 to-emerald-500',
     tutorials: 5,
   },
@@ -78,7 +78,7 @@ const tutorialCategories = [
 // Featured tutorials
 const featuredTutorials = [
   {
-    title: 'MySonAI\'a İlk Adım',
+    title: "MySonAI'a İlk Adım",
     description: 'Hesap oluşturma, giriş yapma ve temel kullanım',
     duration: '5 dk',
     difficulty: 'Başlangıç',
@@ -120,7 +120,7 @@ const stepGuides = [
   {
     title: 'Hesap Oluşturma',
     steps: [
-      'MySonAI.com\'a gidin',
+      "MySonAI.com'a gidin",
       'Kayıt ol butonuna tıklayın',
       'E-posta ve şifre girin',
       'E-posta doğrulaması yapın',
@@ -140,8 +140,8 @@ const stepGuides = [
   {
     title: 'API Kullanımı',
     steps: [
-      'Dashboard\'dan API anahtarı alın',
-      'SDK\'yı projenize yükleyin',
+      "Dashboard'dan API anahtarı alın",
+      "SDK'yı projenize yükleyin",
       'API anahtarını yapılandırın',
       'İlk isteği gönderin',
       'Yanıtı işleyin',
@@ -154,22 +154,26 @@ const bestPractices = [
   {
     icon: Lightbulb,
     title: 'Açık Sorular Sorun',
-    description: 'Evet/hayır soruları yerine açık uçlu sorular kullanın. Bu, daha detaylı yanıtlar almanızı sağlar.',
+    description:
+      'Evet/hayır soruları yerine açık uçlu sorular kullanın. Bu, daha detaylı yanıtlar almanızı sağlar.',
   },
   {
     icon: Target,
     title: 'Bağlam Sağlayın',
-    description: 'Sorularınızda yeterli bağlam verin. AI asistanı size daha doğru ve yararlı yanıtlar verebilir.',
+    description:
+      'Sorularınızda yeterli bağlam verin. AI asistanı size daha doğru ve yararlı yanıtlar verebilir.',
   },
   {
     icon: Zap,
     title: 'Kısa ve Net Olun',
-    description: 'Uzun ve karmaşık sorular yerine kısa, net sorular sorun. Bu, daha hızlı yanıtlar almanızı sağlar.',
+    description:
+      'Uzun ve karmaşık sorular yerine kısa, net sorular sorun. Bu, daha hızlı yanıtlar almanızı sağlar.',
   },
   {
     icon: Shield,
     title: 'Güvenli Bilgiler Paylaşın',
-    description: 'Kişisel veya hassas bilgileri paylaşmayın. AI asistanları güvenli olsa da dikkatli olun.',
+    description:
+      'Kişisel veya hassas bilgileri paylaşmayın. AI asistanları güvenli olsa da dikkatli olun.',
   },
 ];
 
@@ -180,14 +184,12 @@ function TutorialContent({ params }: { params: { locale: Locale } }) {
       <section className='relative overflow-hidden py-20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center'>
-            <h1 className='text-5xl md:text-6xl font-bold text-white mb-6'>
-              Tutorial
-            </h1>
+            <h1 className='text-5xl md:text-6xl font-bold text-white mb-6'>Tutorial</h1>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto mb-8'>
-              MySonAI kullanım kılavuzu ve tutorial'ları. AI asistanları nasıl kullanılır, 
-              en iyi uygulamalar ve ipuçları ile hızlıca öğrenin.
+              MySonAI kullanım kılavuzu ve tutorial'ları. AI asistanları nasıl kullanılır, en iyi
+              uygulamalar ve ipuçları ile hızlıca öğrenin.
             </p>
-            
+
             {/* Quick Actions */}
             <div className='flex flex-col sm:flex-row gap-4 justify-center mb-8'>
               <Link
@@ -213,9 +215,7 @@ function TutorialContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Tutorial Kategorileri
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>Tutorial Kategorileri</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               Seviyenize uygun tutorial'ları keşfedin
             </p>
@@ -223,8 +223,13 @@ function TutorialContent({ params }: { params: { locale: Locale } }) {
 
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
             {tutorialCategories.map((category, index) => (
-              <Card key={index} className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'>
-                <div className={`w-16 h-16 bg-gradient-to-r ${category.color} rounded-full flex items-center justify-center mx-auto mb-4`}>
+              <Card
+                key={index}
+                className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'
+              >
+                <div
+                  className={`w-16 h-16 bg-gradient-to-r ${category.color} rounded-full flex items-center justify-center mx-auto mb-4`}
+                >
                   <category.icon className='w-8 h-8 text-white' />
                 </div>
                 <h3 className='text-xl font-bold text-white mb-3'>{category.title}</h3>
@@ -243,9 +248,7 @@ function TutorialContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16 bg-black/20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Öne Çıkan Tutorial'lar
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>Öne Çıkan Tutorial'lar</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               En popüler ve faydalı tutorial'larımız
             </p>
@@ -253,9 +256,14 @@ function TutorialContent({ params }: { params: { locale: Locale } }) {
 
           <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
             {featuredTutorials.map((tutorial, index) => (
-              <Card key={index} className='bg-white/10 backdrop-blur-md border-white/20 p-6 hover:bg-white/15 transition-all duration-300'>
+              <Card
+                key={index}
+                className='bg-white/10 backdrop-blur-md border-white/20 p-6 hover:bg-white/15 transition-all duration-300'
+              >
                 <div className='flex items-start space-x-4'>
-                  <div className={`w-12 h-12 bg-gradient-to-r ${tutorial.color} rounded-full flex items-center justify-center flex-shrink-0`}>
+                  <div
+                    className={`w-12 h-12 bg-gradient-to-r ${tutorial.color} rounded-full flex items-center justify-center flex-shrink-0`}
+                  >
                     <tutorial.icon className='w-6 h-6 text-white' />
                   </div>
                   <div className='flex-1'>
@@ -294,9 +302,7 @@ function TutorialContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Adım Adım Kılavuzlar
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>Adım Adım Kılavuzlar</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               Temel işlemler için detaylı adım adım kılavuzlar
             </p>
@@ -326,9 +332,7 @@ function TutorialContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16 bg-black/20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              En İyi Uygulamalar
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>En İyi Uygulamalar</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               MySonAI\'ı en etkili şekilde kullanmak için ipuçları
             </p>
@@ -336,7 +340,10 @@ function TutorialContent({ params }: { params: { locale: Locale } }) {
 
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
             {bestPractices.map((practice, index) => (
-              <Card key={index} className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'>
+              <Card
+                key={index}
+                className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'
+              >
                 <div className='w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4'>
                   <practice.icon className='w-8 h-8 text-white' />
                 </div>
@@ -352,12 +359,8 @@ function TutorialContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16'>
         <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Sık Sorulan Sorular
-            </h2>
-            <p className='text-xl text-gray-300'>
-              Tutorial hakkında merak ettikleriniz
-            </p>
+            <h2 className='text-4xl font-bold text-white mb-4'>Sık Sorulan Sorular</h2>
+            <p className='text-xl text-gray-300'>Tutorial hakkında merak ettikleriniz</p>
           </div>
 
           <div className='space-y-6'>
@@ -366,8 +369,8 @@ function TutorialContent({ params }: { params: { locale: Locale } }) {
                 Tutorial'ları takip etmek için önceden bilgi gerekli mi?
               </h3>
               <p className='text-gray-300'>
-                Hayır! Tutorial'larımız başlangıç seviyesinden başlar ve adım adım ilerler. 
-                Teknik bilgi gerektirmez, herkes takip edebilir.
+                Hayır! Tutorial'larımız başlangıç seviyesinden başlar ve adım adım ilerler. Teknik
+                bilgi gerektirmez, herkes takip edebilir.
               </p>
             </Card>
 
@@ -376,8 +379,8 @@ function TutorialContent({ params }: { params: { locale: Locale } }) {
                 Tutorial'ları tamamladıktan sonra ne yapabilirim?
               </h3>
               <p className='text-gray-300'>
-                Tutorial'ları tamamladıktan sonra MySonAI'ın tüm özelliklerini kullanabilir, 
-                kendi projelerinizde AI asistanlarını entegre edebilirsiniz.
+                Tutorial'ları tamamladıktan sonra MySonAI'ın tüm özelliklerini kullanabilir, kendi
+                projelerinizde AI asistanlarını entegre edebilirsiniz.
               </p>
             </Card>
 
@@ -386,8 +389,8 @@ function TutorialContent({ params }: { params: { locale: Locale } }) {
                 Tutorial'larda sorun yaşarsam ne yapmalıyım?
               </h3>
               <p className='text-gray-300'>
-                Sorun yaşarsanız destek ekibimizle iletişime geçebilirsiniz. 
-                7/24 hizmetinizdeyiz ve size yardımcı olmaktan mutluluk duyarız.
+                Sorun yaşarsanız destek ekibimizle iletişime geçebilirsiniz. 7/24 hizmetinizdeyiz ve
+                size yardımcı olmaktan mutluluk duyarız.
               </p>
             </Card>
           </div>
@@ -398,12 +401,10 @@ function TutorialContent({ params }: { params: { locale: Locale } }) {
       <section className='py-20'>
         <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center'>
           <div className='bg-white/10 backdrop-blur-md rounded-2xl p-10 border border-white/20'>
-            <h2 className='text-4xl font-bold text-white mb-6'>
-              Öğrenmeye Başlayın
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-6'>Öğrenmeye Başlayın</h2>
             <p className='text-xl text-gray-300 mb-8'>
-              Tutorial'larımızı takip ederek MySonAI'ı hızlıca öğrenin ve 
-              AI asistanlarının gücünü keşfedin!
+              Tutorial'larımızı takip ederek MySonAI'ı hızlıca öğrenin ve AI asistanlarının gücünü
+              keşfedin!
             </p>
             <div className='flex flex-col sm:flex-row gap-4 justify-center'>
               <Link

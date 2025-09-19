@@ -56,7 +56,9 @@ export function useLogging(config: Partial<LogConfig> = {}) {
   // Add log entry
   const addLog = useCallback(
     (entry: Omit<LogEntry, 'id' | 'timestamp' | 'sessionId' | 'url' | 'userAgent'>) => {
-      if (!isEnabled || !shouldLog(entry.level)) return;
+      if (!isEnabled || !shouldLog(entry.level)) {
+        return;
+      }
 
       const logEntry: LogEntry = {
         ...entry,
@@ -110,7 +112,9 @@ export function useLogging(config: Partial<LogConfig> = {}) {
   // Save log to local storage
   const saveLogToStorage = useCallback(
     (logEntry: LogEntry) => {
-      if (typeof window === 'undefined') return;
+      if (typeof window === 'undefined') {
+        return;
+      }
 
       try {
         const storageKey = 'mysonai_logs';

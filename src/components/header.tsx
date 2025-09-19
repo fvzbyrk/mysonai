@@ -17,9 +17,9 @@ export function Header() {
   const navigation = [
     { name: 'Ana Sayfa', href: `/${locale}`, feature: null },
     { name: 'Hakkımızda', href: `/${locale}/about`, feature: null },
-    { 
-      name: 'Hizmetler', 
-      href: `/${locale}/services`, 
+    {
+      name: 'Hizmetler',
+      href: `/${locale}/services`,
       feature: null,
       dropdown: [
         { name: 'AI Çözümleri', href: `/${locale}/services#ai-solutions` },
@@ -27,12 +27,12 @@ export function Header() {
         { name: 'Yazılım İhtiyaçları', href: `/${locale}/services#software-needs` },
         { name: 'Dijital Medya', href: `/${locale}/services#digital-media` },
         { name: 'Danışmanlık & Eğitim', href: `/${locale}/services#consulting-education` },
-        { name: 'Güvenlik', href: `/${locale}/services#security` }
-      ]
+        { name: 'Güvenlik', href: `/${locale}/services#security` },
+      ],
     },
-    { 
-      name: 'Çözümler', 
-      href: `/${locale}/solutions`, 
+    {
+      name: 'Çözümler',
+      href: `/${locale}/solutions`,
       feature: null,
       dropdown: [
         { name: 'MySon Video', href: `/${locale}/solutions#myson-video` },
@@ -40,8 +40,8 @@ export function Header() {
         { name: 'MySon Avukat', href: `/${locale}/solutions#myson-avukat` },
         { name: 'MySon Kids', href: `/${locale}/solutions#myson-kids` },
         { name: 'MySon Education', href: `/${locale}/solutions#myson-education` },
-        { name: 'MySon Music', href: `/${locale}/solutions#myson-music` }
-      ]
+        { name: 'MySon Music', href: `/${locale}/solutions#myson-music` },
+      ],
     },
     { name: 'Demo', href: `/${locale}/demo`, feature: 'demo' },
     { name: 'Referanslar', href: `/${locale}/references`, feature: null },
@@ -77,7 +77,7 @@ export function Header() {
         </div>
 
         <div className='hidden lg:flex lg:gap-x-8'>
-          {navigation.map(item => (
+          {navigation.map(item =>
             item.feature ? (
               <FeatureGuard key={item.name} feature={item.feature as any}>
                 <div className='relative'>
@@ -98,7 +98,7 @@ export function Header() {
                       {item.name}
                     </Link>
                   )}
-                  
+
                   {/* Dropdown Menu */}
                   {item.dropdown && openDropdown === item.name && (
                     <div
@@ -138,7 +138,7 @@ export function Header() {
                     {item.name}
                   </Link>
                 )}
-                
+
                 {/* Dropdown Menu */}
                 {item.dropdown && openDropdown === item.name && (
                   <div
@@ -159,7 +159,7 @@ export function Header() {
                 )}
               </div>
             )
-          ))}
+          )}
         </div>
 
         <div className='hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-4'>
@@ -204,7 +204,7 @@ export function Header() {
             <div className='mt-6 flow-root'>
               <div className='-my-6 divide-y divide-gray-500/10'>
                 <div className='space-y-2 py-6'>
-                  {navigation.map(item => (
+                  {navigation.map(item =>
                     item.feature ? (
                       <FeatureGuard key={item.name} feature={item.feature as any}>
                         <div>
@@ -256,7 +256,7 @@ export function Header() {
                         )}
                       </div>
                     )
-                  ))}
+                  )}
                 </div>
                 <div className='py-6'>
                   <div className='flex items-center justify-between'>
@@ -271,9 +271,7 @@ export function Header() {
 
                     <div className='flex flex-col space-y-2'>
                       <Button asChild>
-                        <Link href={`/${locale}/contact`}>
-                          Teklif Al
-                        </Link>
+                        <Link href={`/${locale}/contact`}>Teklif Al</Link>
                       </Button>
                     </div>
                   </div>

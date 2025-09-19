@@ -6,13 +6,13 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { 
-  Bell, 
-  Mail, 
-  MessageSquare, 
-  Send, 
-  Settings, 
-  Users, 
+import {
+  Bell,
+  Mail,
+  MessageSquare,
+  Send,
+  Settings,
+  Users,
   Calendar,
   ArrowLeft,
   Plus,
@@ -32,7 +32,7 @@ import {
   Smartphone,
   Monitor,
   Volume2,
-  VolumeX
+  VolumeX,
 } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
@@ -95,7 +95,7 @@ export default function NotificationsPage() {
       createdBy: 'MySonAI',
       readCount: 45,
       clickCount: 12,
-      deliveryRate: 98.5
+      deliveryRate: 98.5,
     },
     {
       id: '2',
@@ -111,7 +111,7 @@ export default function NotificationsPage() {
       createdBy: 'Admin',
       readCount: 0,
       clickCount: 0,
-      deliveryRate: 0
+      deliveryRate: 0,
     },
     {
       id: '3',
@@ -127,7 +127,7 @@ export default function NotificationsPage() {
       createdBy: 'System',
       readCount: 23,
       clickCount: 8,
-      deliveryRate: 95.2
+      deliveryRate: 95.2,
     },
     {
       id: '4',
@@ -144,8 +144,8 @@ export default function NotificationsPage() {
       createdBy: 'Security System',
       readCount: 1,
       clickCount: 1,
-      deliveryRate: 100
-    }
+      deliveryRate: 100,
+    },
   ];
 
   const mockTemplates: NotificationTemplate[] = [
@@ -157,7 +157,7 @@ export default function NotificationsPage() {
       type: 'info',
       channels: ['in-app', 'email'],
       isActive: true,
-      createdAt: '2024-01-10T00:00:00Z'
+      createdAt: '2024-01-10T00:00:00Z',
     },
     {
       id: '2',
@@ -167,7 +167,7 @@ export default function NotificationsPage() {
       type: 'warning',
       channels: ['in-app', 'email', 'push'],
       isActive: true,
-      createdAt: '2024-01-08T00:00:00Z'
+      createdAt: '2024-01-08T00:00:00Z',
     },
     {
       id: '3',
@@ -177,8 +177,8 @@ export default function NotificationsPage() {
       type: 'success',
       channels: ['in-app', 'email'],
       isActive: true,
-      createdAt: '2024-01-05T00:00:00Z'
-    }
+      createdAt: '2024-01-05T00:00:00Z',
+    },
   ];
 
   useEffect(() => {
@@ -196,9 +196,10 @@ export default function NotificationsPage() {
     let filtered = notifications;
 
     if (searchTerm) {
-      filtered = filtered.filter(notification => 
-        notification.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        notification.message.toLowerCase().includes(searchTerm.toLowerCase())
+      filtered = filtered.filter(
+        notification =>
+          notification.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          notification.message.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
@@ -216,75 +217,91 @@ export default function NotificationsPage() {
   const getTypeIcon = (type: string) => {
     switch (type) {
       case 'info':
-        return <Info className="w-4 h-4 text-blue-400" />;
+        return <Info className='w-4 h-4 text-blue-400' />;
       case 'success':
-        return <CheckCircle className="w-4 h-4 text-green-400" />;
+        return <CheckCircle className='w-4 h-4 text-green-400' />;
       case 'warning':
-        return <AlertTriangle className="w-4 h-4 text-yellow-400" />;
+        return <AlertTriangle className='w-4 h-4 text-yellow-400' />;
       case 'error':
-        return <X className="w-4 h-4 text-red-400" />;
+        return <X className='w-4 h-4 text-red-400' />;
       default:
-        return <Bell className="w-4 h-4 text-gray-400" />;
+        return <Bell className='w-4 h-4 text-gray-400' />;
     }
   };
 
   const getTypeBadge = (type: string) => {
     switch (type) {
       case 'info':
-        return <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/50">Bilgi</Badge>;
+        return <Badge className='bg-blue-500/20 text-blue-400 border-blue-500/50'>Bilgi</Badge>;
       case 'success':
-        return <Badge className="bg-green-500/20 text-green-400 border-green-500/50">Başarı</Badge>;
+        return <Badge className='bg-green-500/20 text-green-400 border-green-500/50'>Başarı</Badge>;
       case 'warning':
-        return <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/50">Uyarı</Badge>;
+        return (
+          <Badge className='bg-yellow-500/20 text-yellow-400 border-yellow-500/50'>Uyarı</Badge>
+        );
       case 'error':
-        return <Badge className="bg-red-500/20 text-red-400 border-red-500/50">Hata</Badge>;
+        return <Badge className='bg-red-500/20 text-red-400 border-red-500/50'>Hata</Badge>;
       default:
-        return <Badge className="bg-gray-500/20 text-gray-400 border-gray-500/50">Bilinmiyor</Badge>;
+        return (
+          <Badge className='bg-gray-500/20 text-gray-400 border-gray-500/50'>Bilinmiyor</Badge>
+        );
     }
   };
 
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'sent':
-        return <Badge className="bg-green-500/20 text-green-400 border-green-500/50">Gönderildi</Badge>;
+        return (
+          <Badge className='bg-green-500/20 text-green-400 border-green-500/50'>Gönderildi</Badge>
+        );
       case 'scheduled':
-        return <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/50">Zamanlanmış</Badge>;
+        return (
+          <Badge className='bg-blue-500/20 text-blue-400 border-blue-500/50'>Zamanlanmış</Badge>
+        );
       case 'draft':
-        return <Badge className="bg-gray-500/20 text-gray-400 border-gray-500/50">Taslak</Badge>;
+        return <Badge className='bg-gray-500/20 text-gray-400 border-gray-500/50'>Taslak</Badge>;
       case 'failed':
-        return <Badge className="bg-red-500/20 text-red-400 border-red-500/50">Başarısız</Badge>;
+        return <Badge className='bg-red-500/20 text-red-400 border-red-500/50'>Başarısız</Badge>;
       default:
-        return <Badge className="bg-gray-500/20 text-gray-400 border-gray-500/50">Bilinmiyor</Badge>;
+        return (
+          <Badge className='bg-gray-500/20 text-gray-400 border-gray-500/50'>Bilinmiyor</Badge>
+        );
     }
   };
 
   const getPriorityBadge = (priority: string) => {
     switch (priority) {
       case 'urgent':
-        return <Badge className="bg-red-500/20 text-red-400 border-red-500/50">Acil</Badge>;
+        return <Badge className='bg-red-500/20 text-red-400 border-red-500/50'>Acil</Badge>;
       case 'high':
-        return <Badge className="bg-orange-500/20 text-orange-400 border-orange-500/50">Yüksek</Badge>;
+        return (
+          <Badge className='bg-orange-500/20 text-orange-400 border-orange-500/50'>Yüksek</Badge>
+        );
       case 'medium':
-        return <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/50">Orta</Badge>;
+        return (
+          <Badge className='bg-yellow-500/20 text-yellow-400 border-yellow-500/50'>Orta</Badge>
+        );
       case 'low':
-        return <Badge className="bg-green-500/20 text-green-400 border-green-500/50">Düşük</Badge>;
+        return <Badge className='bg-green-500/20 text-green-400 border-green-500/50'>Düşük</Badge>;
       default:
-        return <Badge className="bg-gray-500/20 text-gray-400 border-gray-500/50">Bilinmiyor</Badge>;
+        return (
+          <Badge className='bg-gray-500/20 text-gray-400 border-gray-500/50'>Bilinmiyor</Badge>
+        );
     }
   };
 
   const getChannelIcon = (channel: string) => {
     switch (channel) {
       case 'in-app':
-        return <Monitor className="w-4 h-4 text-blue-400" />;
+        return <Monitor className='w-4 h-4 text-blue-400' />;
       case 'email':
-        return <Mail className="w-4 h-4 text-green-400" />;
+        return <Mail className='w-4 h-4 text-green-400' />;
       case 'sms':
-        return <Smartphone className="w-4 h-4 text-purple-400" />;
+        return <Smartphone className='w-4 h-4 text-purple-400' />;
       case 'push':
-        return <Bell className="w-4 h-4 text-orange-400" />;
+        return <Bell className='w-4 h-4 text-orange-400' />;
       default:
-        return <Globe className="w-4 h-4 text-gray-400" />;
+        return <Globe className='w-4 h-4 text-gray-400' />;
     }
   };
 
@@ -294,7 +311,7 @@ export default function NotificationsPage() {
       month: 'long',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
     });
   };
 
@@ -305,165 +322,195 @@ export default function NotificationsPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-          <p className="text-white">Bildirim sistemi yükleniyor...</p>
+      <div className='min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center'>
+        <div className='text-center'>
+          <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4'></div>
+          <p className='text-white'>Bildirim sistemi yükleniyor...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
+    <div className='min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 p-6'>
+      <div className='max-w-7xl mx-auto space-y-6'>
         {/* Header */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <Link href="/tr/admin">
-              <Button variant="outline" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
-                <ArrowLeft className="w-4 h-4 mr-2" />
+        <div className='flex items-center justify-between'>
+          <div className='flex items-center space-x-4'>
+            <Link href='/tr/admin'>
+              <Button
+                variant='outline'
+                className='bg-white/10 border-white/20 text-white hover:bg-white/20'
+              >
+                <ArrowLeft className='w-4 h-4 mr-2' />
                 Dashboard
               </Button>
             </Link>
             <div>
-              <h1 className="text-3xl font-bold text-white">Bildirim Sistemi</h1>
-              <p className="text-gray-300">Kullanıcılara bildirim gönderin ve yönetin</p>
+              <h1 className='text-3xl font-bold text-white'>Bildirim Sistemi</h1>
+              <p className='text-gray-300'>Kullanıcılara bildirim gönderin ve yönetin</p>
             </div>
           </div>
-          <div className="flex items-center space-x-4">
-            <Button 
-              variant="outline" 
-              className="bg-white/10 border-white/20 text-white hover:bg-white/20"
+          <div className='flex items-center space-x-4'>
+            <Button
+              variant='outline'
+              className='bg-white/10 border-white/20 text-white hover:bg-white/20'
               onClick={() => setShowTemplates(!showTemplates)}
             >
-              <Settings className="w-4 h-4 mr-2" />
+              <Settings className='w-4 h-4 mr-2' />
               Şablonlar
             </Button>
-            <Button 
-              className="bg-gradient-to-r from-blue-600 to-purple-600 text-white border-0 hover:from-blue-700 hover:to-purple-700"
+            <Button
+              className='bg-gradient-to-r from-blue-600 to-purple-600 text-white border-0 hover:from-blue-700 hover:to-purple-700'
               onClick={() => setShowCreateForm(true)}
             >
-              <Plus className="w-4 h-4 mr-2" />
+              <Plus className='w-4 h-4 mr-2' />
               Yeni Bildirim
             </Button>
           </div>
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <Card className="bg-white/10 backdrop-blur-md border-white/20">
-            <div className="p-6">
-              <div className="flex items-center justify-between">
+        <div className='grid grid-cols-1 md:grid-cols-4 gap-6'>
+          <Card className='bg-white/10 backdrop-blur-md border-white/20'>
+            <div className='p-6'>
+              <div className='flex items-center justify-between'>
                 <div>
-                  <p className="text-gray-300 text-sm">Toplam Bildirim</p>
-                  <p className="text-2xl font-bold text-white">{notifications.length}</p>
+                  <p className='text-gray-300 text-sm'>Toplam Bildirim</p>
+                  <p className='text-2xl font-bold text-white'>{notifications.length}</p>
                 </div>
-                <Bell className="w-8 h-8 text-blue-400" />
+                <Bell className='w-8 h-8 text-blue-400' />
               </div>
             </div>
           </Card>
 
-          <Card className="bg-white/10 backdrop-blur-md border-white/20">
-            <div className="p-6">
-              <div className="flex items-center justify-between">
+          <Card className='bg-white/10 backdrop-blur-md border-white/20'>
+            <div className='p-6'>
+              <div className='flex items-center justify-between'>
                 <div>
-                  <p className="text-gray-300 text-sm">Gönderilen</p>
-                  <p className="text-2xl font-bold text-white">{notifications.filter(n => n.status === 'sent').length}</p>
-                </div>
-                <Send className="w-8 h-8 text-green-400" />
-              </div>
-            </div>
-          </Card>
-
-          <Card className="bg-white/10 backdrop-blur-md border-white/20">
-            <div className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-gray-300 text-sm">Zamanlanmış</p>
-                  <p className="text-2xl font-bold text-white">{notifications.filter(n => n.status === 'scheduled').length}</p>
-                </div>
-                <Calendar className="w-8 h-8 text-yellow-400" />
-              </div>
-            </div>
-          </Card>
-
-          <Card className="bg-white/10 backdrop-blur-md border-white/20">
-            <div className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-gray-300 text-sm">Ortalama Okuma</p>
-                  <p className="text-2xl font-bold text-white">
-                    {notifications.length > 0 
-                      ? Math.round(notifications.reduce((sum, n) => sum + n.readCount, 0) / notifications.length)
-                      : 0
-                    }%
+                  <p className='text-gray-300 text-sm'>Gönderilen</p>
+                  <p className='text-2xl font-bold text-white'>
+                    {notifications.filter(n => n.status === 'sent').length}
                   </p>
                 </div>
-                <Eye className="w-8 h-8 text-purple-400" />
+                <Send className='w-8 h-8 text-green-400' />
+              </div>
+            </div>
+          </Card>
+
+          <Card className='bg-white/10 backdrop-blur-md border-white/20'>
+            <div className='p-6'>
+              <div className='flex items-center justify-between'>
+                <div>
+                  <p className='text-gray-300 text-sm'>Zamanlanmış</p>
+                  <p className='text-2xl font-bold text-white'>
+                    {notifications.filter(n => n.status === 'scheduled').length}
+                  </p>
+                </div>
+                <Calendar className='w-8 h-8 text-yellow-400' />
+              </div>
+            </div>
+          </Card>
+
+          <Card className='bg-white/10 backdrop-blur-md border-white/20'>
+            <div className='p-6'>
+              <div className='flex items-center justify-between'>
+                <div>
+                  <p className='text-gray-300 text-sm'>Ortalama Okuma</p>
+                  <p className='text-2xl font-bold text-white'>
+                    {notifications.length > 0
+                      ? Math.round(
+                          notifications.reduce((sum, n) => sum + n.readCount, 0) /
+                            notifications.length
+                        )
+                      : 0}
+                    %
+                  </p>
+                </div>
+                <Eye className='w-8 h-8 text-purple-400' />
               </div>
             </div>
           </Card>
         </div>
 
         {/* Filters */}
-        <Card className="bg-white/10 backdrop-blur-md border-white/20">
-          <div className="p-6">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <Card className='bg-white/10 backdrop-blur-md border-white/20'>
+          <div className='p-6'>
+            <div className='grid grid-cols-1 md:grid-cols-4 gap-4'>
               <div>
-                <label className="text-white text-sm font-medium mb-2 block">Arama</label>
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <label className='text-white text-sm font-medium mb-2 block'>Arama</label>
+                <div className='relative'>
+                  <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4' />
                   <Input
-                    placeholder="Bildirim ara..."
+                    placeholder='Bildirim ara...'
                     value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="bg-white/10 border-white/20 text-white placeholder-gray-400 pl-10"
+                    onChange={e => setSearchTerm(e.target.value)}
+                    className='bg-white/10 border-white/20 text-white placeholder-gray-400 pl-10'
                   />
                 </div>
               </div>
-              
+
               <div>
-                <label className="text-white text-sm font-medium mb-2 block">Tip</label>
+                <label className='text-white text-sm font-medium mb-2 block'>Tip</label>
                 <select
                   value={selectedType}
-                  onChange={(e) => setSelectedType(e.target.value)}
-                  className="w-full bg-white/10 border border-white/20 text-white rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  onChange={e => setSelectedType(e.target.value)}
+                  className='w-full bg-white/10 border border-white/20 text-white rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500'
                 >
-                  <option value="all" className="bg-gray-800">Tüm Tipler</option>
-                  <option value="info" className="bg-gray-800">Bilgi</option>
-                  <option value="success" className="bg-gray-800">Başarı</option>
-                  <option value="warning" className="bg-gray-800">Uyarı</option>
-                  <option value="error" className="bg-gray-800">Hata</option>
+                  <option value='all' className='bg-gray-800'>
+                    Tüm Tipler
+                  </option>
+                  <option value='info' className='bg-gray-800'>
+                    Bilgi
+                  </option>
+                  <option value='success' className='bg-gray-800'>
+                    Başarı
+                  </option>
+                  <option value='warning' className='bg-gray-800'>
+                    Uyarı
+                  </option>
+                  <option value='error' className='bg-gray-800'>
+                    Hata
+                  </option>
                 </select>
               </div>
-              
+
               <div>
-                <label className="text-white text-sm font-medium mb-2 block">Durum</label>
+                <label className='text-white text-sm font-medium mb-2 block'>Durum</label>
                 <select
                   value={selectedStatus}
-                  onChange={(e) => setSelectedStatus(e.target.value)}
-                  className="w-full bg-white/10 border border-white/20 text-white rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  onChange={e => setSelectedStatus(e.target.value)}
+                  className='w-full bg-white/10 border border-white/20 text-white rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500'
                 >
-                  <option value="all" className="bg-gray-800">Tüm Durumlar</option>
-                  <option value="sent" className="bg-gray-800">Gönderildi</option>
-                  <option value="scheduled" className="bg-gray-800">Zamanlanmış</option>
-                  <option value="draft" className="bg-gray-800">Taslak</option>
-                  <option value="failed" className="bg-gray-800">Başarısız</option>
+                  <option value='all' className='bg-gray-800'>
+                    Tüm Durumlar
+                  </option>
+                  <option value='sent' className='bg-gray-800'>
+                    Gönderildi
+                  </option>
+                  <option value='scheduled' className='bg-gray-800'>
+                    Zamanlanmış
+                  </option>
+                  <option value='draft' className='bg-gray-800'>
+                    Taslak
+                  </option>
+                  <option value='failed' className='bg-gray-800'>
+                    Başarısız
+                  </option>
                 </select>
               </div>
-              
-              <div className="flex items-end">
-                <Button 
-                  variant="outline" 
-                  className="bg-white/10 border-white/20 text-white hover:bg-white/20"
+
+              <div className='flex items-end'>
+                <Button
+                  variant='outline'
+                  className='bg-white/10 border-white/20 text-white hover:bg-white/20'
                   onClick={() => {
                     setSearchTerm('');
                     setSelectedType('all');
                     setSelectedStatus('all');
                   }}
                 >
-                  <Filter className="w-4 h-4 mr-2" />
+                  <Filter className='w-4 h-4 mr-2' />
                   Temizle
                 </Button>
               </div>
@@ -472,98 +519,108 @@ export default function NotificationsPage() {
         </Card>
 
         {/* Notifications List */}
-        <div className="grid grid-cols-1 gap-6">
-          {filteredNotifications.map((notification) => (
-            <Card key={notification.id} className="bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/15 transition-all duration-300">
-              <div className="p-6">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center">
+        <div className='grid grid-cols-1 gap-6'>
+          {filteredNotifications.map(notification => (
+            <Card
+              key={notification.id}
+              className='bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/15 transition-all duration-300'
+            >
+              <div className='p-6'>
+                <div className='flex items-start justify-between'>
+                  <div className='flex items-start space-x-4'>
+                    <div className='w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center'>
                       {getTypeIcon(notification.type)}
                     </div>
-                    
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-3 mb-2">
-                        <h3 className="text-lg font-semibold text-white">{notification.title}</h3>
+
+                    <div className='flex-1'>
+                      <div className='flex items-center space-x-3 mb-2'>
+                        <h3 className='text-lg font-semibold text-white'>{notification.title}</h3>
                         {getTypeBadge(notification.type)}
                         {getStatusBadge(notification.status)}
                         {getPriorityBadge(notification.priority)}
                       </div>
-                      
-                      <p className="text-gray-300 text-sm mb-3 line-clamp-2">
+
+                      <p className='text-gray-300 text-sm mb-3 line-clamp-2'>
                         {notification.message}
                       </p>
-                      
-                      <div className="flex items-center space-x-6 text-gray-400 text-sm mb-3">
-                        <div className="flex items-center">
-                          <User className="w-4 h-4 mr-1" />
+
+                      <div className='flex items-center space-x-6 text-gray-400 text-sm mb-3'>
+                        <div className='flex items-center'>
+                          <User className='w-4 h-4 mr-1' />
                           {notification.createdBy}
                         </div>
-                        <div className="flex items-center">
-                          <Clock className="w-4 h-4 mr-1" />
+                        <div className='flex items-center'>
+                          <Clock className='w-4 h-4 mr-1' />
                           {formatDate(notification.createdAt)}
                         </div>
-                        <div className="flex items-center">
-                          <Eye className="w-4 h-4 mr-1" />
+                        <div className='flex items-center'>
+                          <Eye className='w-4 h-4 mr-1' />
                           {notification.readCount} okundu
                         </div>
-                        <div className="flex items-center">
-                          <Send className="w-4 h-4 mr-1" />
+                        <div className='flex items-center'>
+                          <Send className='w-4 h-4 mr-1' />
                           {notification.clickCount} tıklandı
                         </div>
-                        <div className="flex items-center">
-                          <CheckCircle className="w-4 h-4 mr-1" />
-                          %{notification.deliveryRate} teslimat
+                        <div className='flex items-center'>
+                          <CheckCircle className='w-4 h-4 mr-1' />%{notification.deliveryRate}{' '}
+                          teslimat
                         </div>
                       </div>
-                      
-                      <div className="flex items-center space-x-4">
-                        <div className="flex items-center space-x-2">
-                          <span className="text-gray-400 text-sm">Kanal:</span>
+
+                      <div className='flex items-center space-x-4'>
+                        <div className='flex items-center space-x-2'>
+                          <span className='text-gray-400 text-sm'>Kanal:</span>
                           {notification.channels.map((channel, index) => (
-                            <div key={index} className="flex items-center space-x-1">
+                            <div key={index} className='flex items-center space-x-1'>
                               {getChannelIcon(channel)}
-                              <span className="text-white text-sm">{channel}</span>
+                              <span className='text-white text-sm'>{channel}</span>
                             </div>
                           ))}
                         </div>
-                        
-                        <div className="flex items-center space-x-2">
-                          <span className="text-gray-400 text-sm">Hedef:</span>
-                          <Badge variant="outline" className="bg-white/10 border-white/30 text-white">
-                            {notification.targetAudience === 'all' ? 'Tümü' : 
-                             notification.targetAudience === 'admins' ? 'Adminler' :
-                             notification.targetAudience === 'users' ? 'Kullanıcılar' : 'Belirli'}
+
+                        <div className='flex items-center space-x-2'>
+                          <span className='text-gray-400 text-sm'>Hedef:</span>
+                          <Badge
+                            variant='outline'
+                            className='bg-white/10 border-white/30 text-white'
+                          >
+                            {notification.targetAudience === 'all'
+                              ? 'Tümü'
+                              : notification.targetAudience === 'admins'
+                                ? 'Adminler'
+                                : notification.targetAudience === 'users'
+                                  ? 'Kullanıcılar'
+                                  : 'Belirli'}
                           </Badge>
                         </div>
                       </div>
                     </div>
                   </div>
-                  
-                  <div className="flex items-center space-x-2">
-                    <Button 
-                      size="sm" 
-                      variant="outline" 
-                      className="bg-white/10 border-white/20 text-white hover:bg-white/20"
+
+                  <div className='flex items-center space-x-2'>
+                    <Button
+                      size='sm'
+                      variant='outline'
+                      className='bg-white/10 border-white/20 text-white hover:bg-white/20'
                       onClick={() => setSelectedNotification(notification)}
                     >
-                      <Eye className="w-4 h-4" />
+                      <Eye className='w-4 h-4' />
                     </Button>
-                    <Button 
-                      size="sm" 
-                      variant="outline" 
-                      className="bg-white/10 border-white/20 text-white hover:bg-white/20"
+                    <Button
+                      size='sm'
+                      variant='outline'
+                      className='bg-white/10 border-white/20 text-white hover:bg-white/20'
                       onClick={() => handleNotificationAction(notification.id, 'edit')}
                     >
-                      <Edit className="w-4 h-4" />
+                      <Edit className='w-4 h-4' />
                     </Button>
-                    <Button 
-                      size="sm" 
-                      variant="outline" 
-                      className="bg-red-500/20 border-red-500/50 text-red-400 hover:bg-red-500/30"
+                    <Button
+                      size='sm'
+                      variant='outline'
+                      className='bg-red-500/20 border-red-500/50 text-red-400 hover:bg-red-500/30'
                       onClick={() => handleNotificationAction(notification.id, 'delete')}
                     >
-                      <Trash2 className="w-4 h-4" />
+                      <Trash2 className='w-4 h-4' />
                     </Button>
                   </div>
                 </div>
@@ -573,19 +630,21 @@ export default function NotificationsPage() {
         </div>
 
         {filteredNotifications.length === 0 && (
-          <Card className="bg-white/10 backdrop-blur-md border-white/20">
-            <div className="p-12 text-center">
-              <Bell className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-white mb-2">
-                {searchTerm || selectedType !== 'all' || selectedStatus !== 'all' ? 'Bildirim bulunamadı' : 'Henüz bildirim yok'}
-              </h3>
-              <p className="text-gray-400 mb-6">
+          <Card className='bg-white/10 backdrop-blur-md border-white/20'>
+            <div className='p-12 text-center'>
+              <Bell className='w-16 h-16 text-gray-400 mx-auto mb-4' />
+              <h3 className='text-xl font-semibold text-white mb-2'>
                 {searchTerm || selectedType !== 'all' || selectedStatus !== 'all'
-                  ? 'Arama kriterlerinize uygun bildirim bulunamadı.' 
+                  ? 'Bildirim bulunamadı'
+                  : 'Henüz bildirim yok'}
+              </h3>
+              <p className='text-gray-400 mb-6'>
+                {searchTerm || selectedType !== 'all' || selectedStatus !== 'all'
+                  ? 'Arama kriterlerinize uygun bildirim bulunamadı.'
                   : 'Henüz hiç bildirim gönderilmemiş.'}
               </p>
-              <Button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white border-0 hover:from-blue-700 hover:to-purple-700">
-                <Plus className="w-4 h-4 mr-2" />
+              <Button className='bg-gradient-to-r from-blue-600 to-purple-600 text-white border-0 hover:from-blue-700 hover:to-purple-700'>
+                <Plus className='w-4 h-4 mr-2' />
                 İlk Bildirimi Oluştur
               </Button>
             </div>

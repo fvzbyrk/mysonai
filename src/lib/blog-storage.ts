@@ -76,7 +76,7 @@ class BlogStorage {
       ...postData,
       id: `post-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
     };
 
     posts.push(newPost);
@@ -95,7 +95,7 @@ class BlogStorage {
     posts[postIndex] = {
       ...posts[postIndex],
       ...updateData,
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
     };
 
     await this.writePostsFile(posts);
@@ -128,15 +128,19 @@ class BlogStorage {
   async searchPosts(query: string): Promise<BlogPost[]> {
     const posts = await this.readPostsFile();
     const lowercaseQuery = query.toLowerCase();
-    
-    return posts.filter(post => 
-      post.title.toLowerCase().includes(lowercaseQuery) ||
-      post.content.toLowerCase().includes(lowercaseQuery) ||
-      post.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery))
+
+    return posts.filter(
+      post =>
+        post.title.toLowerCase().includes(lowercaseQuery) ||
+        post.content.toLowerCase().includes(lowercaseQuery) ||
+        post.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery))
     );
   }
 
-  async getPostsPaginated(limit: number = 10, offset: number = 0): Promise<{
+  async getPostsPaginated(
+    limit: number = 10,
+    offset: number = 0
+  ): Promise<{
     posts: BlogPost[];
     total: number;
     hasMore: boolean;
@@ -149,7 +153,7 @@ class BlogStorage {
     return {
       posts: paginatedPosts,
       total,
-      hasMore
+      hasMore,
     };
   }
 
@@ -170,7 +174,7 @@ class BlogStorage {
   // Initialize with default posts if empty
   async initializeDefaultPosts(): Promise<void> {
     const posts = await this.readPostsFile();
-    
+
     if (posts.length === 0) {
       const defaultPosts: BlogPost[] = [
         {
@@ -199,7 +203,7 @@ class BlogStorage {
           author: 'MySonAI',
           readTime: 5,
           createdAt: '2024-09-18T09:00:00Z',
-          updatedAt: '2024-09-18T09:00:00Z'
+          updatedAt: '2024-09-18T09:00:00Z',
         },
         {
           id: 'default-2',
@@ -225,8 +229,8 @@ class BlogStorage {
           author: 'MySonAI',
           readTime: 7,
           createdAt: '2024-09-18T14:00:00Z',
-          updatedAt: '2024-09-18T14:00:00Z'
-        }
+          updatedAt: '2024-09-18T14:00:00Z',
+        },
       ];
 
       await this.writePostsFile(defaultPosts);
@@ -236,4 +240,3 @@ class BlogStorage {
 
 // Singleton instance
 export const blogStorage = new BlogStorage();
-

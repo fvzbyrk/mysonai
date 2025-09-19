@@ -57,15 +57,31 @@ export function AIDemo({ locale }: AIDemoProps) {
 
               <div className='space-y-4'>
                 {[
-                  { name: t(locale, 'agents.fevzi'), role: t(locale, 'agents.fevziRole'), desc: t(locale, 'agents.fevziDesc') },
+                  {
+                    name: t(locale, 'agents.fevzi'),
+                    role: t(locale, 'agents.fevziRole'),
+                    desc: t(locale, 'agents.fevziDesc'),
+                  },
                   {
                     name: t(locale, 'agents.elif'),
                     role: t(locale, 'agents.elifRole'),
                     desc: t(locale, 'agents.elifDesc'),
                   },
-                  { name: t(locale, 'agents.burak'), role: t(locale, 'agents.burakRole'), desc: t(locale, 'agents.burakDesc') },
-                  { name: t(locale, 'agents.ayse'), role: t(locale, 'agents.ayseRole'), desc: t(locale, 'agents.ayseDesc') },
-                  { name: t(locale, 'agents.deniz'), role: t(locale, 'agents.denizRole'), desc: t(locale, 'agents.denizDesc') },
+                  {
+                    name: t(locale, 'agents.burak'),
+                    role: t(locale, 'agents.burakRole'),
+                    desc: t(locale, 'agents.burakDesc'),
+                  },
+                  {
+                    name: t(locale, 'agents.ayse'),
+                    role: t(locale, 'agents.ayseRole'),
+                    desc: t(locale, 'agents.ayseDesc'),
+                  },
+                  {
+                    name: t(locale, 'agents.deniz'),
+                    role: t(locale, 'agents.denizRole'),
+                    desc: t(locale, 'agents.denizDesc'),
+                  },
                 ].map((agent, index) => (
                   <motion.div
                     key={agent.name}

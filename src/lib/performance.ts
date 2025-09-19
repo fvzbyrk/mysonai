@@ -29,7 +29,9 @@ export class PerformanceMonitor {
   }
 
   measureWebVitals(): void {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined') {
+      return;
+    }
 
     // Measure Core Web Vitals
     this.measureLCP();
@@ -41,10 +43,10 @@ export class PerformanceMonitor {
 
   private measureLCP(): void {
     if ('PerformanceObserver' in window) {
-      const observer = new PerformanceObserver((list) => {
+      const observer = new PerformanceObserver(list => {
         const entries = list.getEntries();
         const lastEntry = entries[entries.length - 1];
-        console.log('LCP:', lastEntry.startTime);
+        // LCP measured
       });
       observer.observe({ entryTypes: ['largest-contentful-paint'] });
     }
@@ -52,10 +54,10 @@ export class PerformanceMonitor {
 
   private measureFID(): void {
     if ('PerformanceObserver' in window) {
-      const observer = new PerformanceObserver((list) => {
+      const observer = new PerformanceObserver(list => {
         const entries = list.getEntries();
-        entries.forEach((entry) => {
-          console.log('FID:', entry.processingStart - entry.startTime);
+        entries.forEach(entry => {
+          // FID measured
         });
       });
       observer.observe({ entryTypes: ['first-input'] });
@@ -65,14 +67,14 @@ export class PerformanceMonitor {
   private measureCLS(): void {
     if ('PerformanceObserver' in window) {
       let clsValue = 0;
-      const observer = new PerformanceObserver((list) => {
+      const observer = new PerformanceObserver(list => {
         const entries = list.getEntries();
         entries.forEach((entry: any) => {
           if (!entry.hadRecentInput) {
             clsValue += entry.value;
           }
         });
-        console.log('CLS:', clsValue);
+        // CLS measured
       });
       observer.observe({ entryTypes: ['layout-shift'] });
     }
@@ -80,10 +82,10 @@ export class PerformanceMonitor {
 
   private measureFCP(): void {
     if ('PerformanceObserver' in window) {
-      const observer = new PerformanceObserver((list) => {
+      const observer = new PerformanceObserver(list => {
         const entries = list.getEntries();
-        entries.forEach((entry) => {
-          console.log('FCP:', entry.startTime);
+        entries.forEach(entry => {
+          // FCP measured
         });
       });
       observer.observe({ entryTypes: ['paint'] });
@@ -92,11 +94,11 @@ export class PerformanceMonitor {
 
   private measureTTFB(): void {
     if ('PerformanceObserver' in window) {
-      const observer = new PerformanceObserver((list) => {
+      const observer = new PerformanceObserver(list => {
         const entries = list.getEntries();
-        entries.forEach((entry) => {
+        entries.forEach(entry => {
           if (entry.entryType === 'navigation') {
-            console.log('TTFB:', entry.responseStart - entry.requestStart);
+            // TTFB measured
           }
         });
       });
@@ -108,26 +110,28 @@ export class PerformanceMonitor {
   measureMemoryUsage(): void {
     if (typeof window !== 'undefined' && 'memory' in performance) {
       const memory = (performance as any).memory;
-      console.log('Memory Usage:', {
+      // Memory usage tracked
+      const memoryData = {
         used: memory.usedJSHeapSize,
         total: memory.totalJSHeapSize,
-        limit: memory.jsHeapSizeLimit
-      });
+        limit: memory.jsHeapSizeLimit,
+      };
     }
   }
 
   // Network monitoring
   measureNetworkPerformance(): void {
     if (typeof window !== 'undefined' && 'PerformanceObserver' in window) {
-      const observer = new PerformanceObserver((list) => {
+      const observer = new PerformanceObserver(list => {
         const entries = list.getEntries();
-        entries.forEach((entry) => {
+        entries.forEach(entry => {
           if (entry.entryType === 'resource') {
-            console.log('Resource Load Time:', {
+            // Resource load time measured
+            const resourceData = {
               name: entry.name,
               duration: entry.duration,
-              transferSize: (entry as any).transferSize
-            });
+              transferSize: (entry as any).transferSize,
+            };
           }
         });
       });
@@ -145,7 +149,6 @@ export function usePerformanceMonitor() {
     endTiming: monitor.endTiming.bind(monitor),
     measureWebVitals: monitor.measureWebVitals.bind(monitor),
     measureMemoryUsage: monitor.measureMemoryUsage.bind(monitor),
-    measureNetworkPerformance: monitor.measureNetworkPerformance.bind(monitor)
+    measureNetworkPerformance: monitor.measureNetworkPerformance.bind(monitor),
   };
 }
-

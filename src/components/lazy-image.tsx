@@ -43,7 +43,9 @@ export function LazyImage({
   const imgRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (priority || isInView) return;
+    if (priority || isInView) {
+      return;
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {

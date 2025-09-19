@@ -16,7 +16,7 @@ export function getAPIKeys(): APIKeys {
   // Production'da environment variables'dan oku
   const geminiApiKey = process.env.GEMINI_API_KEY;
   const geminiBaseUrl = process.env.GEMINI_BASE_URL || 'https://generativelanguage.googleapis.com';
-  
+
   const openaiApiKey = process.env.OPENAI_API_KEY;
   const openaiBaseUrl = process.env.OPENAI_BASE_URL || 'https://api.openai.com';
 
@@ -31,40 +31,40 @@ export function getAPIKeys(): APIKeys {
   return {
     gemini: {
       apiKey: geminiApiKey,
-      baseUrl: geminiBaseUrl
+      baseUrl: geminiBaseUrl,
     },
     openai: {
       apiKey: openaiApiKey,
-      baseUrl: openaiBaseUrl
-    }
+      baseUrl: openaiBaseUrl,
+    },
   };
 }
 
 // API Key validation
 export function validateAPIKeys(): { valid: boolean; errors: string[] } {
   const errors: string[] = [];
-  
+
   try {
     const keys = getAPIKeys();
-    
+
     // Gemini validation
     if (!keys.gemini.apiKey || keys.gemini.apiKey.length < 20) {
       errors.push('Invalid Gemini API key');
     }
-    
-    // OpenAI validation  
+
+    // OpenAI validation
     if (!keys.openai.apiKey || keys.openai.apiKey.length < 20) {
       errors.push('Invalid OpenAI API key');
     }
-    
+
     return {
       valid: errors.length === 0,
-      errors
+      errors,
     };
   } catch (error) {
     return {
       valid: false,
-      errors: [error instanceof Error ? error.message : 'Unknown error']
+      errors: [error instanceof Error ? error.message : 'Unknown error'],
     };
   }
 }

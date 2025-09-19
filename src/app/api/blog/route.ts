@@ -8,20 +8,23 @@ export async function GET(request: NextRequest) {
 
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
-    
+
     // If ID is provided, return single post
     if (id) {
       const post = await blogStorage.getPostById(id);
       if (!post) {
-        return NextResponse.json({
-          success: false,
-          message: 'Post not found'
-        }, { status: 404 });
+        return NextResponse.json(
+          {
+            success: false,
+            message: 'Post not found',
+          },
+          { status: 404 }
+        );
       }
-      
+
       return NextResponse.json({
         success: true,
-        data: { post }
+        data: { post },
       });
     }
 
@@ -59,49 +62,58 @@ export async function GET(request: NextRequest) {
       data: {
         posts: paginatedPosts,
         total: posts.length,
-        hasMore: offset + limit < posts.length
-      }
+        hasMore: offset + limit < posts.length,
+      },
     });
   } catch (error) {
     console.error('Blog API error:', error);
-    return NextResponse.json({
-      success: false,
-      message: 'Failed to fetch blog posts',
-      error: error instanceof Error ? error.message : 'Unknown error'
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        success: false,
+        message: 'Failed to fetch blog posts',
+        error: error instanceof Error ? error.message : 'Unknown error',
+      },
+      { status: 500 }
+    );
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
     const { action, postData } = await request.json();
-    
+
     switch (action) {
       case 'create':
         return await createPost(postData);
-      
+
       case 'update':
         return await updatePost(postData);
-      
+
       case 'delete':
         return await deletePost(postData.id);
-      
+
       case 'generate-category':
         return await generateCategoryContent(postData.category);
-      
+
       default:
-        return NextResponse.json({
-          success: false,
-          message: 'Invalid action'
-        }, { status: 400 });
+        return NextResponse.json(
+          {
+            success: false,
+            message: 'Invalid action',
+          },
+          { status: 400 }
+        );
     }
   } catch (error) {
     console.error('Blog API error:', error);
-    return NextResponse.json({
-      success: false,
-      message: 'Blog operation failed',
-      error: error instanceof Error ? error.message : 'Unknown error'
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        success: false,
+        message: 'Blog operation failed',
+        error: error instanceof Error ? error.message : 'Unknown error',
+      },
+      { status: 500 }
+    );
   }
 }
 
@@ -119,101 +131,116 @@ async function createPost(postData: Partial<BlogPost>) {
       author: postData.author || 'MySonAI',
       readTime: postData.readTime || 5,
       imageUrl: postData.imageUrl,
-      imageAlt: postData.imageAlt
+      imageAlt: postData.imageAlt,
     });
 
     return NextResponse.json({
       success: true,
       message: 'Post created successfully',
-      data: newPost
+      data: newPost,
     });
   } catch (error) {
     console.error('Create post error:', error);
-    return NextResponse.json({
-      success: false,
-      message: 'Failed to create post',
-      error: error instanceof Error ? error.message : 'Unknown error'
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        success: false,
+        message: 'Failed to create post',
+        error: error instanceof Error ? error.message : 'Unknown error',
+      },
+      { status: 500 }
+    );
   }
 }
 
 async function updatePost(postData: Partial<BlogPost> & { id: string }) {
   try {
     const updatedPost = await blogStorage.updatePost(postData.id, postData);
-    
+
     if (!updatedPost) {
-      return NextResponse.json({
-        success: false,
-        message: 'Post not found'
-      }, { status: 404 });
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Post not found',
+        },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json({
       success: true,
       message: 'Post updated successfully',
-      data: updatedPost
+      data: updatedPost,
     });
   } catch (error) {
     console.error('Update post error:', error);
-    return NextResponse.json({
-      success: false,
-      message: 'Failed to update post',
-      error: error instanceof Error ? error.message : 'Unknown error'
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        success: false,
+        message: 'Failed to update post',
+        error: error instanceof Error ? error.message : 'Unknown error',
+      },
+      { status: 500 }
+    );
   }
 }
 
 async function deletePost(postId: string) {
   try {
     const deleted = await blogStorage.deletePost(postId);
-    
+
     if (!deleted) {
-      return NextResponse.json({
-        success: false,
-        message: 'Post not found'
-      }, { status: 404 });
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Post not found',
+        },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json({
       success: true,
-      message: 'Post deleted successfully'
+      message: 'Post deleted successfully',
     });
   } catch (error) {
     console.error('Delete post error:', error);
-    return NextResponse.json({
-      success: false,
-      message: 'Failed to delete post',
-      error: error instanceof Error ? error.message : 'Unknown error'
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        success: false,
+        message: 'Failed to delete post',
+        error: error instanceof Error ? error.message : 'Unknown error',
+      },
+      { status: 500 }
+    );
   }
 }
 
 // Get image from Unsplash based on category
-async function getCategoryImage(category: string): Promise<{url: string, alt: string}> {
+async function getCategoryImage(category: string): Promise<{ url: string; alt: string }> {
   try {
     const searchTerms = {
       'AI Teknolojisi': 'artificial intelligence technology',
       'İş Dünyası': 'business technology digital',
-      'Eğitimler': 'education learning technology',
+      Eğitimler: 'education learning technology',
       'Vaka Çalışmaları': 'success business case study',
-      'Haberler': 'news technology updates'
+      Haberler: 'news technology updates',
     };
 
     const searchTerm = searchTerms[category as keyof typeof searchTerms] || 'technology';
-    
+
     // Using Unsplash Source API (no API key required for basic usage)
     const imageUrl = `https://source.unsplash.com/800x600/?${encodeURIComponent(searchTerm)}`;
-    
+
     return {
       url: imageUrl,
-      alt: `${category} ile ilgili görsel`
+      alt: `${category} ile ilgili görsel`,
     };
   } catch (error) {
     console.error('Error getting category image:', error);
     // Fallback image
     return {
       url: 'https://source.unsplash.com/800x600/?technology',
-      alt: 'Teknoloji görseli'
+      alt: 'Teknoloji görseli',
     };
   }
 }
@@ -227,13 +254,16 @@ async function generateCategoryContent(category: string) {
 
     // Check if Gemini is available
     const geminiStatus = await geminiChat.getStatus();
-    
+
     if (!geminiStatus.available) {
-      return NextResponse.json({
-        success: false,
-        message: 'Gemini API not available',
-        error: geminiStatus.error
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Gemini API not available',
+          error: geminiStatus.error,
+        },
+        { status: 400 }
+      );
     }
 
     // Generate content based on category with more detailed prompts
@@ -257,7 +287,7 @@ Makale 1500-2000 kelime arasında olsun, teknik detaylar içersin ve okuyucuya d
         title = 'AI Teknolojilerinde Yeni Gelişmeler';
         tags = ['ai', 'teknoloji', 'makine-öğrenmesi', 'trendler', 'yapay-zeka'];
         break;
-      
+
       case 'İş Dünyası':
         prompt = `İş süreçleri, dijital dönüşüm ve kurumsal çözümler hakkında kapsamlı bir makale yaz. Türkçe olarak yaz ve şu konuları detaylı şekilde ele al:
 
@@ -273,7 +303,7 @@ Makale 1500-2000 kelime arasında olsun, iş dünyasına değer katsın.`;
         title = 'Dijital Dönüşümde Başarı Stratejileri';
         tags = ['dijital-dönüşüm', 'iş-süreçleri', 'kurumsal-çözümler', 'teknoloji', 'iş-dünyası'];
         break;
-      
+
       case 'Eğitimler':
         prompt = `Pratik rehberler, nasıl yapılır ve öğretici içerikler hakkında detaylı bir makale yaz. Türkçe olarak yaz ve şu konuları kapsamlı şekilde ele al:
 
@@ -289,7 +319,7 @@ Makale 1500-2000 kelime arasında olsun, öğrenmeye değer katsın.`;
         title = 'Teknoloji Öğrenme Rehberi';
         tags = ['eğitim', 'rehber', 'öğrenme', 'pratik-ipuçları', 'beceri-geliştirme'];
         break;
-      
+
       case 'Vaka Çalışmaları':
         prompt = `Gerçek projeler, başarı hikayeleri ve deneyimler hakkında detaylı bir vaka çalışması yaz. Türkçe olarak yaz ve şu konuları kapsamlı şekilde ele al:
 
@@ -305,7 +335,7 @@ Makale 1500-2000 kelime arasında olsun, gerçek deneyimler içersin.`;
         title = 'Başarılı Teknoloji Projesi Vaka Çalışması';
         tags = ['vaka-çalışması', 'başarı-hikayesi', 'proje-yönetimi', 'deneyim', 'teknoloji'];
         break;
-      
+
       case 'Haberler':
         prompt = `Sektör haberleri, güncellemeler ve duyurular hakkında güncel bir haber makalesi yaz. Türkçe olarak yaz ve şu konuları kapsamlı şekilde ele al:
 
@@ -319,9 +349,15 @@ Makale 1500-2000 kelime arasında olsun, gerçek deneyimler içersin.`;
 
 Makale 1500-2000 kelime arasında olsun, güncel ve bilgilendirici olsun.`;
         title = 'Teknoloji Sektöründen Son Haberler';
-        tags = ['haberler', 'sektör-güncellemeleri', 'teknoloji-haberleri', 'duyurular', 'güncel-gelişmeler'];
+        tags = [
+          'haberler',
+          'sektör-güncellemeleri',
+          'teknoloji-haberleri',
+          'duyurular',
+          'güncel-gelişmeler',
+        ];
         break;
-      
+
       default:
         prompt = `Genel teknoloji konuları hakkında bilgilendirici bir makale yaz. Türkçe olarak yaz ve güncel teknoloji trendlerini kapsamlı şekilde ele al:
 
@@ -342,16 +378,19 @@ Makale 1500-2000 kelime arasında olsun, okuyucuya değer katsın.`;
     const result = await geminiChat.generateResponse([
       {
         role: 'user',
-        content: prompt
-      }
+        content: prompt,
+      },
     ]);
 
     if (!result.success) {
-      return NextResponse.json({
-        success: false,
-        message: 'Failed to generate content',
-        error: result.error
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Failed to generate content',
+          error: result.error,
+        },
+        { status: 400 }
+      );
     }
 
     // Get image for the category
@@ -371,7 +410,7 @@ Makale 1500-2000 kelime arasında olsun, okuyucuya değer katsın.`;
       author: 'MySonAI',
       readTime: Math.ceil(result.content.length / 200), // Approximate reading time
       imageUrl: imageData.url,
-      imageAlt: imageData.alt
+      imageAlt: imageData.alt,
     };
 
     // Add to blog posts using storage
@@ -382,10 +421,10 @@ Makale 1500-2000 kelime arasında olsun, okuyucuya değer katsın.`;
       await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/auto-blog`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           action: 'sync-blog-post',
-          postData: newPost
-        })
+          postData: newPost,
+        }),
       });
     } catch (error) {
       console.error('Error syncing with auto-blog:', error);
@@ -394,14 +433,17 @@ Makale 1500-2000 kelime arasında olsun, okuyucuya değer katsın.`;
     return NextResponse.json({
       success: true,
       message: 'Category content generated successfully',
-      data: newPost
+      data: newPost,
     });
   } catch (error) {
     console.error('Generate category content error:', error);
-    return NextResponse.json({
-      success: false,
-      message: 'Failed to generate category content',
-      error: error instanceof Error ? error.message : 'Unknown error'
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        success: false,
+        message: 'Failed to generate category content',
+        error: error instanceof Error ? error.message : 'Unknown error',
+      },
+      { status: 500 }
+    );
   }
 }

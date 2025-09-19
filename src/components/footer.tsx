@@ -53,7 +53,7 @@ export function Footer() {
               <span className='text-xl font-bold gradient-text'>MySonAI</span>
             </Link>
             <p className='text-gray-400 mb-4'>
-              AI çözümleri ve klasik bilişim hizmetleri ile işinizi bir üst seviyeye taşıyın. 
+              AI çözümleri ve klasik bilişim hizmetleri ile işinizi bir üst seviyeye taşıyın.
               Güvenilir teknoloji ortağınız.
             </p>
             <div className='flex space-x-4'>

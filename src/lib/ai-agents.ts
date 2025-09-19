@@ -393,13 +393,13 @@ Deneyimli hukuki danışman ve uyum uzmanı. Hukuki sorunları çözer, riskleri
 - Kişisel veri sızdırma`,
     capabilities: [
       'Hukuki Danışmanlık',
-      'Sözleşme Yönetimi', 
+      'Sözleşme Yönetimi',
       'KVKK & Veri Koruma',
       'Fikri Mülkiyet Hakları',
       'İş Hukuku',
       'E-ticaret Hukuku',
       'Teknoloji Hukuku',
-      'Uyumluluk & Risk Yönetimi'
+      'Uyumluluk & Risk Yönetimi',
     ],
   },
   {
@@ -533,7 +533,8 @@ Empatik psikolog ve danışman. Ruh sağlığı değerlendirmesi, stres yönetim
     id: 'erdem',
     name: 'Erdem',
     role: 'Baş Antrenör & Performans Direktörü',
-    description: 'Keşkesiz Yaşam fitness platformu kurucusu, 7 branş özel AI antrenör sistemi geliştiricisi',
+    description:
+      'Keşkesiz Yaşam fitness platformu kurucusu, 7 branş özel AI antrenör sistemi geliştiricisi',
     icon: '💪',
     expertise: [
       'AI Destekli Antrenman Sistemi',
@@ -685,7 +686,12 @@ Siber güvenlik uzmanı ve etik hacker. Sistemleri analiz eder, güvenlik açık
     role: 'İnsan Kaynakları Uzmanı & Kariyer Danışmanı',
     description: 'İK süreçleri ve kariyer gelişimi uzmanı',
     icon: '👩‍💼',
-    expertise: ['İnsan Kaynakları', 'Kariyer Danışmanlığı', 'Ekip Yönetimi', 'Performans Değerlendirme'],
+    expertise: [
+      'İnsan Kaynakları',
+      'Kariyer Danışmanlığı',
+      'Ekip Yönetimi',
+      'Performans Değerlendirme',
+    ],
     personality:
       'Empatik, destekleyici, adil ve gelişim odaklı. İnsanları anlar ve kariyerlerinde ilerlemelerine yardım eder.',
     systemPrompt: `# Selin - İnsan Kaynakları Uzmanı & Kariyer Danışmanı
@@ -709,7 +715,12 @@ Siber güvenlik uzmanı ve etik hacker. Sistemleri analiz eder, güvenlik açık
 - JSON formatında yanıt ver: {assessment, development, goals, support}
 - Gizliliğe önem ver
 - Adil ve objektif yaklaşım sergile`,
-    capabilities: ['İnsan Kaynakları', 'Kariyer Danışmanlığı', 'Ekip Yönetimi', 'Performans Değerlendirme'],
+    capabilities: [
+      'İnsan Kaynakları',
+      'Kariyer Danışmanlığı',
+      'Ekip Yönetimi',
+      'Performans Değerlendirme',
+    ],
   },
 ];
 
@@ -751,7 +762,7 @@ export function createAgentConversation(agents: string[], userRequest: string): 
 export function generateProductResponse(productRequest: ProductRequest, agents: string[]): string {
   const involvedAgents = agents.map(id => getAgentById(id)).filter(Boolean) as AIAgent[];
 
-  let response = `# 🎯 Ürün Oluşturma Planı\n\n`;
+  let response = '# 🎯 Ürün Oluşturma Planı\n\n';
   response += `**Müşteri Talebi:** ${productRequest.description}\n\n`;
   response += `**Ürün Türü:** ${productRequest.type}\n`;
   response += `**Hedef Kitle:** ${productRequest.target}\n\n`;
@@ -763,29 +774,29 @@ export function generateProductResponse(productRequest: ProductRequest, agents: 
     response += `**Zaman Çizelgesi:** ${productRequest.timeline}\n`;
   }
 
-  response += `\n## 👥 Katılan Uzmanlar:\n`;
+  response += '\n## 👥 Katılan Uzmanlar:\n';
   involvedAgents.forEach(agent => {
     response += `- **${agent.name}** (${agent.role})\n`;
   });
 
-  response += `\n## 📋 Detaylı Plan:\n\n`;
+  response += '\n## 📋 Detaylı Plan:\n\n';
 
   // Her ajanın katkısını ekle
   involvedAgents.forEach(agent => {
     response += `### ${agent.icon} ${agent.name} - ${agent.role}\n`;
     response += `${agent.personality}\n\n`;
-    response += `**Katkıları:**\n`;
+    response += '**Katkıları:**\n';
     agent.capabilities.forEach(capability => {
       response += `- ${capability}\n`;
     });
-    response += `\n`;
+    response += '\n';
   });
 
-  response += `## 🚀 Sonraki Adımlar:\n`;
-  response += `1. Detaylı analiz ve planlama\n`;
-  response += `2. Prototip geliştirme\n`;
-  response += `3. Test ve optimizasyon\n`;
-  response += `4. Lansman ve izleme\n\n`;
+  response += '## 🚀 Sonraki Adımlar:\n';
+  response += '1. Detaylı analiz ve planlama\n';
+  response += '2. Prototip geliştirme\n';
+  response += '3. Test ve optimizasyon\n';
+  response += '4. Lansman ve izleme\n\n';
 
   response += `*Bu plan ${involvedAgents.map(a => a.name).join(', ')} tarafından ortaklaşa hazırlanmıştır.*`;
 
@@ -795,178 +806,191 @@ export function generateProductResponse(productRequest: ProductRequest, agents: 
 // Asistanlar arası yönlendirme ve iletişim fonksiyonları
 export function getAgentRecommendation(currentAgentId: string, userQuery: string): AIAgent | null {
   const currentAgent = getAgentById(currentAgentId);
-  if (!currentAgent) return null;
+  if (!currentAgent) {
+    return null;
+  }
 
-        // Tacettin için özel kural: Hukuki konularda yönlendirme yapma
-        if (currentAgentId === 'tacettin') {
-          const query = userQuery.toLowerCase();
-          const hasLegalKeywords = query.includes('dava') || query.includes('dilekçe') || 
-                                  query.includes('mahkeme') || query.includes('hukuk') ||
-                                  query.includes('jandarma') || query.includes('idare') ||
-                                  query.includes('astsubay') || query.includes('temin') ||
-                                  query.includes('avukat') || query.includes('yasal') ||
-                                  query.includes('normlar') || query.includes('hiyerarşi') ||
-                                  query.includes('anayasa') || query.includes('kanun') ||
-                                  query.includes('mevzuat') || query.includes('hukuki') ||
-                                  query.includes('sözleşme') || query.includes('kvkk') ||
-                                  query.includes('ticaret hukuku') || query.includes('hukuki danışmanlık');
-          
-          if (hasLegalKeywords) {
-            return null; // Yönlendirme yapma - kendi uzmanlık alanında
-          }
-        }
+  // Tacettin için özel kural: Hukuki konularda yönlendirme yapma
+  if (currentAgentId === 'tacettin') {
+    const query = userQuery.toLowerCase();
+    const hasLegalKeywords =
+      query.includes('dava') ||
+      query.includes('dilekçe') ||
+      query.includes('mahkeme') ||
+      query.includes('hukuk') ||
+      query.includes('jandarma') ||
+      query.includes('idare') ||
+      query.includes('astsubay') ||
+      query.includes('temin') ||
+      query.includes('avukat') ||
+      query.includes('yasal') ||
+      query.includes('normlar') ||
+      query.includes('hiyerarşi') ||
+      query.includes('anayasa') ||
+      query.includes('kanun') ||
+      query.includes('mevzuat') ||
+      query.includes('hukuki') ||
+      query.includes('sözleşme') ||
+      query.includes('kvkk') ||
+      query.includes('ticaret hukuku') ||
+      query.includes('hukuki danışmanlık');
 
-        // Diğer ajanlar için de kendi uzmanlık alanlarında yönlendirme yapmama kuralı
-        if (currentAgent) {
-          const query = userQuery.toLowerCase();
-          const isInExpertise = currentAgent.expertise.some(expertise => 
-            query.includes(expertise.toLowerCase())
-          );
-          
-          if (isInExpertise) {
-            return null; // Kendi uzmanlık alanında yönlendirme yapma
-          }
-        }
+    if (hasLegalKeywords) {
+      return null; // Yönlendirme yapma - kendi uzmanlık alanında
+    }
+  }
+
+  // Diğer ajanlar için de kendi uzmanlık alanlarında yönlendirme yapmama kuralı
+  if (currentAgent) {
+    const query = userQuery.toLowerCase();
+    const isInExpertise = currentAgent.expertise.some(expertise =>
+      query.includes(expertise.toLowerCase())
+    );
+
+    if (isInExpertise) {
+      return null; // Kendi uzmanlık alanında yönlendirme yapma
+    }
+  }
 
   // Kullanıcı sorgusunu analiz et ve uygun asistanı bul
   const query = userQuery.toLowerCase();
-  
+
   // Anahtar kelime eşleştirmeleri
   const keywordMappings: { [key: string]: string } = {
     // Tasarım ve görsel
-    'tasarım': 'can',
-    'logo': 'can',
-    'görsel': 'can',
-    'ui': 'can',
-    'ux': 'can',
-    'marka': 'can',
-    'grafik': 'can',
+    tasarım: 'can',
+    logo: 'can',
+    görsel: 'can',
+    ui: 'can',
+    ux: 'can',
+    marka: 'can',
+    grafik: 'can',
     'web tasarım': 'can',
-    
+
     // Teknik ve kod
-    'kod': 'ayse',
-    'programlama': 'ayse',
-    'geliştirme': 'ayse',
-    'api': 'ayse',
-    'frontend': 'ayse',
-    'backend': 'ayse',
-    'yazılım': 'ayse',
-    
+    kod: 'ayse',
+    programlama: 'ayse',
+    geliştirme: 'ayse',
+    api: 'ayse',
+    frontend: 'ayse',
+    backend: 'ayse',
+    yazılım: 'ayse',
+
     // Sistem ve mimari
-    'mimari': 'burak',
-    'sistem': 'burak',
-    'teknoloji': 'burak',
-    'altyapı': 'burak',
-    'güvenlik': 'burak',
-    
+    mimari: 'burak',
+    sistem: 'burak',
+    teknoloji: 'burak',
+    altyapı: 'burak',
+    güvenlik: 'burak',
+
     // Ürün ve strateji
-    'ürün': 'elif',
-    'strateji': 'elif',
-    'kullanıcı': 'elif',
-    'deneyim': 'elif',
-    'pazar': 'elif',
-    
+    ürün: 'elif',
+    strateji: 'elif',
+    kullanıcı: 'elif',
+    deneyim: 'elif',
+    pazar: 'elif',
+
     // Proje yönetimi
-    'proje': 'fevzi',
-    'yönetim': 'fevzi',
-    'planlama': 'fevzi',
-    'ekip': 'fevzi',
-    
+    proje: 'fevzi',
+    yönetim: 'fevzi',
+    planlama: 'fevzi',
+    ekip: 'fevzi',
+
     // Veri ve analiz
-    'veri': 'deniz-analist',
-    'analiz': 'deniz-analist',
-    'istatistik': 'deniz-analist',
-    'rapor': 'deniz-analist',
-    
+    veri: 'deniz-analist',
+    analiz: 'deniz-analist',
+    istatistik: 'deniz-analist',
+    rapor: 'deniz-analist',
+
     // E-ticaret ve pazarlama
     'e-ticaret': 'zeynep',
-    'pazarlama': 'zeynep',
-    'satış': 'zeynep',
-    'online': 'zeynep',
-    
+    pazarlama: 'zeynep',
+    satış: 'zeynep',
+    online: 'zeynep',
+
     // SEO ve dijital
-    'seo': 'mert',
-    'dijital': 'mert',
-    'arama': 'mert',
-    'içerik': 'mert',
-    
+    seo: 'mert',
+    dijital: 'mert',
+    arama: 'mert',
+    içerik: 'mert',
+
     // Müşteri hizmetleri
-    'müşteri': 'seda',
-    'destek': 'seda',
-    'hizmet': 'seda',
-    'iletişim': 'seda',
-    
+    müşteri: 'seda',
+    destek: 'seda',
+    hizmet: 'seda',
+    iletişim: 'seda',
+
     // Finans
-    'finans': 'ahmet',
-    'bütçe': 'ahmet',
-    'maliyet': 'ahmet',
-    'roi': 'ahmet',
-    
+    finans: 'ahmet',
+    bütçe: 'ahmet',
+    maliyet: 'ahmet',
+    roi: 'ahmet',
+
     // Hukuki
-    'hukuki': 'tacettin',
-    'sözleşme': 'tacettin',
-    'kvkk': 'tacettin',
-    'normlar': 'tacettin',
-    'hiyerarşi': 'tacettin',
-    'anayasa': 'tacettin',
-    'yasal': 'tacettin',
-    
+    hukuki: 'tacettin',
+    sözleşme: 'tacettin',
+    kvkk: 'tacettin',
+    normlar: 'tacettin',
+    hiyerarşi: 'tacettin',
+    anayasa: 'tacettin',
+    yasal: 'tacettin',
+
     // Sağlık ve beslenme
-    'beslenme': 'nur',
-    'diyet': 'nur',
-    'sağlık': 'nur',
-    'kilo': 'nur',
-    
+    beslenme: 'nur',
+    diyet: 'nur',
+    sağlık: 'nur',
+    kilo: 'nur',
+
     // Eğitim
-    'eğitim': 'emre',
-    'öğrenme': 'emre',
-    'öğretim': 'aylin',
-    'akademik': 'aylin',
-    'müfredat': 'aylin',
-    
+    eğitim: 'emre',
+    öğrenme: 'emre',
+    öğretim: 'aylin',
+    akademik: 'aylin',
+    müfredat: 'aylin',
+
     // Psikoloji
-    'psikoloji': 'deniz',
+    psikoloji: 'deniz',
     'ruh sağlığı': 'deniz',
-    'stres': 'deniz',
-    'motivasyon': 'deniz',
-    
+    stres: 'deniz',
+    motivasyon: 'deniz',
+
     // Fitness
-    'fitness': 'erdem',
-    'spor': 'erdem',
-    'egzersiz': 'erdem',
-    'antrenman': 'erdem',
-    
+    fitness: 'erdem',
+    spor: 'erdem',
+    egzersiz: 'erdem',
+    antrenman: 'erdem',
+
     // Yaşam koçluğu
-    'yaşam': 'melis',
-    'koçluk': 'melis',
-    'hedef': 'melis',
-    'gelişim': 'melis',
-    
+    yaşam: 'melis',
+    koçluk: 'melis',
+    hedef: 'melis',
+    gelişim: 'melis',
+
     // Müzik ve sanat
-    'müzik': 'pinar',
-    'sanat': 'pinar',
-    'enstrüman': 'pinar',
-    'kompozisyon': 'pinar',
-    
+    müzik: 'pinar',
+    sanat: 'pinar',
+    enstrüman: 'pinar',
+    kompozisyon: 'pinar',
+
     // Siber güvenlik
-    'güvenlik': 'can',
-    'siber': 'can',
-    'hacker': 'can',
+    güvenlik: 'can',
+    siber: 'can',
+    hacker: 'can',
     'veri koruma': 'can',
-    'penetrasyon': 'can',
+    penetrasyon: 'can',
     'güvenlik açığı': 'can',
-    'firewall': 'can',
-    'şifreleme': 'can',
-    
+    firewall: 'can',
+    şifreleme: 'can',
+
     // İnsan kaynakları
-    'ik': 'selin',
+    ik: 'selin',
     'insan kaynakları': 'selin',
-    'kariyer': 'selin',
+    kariyer: 'selin',
     'işe alım': 'selin',
-    'performans': 'selin',
-    'ekip': 'selin',
-    'çalışan': 'selin',
-    'yetenek': 'selin',
+    performans: 'selin',
+    ekip: 'selin',
+    çalışan: 'selin',
+    yetenek: 'selin',
   };
 
   // En uygun asistanı bul
@@ -982,7 +1006,11 @@ export function getAgentRecommendation(currentAgentId: string, userQuery: string
   return null;
 }
 
-export function generateAgentRedirectMessage(currentAgent: AIAgent, recommendedAgent: AIAgent, userQuery: string): string {
+export function generateAgentRedirectMessage(
+  currentAgent: AIAgent,
+  recommendedAgent: AIAgent,
+  userQuery: string
+): string {
   return `Bu konuda size yardımcı olmaya çalışayım. Eğer daha spesifik bir uzmanlık alanına ihtiyacınız olursa, **${recommendedAgent.name}** (${recommendedAgent.role}) bu konuda daha detaylı bilgi verebilir.
 
 **İsteğe bağlı olarak ${recommendedAgent.name} ile de konuşabilirsiniz:**
@@ -991,7 +1019,11 @@ export function generateAgentRedirectMessage(currentAgent: AIAgent, recommendedA
 Ama önce size elimden geldiğince yardımcı olmaya çalışayım. Ne yapmak istiyorsunuz?`;
 }
 
-export function getAgentContactInfo(agentId: string): { email: string; phone: string; linkedin?: string } {
+export function getAgentContactInfo(agentId: string): {
+  email: string;
+  phone: string;
+  linkedin?: string;
+} {
   const agent = getAgentById(agentId);
   if (!agent) {
     return { email: 'info@mysonai.com', phone: '+90 (555) 000 000' };
@@ -999,7 +1031,9 @@ export function getAgentContactInfo(agentId: string): { email: string; phone: st
 
   return {
     email: `${agent.id}@mysonai.com`,
-    phone: `+90 (555) ${agent.id.toUpperCase().slice(0, 3)} ${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`,
-    linkedin: `linkedin.com/in/${agent.id}-mysonai`
+    phone: `+90 (555) ${agent.id.toUpperCase().slice(0, 3)} ${Math.floor(Math.random() * 1000)
+      .toString()
+      .padStart(3, '0')}`,
+    linkedin: `linkedin.com/in/${agent.id}-mysonai`,
   };
 }

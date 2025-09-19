@@ -21,9 +21,10 @@ export function ContactAIAssistant({ locale }: ContactAIAssistantProps) {
     {
       id: '1',
       role: 'assistant',
-      content: 'Merhaba! Ben MySonAI asistanınızım. Size nasıl yardımcı olabilirim? Projeniz hakkında sorularınızı sorabilir, hizmetlerimiz hakkında bilgi alabilir veya doğrudan iletişime geçmek için size yardımcı olabilirim.',
-      timestamp: new Date()
-    }
+      content:
+        'Merhaba! Ben MySonAI asistanınızım. Size nasıl yardımcı olabilirim? Projeniz hakkında sorularınızı sorabilir, hizmetlerimiz hakkında bilgi alabilir veya doğrudan iletişime geçmek için size yardımcı olabilirim.',
+      timestamp: new Date(),
+    },
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -38,13 +39,15 @@ export function ContactAIAssistant({ locale }: ContactAIAssistantProps) {
   }, [messages]);
 
   const handleSend = async () => {
-    if (!input.trim() || isLoading) return;
+    if (!input.trim() || isLoading) {
+      return;
+    }
 
     const userMessage: Message = {
       id: Date.now().toString(),
       role: 'user',
       content: input.trim(),
-      timestamp: new Date()
+      timestamp: new Date(),
     };
 
     setMessages(prev => [...prev, userMessage]);
@@ -61,7 +64,7 @@ export function ContactAIAssistant({ locale }: ContactAIAssistantProps) {
         body: JSON.stringify({
           message: userMessage.content,
           locale: locale,
-          conversationHistory: messages.slice(-5) // Son 5 mesajı gönder
+          conversationHistory: messages.slice(-5), // Son 5 mesajı gönder
         }),
       });
 
@@ -70,12 +73,12 @@ export function ContactAIAssistant({ locale }: ContactAIAssistantProps) {
       }
 
       const data = await response.json();
-      
+
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
         content: data.response,
-        timestamp: new Date()
+        timestamp: new Date(),
       };
 
       setMessages(prev => [...prev, assistantMessage]);
@@ -84,8 +87,9 @@ export function ContactAIAssistant({ locale }: ContactAIAssistantProps) {
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: 'Üzgünüm, şu anda teknik bir sorun yaşıyorum. Lütfen daha sonra tekrar deneyin veya doğrudan iletişime geçin.',
-        timestamp: new Date()
+        content:
+          'Üzgünüm, şu anda teknik bir sorun yaşıyorum. Lütfen daha sonra tekrar deneyin veya doğrudan iletişime geçin.',
+        timestamp: new Date(),
       };
       setMessages(prev => [...prev, errorMessage]);
     } finally {
@@ -105,7 +109,7 @@ export function ContactAIAssistant({ locale }: ContactAIAssistantProps) {
     'AI çözümleri hakkında bilgi alabilir miyim?',
     'Proje süreci nasıl işliyor?',
     'Fiyatlandırma nasıl yapılıyor?',
-    'Hemen iletişime geçmek istiyorum'
+    'Hemen iletişime geçmek istiyorum',
   ];
 
   return (
@@ -122,7 +126,7 @@ export function ContactAIAssistant({ locale }: ContactAIAssistantProps) {
 
       {/* Messages */}
       <div className='h-[400px] lg:h-[600px] overflow-y-auto p-6 lg:p-8 space-y-4 bg-black/20 rounded-lg mb-8'>
-        {messages.map((message) => (
+        {messages.map(message => (
           <div
             key={message.id}
             className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
@@ -135,18 +139,14 @@ export function ContactAIAssistant({ locale }: ContactAIAssistantProps) {
               }`}
             >
               <div className='flex items-start space-x-2'>
-                {message.role === 'assistant' && (
-                  <Bot className='w-5 h-5 mt-1 flex-shrink-0' />
-                )}
-                {message.role === 'user' && (
-                  <User className='w-5 h-5 mt-1 flex-shrink-0' />
-                )}
+                {message.role === 'assistant' && <Bot className='w-5 h-5 mt-1 flex-shrink-0' />}
+                {message.role === 'user' && <User className='w-5 h-5 mt-1 flex-shrink-0' />}
                 <div>
                   <p className='text-sm'>{message.content}</p>
                   <p className='text-xs opacity-70 mt-1'>
                     {message.timestamp.toLocaleTimeString('tr-TR', {
                       hour: '2-digit',
-                      minute: '2-digit'
+                      minute: '2-digit',
                     })}
                   </p>
                 </div>
@@ -154,7 +154,7 @@ export function ContactAIAssistant({ locale }: ContactAIAssistantProps) {
             </div>
           </div>
         ))}
-        
+
         {isLoading && (
           <div className='flex justify-start'>
             <div className='bg-white/20 rounded-2xl px-4 py-3 flex items-center space-x-2'>
@@ -164,7 +164,7 @@ export function ContactAIAssistant({ locale }: ContactAIAssistantProps) {
             </div>
           </div>
         )}
-        
+
         <div ref={messagesEndRef} />
       </div>
 
@@ -193,7 +193,7 @@ export function ContactAIAssistant({ locale }: ContactAIAssistantProps) {
         <input
           type='text'
           value={input}
-          onChange={(e) => setInput(e.target.value)}
+          onChange={e => setInput(e.target.value)}
           onKeyPress={handleKeyPress}
           placeholder='Mesajınızı yazın...'
           className='flex-1 px-6 lg:px-8 py-4 lg:py-6 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400 text-lg lg:text-xl'

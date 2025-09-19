@@ -50,11 +50,7 @@ const UXContext = createContext<UXContextType | undefined>(undefined);
 export function UXProvider({ children }: { children: ReactNode }) {
   const ux = useUX();
 
-  return (
-    <UXContext.Provider value={ux}>
-      {children}
-    </UXContext.Provider>
-  );
+  return <UXContext.Provider value={ux}>{children}</UXContext.Provider>;
 }
 
 export function useUXContext() {

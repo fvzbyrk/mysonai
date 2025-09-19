@@ -13,18 +13,16 @@ interface PerformanceWrapperProps {
   enableCodeSplitting?: boolean;
 }
 
-export function PerformanceWrapper({ 
+export function PerformanceWrapper({
   children,
   enableMonitoring = true,
   enableVirtualScrolling = false,
   enableImageOptimization = true,
-  enableCodeSplitting = true
+  enableCodeSplitting = true,
 }: PerformanceWrapperProps) {
   return (
     <PerformanceMonitor reportMetrics={enableMonitoring}>
-      <DynamicImport>
-        {children}
-      </DynamicImport>
+      <DynamicImport>{children}</DynamicImport>
     </PerformanceMonitor>
   );
 }
@@ -36,5 +34,5 @@ export {
   OptimizedImage,
   VirtualScroll,
   InfiniteScroll,
-  VirtualGrid
+  VirtualGrid,
 };

@@ -22,7 +22,12 @@ interface SecurityContextType {
   deviceFingerprint: any;
   sessionSecurity: any;
   addSecurityEvent: (type: string, severity: string, message: string, details: any) => void;
-  addSuspiciousActivity: (type: string, description: string, severity: string, details: any) => void;
+  addSuspiciousActivity: (
+    type: string,
+    description: string,
+    severity: string,
+    details: any
+  ) => void;
   blockThreat: (threatId: string) => void;
   clearSecurityEvents: () => void;
   updateSecurityScore: () => void;
@@ -34,11 +39,7 @@ const SecurityContext = createContext<SecurityContextType | undefined>(undefined
 export function SecurityProvider({ children }: { children: ReactNode }) {
   const security = useSecurity();
 
-  return (
-    <SecurityContext.Provider value={security}>
-      {children}
-    </SecurityContext.Provider>
-  );
+  return <SecurityContext.Provider value={security}>{children}</SecurityContext.Provider>;
 }
 
 export function useSecurityContext() {
@@ -56,20 +57,17 @@ interface SecurityWrapperProps {
   enableBlocking?: boolean;
 }
 
-export function SecurityWrapper({ 
+export function SecurityWrapper({
   children,
   enableMonitoring = true,
   enableAlerts = true,
-  enableBlocking = true
+  enableBlocking = true,
 }: SecurityWrapperProps) {
   return (
     <SecurityProvider>
       {children}
       {enableMonitoring && (
-        <SecurityMonitor 
-          enableAlerts={enableAlerts}
-          enableBlocking={enableBlocking}
-        />
+        <SecurityMonitor enableAlerts={enableAlerts} enableBlocking={enableBlocking} />
       )}
     </SecurityProvider>
   );

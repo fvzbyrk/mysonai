@@ -9,12 +9,12 @@ interface TrackableButtonProps extends ButtonProps {
   children: React.ReactNode;
 }
 
-export function TrackableButton({ 
-  trackingName, 
+export function TrackableButton({
+  trackingName,
   trackingLocation,
   onClick,
   children,
-  ...props 
+  ...props
 }: TrackableButtonProps) {
   const { trackButtonClick } = useAnalyticsContext();
 

@@ -23,30 +23,30 @@ export class SecurityUtils {
     errors: string[];
   } {
     const errors: string[] = [];
-    
+
     if (password.length < 8) {
       errors.push('Şifre en az 8 karakter olmalıdır');
     }
-    
+
     if (!/[A-Z]/.test(password)) {
       errors.push('Şifre en az bir büyük harf içermelidir');
     }
-    
+
     if (!/[a-z]/.test(password)) {
       errors.push('Şifre en az bir küçük harf içermelidir');
     }
-    
+
     if (!/\d/.test(password)) {
       errors.push('Şifre en az bir rakam içermelidir');
     }
-    
+
     if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
       errors.push('Şifre en az bir özel karakter içermelidir');
     }
-    
+
     return {
       isValid: errors.length === 0,
-      errors
+      errors,
     };
   }
 
@@ -55,11 +55,11 @@ export class SecurityUtils {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result = '';
     const crypto = require('crypto');
-    
+
     for (let i = 0; i < length; i++) {
       result += chars.charAt(crypto.randomInt(0, chars.length));
     }
-    
+
     return result;
   }
 
@@ -87,7 +87,7 @@ export class SecurityUtils {
       /(\bDELETE\s+FROM\b)/i,
       /(\bUPDATE\s+SET\b)/i,
     ];
-    
+
     return sqlPatterns.some(pattern => pattern.test(input));
   }
 
@@ -105,7 +105,7 @@ export class SecurityUtils {
       /<img[^>]*onerror/gi,
       /<svg[^>]*onload/gi,
     ];
-    
+
     return xssPatterns.some(pattern => pattern.test(input));
   }
 
@@ -135,19 +135,19 @@ export class SecurityUtils {
     const forwarded = request.headers.get('x-forwarded-for');
     const realIP = request.headers.get('x-real-ip');
     const remoteAddr = request.headers.get('x-remote-addr');
-    
+
     if (forwarded) {
       return forwarded.split(',')[0].trim();
     }
-    
+
     if (realIP) {
       return realIP;
     }
-    
+
     if (remoteAddr) {
       return remoteAddr;
     }
-    
+
     return 'unknown';
   }
 
@@ -167,21 +167,25 @@ export class SecurityUtils {
   }
 
   // Validate file upload
-  static validateFileUpload(file: File, allowedTypes: string[], maxSize: number): {
+  static validateFileUpload(
+    file: File,
+    allowedTypes: string[],
+    maxSize: number
+  ): {
     isValid: boolean;
     error?: string;
   } {
     if (file.size > maxSize) {
       return {
         isValid: false,
-        error: `Dosya boyutu ${maxSize} byte'dan büyük olamaz`
+        error: `Dosya boyutu ${maxSize} byte'dan büyük olamaz`,
       };
     }
 
     if (!allowedTypes.includes(file.type)) {
       return {
         isValid: false,
-        error: `Dosya türü desteklenmiyor. İzin verilen türler: ${allowedTypes.join(', ')}`
+        error: `Dosya türü desteklenmiyor. İzin verilen türler: ${allowedTypes.join(', ')}`,
       };
     }
 
@@ -213,7 +217,7 @@ export class SecurityUtils {
       /localStorage/gi,
       /sessionStorage/gi,
     ];
-    
+
     return suspiciousPatterns.some(pattern => pattern.test(input));
   }
 

@@ -9,18 +9,14 @@ interface MobileWrapperProps {
   enableMobileOptimizations?: boolean;
 }
 
-export function MobileWrapper({ 
+export function MobileWrapper({
   children,
   enableResponsive = true,
-  enableMobileOptimizations = true
+  enableMobileOptimizations = true,
 }: MobileWrapperProps) {
   return (
     <MobileProvider>
-      {enableResponsive && (
-        <Responsive>
-          {children}
-        </Responsive>
-      )}
+      {enableResponsive && <Responsive>{children}</Responsive>}
       {!enableResponsive && children}
     </MobileProvider>
   );
@@ -34,7 +30,7 @@ export {
   DesktopOnly,
   HideOnMobile,
   HideOnTablet,
-  HideOnDesktop
+  HideOnDesktop,
 } from './responsive';
 
 export { MobileNavigation } from './mobile-navigation';

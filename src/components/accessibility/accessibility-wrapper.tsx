@@ -10,10 +10,10 @@ interface AccessibilityWrapperProps {
   enableToolbar?: boolean;
 }
 
-export function AccessibilityWrapper({ 
+export function AccessibilityWrapper({
   children,
   enableSkipToContent = true,
-  enableToolbar = true
+  enableToolbar = true,
 }: AccessibilityWrapperProps) {
   return (
     <AccessibilityProvider>

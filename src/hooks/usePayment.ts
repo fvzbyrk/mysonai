@@ -29,7 +29,9 @@ export function usePayment() {
 
   // Fetch subscription data
   const fetchSubscription = async () => {
-    if (!user) return;
+    if (!user) {
+      return;
+    }
 
     setState(prev => ({ ...prev, loading: true, error: null }));
 
@@ -115,7 +117,9 @@ export function usePayment() {
 
   // Cancel subscription
   const cancelSubscription = async () => {
-    if (!user) return;
+    if (!user) {
+      return;
+    }
 
     setState(prev => ({ ...prev, loading: true, error: null }));
 
@@ -152,7 +156,9 @@ export function usePayment() {
 
   // Resume subscription
   const resumeSubscription = async () => {
-    if (!user) return;
+    if (!user) {
+      return;
+    }
 
     setState(prev => ({ ...prev, loading: true, error: null }));
 
@@ -189,7 +195,9 @@ export function usePayment() {
 
   // Get billing portal URL
   const getBillingPortal = async () => {
-    if (!user) return null;
+    if (!user) {
+      return null;
+    }
 
     try {
       const response = await fetch('/api/billing/portal', {
@@ -225,7 +233,9 @@ export function usePayment() {
 
   // Check if user can upgrade
   const canUpgrade = (targetPlan: PlanType) => {
-    if (!user) return false;
+    if (!user) {
+      return false;
+    }
 
     const currentPlan = user.plan as PlanType;
     const planHierarchy = { free: 0, pro: 1, enterprise: 2 };
@@ -235,7 +245,9 @@ export function usePayment() {
 
   // Check if user can downgrade
   const canDowngrade = (targetPlan: PlanType) => {
-    if (!user) return false;
+    if (!user) {
+      return false;
+    }
 
     const currentPlan = user.plan as PlanType;
     const planHierarchy = { free: 0, pro: 1, enterprise: 2 };

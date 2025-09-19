@@ -5,12 +5,12 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { FeatureGuard } from '@/components/feature-guard';
 import Link from 'next/link';
-import { 
-  Code, 
-  Terminal, 
-  Zap, 
-  Shield, 
-  BookOpen, 
+import {
+  Code,
+  Terminal,
+  Zap,
+  Shield,
+  BookOpen,
   ArrowRight,
   CheckCircle,
   Star,
@@ -21,7 +21,7 @@ import {
   Github,
   Globe,
   Key,
-  Database
+  Database,
 } from 'lucide-react';
 import type { Metadata } from 'next';
 
@@ -99,7 +99,7 @@ const apiEndpoints = [
     description: 'Mevcut AI asistanlarını listele',
     parameters: ['limit', 'offset'],
     example: {
-      request: `GET /api/v1/agents?limit=10&offset=0`,
+      request: 'GET /api/v1/agents?limit=10&offset=0',
       response: `{
   "agents": [
     {
@@ -136,7 +136,7 @@ const apiEndpoints = [
     description: 'API kullanım istatistikleri',
     parameters: ['start_date', 'end_date'],
     example: {
-      request: `GET /api/v1/usage?start_date=2024-01-01&end_date=2024-01-31`,
+      request: 'GET /api/v1/usage?start_date=2024-01-01&end_date=2024-01-31',
       response: `{
   "total_requests": 1250,
   "total_tokens": 45000,
@@ -212,14 +212,12 @@ function APIContent({ params }: { params: { locale: Locale } }) {
       <section className='relative overflow-hidden py-20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center'>
-            <h1 className='text-5xl md:text-6xl font-bold text-white mb-6'>
-              MySonAI API
-            </h1>
+            <h1 className='text-5xl md:text-6xl font-bold text-white mb-6'>MySonAI API</h1>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto mb-8'>
-              RESTful API ile AI asistanlarınızı kendi uygulamalarınıza entegre edin. 
-              Hızlı, güvenli ve ölçeklenebilir çözümler.
+              RESTful API ile AI asistanlarınızı kendi uygulamalarınıza entegre edin. Hızlı, güvenli
+              ve ölçeklenebilir çözümler.
             </p>
-            
+
             {/* Quick Actions */}
             <div className='flex flex-col sm:flex-row gap-4 justify-center mb-8'>
               <Link
@@ -245,9 +243,7 @@ function APIContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              API Özellikleri
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>API Özellikleri</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               MySonAI API'nin güçlü özellikleri
             </p>
@@ -255,8 +251,13 @@ function APIContent({ params }: { params: { locale: Locale } }) {
 
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
             {apiFeatures.map((feature, index) => (
-              <Card key={index} className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'>
-                <div className={`w-16 h-16 bg-gradient-to-r ${feature.color} rounded-full flex items-center justify-center mx-auto mb-4`}>
+              <Card
+                key={index}
+                className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'
+              >
+                <div
+                  className={`w-16 h-16 bg-gradient-to-r ${feature.color} rounded-full flex items-center justify-center mx-auto mb-4`}
+                >
                   <feature.icon className='w-8 h-8 text-white' />
                 </div>
                 <h3 className='text-xl font-bold text-white mb-3'>{feature.title}</h3>
@@ -271,9 +272,7 @@ function APIContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16 bg-black/20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              API Endpoints
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>API Endpoints</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               MySonAI API'nin temel endpoint'leri
             </p>
@@ -284,7 +283,7 @@ function APIContent({ params }: { params: { locale: Locale } }) {
               <Card key={index} className='bg-white/10 backdrop-blur-md border-white/20 p-6'>
                 <div className='flex items-center justify-between mb-4'>
                   <div className='flex items-center space-x-4'>
-                    <Badge 
+                    <Badge
                       variant={endpoint.method === 'POST' ? 'default' : 'secondary'}
                       className={endpoint.method === 'POST' ? 'bg-green-500' : 'bg-blue-500'}
                     >
@@ -301,7 +300,7 @@ function APIContent({ params }: { params: { locale: Locale } }) {
                     </Badge>
                   ))}
                 </div>
-                
+
                 {/* Example */}
                 <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
                   <div>
@@ -327,9 +326,7 @@ function APIContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              SDK Dilleri
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>SDK Dilleri</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               Favori programlama dilinizde MySonAI'ı kullanın
             </p>
@@ -337,12 +334,15 @@ function APIContent({ params }: { params: { locale: Locale } }) {
 
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
             {sdkLanguages.map((sdk, index) => (
-              <Card key={index} className='bg-white/10 backdrop-blur-md border-white/20 p-6 hover:bg-white/15 transition-all duration-300'>
+              <Card
+                key={index}
+                className='bg-white/10 backdrop-blur-md border-white/20 p-6 hover:bg-white/15 transition-all duration-300'
+              >
                 <div className='flex items-center mb-4'>
                   <span className='text-3xl mr-3'>{sdk.icon}</span>
                   <div>
                     <h3 className='text-xl font-bold text-white'>{sdk.name}</h3>
-                    <Badge 
+                    <Badge
                       variant={sdk.status === 'Available' ? 'default' : 'secondary'}
                       className={sdk.status === 'Available' ? 'bg-green-500' : 'bg-gray-500'}
                     >
@@ -376,9 +376,7 @@ function APIContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16 bg-black/20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              API Fiyatlandırması
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>API Fiyatlandırması</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               İhtiyacınıza uygun API planını seçin
             </p>
@@ -386,7 +384,10 @@ function APIContent({ params }: { params: { locale: Locale } }) {
 
           <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
             {pricingTiers.map((tier, index) => (
-              <Card key={index} className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'>
+              <Card
+                key={index}
+                className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'
+              >
                 <h3 className='text-2xl font-bold text-white mb-2'>{tier.name}</h3>
                 <div className='text-3xl font-bold text-white mb-2'>{tier.price}</div>
                 <div className='text-gray-400 text-sm mb-4'>{tier.requests} istek/ay</div>
@@ -406,7 +407,13 @@ function APIContent({ params }: { params: { locale: Locale } }) {
                       : 'bg-white/10 hover:bg-white/20 border border-white/20'
                   } text-white`}
                 >
-                  <Link href={tier.name === 'Enterprise' ? `/${params.locale}/contact` : `/${params.locale}/signup`}>
+                  <Link
+                    href={
+                      tier.name === 'Enterprise'
+                        ? `/${params.locale}/contact`
+                        : `/${params.locale}/signup`
+                    }
+                  >
                     {tier.name === 'Enterprise' ? 'İletişime Geç' : 'Başla'}
                     <ArrowRight className='w-4 h-4 ml-2' />
                   </Link>
@@ -421,12 +428,8 @@ function APIContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16'>
         <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Hızlı Başlangıç
-            </h2>
-            <p className='text-xl text-gray-300'>
-              MySonAI API'yi 5 dakikada kullanmaya başlayın
-            </p>
+            <h2 className='text-4xl font-bold text-white mb-4'>Hızlı Başlangıç</h2>
+            <p className='text-xl text-gray-300'>MySonAI API'yi 5 dakikada kullanmaya başlayın</p>
           </div>
 
           <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
@@ -434,47 +437,44 @@ function APIContent({ params }: { params: { locale: Locale } }) {
               <div className='w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4'>
                 <Key className='w-8 h-8 text-white' />
               </div>
-              <h3 className='text-xl font-bold text-white mb-3'>
-                API Anahtarı Alın
-              </h3>
-              <p className='text-gray-300 mb-4'>
-                Dashboard'dan API anahtarınızı oluşturun
-              </p>
+              <h3 className='text-xl font-bold text-white mb-3'>API Anahtarı Alın</h3>
+              <p className='text-gray-300 mb-4'>Dashboard'dan API anahtarınızı oluşturun</p>
               <Link href={`/${params.locale}/dashboard`}>
-                <Button variant='outline' className='w-full border-white/20 text-white hover:bg-white/10'>
+                <Button
+                  variant='outline'
+                  className='w-full border-white/20 text-white hover:bg-white/10'
+                >
                   Dashboard'a Git
                 </Button>
               </Link>
             </Card>
-            
+
             <Card className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center'>
               <div className='w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4'>
                 <Terminal className='w-8 h-8 text-white' />
               </div>
-              <h3 className='text-xl font-bold text-white mb-3'>
-                SDK'yı Yükleyin
-              </h3>
-              <p className='text-gray-300 mb-4'>
-                NPM veya pip ile SDK'yı yükleyin
-              </p>
-              <Button variant='outline' className='w-full border-white/20 text-white hover:bg-white/10'>
+              <h3 className='text-xl font-bold text-white mb-3'>SDK'yı Yükleyin</h3>
+              <p className='text-gray-300 mb-4'>NPM veya pip ile SDK'yı yükleyin</p>
+              <Button
+                variant='outline'
+                className='w-full border-white/20 text-white hover:bg-white/10'
+              >
                 <Copy className='w-4 h-4 mr-2' />
                 Kodu Kopyala
               </Button>
             </Card>
-            
+
             <Card className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center'>
               <div className='w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4'>
                 <Code className='w-8 h-8 text-white' />
               </div>
-              <h3 className='text-xl font-bold text-white mb-3'>
-                İlk İsteği Gönderin
-              </h3>
-              <p className='text-gray-300 mb-4'>
-                AI asistanınızla konuşmaya başlayın
-              </p>
+              <h3 className='text-xl font-bold text-white mb-3'>İlk İsteği Gönderin</h3>
+              <p className='text-gray-300 mb-4'>AI asistanınızla konuşmaya başlayın</p>
               <Link href={`/${params.locale}/demo`}>
-                <Button variant='outline' className='w-full border-white/20 text-white hover:bg-white/10'>
+                <Button
+                  variant='outline'
+                  className='w-full border-white/20 text-white hover:bg-white/10'
+                >
                   Demo'yu Dene
                 </Button>
               </Link>
@@ -487,9 +487,7 @@ function APIContent({ params }: { params: { locale: Locale } }) {
       <section className='py-20'>
         <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center'>
           <div className='bg-white/10 backdrop-blur-md rounded-2xl p-10 border border-white/20'>
-            <h2 className='text-4xl font-bold text-white mb-6'>
-              API ile Geliştirmeye Başlayın
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-6'>API ile Geliştirmeye Başlayın</h2>
             <p className='text-xl text-gray-300 mb-8'>
               MySonAI API ile AI asistanlarınızı kendi uygulamalarınıza entegre edin
             </p>

@@ -1,5 +1,5 @@
 import { PageLoading } from '@/components/ui/loading-states';
 
 export default function Loading() {
-  return <PageLoading message="Sayfa yükleniyor..." />;
+  return <PageLoading message='Sayfa yükleniyor...' />;
 }

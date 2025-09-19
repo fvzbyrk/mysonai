@@ -2,7 +2,7 @@ import { Locale } from '@/lib/i18n';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { 
+import {
   Star,
   Quote,
   ArrowRight,
@@ -18,7 +18,7 @@ import {
   Video,
   Music,
   GraduationCap,
-  Shield
+  Shield,
 } from 'lucide-react';
 import type { Metadata } from 'next';
 
@@ -48,56 +48,62 @@ const testimonials = [
     name: 'Ahmet Yılmaz',
     company: 'TechCorp',
     position: 'CTO',
-    content: 'MySonAI ile çalışmak harika bir deneyimdi. AI çözümleri sayesinde iş süreçlerimizde %40 verimlilik artışı sağladık.',
+    content:
+      'MySonAI ile çalışmak harika bir deneyimdi. AI çözümleri sayesinde iş süreçlerimizde %40 verimlilik artışı sağladık.',
     rating: 5,
     project: 'AI Otomasyon Sistemi',
-    icon: Briefcase
+    icon: Briefcase,
   },
   {
     name: 'Elif Demir',
     company: 'EduTech',
     position: 'Kurucu',
-    content: 'MySon Education ile eğitim platformumuzu tamamen yeniledik. Öğrenci memnuniyeti %95\'e çıktı.',
+    content:
+      "MySon Education ile eğitim platformumuzu tamamen yeniledik. Öğrenci memnuniyeti %95'e çıktı.",
     rating: 5,
     project: 'Eğitim Platformu',
-    icon: GraduationCap
+    icon: GraduationCap,
   },
   {
     name: 'Burak Kaya',
     company: 'MediaPro',
     position: 'Yaratıcı Direktör',
-    content: 'MySon Video ile ürettiğimiz animasyonlar müşterilerimizi büyüledi. Yaratıcı süreçte AI\'ın gücünü gördük.',
+    content:
+      "MySon Video ile ürettiğimiz animasyonlar müşterilerimizi büyüledi. Yaratıcı süreçte AI'ın gücünü gördük.",
     rating: 5,
     project: 'Animasyon Serisi',
-    icon: Video
+    icon: Video,
   },
   {
     name: 'Ayşe Özkan',
     company: 'LawFirm',
     position: 'Ortak',
-    content: 'MySon Avukat ile hukuki süreçlerimizi hızlandırdık. Sözleşme analizi süremiz %70 azaldı.',
+    content:
+      'MySon Avukat ile hukuki süreçlerimizi hızlandırdık. Sözleşme analizi süremiz %70 azaldı.',
     rating: 5,
     project: 'Hukuki Otomasyon',
-    icon: Shield
+    icon: Shield,
   },
   {
     name: 'Deniz Çelik',
     company: 'ExportCo',
     position: 'Genel Müdür',
-    content: 'MySon Firmatch ile ihracat süreçlerimizi optimize ettik. Yeni pazarlara açılımımız hızlandı.',
+    content:
+      'MySon Firmatch ile ihracat süreçlerimizi optimize ettik. Yeni pazarlara açılımımız hızlandı.',
     rating: 5,
     project: 'Dış Ticaret Sistemi',
-    icon: Globe
+    icon: Globe,
   },
   {
     name: 'Pınar Yıldız',
     company: 'MusicStudio',
     position: 'Prodüktör',
-    content: 'MySon Music ile müzik prodüksiyon sürecimizde devrim yarattık. Kalite ve hız mükemmel.',
+    content:
+      'MySon Music ile müzik prodüksiyon sürecimizde devrim yarattık. Kalite ve hız mükemmel.',
     rating: 5,
     project: 'Müzik Prodüksiyon',
-    icon: Music
-  }
+    icon: Music,
+  },
 ];
 
 // Project categories
@@ -107,12 +113,7 @@ const projectCategories = [
     count: 25,
     icon: Target,
     color: 'from-purple-500 to-pink-500',
-    projects: [
-      'Chatbot Geliştirme',
-      'Veri Analizi Sistemi',
-      'Görüntü İşleme',
-      'Doğal Dil İşleme'
-    ]
+    projects: ['Chatbot Geliştirme', 'Veri Analizi Sistemi', 'Görüntü İşleme', 'Doğal Dil İşleme'],
   },
   {
     title: 'Web Geliştirme',
@@ -123,8 +124,8 @@ const projectCategories = [
       'Kurumsal Web Siteleri',
       'E-ticaret Platformları',
       'Web Uygulamaları',
-      'API Entegrasyonları'
-    ]
+      'API Entegrasyonları',
+    ],
   },
   {
     title: 'Mobil Uygulamalar',
@@ -135,21 +136,16 @@ const projectCategories = [
       'iOS Uygulamaları',
       'Android Uygulamaları',
       'Cross-platform Çözümler',
-      'Mobil Optimizasyon'
-    ]
+      'Mobil Optimizasyon',
+    ],
   },
   {
     title: 'Dijital Medya',
     count: 15,
     icon: Video,
     color: 'from-red-500 to-pink-500',
-    projects: [
-      'Video Prodüksiyon',
-      'Animasyon Üretimi',
-      'Sesli Kitap',
-      'Podcast Prodüksiyon'
-    ]
-  }
+    projects: ['Video Prodüksiyon', 'Animasyon Üretimi', 'Sesli Kitap', 'Podcast Prodüksiyon'],
+  },
 ];
 
 // Success metrics
@@ -157,23 +153,23 @@ const successMetrics = [
   {
     metric: '50+',
     label: 'Tamamlanan Proje',
-    description: 'Başarıyla teslim edilen proje sayısı'
+    description: 'Başarıyla teslim edilen proje sayısı',
   },
   {
     metric: '100+',
     label: 'Mutlu Müşteri',
-    description: 'Hizmetlerimizden memnun kalan müşteri sayısı'
+    description: 'Hizmetlerimizden memnun kalan müşteri sayısı',
   },
   {
     metric: '98%',
     label: 'Müşteri Memnuniyeti',
-    description: 'Müşteri geri bildirim puanı ortalaması'
+    description: 'Müşteri geri bildirim puanı ortalaması',
   },
   {
     metric: '5',
     label: 'Yıl Deneyim',
-    description: 'Sektördeki toplam deneyim süremiz'
-  }
+    description: 'Sektördeki toplam deneyim süremiz',
+  },
 ];
 
 function ReferencesContent({ params }: { params: { locale: Locale } }) {
@@ -183,14 +179,12 @@ function ReferencesContent({ params }: { params: { locale: Locale } }) {
       <section className='relative overflow-hidden py-20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center'>
-            <h1 className='text-5xl md:text-6xl font-bold text-white mb-6'>
-              Referanslarımız
-            </h1>
+            <h1 className='text-5xl md:text-6xl font-bold text-white mb-6'>Referanslarımız</h1>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto mb-8'>
-              Başarılı projelerimiz ve mutlu müşterilerimizin hikayeleri. 
-              AI çözümleri ve klasik bilişim hizmetlerimizle elde ettiğimiz sonuçlar.
+              Başarılı projelerimiz ve mutlu müşterilerimizin hikayeleri. AI çözümleri ve klasik
+              bilişim hizmetlerimizle elde ettiğimiz sonuçlar.
             </p>
-            
+
             {/* Success Metrics */}
             <div className='grid grid-cols-2 md:grid-cols-4 gap-8 mt-12'>
               {successMetrics.map((metric, index) => (
@@ -209,9 +203,7 @@ function ReferencesContent({ params }: { params: { locale: Locale } }) {
       <section className='py-20 bg-black/20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Müşteri Yorumları
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>Müşteri Yorumları</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               Projelerimizden memnun kalan müşterilerimizin deneyimleri
             </p>
@@ -219,7 +211,10 @@ function ReferencesContent({ params }: { params: { locale: Locale } }) {
 
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
             {testimonials.map((testimonial, index) => (
-              <Card key={index} className='bg-white/10 backdrop-blur-md border-white/20 p-6 hover:bg-white/15 transition-all duration-300'>
+              <Card
+                key={index}
+                className='bg-white/10 backdrop-blur-md border-white/20 p-6 hover:bg-white/15 transition-all duration-300'
+              >
                 <div className='flex items-center mb-4'>
                   <div className='w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mr-4'>
                     <testimonial.icon className='w-6 h-6 text-white' />
@@ -230,17 +225,17 @@ function ReferencesContent({ params }: { params: { locale: Locale } }) {
                     <p className='text-gray-400 text-sm'>{testimonial.company}</p>
                   </div>
                 </div>
-                
+
                 <div className='flex items-center mb-4'>
                   {[...Array(testimonial.rating)].map((_, i) => (
                     <Star key={i} className='w-4 h-4 text-yellow-400 fill-current' />
                   ))}
                 </div>
-                
+
                 <blockquote className='text-gray-300 mb-4 italic'>
                   "{testimonial.content}"
                 </blockquote>
-                
+
                 <div className='text-sm text-purple-400 font-semibold'>
                   Proje: {testimonial.project}
                 </div>
@@ -254,9 +249,7 @@ function ReferencesContent({ params }: { params: { locale: Locale } }) {
       <section className='py-20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Proje Kategorilerimiz
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>Proje Kategorilerimiz</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               Farklı sektörlerde gerçekleştirdiğimiz başarılı projeler
             </p>
@@ -264,14 +257,19 @@ function ReferencesContent({ params }: { params: { locale: Locale } }) {
 
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
             {projectCategories.map((category, index) => (
-              <Card key={index} className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300 group'>
-                <div className={`w-16 h-16 bg-gradient-to-r ${category.color} rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}>
+              <Card
+                key={index}
+                className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300 group'
+              >
+                <div
+                  className={`w-16 h-16 bg-gradient-to-r ${category.color} rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}
+                >
                   <category.icon className='w-8 h-8 text-white' />
                 </div>
                 <h3 className='text-2xl font-bold text-white mb-2'>{category.title}</h3>
                 <div className='text-3xl font-bold text-purple-400 mb-4'>{category.count}+</div>
                 <div className='text-gray-300 text-sm mb-4'>Proje</div>
-                
+
                 <div className='space-y-2'>
                   {category.projects.map((project, projectIndex) => (
                     <div key={projectIndex} className='flex items-center text-gray-300 text-sm'>
@@ -290,9 +288,7 @@ function ReferencesContent({ params }: { params: { locale: Locale } }) {
       <section className='py-20 bg-black/20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Başarı Hikayeleri
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>Başarı Hikayeleri</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               Müşterilerimizin dijital dönüşüm yolculukları ve elde ettikleri sonuçlar
             </p>

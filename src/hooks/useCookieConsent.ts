@@ -37,7 +37,9 @@ export function useCookieConsent(): CookieConsentHook {
 
   // Load preferences from localStorage
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined') {
+      return;
+    }
 
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
@@ -59,7 +61,9 @@ export function useCookieConsent(): CookieConsentHook {
 
   // Update Google Analytics consent
   const updateGoogleAnalyticsConsent = useCallback((prefs: CookiePreferences) => {
-    if (typeof window === 'undefined' || !window.gtag) return;
+    if (typeof window === 'undefined' || !window.gtag) {
+      return;
+    }
 
     window.gtag('consent', 'update', {
       analytics_storage: prefs.analytics ? 'granted' : 'denied',
@@ -173,7 +177,9 @@ export function useCookieConsent(): CookieConsentHook {
       functional: 0,
     };
 
-    if (typeof document === 'undefined') return stats;
+    if (typeof document === 'undefined') {
+      return stats;
+    }
 
     // Count cookies by type (simplified)
     const cookies = document.cookie.split(';');
@@ -196,7 +202,9 @@ export function useCookieConsent(): CookieConsentHook {
 
   // Initialize Google Analytics consent
   useEffect(() => {
-    if (typeof window === 'undefined' || !window.gtag) return;
+    if (typeof window === 'undefined' || !window.gtag) {
+      return;
+    }
 
     // Set default consent state
     window.gtag('consent', 'default', {

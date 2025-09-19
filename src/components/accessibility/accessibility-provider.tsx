@@ -32,9 +32,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
   const accessibility = useAccessibility();
 
   return (
-    <AccessibilityContext.Provider value={accessibility}>
-      {children}
-    </AccessibilityContext.Provider>
+    <AccessibilityContext.Provider value={accessibility}>{children}</AccessibilityContext.Provider>
   );
 }
 

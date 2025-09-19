@@ -40,20 +40,38 @@ export function Responsive({
 
   // Determine what to render
   const getContent = () => {
-    if (isMobile && mobile !== undefined) return mobile;
-    if (isTablet && tablet !== undefined) return tablet;
-    if (isDesktop && desktop !== undefined) return desktop;
+    if (isMobile && mobile !== undefined) {
+      return mobile;
+    }
+    if (isTablet && tablet !== undefined) {
+      return tablet;
+    }
+    if (isDesktop && desktop !== undefined) {
+      return desktop;
+    }
     return children;
   };
 
   // Determine visibility
   const shouldShow = () => {
-    if (hideOnMobile && isMobile) return false;
-    if (hideOnTablet && isTablet) return false;
-    if (hideOnDesktop && isDesktop) return false;
-    if (showOnMobile && !isMobile) return false;
-    if (showOnTablet && !isTablet) return false;
-    if (showOnDesktop && !isDesktop) return false;
+    if (hideOnMobile && isMobile) {
+      return false;
+    }
+    if (hideOnTablet && isTablet) {
+      return false;
+    }
+    if (hideOnDesktop && isDesktop) {
+      return false;
+    }
+    if (showOnMobile && !isMobile) {
+      return false;
+    }
+    if (showOnTablet && !isTablet) {
+      return false;
+    }
+    if (showOnDesktop && !isDesktop) {
+      return false;
+    }
     return true;
   };
 
@@ -69,15 +87,17 @@ export function Responsive({
     isDesktop && desktopClassName
   );
 
-  return (
-    <div className={responsiveClassName}>
-      {content}
-    </div>
-  );
+  return <div className={responsiveClassName}>{content}</div>;
 }
 
 // Mobile-only component
-export function MobileOnly({ children, className }: { children: React.ReactNode; className?: string }) {
+export function MobileOnly({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
     <Responsive className={className} showOnMobile>
       {children}
@@ -86,7 +106,13 @@ export function MobileOnly({ children, className }: { children: React.ReactNode;
 }
 
 // Tablet-only component
-export function TabletOnly({ children, className }: { children: React.ReactNode; className?: string }) {
+export function TabletOnly({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
     <Responsive className={className} showOnTablet>
       {children}
@@ -95,7 +121,13 @@ export function TabletOnly({ children, className }: { children: React.ReactNode;
 }
 
 // Desktop-only component
-export function DesktopOnly({ children, className }: { children: React.ReactNode; className?: string }) {
+export function DesktopOnly({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
     <Responsive className={className} showOnDesktop>
       {children}
@@ -104,7 +136,13 @@ export function DesktopOnly({ children, className }: { children: React.ReactNode
 }
 
 // Hide on mobile component
-export function HideOnMobile({ children, className }: { children: React.ReactNode; className?: string }) {
+export function HideOnMobile({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
     <Responsive className={className} hideOnMobile>
       {children}
@@ -113,7 +151,13 @@ export function HideOnMobile({ children, className }: { children: React.ReactNod
 }
 
 // Hide on tablet component
-export function HideOnTablet({ children, className }: { children: React.ReactNode; className?: string }) {
+export function HideOnTablet({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
     <Responsive className={className} hideOnTablet>
       {children}
@@ -122,7 +166,13 @@ export function HideOnTablet({ children, className }: { children: React.ReactNod
 }
 
 // Hide on desktop component
-export function HideOnDesktop({ children, className }: { children: React.ReactNode; className?: string }) {
+export function HideOnDesktop({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
     <Responsive className={className} hideOnDesktop>
       {children}

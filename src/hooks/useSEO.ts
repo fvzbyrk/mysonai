@@ -73,13 +73,13 @@ export function useSEO() {
     script.type = 'application/ld+json';
     script.textContent = JSON.stringify(data);
     script.id = 'structured-data';
-    
+
     // Remove existing structured data
     const existing = document.getElementById('structured-data');
     if (existing) {
       existing.remove();
     }
-    
+
     document.head.appendChild(script);
     setStructuredData(data);
   };
@@ -100,7 +100,7 @@ export function useSEO() {
     // Remove existing hreflang tags
     const existing = document.querySelectorAll('link[rel="alternate"][hreflang]');
     existing.forEach(link => link.remove());
-    
+
     // Add new hreflang tags
     hreflangs.forEach(({ lang, url }) => {
       const link = document.createElement('link');
@@ -145,8 +145,8 @@ export function useSEO() {
         '@type': 'ListItem',
         position: index + 1,
         name: item.name,
-        item: item.url
-      }))
+        item: item.url,
+      })),
     };
   };
 
@@ -177,7 +177,7 @@ export function useSEO() {
       logo: data.logo,
       description: data.description,
       address: data.address,
-      contactPoint: data.contactPoint
+      contactPoint: data.contactPoint,
     };
   };
 
@@ -191,9 +191,9 @@ export function useSEO() {
         name: faq.question,
         acceptedAnswer: {
           '@type': 'Answer',
-          text: faq.answer
-        }
-      }))
+          text: faq.answer,
+        },
+      })),
     };
   };
 
@@ -216,15 +216,15 @@ export function useSEO() {
       image: data.image,
       author: {
         '@type': 'Person',
-        name: data.author
+        name: data.author,
       },
       datePublished: data.datePublished,
       dateModified: data.dateModified || data.datePublished,
       publisher: {
         '@type': 'Organization',
-        name: data.publisher
+        name: data.publisher,
       },
-      url: data.url
+      url: data.url,
     };
   };
 
@@ -248,19 +248,21 @@ export function useSEO() {
       image: data.image,
       brand: {
         '@type': 'Brand',
-        name: data.brand
+        name: data.brand,
       },
       offers: {
         '@type': 'Offer',
         price: data.price,
         priceCurrency: data.currency,
-        availability: data.availability
+        availability: data.availability,
       },
-      aggregateRating: data.rating ? {
-        '@type': 'AggregateRating',
-        ratingValue: data.rating,
-        reviewCount: data.reviewCount
-      } : undefined
+      aggregateRating: data.rating
+        ? {
+            '@type': 'AggregateRating',
+            ratingValue: data.rating,
+            reviewCount: data.reviewCount,
+          }
+        : undefined,
     };
   };
 
@@ -297,15 +299,17 @@ export function useSEO() {
         addressLocality: data.address.addressLocality,
         addressRegion: data.address.addressRegion,
         postalCode: data.address.postalCode,
-        addressCountry: data.address.addressCountry
+        addressCountry: data.address.addressCountry,
       },
-      geo: data.geo ? {
-        '@type': 'GeoCoordinates',
-        latitude: data.geo.latitude,
-        longitude: data.geo.longitude
-      } : undefined,
+      geo: data.geo
+        ? {
+            '@type': 'GeoCoordinates',
+            latitude: data.geo.latitude,
+            longitude: data.geo.longitude,
+          }
+        : undefined,
       openingHours: data.openingHours,
-      priceRange: data.priceRange
+      priceRange: data.priceRange,
     };
   };
 
@@ -320,7 +324,7 @@ export function useSEO() {
     // State
     metaTags,
     structuredData,
-    
+
     // Basic SEO
     updateTitle,
     updateDescription,
@@ -334,7 +338,7 @@ export function useSEO() {
     addViewport,
     addCharset,
     addLanguage,
-    
+
     // Structured Data
     addStructuredData,
     generateBreadcrumbData,

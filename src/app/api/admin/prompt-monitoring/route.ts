@@ -21,15 +21,11 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       success: true,
       report,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
-
   } catch (error) {
     console.error('Error getting prompt monitoring report:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' }, 
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -48,17 +44,13 @@ export async function POST(request: NextRequest) {
       // promptMonitor.resetLogs();
       return NextResponse.json({
         success: true,
-        message: 'Monitoring logs reset successfully'
+        message: 'Monitoring logs reset successfully',
       });
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-
   } catch (error) {
     console.error('Error in prompt monitoring admin action:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' }, 
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

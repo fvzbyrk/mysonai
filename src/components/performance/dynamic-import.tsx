@@ -13,25 +13,25 @@ interface DynamicImportProps {
 
 // Default fallback components
 const DefaultSkeletonFallback = () => (
-  <div className="space-y-4">
-    <Skeleton className="h-4 w-3/4" />
-    <Skeleton className="h-4 w-1/2" />
-    <Skeleton className="h-4 w-5/6" />
+  <div className='space-y-4'>
+    <Skeleton className='h-4 w-3/4' />
+    <Skeleton className='h-4 w-1/2' />
+    <Skeleton className='h-4 w-5/6' />
   </div>
 );
 
 const DefaultSpinnerFallback = () => (
-  <div className="flex items-center justify-center py-8">
-    <LoadingSpinner size="lg" text="Yükleniyor..." />
+  <div className='flex items-center justify-center py-8'>
+    <LoadingSpinner size='lg' text='Yükleniyor...' />
   </div>
 );
 
 // Dynamic import wrapper with fallback
-export function DynamicImport({ 
-  children, 
-  fallback, 
+export function DynamicImport({
+  children,
+  fallback,
   loading = 'skeleton',
-  delay = 0 
+  delay = 0,
 }: DynamicImportProps) {
   const [showFallback, setShowFallback] = useState(true);
 
@@ -47,8 +47,10 @@ export function DynamicImport({
   }, [delay]);
 
   const getFallbackComponent = () => {
-    if (fallback) return fallback;
-    
+    if (fallback) {
+      return fallback;
+    }
+
     switch (loading) {
       case 'skeleton':
         return <DefaultSkeletonFallback />;
@@ -59,11 +61,7 @@ export function DynamicImport({
     }
   };
 
-  return (
-    <Suspense fallback={showFallback ? getFallbackComponent() : null}>
-      {children}
-    </Suspense>
-  );
+  return <Suspense fallback={showFallback ? getFallbackComponent() : null}>{children}</Suspense>;
 }
 
 // Lazy load component with retry mechanism
@@ -88,19 +86,15 @@ export function PreloadComponent<T extends ComponentType<any>>(
 ) {
   // Preload the component
   const preloadPromise = importFunc();
-  
+
   return {
     preload: () => preloadPromise,
-    component: LazyComponent(importFunc)
+    component: LazyComponent(importFunc),
   };
 }
 
 // Dynamic route component
-export function DynamicRoute({
-  children,
-  fallback,
-  loading = 'skeleton'
-}: DynamicImportProps) {
+export function DynamicRoute({ children, fallback, loading = 'skeleton' }: DynamicImportProps) {
   return (
     <DynamicImport fallback={fallback} loading={loading}>
       {children}
@@ -113,7 +107,7 @@ export function ConditionalLoad({
   condition,
   children,
   fallback,
-  loading = 'skeleton'
+  loading = 'skeleton',
 }: {
   condition: boolean;
   children: ReactNode;
@@ -137,7 +131,7 @@ export function IntersectionLazyLoad({
   fallback,
   loading = 'skeleton',
   threshold = 0.1,
-  rootMargin = '50px'
+  rootMargin = '50px',
 }: DynamicImportProps & {
   threshold?: number;
   rootMargin?: string;
@@ -185,7 +179,7 @@ export function IntersectionLazyLoad({
 export function DynamicImportErrorBoundary({
   children,
   fallback,
-  onError
+  onError,
 }: {
   children: ReactNode;
   fallback?: ReactNode;
@@ -198,7 +192,7 @@ export function DynamicImportErrorBoundary({
       setHasError(true);
       onError?.(error.error, {
         componentStack: error.filename || '',
-        errorBoundary: 'DynamicImportErrorBoundary'
+        errorBoundary: 'DynamicImportErrorBoundary',
       });
     };
 
@@ -207,13 +201,15 @@ export function DynamicImportErrorBoundary({
   }, [onError]);
 
   if (hasError) {
-    return fallback || (
-      <div className="flex items-center justify-center py-8">
-        <div className="text-center">
-          <div className="text-2xl mb-2">⚠️</div>
-          <div className="text-sm text-gray-500">Bileşen yüklenemedi</div>
+    return (
+      fallback || (
+        <div className='flex items-center justify-center py-8'>
+          <div className='text-center'>
+            <div className='text-2xl mb-2'>⚠️</div>
+            <div className='text-sm text-gray-500'>Bileşen yüklenemedi</div>
+          </div>
         </div>
-      </div>
+      )
     );
   }
 

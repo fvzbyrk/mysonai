@@ -7,14 +7,11 @@ export async function POST(request: NextRequest) {
     const { input, type } = body;
 
     if (!input || !type) {
-      return NextResponse.json(
-        { error: 'Input ve type parametreleri gerekli' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Input ve type parametreleri gerekli' }, { status: 400 });
     }
 
     const clientIP = SecurityUtils.getClientIP(request);
-    
+
     // Rate limiting
     if (SecurityUtils.isRateLimited(clientIP, 50, 60000)) {
       return NextResponse.json(
@@ -29,7 +26,7 @@ export async function POST(request: NextRequest) {
       case 'email':
         result = {
           isValid: SecurityUtils.isValidEmail(input),
-          sanitized: SecurityUtils.sanitizeInput(input)
+          sanitized: SecurityUtils.sanitizeInput(input),
         };
         break;
 
@@ -40,38 +37,31 @@ export async function POST(request: NextRequest) {
       case 'sql-injection':
         result = {
           containsSQLInjection: SecurityUtils.containsSQLInjection(input),
-          sanitized: SecurityUtils.sanitizeInput(input)
+          sanitized: SecurityUtils.sanitizeInput(input),
         };
         break;
 
       case 'xss':
         result = {
           containsXSS: SecurityUtils.containsXSS(input),
-          sanitized: SecurityUtils.sanitizeHTML(input)
+          sanitized: SecurityUtils.sanitizeHTML(input),
         };
         break;
 
       case 'suspicious':
         result = {
           containsSuspiciousPatterns: SecurityUtils.containsSuspiciousPatterns(input),
-          sanitized: SecurityUtils.sanitizeInput(input)
+          sanitized: SecurityUtils.sanitizeInput(input),
         };
         break;
 
       default:
-        return NextResponse.json(
-          { error: 'Geçersiz validation türü' },
-          { status: 400 }
-        );
+        return NextResponse.json({ error: 'Geçersiz validation türü' }, { status: 400 });
     }
 
     return NextResponse.json({ result });
-
   } catch (error) {
     console.error('Security validation error:', error);
-    return NextResponse.json(
-      { error: 'Sunucu hatası' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Sunucu hatası' }, { status: 500 });
   }
 }

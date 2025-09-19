@@ -34,7 +34,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
-    if (!supabase) return;
+    if (!supabase) {
+      return;
+    }
 
     // Get initial session
     const getInitialSession = async () => {
@@ -202,7 +204,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signOut = async () => {
-    if (!supabase) return;
+    if (!supabase) {
+      return;
+    }
     await supabase.auth.signOut();
   };
 

@@ -82,7 +82,7 @@ export function Hero() {
             t(locale, 'agents.elif'),
             t(locale, 'agents.burak'),
             t(locale, 'agents.ayse'),
-            t(locale, 'agents.deniz')
+            t(locale, 'agents.deniz'),
           ].map((agent, index) => (
             <div
               key={agent}

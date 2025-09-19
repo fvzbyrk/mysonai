@@ -5,14 +5,14 @@ import { useRouter } from 'next/navigation';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { 
-  Bot, 
-  Calendar, 
-  Clock, 
-  TrendingUp, 
-  Settings, 
-  Play, 
-  Pause, 
+import {
+  Bot,
+  Calendar,
+  Clock,
+  TrendingUp,
+  Settings,
+  Play,
+  Pause,
   RefreshCw,
   CheckCircle,
   AlertCircle,
@@ -21,7 +21,7 @@ import {
   FileText,
   Globe,
   Zap,
-  ArrowLeft
+  ArrowLeft,
 } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
@@ -48,16 +48,16 @@ interface BlogPost {
 
 export default function AutoBlogAdminPage() {
   const router = useRouter();
-  
+
   const [status, setStatus] = useState<AutoBlogStatus>({
     isRunning: false,
     lastGenerated: null,
     totalPosts: 0,
     todayPosts: 0,
     scheduledJobs: {},
-    nextRun: null
+    nextRun: null,
   });
-  
+
   const [recentPosts, setRecentPosts] = useState<BlogPost[]>([]);
   const [allPosts, setAllPosts] = useState<BlogPost[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -91,9 +91,9 @@ export default function AutoBlogAdminPage() {
     scheduledJobs: {
       'daily-tech-news': 'scheduled',
       'trending-topics': 'scheduled',
-      'weekly-summary': 'scheduled'
+      'weekly-summary': 'scheduled',
     },
-    nextRun: '2024-01-16T09:00:00Z'
+    nextRun: '2024-01-16T09:00:00Z',
   };
 
   const mockPosts: BlogPost[] = [
@@ -105,7 +105,7 @@ export default function AutoBlogAdminPage() {
       category: 'Genel',
       tags: ['tech', 'günlük', 'gelişmeler'],
       source: 'Grok AI',
-      priority: 'high'
+      priority: 'high',
     },
     {
       id: '2',
@@ -115,7 +115,7 @@ export default function AutoBlogAdminPage() {
       category: 'Yapay Zeka',
       tags: ['ai', 'machine-learning', 'trend'],
       source: 'Grok AI',
-      priority: 'medium'
+      priority: 'medium',
     },
     {
       id: '3',
@@ -125,8 +125,8 @@ export default function AutoBlogAdminPage() {
       category: 'Startup',
       tags: ['startup', 'ekosistem', 'güncelleme'],
       source: 'Grok AI',
-      priority: 'low'
-    }
+      priority: 'low',
+    },
   ];
 
   useEffect(() => {
@@ -136,7 +136,6 @@ export default function AutoBlogAdminPage() {
     loadAllPosts();
   }, []);
 
-
   // Generate hybrid news (GPT + Gemini)
   const handleGenerateHybrid = async () => {
     setIsLoading(true);
@@ -144,18 +143,18 @@ export default function AutoBlogAdminPage() {
       const response = await fetch('/api/gpt-gemini-hybrid', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'generate-hybrid' })
+        body: JSON.stringify({ action: 'generate-hybrid' }),
       });
-      
+
       const result = await response.json();
-      
+
       if (result.success) {
         // Refresh posts
         setRecentPosts(prev => [...result.data, ...prev]);
         setStatus(prev => ({
           ...prev,
           todayPosts: prev.todayPosts + result.total,
-          totalPosts: prev.totalPosts + result.total
+          totalPosts: prev.totalPosts + result.total,
         }));
       }
     } catch (error) {
@@ -172,17 +171,17 @@ export default function AutoBlogAdminPage() {
       const response = await fetch('/api/gpt-gemini-hybrid', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'generate-gpt-only' })
+        body: JSON.stringify({ action: 'generate-gpt-only' }),
       });
-      
+
       const result = await response.json();
-      
+
       if (result.success) {
         setRecentPosts(prev => [...result.data, ...prev]);
         setStatus(prev => ({
           ...prev,
           todayPosts: prev.todayPosts + result.total,
-          totalPosts: prev.totalPosts + result.total
+          totalPosts: prev.totalPosts + result.total,
         }));
       }
     } catch (error) {
@@ -199,17 +198,17 @@ export default function AutoBlogAdminPage() {
       const response = await fetch('/api/gpt-gemini-hybrid', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'generate-gemini-only' })
+        body: JSON.stringify({ action: 'generate-gemini-only' }),
       });
-      
+
       const result = await response.json();
-      
+
       if (result.success) {
         setRecentPosts(prev => [...result.data, ...prev]);
         setStatus(prev => ({
           ...prev,
           todayPosts: prev.todayPosts + result.total,
-          totalPosts: prev.totalPosts + result.total
+          totalPosts: prev.totalPosts + result.total,
         }));
       }
     } catch (error) {
@@ -224,14 +223,16 @@ export default function AutoBlogAdminPage() {
     setIsLoading(true);
     try {
       const response = await fetch('/api/test-gemini', {
-        method: 'GET'
+        method: 'GET',
       });
-      
+
       const result = await response.json();
-      
+
       if (result.success) {
-        console.log('Gemini API test successful:', result.data);
-        alert(`✅ Gemini API çalışıyor!\n\nYanıt: ${result.data.response}\n\nKullanım: ${result.data.usage?.totalTokens || 0} token`);
+        // Gemini API test successful
+        alert(
+          `✅ Gemini API çalışıyor!\n\nYanıt: ${result.data.response}\n\nKullanım: ${result.data.usage?.totalTokens || 0} token`
+        );
       } else {
         console.error('Gemini API test failed:', result.error);
         alert(`❌ Gemini API test başarısız: ${result.error}`);
@@ -251,15 +252,17 @@ export default function AutoBlogAdminPage() {
       const response = await fetch('/api/gpt-gemini-hybrid', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'compare-sources' })
+        body: JSON.stringify({ action: 'compare-sources' }),
       });
-      
+
       const result = await response.json();
-      
+
       if (result.success) {
-        console.log('Source comparison:', result.data);
+        // Source comparison completed
         // You can display this in a modal or alert
-        alert(`GPT: ${result.data.gpt.count} haber, Kalite: ${result.data.gpt.quality.toFixed(2)}\nGemini: ${result.data.gemini.count} haber, Kalite: ${result.data.gemini.quality.toFixed(2)}\nHibrit: ${result.data.hybrid.count} haber, Kalite: ${result.data.hybrid.quality.toFixed(2)}`);
+        alert(
+          `GPT: ${result.data.gpt.count} haber, Kalite: ${result.data.gpt.quality.toFixed(2)}\nGemini: ${result.data.gemini.count} haber, Kalite: ${result.data.gemini.quality.toFixed(2)}\nHibrit: ${result.data.hybrid.count} haber, Kalite: ${result.data.hybrid.quality.toFixed(2)}`
+        );
       }
     } catch (error) {
       console.error('Error comparing sources:', error);
@@ -275,18 +278,18 @@ export default function AutoBlogAdminPage() {
       const response = await fetch('/api/auto-blog', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'generate-daily' })
+        body: JSON.stringify({ action: 'generate-daily' }),
       });
-      
+
       const result = await response.json();
-      
+
       if (result.success) {
         // Refresh posts
         setRecentPosts(prev => [result.data, ...prev]);
         setStatus(prev => ({
           ...prev,
           todayPosts: prev.todayPosts + 1,
-          totalPosts: prev.totalPosts + 1
+          totalPosts: prev.totalPosts + 1,
         }));
       }
     } catch (error) {
@@ -303,20 +306,20 @@ export default function AutoBlogAdminPage() {
       const response = await fetch('/api/auto-blog', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           action: 'generate-category',
-          config: { category }
-        })
+          config: { category },
+        }),
       });
-      
+
       const result = await response.json();
-      
+
       if (result.success) {
         setRecentPosts(prev => [result.data, ...prev]);
         setStatus(prev => ({
           ...prev,
           todayPosts: prev.todayPosts + 1,
-          totalPosts: prev.totalPosts + 1
+          totalPosts: prev.totalPosts + 1,
         }));
       }
     } catch (error) {
@@ -333,17 +336,17 @@ export default function AutoBlogAdminPage() {
       const response = await fetch('/api/auto-blog/scheduler', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          action: status.isRunning ? 'stop' : 'start'
-        })
+        body: JSON.stringify({
+          action: status.isRunning ? 'stop' : 'start',
+        }),
       });
-      
+
       const result = await response.json();
-      
+
       if (result.success) {
         setStatus(prev => ({
           ...prev,
-          isRunning: !prev.isRunning
+          isRunning: !prev.isRunning,
         }));
       }
     } catch (error) {
@@ -360,21 +363,21 @@ export default function AutoBlogAdminPage() {
       const response = await fetch('/api/blog', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           action: 'generate-category',
-          postData: { category }
-        })
+          postData: { category },
+        }),
       });
-      
+
       const result = await response.json();
-      
+
       if (result.success) {
         // Add new post to the list
         setRecentPosts(prev => [result.data, ...prev]);
         setStatus(prev => ({
           ...prev,
           todayPosts: prev.todayPosts + 1,
-          totalPosts: prev.totalPosts + 1
+          totalPosts: prev.totalPosts + 1,
         }));
         alert(`✅ ${category} kategorisi için yeni makale üretildi!`);
       } else {
@@ -392,13 +395,13 @@ export default function AutoBlogAdminPage() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'published':
-        return <Badge className="bg-green-500">Yayınlandı</Badge>;
+        return <Badge className='bg-green-500'>Yayınlandı</Badge>;
       case 'draft':
-        return <Badge className="bg-yellow-500">Taslak</Badge>;
+        return <Badge className='bg-yellow-500'>Taslak</Badge>;
       case 'scheduled':
-        return <Badge className="bg-blue-500">Zamanlanmış</Badge>;
+        return <Badge className='bg-blue-500'>Zamanlanmış</Badge>;
       default:
-        return <Badge className="bg-gray-500">Bilinmiyor</Badge>;
+        return <Badge className='bg-gray-500'>Bilinmiyor</Badge>;
     }
   };
 
@@ -406,198 +409,191 @@ export default function AutoBlogAdminPage() {
   const getPriorityBadge = (priority: string) => {
     switch (priority) {
       case 'high':
-        return <Badge className="bg-red-500">Yüksek</Badge>;
+        return <Badge className='bg-red-500'>Yüksek</Badge>;
       case 'medium':
-        return <Badge className="bg-yellow-500">Orta</Badge>;
+        return <Badge className='bg-yellow-500'>Orta</Badge>;
       case 'low':
-        return <Badge className="bg-green-500">Düşük</Badge>;
+        return <Badge className='bg-green-500'>Düşük</Badge>;
       default:
-        return <Badge className="bg-gray-500">Bilinmiyor</Badge>;
+        return <Badge className='bg-gray-500'>Bilinmiyor</Badge>;
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
+    <div className='min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 p-6'>
+      <div className='max-w-7xl mx-auto space-y-6'>
         {/* Header */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <Link href="/tr/admin">
-              <Button variant="outline" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
-                <ArrowLeft className="w-4 h-4 mr-2" />
+        <div className='flex items-center justify-between'>
+          <div className='flex items-center space-x-4'>
+            <Link href='/tr/admin'>
+              <Button
+                variant='outline'
+                className='bg-white/10 border-white/20 text-white hover:bg-white/20'
+              >
+                <ArrowLeft className='w-4 h-4 mr-2' />
                 Dashboard
               </Button>
             </Link>
             <div>
-              <h1 className="text-3xl font-bold text-white">Otomatik Blog Yönetimi</h1>
-              <p className="text-gray-300">Grok AI ile otomatik tech haber yayınlama sistemi</p>
+              <h1 className='text-3xl font-bold text-white'>Otomatik Blog Yönetimi</h1>
+              <p className='text-gray-300'>Grok AI ile otomatik tech haber yayınlama sistemi</p>
             </div>
           </div>
-          
-          <div className="flex items-center space-x-4">
+
+          <div className='flex items-center space-x-4'>
             <Button
               onClick={handleLogout}
-              variant="outline"
-              className="bg-white/10 border-white/20 text-white hover:bg-white/20"
+              variant='outline'
+              className='bg-white/10 border-white/20 text-white hover:bg-white/20'
             >
-              <Settings className="w-4 h-4 mr-2" />
+              <Settings className='w-4 h-4 mr-2' />
               Çıkış Yap
             </Button>
-            
+
             <Button
               onClick={handleToggleScheduler}
-              variant={status.isRunning ? "destructive" : "default"}
+              variant={status.isRunning ? 'destructive' : 'default'}
               className={cn(
-                status.isRunning 
-                  ? "bg-red-500 hover:bg-red-600" 
-                  : "bg-green-500 hover:bg-green-600"
+                status.isRunning ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'
               )}
               disabled={isLoading}
             >
               {status.isRunning ? (
                 <>
-                  <Pause className="w-4 h-4 mr-2" />
+                  <Pause className='w-4 h-4 mr-2' />
                   Durdur
                 </>
               ) : (
                 <>
-                  <Play className="w-4 h-4 mr-2" />
+                  <Play className='w-4 h-4 mr-2' />
                   Başlat
                 </>
               )}
             </Button>
-            
+
             <Button
               onClick={handleGenerateDaily}
-              className="bg-gradient-to-r from-blue-600 to-purple-600 text-white border-0 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-semibold"
+              className='bg-gradient-to-r from-blue-600 to-purple-600 text-white border-0 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-semibold'
               disabled={isLoading}
             >
-              <RefreshCw className={cn("w-4 h-4 mr-2", isLoading && "animate-spin")} />
+              <RefreshCw className={cn('w-4 h-4 mr-2', isLoading && 'animate-spin')} />
               Günlük Post Oluştur
             </Button>
           </div>
         </div>
 
         {/* Status Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Card className="bg-white/10 backdrop-blur-md border-white/20">
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="p-2 bg-blue-500/20 rounded-lg">
-                  <Bot className="w-6 h-6 text-blue-400" />
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
+          <Card className='bg-white/10 backdrop-blur-md border-white/20'>
+            <div className='p-6'>
+              <div className='flex items-center justify-between mb-4'>
+                <div className='p-2 bg-blue-500/20 rounded-lg'>
+                  <Bot className='w-6 h-6 text-blue-400' />
                 </div>
-                <Badge className={cn(
-                  status.isRunning ? "bg-green-500" : "bg-red-500"
-                )}>
-                  {status.isRunning ? "Aktif" : "Pasif"}
+                <Badge className={cn(status.isRunning ? 'bg-green-500' : 'bg-red-500')}>
+                  {status.isRunning ? 'Aktif' : 'Pasif'}
                 </Badge>
               </div>
-              <h3 className="text-2xl font-bold text-white mb-1">
-                {status.isRunning ? "Çalışıyor" : "Durduruldu"}
+              <h3 className='text-2xl font-bold text-white mb-1'>
+                {status.isRunning ? 'Çalışıyor' : 'Durduruldu'}
               </h3>
-              <p className="text-gray-300 text-sm">Scheduler Durumu</p>
+              <p className='text-gray-300 text-sm'>Scheduler Durumu</p>
             </div>
           </Card>
 
-          <Card className="bg-white/10 backdrop-blur-md border-white/20">
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="p-2 bg-green-500/20 rounded-lg">
-                  <FileText className="w-6 h-6 text-green-400" />
+          <Card className='bg-white/10 backdrop-blur-md border-white/20'>
+            <div className='p-6'>
+              <div className='flex items-center justify-between mb-4'>
+                <div className='p-2 bg-green-500/20 rounded-lg'>
+                  <FileText className='w-6 h-6 text-green-400' />
                 </div>
-                <Badge className="bg-green-500">+{status.todayPosts}</Badge>
+                <Badge className='bg-green-500'>+{status.todayPosts}</Badge>
               </div>
-              <h3 className="text-2xl font-bold text-white mb-1">
-                {status.totalPosts}
-              </h3>
-              <p className="text-gray-300 text-sm">Toplam Post</p>
+              <h3 className='text-2xl font-bold text-white mb-1'>{status.totalPosts}</h3>
+              <p className='text-gray-300 text-sm'>Toplam Post</p>
             </div>
           </Card>
 
-          <Card className="bg-white/10 backdrop-blur-md border-white/20">
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="p-2 bg-purple-500/20 rounded-lg">
-                  <Clock className="w-6 h-6 text-purple-400" />
+          <Card className='bg-white/10 backdrop-blur-md border-white/20'>
+            <div className='p-6'>
+              <div className='flex items-center justify-between mb-4'>
+                <div className='p-2 bg-purple-500/20 rounded-lg'>
+                  <Clock className='w-6 h-6 text-purple-400' />
                 </div>
-                <Badge className="bg-purple-500">Son</Badge>
+                <Badge className='bg-purple-500'>Son</Badge>
               </div>
-              <h3 className="text-2xl font-bold text-white mb-1">
-                {status.lastGenerated ? 
-                  new Date(status.lastGenerated).toLocaleDateString('tr-TR') : 
-                  'Yok'
-                }
+              <h3 className='text-2xl font-bold text-white mb-1'>
+                {status.lastGenerated
+                  ? new Date(status.lastGenerated).toLocaleDateString('tr-TR')
+                  : 'Yok'}
               </h3>
-              <p className="text-gray-300 text-sm">Son Üretim</p>
+              <p className='text-gray-300 text-sm'>Son Üretim</p>
             </div>
           </Card>
 
-          <Card className="bg-white/10 backdrop-blur-md border-white/20">
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="p-2 bg-orange-500/20 rounded-lg">
-                  <Calendar className="w-6 h-6 text-orange-400" />
+          <Card className='bg-white/10 backdrop-blur-md border-white/20'>
+            <div className='p-6'>
+              <div className='flex items-center justify-between mb-4'>
+                <div className='p-2 bg-orange-500/20 rounded-lg'>
+                  <Calendar className='w-6 h-6 text-orange-400' />
                 </div>
-                <Badge className="bg-orange-500">Sonraki</Badge>
+                <Badge className='bg-orange-500'>Sonraki</Badge>
               </div>
-              <h3 className="text-2xl font-bold text-white mb-1">
-                {status.nextRun ? 
-                  new Date(status.nextRun).toLocaleTimeString('tr-TR') : 
-                  'Yok'
-                }
+              <h3 className='text-2xl font-bold text-white mb-1'>
+                {status.nextRun ? new Date(status.nextRun).toLocaleTimeString('tr-TR') : 'Yok'}
               </h3>
-              <p className="text-gray-300 text-sm">Sonraki Çalışma</p>
+              <p className='text-gray-300 text-sm'>Sonraki Çalışma</p>
             </div>
           </Card>
         </div>
 
         {/* Quick Actions */}
-        <Card className="bg-white/10 backdrop-blur-md border-white/20">
-          <div className="p-6">
-            <h3 className="text-lg font-semibold text-white mb-4">Hızlı İşlemler</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+        <Card className='bg-white/10 backdrop-blur-md border-white/20'>
+          <div className='p-6'>
+            <h3 className='text-lg font-semibold text-white mb-4'>Hızlı İşlemler</h3>
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4'>
               <Button
                 onClick={() => handleGenerateHybrid()}
-                className="bg-gradient-to-r from-purple-600 to-pink-600 text-white border-0 hover:from-purple-700 hover:to-pink-700 transition-all duration-300"
+                className='bg-gradient-to-r from-purple-600 to-pink-600 text-white border-0 hover:from-purple-700 hover:to-pink-700 transition-all duration-300'
                 disabled={isLoading}
               >
-                <Bot className="w-4 h-4 mr-2" />
+                <Bot className='w-4 h-4 mr-2' />
                 GPT + Gemini
               </Button>
-              
+
               <Button
                 onClick={() => handleGenerateGPT()}
-                className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white border-0 hover:from-blue-700 hover:to-cyan-700 transition-all duration-300"
+                className='bg-gradient-to-r from-blue-600 to-cyan-600 text-white border-0 hover:from-blue-700 hover:to-cyan-700 transition-all duration-300'
                 disabled={isLoading}
               >
-                <BarChart3 className="w-4 h-4 mr-2" />
+                <BarChart3 className='w-4 h-4 mr-2' />
                 GPT-4
               </Button>
-              
+
               <Button
                 onClick={() => handleGenerateGemini()}
-                className="bg-gradient-to-r from-green-600 to-emerald-600 text-white border-0 hover:from-green-700 hover:to-emerald-700 transition-all duration-300"
+                className='bg-gradient-to-r from-green-600 to-emerald-600 text-white border-0 hover:from-green-700 hover:to-emerald-700 transition-all duration-300'
                 disabled={isLoading}
               >
-                <Zap className="w-4 h-4 mr-2" />
+                <Zap className='w-4 h-4 mr-2' />
                 Gemini AI
               </Button>
-              
+
               <Button
                 onClick={() => handleTestGemini()}
-                className="bg-gradient-to-r from-orange-600 to-red-600 text-white border-0 hover:from-orange-700 hover:to-red-700 transition-all duration-300"
+                className='bg-gradient-to-r from-orange-600 to-red-600 text-white border-0 hover:from-orange-700 hover:to-red-700 transition-all duration-300'
                 disabled={isLoading}
               >
-                <CheckCircle className="w-4 h-4 mr-2" />
+                <CheckCircle className='w-4 h-4 mr-2' />
                 Test Gemini
               </Button>
-              
+
               <Button
                 onClick={() => handleCompareSources()}
-                className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white border-0 hover:from-indigo-700 hover:to-purple-700 transition-all duration-300"
+                className='bg-gradient-to-r from-indigo-600 to-purple-600 text-white border-0 hover:from-indigo-700 hover:to-purple-700 transition-all duration-300'
                 disabled={isLoading}
               >
-                <Settings className="w-4 h-4 mr-2" />
+                <Settings className='w-4 h-4 mr-2' />
                 Karşılaştır
               </Button>
             </div>
@@ -605,27 +601,29 @@ export default function AutoBlogAdminPage() {
         </Card>
 
         {/* Daily 60 Articles Production */}
-        <Card className="bg-white/10 backdrop-blur-md border-white/20">
-          <div className="p-6">
-            <h3 className="text-lg font-semibold text-white mb-4">Günlük 60 Makale Üretimi</h3>
-            <p className="text-gray-300 mb-4">AI ile günlük 60 detaylı makale üretin - güçlü veri tabanı oluşturun</p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-              <div className="bg-blue-500/20 p-4 rounded-lg">
-                <h4 className="text-white font-semibold">AI Teknolojisi</h4>
-                <p className="text-gray-300 text-sm">20 makale</p>
+        <Card className='bg-white/10 backdrop-blur-md border-white/20'>
+          <div className='p-6'>
+            <h3 className='text-lg font-semibold text-white mb-4'>Günlük 60 Makale Üretimi</h3>
+            <p className='text-gray-300 mb-4'>
+              AI ile günlük 60 detaylı makale üretin - güçlü veri tabanı oluşturun
+            </p>
+            <div className='grid grid-cols-1 md:grid-cols-3 gap-4 mb-6'>
+              <div className='bg-blue-500/20 p-4 rounded-lg'>
+                <h4 className='text-white font-semibold'>AI Teknolojisi</h4>
+                <p className='text-gray-300 text-sm'>20 makale</p>
               </div>
-              <div className="bg-green-500/20 p-4 rounded-lg">
-                <h4 className="text-white font-semibold">İş Dünyası</h4>
-                <p className="text-gray-300 text-sm">15 makale</p>
+              <div className='bg-green-500/20 p-4 rounded-lg'>
+                <h4 className='text-white font-semibold'>İş Dünyası</h4>
+                <p className='text-gray-300 text-sm'>15 makale</p>
               </div>
-              <div className="bg-purple-500/20 p-4 rounded-lg">
-                <h4 className="text-white font-semibold">Eğitimler</h4>
-                <p className="text-gray-300 text-sm">10 makale</p>
+              <div className='bg-purple-500/20 p-4 rounded-lg'>
+                <h4 className='text-white font-semibold'>Eğitimler</h4>
+                <p className='text-gray-300 text-sm'>10 makale</p>
               </div>
             </div>
             <Button
-              onClick={() => handleGenerateDaily60()}
-              className="w-full bg-gradient-to-r from-red-600 to-pink-600 text-white border-0 hover:from-red-700 hover:to-pink-700 transition-all duration-300"
+              onClick={handleGenerateDaily}
+              className='w-full bg-gradient-to-r from-red-600 to-pink-600 text-white border-0 hover:from-red-700 hover:to-pink-700 transition-all duration-300'
               disabled={isLoading}
             >
               {isLoading ? '60 Makale Üretiliyor...' : 'Günlük 60 Makale Üret'}
@@ -634,53 +632,53 @@ export default function AutoBlogAdminPage() {
         </Card>
 
         {/* Category Content Generation */}
-        <Card className="bg-white/10 backdrop-blur-md border-white/20">
-          <div className="p-6">
-            <h3 className="text-lg font-semibold text-white mb-4">Kategori Bazlı İçerik Üretimi</h3>
-            <p className="text-gray-300 mb-4">Her kategori için AI ile özel makaleler üretin</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+        <Card className='bg-white/10 backdrop-blur-md border-white/20'>
+          <div className='p-6'>
+            <h3 className='text-lg font-semibold text-white mb-4'>Kategori Bazlı İçerik Üretimi</h3>
+            <p className='text-gray-300 mb-4'>Her kategori için AI ile özel makaleler üretin</p>
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4'>
               <Button
                 onClick={() => handleGenerateCategoryContent('AI Teknolojisi')}
-                className="bg-gradient-to-r from-purple-600 to-pink-600 text-white border-0 hover:from-purple-700 hover:to-pink-700 transition-all duration-300"
+                className='bg-gradient-to-r from-purple-600 to-pink-600 text-white border-0 hover:from-purple-700 hover:to-pink-700 transition-all duration-300'
                 disabled={isLoading}
               >
-                <Bot className="w-4 h-4 mr-2" />
+                <Bot className='w-4 h-4 mr-2' />
                 AI Teknolojisi
               </Button>
-              
+
               <Button
                 onClick={() => handleGenerateCategoryContent('İş Dünyası')}
-                className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white border-0 hover:from-blue-700 hover:to-cyan-700 transition-all duration-300"
+                className='bg-gradient-to-r from-blue-600 to-cyan-600 text-white border-0 hover:from-blue-700 hover:to-cyan-700 transition-all duration-300'
                 disabled={isLoading}
               >
-                <BarChart3 className="w-4 h-4 mr-2" />
+                <BarChart3 className='w-4 h-4 mr-2' />
                 İş Dünyası
               </Button>
-              
+
               <Button
                 onClick={() => handleGenerateCategoryContent('Eğitimler')}
-                className="bg-gradient-to-r from-green-600 to-emerald-600 text-white border-0 hover:from-green-700 hover:to-emerald-700 transition-all duration-300"
+                className='bg-gradient-to-r from-green-600 to-emerald-600 text-white border-0 hover:from-green-700 hover:to-emerald-700 transition-all duration-300'
                 disabled={isLoading}
               >
-                <FileText className="w-4 h-4 mr-2" />
+                <FileText className='w-4 h-4 mr-2' />
                 Eğitimler
               </Button>
-              
+
               <Button
                 onClick={() => handleGenerateCategoryContent('Vaka Çalışmaları')}
-                className="bg-gradient-to-r from-orange-600 to-red-600 text-white border-0 hover:from-orange-700 hover:to-red-700 transition-all duration-300"
+                className='bg-gradient-to-r from-orange-600 to-red-600 text-white border-0 hover:from-orange-700 hover:to-red-700 transition-all duration-300'
                 disabled={isLoading}
               >
-                <TrendingUp className="w-4 h-4 mr-2" />
+                <TrendingUp className='w-4 h-4 mr-2' />
                 Vaka Çalışmaları
               </Button>
-              
+
               <Button
                 onClick={() => handleGenerateCategoryContent('Haberler')}
-                className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white border-0 hover:from-indigo-700 hover:to-purple-700 transition-all duration-300"
+                className='bg-gradient-to-r from-indigo-600 to-purple-600 text-white border-0 hover:from-indigo-700 hover:to-purple-700 transition-all duration-300'
                 disabled={isLoading}
               >
-                <Globe className="w-4 h-4 mr-2" />
+                <Globe className='w-4 h-4 mr-2' />
                 Haberler
               </Button>
             </div>
@@ -688,30 +686,33 @@ export default function AutoBlogAdminPage() {
         </Card>
 
         {/* Recent Posts */}
-        <Card className="bg-white/10 backdrop-blur-md border-white/20">
-          <div className="p-6">
-            <h3 className="text-lg font-semibold text-white mb-4">Son Oluşturulan Postlar</h3>
-            <div className="space-y-4">
-              {recentPosts.map((post) => (
-                <div key={post.id} className="flex items-center justify-between p-4 bg-white/5 rounded-lg">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-10 h-10 bg-purple-500/20 rounded-full flex items-center justify-center">
-                      <FileText className="w-5 h-5 text-purple-400" />
+        <Card className='bg-white/10 backdrop-blur-md border-white/20'>
+          <div className='p-6'>
+            <h3 className='text-lg font-semibold text-white mb-4'>Son Oluşturulan Postlar</h3>
+            <div className='space-y-4'>
+              {recentPosts.map(post => (
+                <div
+                  key={post.id}
+                  className='flex items-center justify-between p-4 bg-white/5 rounded-lg'
+                >
+                  <div className='flex items-center space-x-4'>
+                    <div className='w-10 h-10 bg-purple-500/20 rounded-full flex items-center justify-center'>
+                      <FileText className='w-5 h-5 text-purple-400' />
                     </div>
                     <div>
-                      <h4 className="text-white font-medium">{post.title}</h4>
-                      <div className="flex items-center space-x-2 mt-1">
-                        <span className="text-gray-400 text-sm">{post.category}</span>
-                        <span className="text-gray-400 text-sm">•</span>
-                        <span className="text-gray-400 text-sm">{post.source}</span>
-                        <span className="text-gray-400 text-sm">•</span>
-                        <span className="text-gray-400 text-sm">
+                      <h4 className='text-white font-medium'>{post.title}</h4>
+                      <div className='flex items-center space-x-2 mt-1'>
+                        <span className='text-gray-400 text-sm'>{post.category}</span>
+                        <span className='text-gray-400 text-sm'>•</span>
+                        <span className='text-gray-400 text-sm'>{post.source}</span>
+                        <span className='text-gray-400 text-sm'>•</span>
+                        <span className='text-gray-400 text-sm'>
                           {new Date(post.publishedAt).toLocaleDateString('tr-TR')}
                         </span>
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-2">
+                  <div className='flex items-center space-x-2'>
                     {getStatusBadge(post.status)}
                     {getPriorityBadge(post.priority)}
                   </div>

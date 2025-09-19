@@ -41,14 +41,14 @@ export function useAccessibility() {
   useEffect(() => {
     const isScreenReaderActive = () => {
       // Check for common screen reader indicators
-      const hasScreenReader = 
+      const hasScreenReader =
         window.speechSynthesis ||
         navigator.userAgent.includes('NVDA') ||
         navigator.userAgent.includes('JAWS') ||
         navigator.userAgent.includes('VoiceOver') ||
         document.querySelector('[role="application"]') ||
         document.querySelector('[aria-live]');
-      
+
       return !!hasScreenReader;
     };
 
@@ -67,7 +67,7 @@ export function useAccessibility() {
     const focusableElements = container.querySelectorAll(
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
     );
-    
+
     const firstElement = focusableElements[0] as HTMLElement;
     const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
 
@@ -94,16 +94,16 @@ export function useAccessibility() {
   // Announcements for screen readers
   const announce = useCallback((message: string) => {
     setAnnouncements(prev => [...prev, message]);
-    
+
     // Create live region for announcement
     const liveRegion = document.createElement('div');
     liveRegion.setAttribute('aria-live', 'polite');
     liveRegion.setAttribute('aria-atomic', 'true');
     liveRegion.className = 'sr-only';
     liveRegion.textContent = message;
-    
+
     document.body.appendChild(liveRegion);
-    
+
     // Remove after announcement
     setTimeout(() => {
       document.body.removeChild(liveRegion);
@@ -160,13 +160,15 @@ export function useAccessibility() {
     // Simplified contrast ratio calculation
     const getLuminance = (color: string) => {
       const rgb = color.match(/\d+/g);
-      if (!rgb) return 0;
-      
+      if (!rgb) {
+        return 0;
+      }
+
       const [r, g, b] = rgb.map(c => {
         const val = parseInt(c) / 255;
         return val <= 0.03928 ? val / 12.92 : Math.pow((val + 0.055) / 1.055, 2.4);
       });
-      
+
       return 0.2126 * r + 0.7152 * g + 0.0722 * b;
     };
 
@@ -174,7 +176,7 @@ export function useAccessibility() {
     const lum2 = getLuminance(color2);
     const brightest = Math.max(lum1, lum2);
     const darkest = Math.min(lum1, lum2);
-    
+
     return (brightest + 0.05) / (darkest + 0.05);
   }, []);
 
@@ -222,7 +224,7 @@ export function useAccessibility() {
     fontSize,
     focusVisible,
     announcements,
-    
+
     // Actions
     focusElement,
     trapFocus,

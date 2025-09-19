@@ -19,7 +19,9 @@ export function useUsage(user: User | null) {
   }, [user]);
 
   const getGuestUsage = (): UsageStats => {
-    if (typeof window === 'undefined') return createDefaultGuestUsage();
+    if (typeof window === 'undefined') {
+      return createDefaultGuestUsage();
+    }
 
     const stored = localStorage.getItem('mysonai_guest_usage');
     if (stored) {
@@ -45,7 +47,9 @@ export function useUsage(user: User | null) {
   });
 
   const checkLimit = (type: 'messages' | 'tokens' | 'images'): boolean => {
-    if (!usage) return false;
+    if (!usage) {
+      return false;
+    }
 
     const limit = usage.monthlyLimit[type];
     const current =
@@ -59,7 +63,9 @@ export function useUsage(user: User | null) {
   };
 
   const incrementUsage = (type: 'messages' | 'tokens' | 'images', amount: number = 1) => {
-    if (!usage) return;
+    if (!usage) {
+      return;
+    }
 
     const newUsage = {
       ...usage,
@@ -92,7 +98,9 @@ export function useUsage(user: User | null) {
   };
 
   const getUsagePercentage = (type: 'messages' | 'tokens' | 'images'): number => {
-    if (!usage) return 0;
+    if (!usage) {
+      return 0;
+    }
 
     const limit = usage.monthlyLimit[type];
     const current =
@@ -102,12 +110,16 @@ export function useUsage(user: User | null) {
           ? usage.totalTokens
           : usage.imagesGenerated;
 
-    if (limit === -1) return 0; // unlimited
+    if (limit === -1) {
+      return 0;
+    } // unlimited
     return Math.min((current / limit) * 100, 100);
   };
 
   const getRemainingUsage = (type: 'messages' | 'tokens' | 'images'): number => {
-    if (!usage) return 0;
+    if (!usage) {
+      return 0;
+    }
 
     const limit = usage.monthlyLimit[type];
     const current =
@@ -117,7 +129,9 @@ export function useUsage(user: User | null) {
           ? usage.totalTokens
           : usage.imagesGenerated;
 
-    if (limit === -1) return -1; // unlimited
+    if (limit === -1) {
+      return -1;
+    } // unlimited
     return Math.max(limit - current, 0);
   };
 

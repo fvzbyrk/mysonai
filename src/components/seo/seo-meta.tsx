@@ -50,7 +50,7 @@ export function SEOMeta({
   twitterImage,
   facebookAppId,
   structuredData,
-  hreflangs
+  hreflangs,
 }: SEOMetaProps) {
   const {
     updateTitle,
@@ -61,7 +61,7 @@ export function SEOMeta({
     addCanonical,
     addHreflang,
     addRobots,
-    addStructuredData
+    addStructuredData,
   } = useSEOContext();
 
   useEffect(() => {
@@ -89,7 +89,7 @@ export function SEOMeta({
         url,
         type,
         siteName,
-        locale
+        locale,
       });
     }
 
@@ -100,7 +100,7 @@ export function SEOMeta({
       description,
       image: twitterImage || image,
       creator: twitterCreator,
-      site: twitterSite
+      site: twitterSite,
     });
 
     // Add canonical URL
@@ -145,7 +145,6 @@ export function SEOMeta({
     if (facebookAppId) {
       updateMetaTag('fb:app_id', facebookAppId);
     }
-
   }, [
     title,
     description,
@@ -177,7 +176,7 @@ export function SEOMeta({
     addCanonical,
     addHreflang,
     addRobots,
-    addStructuredData
+    addStructuredData,
   ]);
 
   return null;

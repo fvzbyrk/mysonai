@@ -2,7 +2,7 @@ import { Locale } from '@/lib/i18n';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { 
+import {
   Video,
   Briefcase,
   Shield,
@@ -17,7 +17,7 @@ import {
   Zap,
   Globe,
   Heart,
-  Sparkles
+  Sparkles,
 } from 'lucide-react';
 import type { Metadata } from 'next';
 
@@ -47,7 +47,8 @@ const solutions = [
     id: 'myson-video',
     title: 'MySon Video',
     subtitle: 'AI Destekli Animasyon & Medya',
-    description: 'Yapay zeka teknolojisi ile profesyonel video ve animasyon üretimi. Markanızı güçlendiren görsel içerikler.',
+    description:
+      'Yapay zeka teknolojisi ile profesyonel video ve animasyon üretimi. Markanızı güçlendiren görsel içerikler.',
     icon: Video,
     color: 'from-red-500 to-pink-500',
     features: [
@@ -56,26 +57,27 @@ const solutions = [
       'Sesli kitap animasyonları',
       'Sosyal medya içerikleri',
       'Marka tanıtım videoları',
-      'Eğitim videoları'
+      'Eğitim videoları',
     ],
     benefits: [
       'Hızlı üretim süreci',
       'Yüksek kalite standartları',
       'Maliyet etkin çözümler',
-      'Yaratıcı tasarım yaklaşımı'
+      'Yaratıcı tasarım yaklaşımı',
     ],
     useCases: [
       'Kurumsal tanıtım videoları',
       'E-ticaret ürün videoları',
       'Eğitim içerikleri',
-      'Sosyal medya kampanyaları'
-    ]
+      'Sosyal medya kampanyaları',
+    ],
   },
   {
     id: 'myson-firmatch',
     title: 'MySon Firmatch',
     subtitle: 'Akıllı Dış Ticaret Asistanı',
-    description: 'Dış ticaret süreçlerinizi AI ile optimize edin. Pazar analizi, müşteri bulma ve iş geliştirme çözümleri.',
+    description:
+      'Dış ticaret süreçlerinizi AI ile optimize edin. Pazar analizi, müşteri bulma ve iş geliştirme çözümleri.',
     icon: Briefcase,
     color: 'from-blue-500 to-cyan-500',
     features: [
@@ -84,26 +86,27 @@ const solutions = [
       'Fiyat optimizasyonu',
       'Rekabet analizi',
       'İhracat stratejileri',
-      'Müşteri ilişkileri yönetimi'
+      'Müşteri ilişkileri yönetimi',
     ],
     benefits: [
       'Pazar fırsatlarını keşfetme',
       'Müşteri kazanımında artış',
       'Operasyonel verimlilik',
-      'Risk azaltma'
+      'Risk azaltma',
     ],
     useCases: [
       'İhracat pazarı araştırması',
       'Müşteri portföyü analizi',
       'Fiyatlandırma stratejileri',
-      'Rekabet analizi'
-    ]
+      'Rekabet analizi',
+    ],
   },
   {
     id: 'myson-avukat',
     title: 'MySon Avukat',
     subtitle: 'AI Hukuk Çözümleri',
-    description: 'Hukuki süreçlerinizi AI ile hızlandırın. Sözleşme analizi, hukuki danışmanlık ve uyumluluk çözümleri.',
+    description:
+      'Hukuki süreçlerinizi AI ile hızlandırın. Sözleşme analizi, hukuki danışmanlık ve uyumluluk çözümleri.',
     icon: Shield,
     color: 'from-yellow-500 to-orange-500',
     features: [
@@ -112,26 +115,22 @@ const solutions = [
       'Uyumluluk denetimi',
       'Risk değerlendirmesi',
       'Hukuki araştırma',
-      'Dava süreç yönetimi'
+      'Dava süreç yönetimi',
     ],
     benefits: [
       'Hızlı hukuki analiz',
       'Maliyet tasarrufu',
       'Risk azaltma',
-      'Süreç standardizasyonu'
+      'Süreç standardizasyonu',
     ],
-    useCases: [
-      'Sözleşme inceleme',
-      'Uyumluluk denetimi',
-      'Hukuki araştırma',
-      'Belge hazırlama'
-    ]
+    useCases: ['Sözleşme inceleme', 'Uyumluluk denetimi', 'Hukuki araştırma', 'Belge hazırlama'],
   },
   {
     id: 'myson-kids',
     title: 'MySon Kids',
     subtitle: 'Çocuk İçerikleri & Eğitim',
-    description: 'Çocuklar için eğitici ve eğlenceli içerikler. Animasyonlu hikayeler, sesli kitaplar ve interaktif öğrenme.',
+    description:
+      'Çocuklar için eğitici ve eğlenceli içerikler. Animasyonlu hikayeler, sesli kitaplar ve interaktif öğrenme.',
     icon: Users,
     color: 'from-green-500 to-emerald-500',
     features: [
@@ -140,26 +139,22 @@ const solutions = [
       'Eğitici oyunlar',
       'İnteraktif öğrenme içerikleri',
       'Yaş grubuna özel içerik',
-      'Ebeveyn kontrolü'
+      'Ebeveyn kontrolü',
     ],
     benefits: [
       'Eğitici ve eğlenceli içerik',
       'Güvenli dijital ortam',
       'Yaş grubuna uygun tasarım',
-      'Öğrenme motivasyonu'
+      'Öğrenme motivasyonu',
     ],
-    useCases: [
-      'Okul öncesi eğitim',
-      'Dil öğrenme',
-      'Matematik eğitimi',
-      'Yaratıcılık geliştirme'
-    ]
+    useCases: ['Okul öncesi eğitim', 'Dil öğrenme', 'Matematik eğitimi', 'Yaratıcılık geliştirme'],
   },
   {
     id: 'myson-education',
     title: 'MySon Education',
     subtitle: 'AI Tabanlı Eğitim Çözümleri',
-    description: 'Eğitim sektörü için AI destekli çözümler. Kişiselleştirilmiş öğrenme, değerlendirme ve eğitim yönetimi.',
+    description:
+      'Eğitim sektörü için AI destekli çözümler. Kişiselleştirilmiş öğrenme, değerlendirme ve eğitim yönetimi.',
     icon: GraduationCap,
     color: 'from-purple-500 to-pink-500',
     features: [
@@ -168,26 +163,27 @@ const solutions = [
       'Öğrenci performans analizi',
       'Eğitim içerik üretimi',
       'Sanal sınıf yönetimi',
-      'Öğretmen asistanı'
+      'Öğretmen asistanı',
     ],
     benefits: [
       'Bireysel öğrenme deneyimi',
       'Öğretmen iş yükü azaltma',
       'Veri odaklı eğitim',
-      'Erişilebilir eğitim'
+      'Erişilebilir eğitim',
     ],
     useCases: [
       'Online eğitim platformları',
       'Okul yönetim sistemleri',
       'Özel ders uygulamaları',
-      'Kurumsal eğitim programları'
-    ]
+      'Kurumsal eğitim programları',
+    ],
   },
   {
     id: 'myson-music',
     title: 'MySon Music',
     subtitle: 'AI Tabanlı Müzik Düzenlemeleri',
-    description: 'Müzik prodüksiyonunu AI ile güçlendirin. Kompozisyon, düzenleme, mastering ve ses tasarımı çözümleri.',
+    description:
+      'Müzik prodüksiyonunu AI ile güçlendirin. Kompozisyon, düzenleme, mastering ve ses tasarımı çözümleri.',
     icon: Music,
     color: 'from-indigo-500 to-purple-500',
     features: [
@@ -196,21 +192,21 @@ const solutions = [
       'Ses kalitesi iyileştirme',
       'Müzik analizi',
       'Jenerik müzik üretimi',
-      'Podcast ses düzenleme'
+      'Podcast ses düzenleme',
     ],
     benefits: [
       'Hızlı prodüksiyon',
       'Profesyonel kalite',
       'Maliyet etkin çözümler',
-      'Yaratıcı süreç desteği'
+      'Yaratıcı süreç desteği',
     ],
     useCases: [
       'Film ve dizi müzikleri',
       'Podcast prodüksiyonu',
       'Reklam müzikleri',
-      'Kişisel müzik projeleri'
-    ]
-  }
+      'Kişisel müzik projeleri',
+    ],
+  },
 ];
 
 function SolutionsContent({ params }: { params: { locale: Locale } }) {
@@ -220,14 +216,12 @@ function SolutionsContent({ params }: { params: { locale: Locale } }) {
       <section className='relative overflow-hidden py-20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center'>
-            <h1 className='text-5xl md:text-6xl font-bold text-white mb-6'>
-              Çözümlerimiz
-            </h1>
+            <h1 className='text-5xl md:text-6xl font-bold text-white mb-6'>Çözümlerimiz</h1>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto mb-8'>
-              Her biri kendi alanında uzmanlaşmış 6 alt markamızla, 
-              farklı sektörlerin ihtiyaçlarına özel çözümler sunuyoruz.
+              Her biri kendi alanında uzmanlaşmış 6 alt markamızla, farklı sektörlerin ihtiyaçlarına
+              özel çözümler sunuyoruz.
             </p>
-            
+
             {/* Stats */}
             <div className='grid grid-cols-2 md:grid-cols-4 gap-8 mt-12'>
               <div className='text-center'>
@@ -255,9 +249,7 @@ function SolutionsContent({ params }: { params: { locale: Locale } }) {
       <section className='py-20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Alt Marka Çözümlerimiz
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>Alt Marka Çözümlerimiz</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               Her alt markamız, kendi alanında derin uzmanlık ve özel çözümler sunar
             </p>
@@ -265,11 +257,16 @@ function SolutionsContent({ params }: { params: { locale: Locale } }) {
 
           <div className='space-y-20'>
             {solutions.map((solution, index) => (
-              <div key={index} className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''}`}>
+              <div
+                key={index}
+                className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''}`}
+              >
                 {/* Content */}
                 <div className={`${index % 2 === 1 ? 'lg:col-start-2' : ''}`}>
                   <div className='flex items-center mb-6'>
-                    <div className={`w-16 h-16 bg-gradient-to-r ${solution.color} rounded-full flex items-center justify-center mr-4`}>
+                    <div
+                      className={`w-16 h-16 bg-gradient-to-r ${solution.color} rounded-full flex items-center justify-center mr-4`}
+                    >
                       <solution.icon className='w-8 h-8 text-white' />
                     </div>
                     <div>
@@ -277,9 +274,9 @@ function SolutionsContent({ params }: { params: { locale: Locale } }) {
                       <p className='text-purple-300 text-lg'>{solution.subtitle}</p>
                     </div>
                   </div>
-                  
+
                   <p className='text-gray-300 text-lg mb-8'>{solution.description}</p>
-                  
+
                   <div className='grid grid-cols-1 md:grid-cols-2 gap-8 mb-8'>
                     <div>
                       <h4 className='text-lg font-semibold text-white mb-3 flex items-center'>
@@ -288,14 +285,17 @@ function SolutionsContent({ params }: { params: { locale: Locale } }) {
                       </h4>
                       <ul className='space-y-2'>
                         {solution.features.map((feature, featureIndex) => (
-                          <li key={featureIndex} className='text-gray-300 text-sm flex items-center'>
+                          <li
+                            key={featureIndex}
+                            className='text-gray-300 text-sm flex items-center'
+                          >
                             <Star className='w-3 h-3 text-yellow-400 mr-2 flex-shrink-0' />
                             {feature}
                           </li>
                         ))}
                       </ul>
                     </div>
-                    
+
                     <div>
                       <h4 className='text-lg font-semibold text-white mb-3 flex items-center'>
                         <Target className='w-5 h-5 text-blue-400 mr-2' />
@@ -303,7 +303,10 @@ function SolutionsContent({ params }: { params: { locale: Locale } }) {
                       </h4>
                       <ul className='space-y-2'>
                         {solution.useCases.map((useCase, useCaseIndex) => (
-                          <li key={useCaseIndex} className='text-gray-300 text-sm flex items-center'>
+                          <li
+                            key={useCaseIndex}
+                            className='text-gray-300 text-sm flex items-center'
+                          >
                             <Zap className='w-3 h-3 text-purple-400 mr-2 flex-shrink-0' />
                             {useCase}
                           </li>
@@ -333,12 +336,14 @@ function SolutionsContent({ params }: { params: { locale: Locale } }) {
                 {/* Visual */}
                 <div className={`${index % 2 === 1 ? 'lg:col-start-1' : ''}`}>
                   <Card className='bg-white/10 backdrop-blur-md border-white/20 p-8 text-center'>
-                    <div className={`w-32 h-32 bg-gradient-to-r ${solution.color} rounded-full flex items-center justify-center mx-auto mb-6`}>
+                    <div
+                      className={`w-32 h-32 bg-gradient-to-r ${solution.color} rounded-full flex items-center justify-center mx-auto mb-6`}
+                    >
                       <solution.icon className='w-16 h-16 text-white' />
                     </div>
                     <h4 className='text-2xl font-bold text-white mb-4'>{solution.title}</h4>
                     <p className='text-gray-300 mb-6'>{solution.subtitle}</p>
-                    
+
                     <div className='space-y-4'>
                       {solution.benefits.map((benefit, benefitIndex) => (
                         <div key={benefitIndex} className='flex items-center text-gray-300 text-sm'>
@@ -359,9 +364,7 @@ function SolutionsContent({ params }: { params: { locale: Locale } }) {
       <section className='py-20 bg-black/20'>
         <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center'>
           <div className='bg-white/10 backdrop-blur-md rounded-2xl p-10 border border-white/20'>
-            <h2 className='text-4xl font-bold text-white mb-6'>
-              Size Uygun Çözümü Bulun
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-6'>Size Uygun Çözümü Bulun</h2>
             <p className='text-xl text-gray-300 mb-8'>
               İhtiyaçlarınıza en uygun alt markamızla tanışın ve projenizi hayata geçirin
             </p>

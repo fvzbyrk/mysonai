@@ -49,13 +49,28 @@ export const MASTER_PROMPT_CONFIG: MasterPromptConfig = {
     'jailbreak',
     'dan mode',
     'developer mode',
-    'admin mode'
+    'admin mode',
   ],
   allowedRedirects: [
-    'fevzi', 'elif', 'burak', 'ayse', 'deniz-analist', 'zeynep', 
-    'can', 'mert', 'seda', 'ahmet', 'tacettin', 'nur', 'emre', 
-    'aylin', 'deniz', 'erdem', 'melis', 'pinar'
-  ]
+    'fevzi',
+    'elif',
+    'burak',
+    'ayse',
+    'deniz-analist',
+    'zeynep',
+    'can',
+    'mert',
+    'seda',
+    'ahmet',
+    'tacettin',
+    'nur',
+    'emre',
+    'aylin',
+    'deniz',
+    'erdem',
+    'melis',
+    'pinar',
+  ],
 };
 
 // Agent Boundary Definitions
@@ -63,52 +78,76 @@ export const AGENT_BOUNDARIES: AgentBoundary[] = [
   {
     agentId: 'fevzi',
     allowedTopics: [
-      'proje yönetimi', 'ekip koordinasyonu', 'strateji geliştirme', 
-      'risk yönetimi', 'planlama', 'liderlik', 'organizasyon'
+      'proje yönetimi',
+      'ekip koordinasyonu',
+      'strateji geliştirme',
+      'risk yönetimi',
+      'planlama',
+      'liderlik',
+      'organizasyon',
     ],
     forbiddenTopics: [
-      'kod yazma', 'tasarım', 'hukuki danışmanlık', 'finansal analiz',
-      'beslenme', 'fitness', 'psikoloji', 'müzik'
+      'kod yazma',
+      'tasarım',
+      'hukuki danışmanlık',
+      'finansal analiz',
+      'beslenme',
+      'fitness',
+      'psikoloji',
+      'müzik',
     ],
     redirectRules: [
       { condition: 'teknik konular', targetAgent: 'burak', priority: 1 },
       { condition: 'kod yazma', targetAgent: 'ayse', priority: 1 },
       { condition: 'tasarım', targetAgent: 'can', priority: 1 },
-      { condition: 'hukuki', targetAgent: 'tacettin', priority: 1 }
+      { condition: 'hukuki', targetAgent: 'tacettin', priority: 1 },
     ],
-    maxRedirects: 3
+    maxRedirects: 3,
   },
   {
     agentId: 'tacettin',
     allowedTopics: [
-      'hukuki danışmanlık', 'sözleşme yönetimi', 'kvkk', 'ticaret hukuku',
-      'dava dilekçeleri', 'mahkeme kararları', 'hukuki belgeler', 'yasal uyumluluk',
-      'normlar hiyerarşisi', 'anayasa', 'kanun', 'mevzuat'
+      'hukuki danışmanlık',
+      'sözleşme yönetimi',
+      'kvkk',
+      'ticaret hukuku',
+      'dava dilekçeleri',
+      'mahkeme kararları',
+      'hukuki belgeler',
+      'yasal uyumluluk',
+      'normlar hiyerarşisi',
+      'anayasa',
+      'kanun',
+      'mevzuat',
     ],
-    forbiddenTopics: [
-      'kod yazma', 'tasarım', 'fitness', 'beslenme', 'müzik', 'psikoloji'
-    ],
+    forbiddenTopics: ['kod yazma', 'tasarım', 'fitness', 'beslenme', 'müzik', 'psikoloji'],
     redirectRules: [
       { condition: 'proje yönetimi', targetAgent: 'fevzi', priority: 1 },
-      { condition: 'finansal analiz', targetAgent: 'ahmet', priority: 1 }
+      { condition: 'finansal analiz', targetAgent: 'ahmet', priority: 1 },
     ],
-    maxRedirects: 1 // Tacettin için özel: hukuki konularda yönlendirme yapmaz
+    maxRedirects: 1, // Tacettin için özel: hukuki konularda yönlendirme yapmaz
   },
   {
     agentId: 'erdem',
     allowedTopics: [
-      'fitness', 'spor', 'antrenman', 'egzersiz', 'performans', 'fiziksel aktivite',
-      'keşkesiz yaşam', 'ai antrenör sistemi', 'baş antrenör', 'sporcu gelişimi'
+      'fitness',
+      'spor',
+      'antrenman',
+      'egzersiz',
+      'performans',
+      'fiziksel aktivite',
+      'keşkesiz yaşam',
+      'ai antrenör sistemi',
+      'baş antrenör',
+      'sporcu gelişimi',
     ],
-    forbiddenTopics: [
-      'hukuki danışmanlık', 'kod yazma', 'finansal analiz', 'tasarım'
-    ],
+    forbiddenTopics: ['hukuki danışmanlık', 'kod yazma', 'finansal analiz', 'tasarım'],
     redirectRules: [
       { condition: 'beslenme', targetAgent: 'nur', priority: 1 },
-      { condition: 'psikoloji', targetAgent: 'deniz', priority: 1 }
+      { condition: 'psikoloji', targetAgent: 'deniz', priority: 1 },
     ],
-    maxRedirects: 2
-  }
+    maxRedirects: 2,
+  },
   // Diğer ajanlar için de benzer tanımlamalar...
 ];
 
@@ -150,7 +189,9 @@ export class MasterPromptValidator {
 
     // 3. Prompt uzunluk kontrolü
     if (prompt.length > this.config.maxPromptLength) {
-      violations.push(`Prompt çok uzun: ${prompt.length} karakter (max: ${this.config.maxPromptLength})`);
+      violations.push(
+        `Prompt çok uzun: ${prompt.length} karakter (max: ${this.config.maxPromptLength})`
+      );
       riskLevel = 'medium';
     }
 
@@ -164,7 +205,7 @@ export class MasterPromptValidator {
       isValid: violations.length === 0,
       violations,
       suggestions,
-      riskLevel
+      riskLevel,
     };
   }
 
@@ -188,22 +229,25 @@ export class MasterPromptValidator {
 
     return {
       isValid: violations.length === 0,
-      violations
+      violations,
     };
   }
 
   /**
    * Ajan sınırlarını kontrol eder
    */
-  private checkAgentBoundaries(agentId: string, userQuery: string): { 
-    isValid: boolean; 
-    violations: string[]; 
-    suggestions: string[] 
+  private checkAgentBoundaries(
+    agentId: string,
+    userQuery: string
+  ): {
+    isValid: boolean;
+    violations: string[];
+    suggestions: string[];
   } {
     const violations: string[] = [];
     const suggestions: string[] = [];
     const boundary = this.boundaries.find(b => b.agentId === agentId);
-    
+
     if (!boundary) {
       return { isValid: true, violations, suggestions };
     }
@@ -214,23 +258,26 @@ export class MasterPromptValidator {
     boundary.forbiddenTopics.forEach(topic => {
       if (lowerQuery.includes(topic)) {
         violations.push(`Bu konu (${topic}) ${agentId} ajanının uzmanlık alanı dışındadır`);
-        suggestions.push(`Bu konu için uygun uzmana yönlendirin`);
+        suggestions.push('Bu konu için uygun uzmana yönlendirin');
       }
     });
 
     return {
       isValid: violations.length === 0,
       violations,
-      suggestions
+      suggestions,
     };
   }
 
   /**
    * Yönlendirme kurallarını kontrol eder
    */
-  private checkRedirectRules(agentId: string, userQuery: string): { 
-    shouldRedirect: boolean; 
-    targetAgent: string | null 
+  private checkRedirectRules(
+    agentId: string,
+    userQuery: string
+  ): {
+    shouldRedirect: boolean;
+    targetAgent: string | null;
   } {
     const boundary = this.boundaries.find(b => b.agentId === agentId);
     if (!boundary) {
@@ -242,9 +289,9 @@ export class MasterPromptValidator {
     // Yönlendirme kurallarını kontrol et
     for (const rule of boundary.redirectRules) {
       if (lowerQuery.includes(rule.condition)) {
-        return { 
-          shouldRedirect: true, 
-          targetAgent: rule.targetAgent 
+        return {
+          shouldRedirect: true,
+          targetAgent: rule.targetAgent,
         };
       }
     }
@@ -257,17 +304,17 @@ export class MasterPromptValidator {
    */
   createSecurePrompt(agentId: string, basePrompt: string, userQuery: string): string {
     const validation = this.validatePrompt(agentId, basePrompt, userQuery);
-    
+
     if (!validation.isValid) {
       console.warn(`Prompt validation failed for agent ${agentId}:`, validation.violations);
     }
 
     // Güvenlik katmanı ekle
     const securityLayer = this.createSecurityLayer(agentId);
-    
+
     // Sınır katmanı ekle
     const boundaryLayer = this.createBoundaryLayer(agentId);
-    
+
     return `${securityLayer}\n\n${boundaryLayer}\n\n${basePrompt}`;
   }
 
@@ -298,7 +345,9 @@ export class MasterPromptValidator {
    */
   private createBoundaryLayer(agentId: string): string {
     const boundary = this.boundaries.find(b => b.agentId === agentId);
-    if (!boundary) return '';
+    if (!boundary) {
+      return '';
+    }
 
     return `
 **SINIR KATMANI - ${agentId.toUpperCase()}**
@@ -310,9 +359,9 @@ ${boundary.allowedTopics.map(topic => `✅ ${topic}`).join('\n')}
 ${boundary.forbiddenTopics.map(topic => `🚫 ${topic}`).join('\n')}
 
 🔄 YÖNLENDİRME KURALLARI:
-${boundary.redirectRules.map(rule => 
-  `• ${rule.condition} → ${rule.targetAgent} (Öncelik: ${rule.priority})`
-).join('\n')}
+${boundary.redirectRules
+  .map(rule => `• ${rule.condition} → ${rule.targetAgent} (Öncelik: ${rule.priority})`)
+  .join('\n')}
 
 📋 DAVRANIŞ KURALLARI:
 - Sadece uzmanlık alanında kal
@@ -337,8 +386,8 @@ export class PromptMonitor {
   }> = [];
 
   logPromptUsage(
-    agentId: string, 
-    userQuery: string, 
+    agentId: string,
+    userQuery: string,
     validationResult: PromptValidationResult,
     action: string
   ) {
@@ -347,15 +396,15 @@ export class PromptMonitor {
       agentId,
       userQuery,
       validationResult,
-      action
+      action,
     });
 
     // Risk seviyesi yüksekse uyarı ver
     if (validationResult.riskLevel === 'high') {
-      console.error(`HIGH RISK PROMPT DETECTED:`, {
+      console.error('HIGH RISK PROMPT DETECTED:', {
         agentId,
         userQuery,
-        violations: validationResult.violations
+        violations: validationResult.violations,
       });
     }
   }
@@ -368,12 +417,13 @@ export class PromptMonitor {
   } {
     const totalRequests = this.logs.length;
     const highRiskCount = this.logs.filter(log => log.validationResult.riskLevel === 'high').length;
-    
+
     const violationsByAgent: { [agentId: string]: number } = {};
     const allViolations: string[] = [];
 
     this.logs.forEach(log => {
-      violationsByAgent[log.agentId] = (violationsByAgent[log.agentId] || 0) + log.validationResult.violations.length;
+      violationsByAgent[log.agentId] =
+        (violationsByAgent[log.agentId] || 0) + log.validationResult.violations.length;
       allViolations.push(...log.validationResult.violations);
     });
 
@@ -384,7 +434,7 @@ export class PromptMonitor {
     });
 
     const topViolations = Object.entries(violationCounts)
-      .sort(([,a], [,b]) => b - a)
+      .sort(([, a], [, b]) => b - a)
       .slice(0, 5)
       .map(([violation]) => violation);
 
@@ -392,7 +442,7 @@ export class PromptMonitor {
       totalRequests,
       highRiskCount,
       violationsByAgent,
-      topViolations
+      topViolations,
     };
   }
 }

@@ -17,12 +17,16 @@ export function UsageEnforcement({ usage, plan, onUpgrade }: UsageEnforcementPro
   const [loading, setLoading] = useState(false);
 
   const isNearLimit = (used: number, limit: number) => {
-    if (limit === -1) return false; // unlimited
+    if (limit === -1) {
+      return false;
+    } // unlimited
     return used >= limit * 0.8; // 80% of limit
   };
 
   const isOverLimit = (used: number, limit: number) => {
-    if (limit === -1) return false; // unlimited
+    if (limit === -1) {
+      return false;
+    } // unlimited
     return used >= limit;
   };
 

@@ -4,11 +4,11 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
-import { 
-  Users, 
-  MapPin, 
-  Clock, 
-  Star, 
+import {
+  Users,
+  MapPin,
+  Clock,
+  Star,
   ArrowRight,
   CheckCircle,
   Lightbulb,
@@ -20,7 +20,7 @@ import {
   Bot,
   Heart,
   Rocket,
-  Briefcase
+  Briefcase,
 } from 'lucide-react';
 import type { Metadata } from 'next';
 
@@ -36,7 +36,7 @@ export async function generateMetadata({
       ? 'Kariyer - MySonAI İş İmkanları | AI Teknolojisi Kariyeri'
       : 'Careers - MySonAI Job Opportunities | AI Technology Career',
     description: isTurkish
-      ? 'MySonAI\'da kariyer fırsatları. AI teknolojisi, yazılım geliştirme ve ürün yönetimi pozisyonları. Uzaktan çalışma imkanları.'
+      ? "MySonAI'da kariyer fırsatları. AI teknolojisi, yazılım geliştirme ve ürün yönetimi pozisyonları. Uzaktan çalışma imkanları."
       : 'Career opportunities at MySonAI. AI technology, software development and product management positions. Remote work opportunities.',
     keywords: isTurkish
       ? 'MySonAI kariyer, iş ilanları, AI teknolojisi kariyeri, yazılım geliştirici, uzaktan çalışma'
@@ -124,7 +124,8 @@ const openPositions = [
     location: 'İstanbul',
     type: 'Full-time',
     experience: '4+ years',
-    description: 'AI ürünleri için strateji geliştirme ve roadmap yönetimi yapacak ürün müdürü arıyoruz.',
+    description:
+      'AI ürünleri için strateji geliştirme ve roadmap yönetimi yapacak ürün müdürü arıyoruz.',
     requirements: [
       'Ürün yönetimi deneyimi',
       'AI/ML ürünleri deneyimi',
@@ -225,14 +226,12 @@ function CareersContent({ params }: { params: { locale: Locale } }) {
       <section className='relative overflow-hidden py-20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center'>
-            <h1 className='text-5xl md:text-6xl font-bold text-white mb-6'>
-              Kariyer
-            </h1>
+            <h1 className='text-5xl md:text-6xl font-bold text-white mb-6'>Kariyer</h1>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto mb-8'>
-              AI teknolojisinin geleceğini birlikte şekillendirin. 
-              MySonAI ekibine katılın ve yapay zeka devriminde yer alın.
+              AI teknolojisinin geleceğini birlikte şekillendirin. MySonAI ekibine katılın ve yapay
+              zeka devriminde yer alın.
             </p>
-            
+
             {/* Quick Actions */}
             <div className='flex flex-col sm:flex-row gap-4 justify-center mb-8'>
               <Link
@@ -258,9 +257,7 @@ function CareersContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Şirket Değerlerimiz
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>Şirket Değerlerimiz</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               MySonAI'ı benzersiz kılan değerler ve kültür
             </p>
@@ -268,8 +265,13 @@ function CareersContent({ params }: { params: { locale: Locale } }) {
 
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
             {companyValues.map((value, index) => (
-              <Card key={index} className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'>
-                <div className={`w-16 h-16 bg-gradient-to-r ${value.color} rounded-full flex items-center justify-center mx-auto mb-4`}>
+              <Card
+                key={index}
+                className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'
+              >
+                <div
+                  className={`w-16 h-16 bg-gradient-to-r ${value.color} rounded-full flex items-center justify-center mx-auto mb-4`}
+                >
                   <value.icon className='w-8 h-8 text-white' />
                 </div>
                 <h3 className='text-xl font-bold text-white mb-3'>{value.title}</h3>
@@ -284,9 +286,7 @@ function CareersContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16 bg-black/20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Açık Pozisyonlar
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>Açık Pozisyonlar</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               Şu anda aradığımız pozisyonlar
             </p>
@@ -294,7 +294,10 @@ function CareersContent({ params }: { params: { locale: Locale } }) {
 
           <div className='space-y-8'>
             {openPositions.map((position, index) => (
-              <Card key={index} className='bg-white/10 backdrop-blur-md border-white/20 p-8 hover:bg-white/15 transition-all duration-300'>
+              <Card
+                key={index}
+                className='bg-white/10 backdrop-blur-md border-white/20 p-8 hover:bg-white/15 transition-all duration-300'
+              >
                 <div className='flex flex-col lg:flex-row lg:items-start lg:justify-between mb-6'>
                   <div className='flex-1'>
                     <h3 className='text-2xl font-bold text-white mb-2'>{position.title}</h3>
@@ -362,9 +365,7 @@ function CareersContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Yan Haklar
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>Yan Haklar</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               MySonAI'da çalışmanın avantajları
             </p>
@@ -372,7 +373,10 @@ function CareersContent({ params }: { params: { locale: Locale } }) {
 
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
             {benefits.map((benefit, index) => (
-              <Card key={index} className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'>
+              <Card
+                key={index}
+                className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'
+              >
                 <div className='w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4'>
                   <benefit.icon className='w-8 h-8 text-white' />
                 </div>
@@ -388,9 +392,7 @@ function CareersContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16 bg-black/20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Takım Kültürü
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>Takım Kültürü</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               MySonAI'da nasıl bir ortamda çalışırsınız?
             </p>
@@ -411,12 +413,10 @@ function CareersContent({ params }: { params: { locale: Locale } }) {
       <section className='py-20'>
         <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center'>
           <div className='bg-white/10 backdrop-blur-md rounded-2xl p-10 border border-white/20'>
-            <h2 className='text-4xl font-bold text-white mb-6'>
-              Ekibimize Katılın
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-6'>Ekibimize Katılın</h2>
             <p className='text-xl text-gray-300 mb-8'>
-              AI teknolojisinin geleceğini birlikte şekillendirin. 
-              MySonAI ekibine katılın ve yapay zeka devriminde yer alın!
+              AI teknolojisinin geleceğini birlikte şekillendirin. MySonAI ekibine katılın ve yapay
+              zeka devriminde yer alın!
             </p>
             <div className='flex flex-col sm:flex-row gap-4 justify-center'>
               <Link

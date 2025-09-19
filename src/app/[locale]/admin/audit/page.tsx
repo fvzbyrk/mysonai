@@ -6,38 +6,38 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { 
-  FileText, 
-  User, 
-  Clock, 
-  Search, 
-  Filter, 
-  Download, 
-  Eye, 
-  ArrowLeft, 
-  Calendar, 
-  Activity, 
-  Database, 
-  Settings, 
-  Shield, 
-  Key, 
-  Globe, 
-  Mail, 
-  MessageSquare, 
-  CreditCard, 
-  Trash2, 
-  Edit, 
-  Plus, 
-  CheckCircle, 
-  XCircle, 
-  AlertTriangle, 
-  Info, 
-  RefreshCw, 
-  ExternalLink, 
-  Copy, 
-  Play, 
-  Pause, 
-  Square
+import {
+  FileText,
+  User,
+  Clock,
+  Search,
+  Filter,
+  Download,
+  Eye,
+  ArrowLeft,
+  Calendar,
+  Activity,
+  Database,
+  Settings,
+  Shield,
+  Key,
+  Globe,
+  Mail,
+  MessageSquare,
+  CreditCard,
+  Trash2,
+  Edit,
+  Plus,
+  CheckCircle,
+  XCircle,
+  AlertTriangle,
+  Info,
+  RefreshCw,
+  ExternalLink,
+  Copy,
+  Play,
+  Pause,
+  Square,
 } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
@@ -54,7 +54,15 @@ interface AuditLog {
   userAgent: string;
   status: 'success' | 'failed' | 'warning';
   severity: 'low' | 'medium' | 'high' | 'critical';
-  category: 'authentication' | 'authorization' | 'data_access' | 'data_modification' | 'system_change' | 'security' | 'api' | 'user_management';
+  category:
+    | 'authentication'
+    | 'authorization'
+    | 'data_access'
+    | 'data_modification'
+    | 'system_change'
+    | 'security'
+    | 'api'
+    | 'user_management';
   changes?: {
     field: string;
     oldValue: string;
@@ -107,11 +115,11 @@ export default function AuditTrailPage() {
       category: 'data_modification',
       changes: [
         { field: 'title', oldValue: '', newValue: 'AI Teknolojilerinde Son Gelişmeler' },
-        { field: 'status', oldValue: '', newValue: 'published' }
+        { field: 'status', oldValue: '', newValue: 'published' },
       ],
       sessionId: 'sess_abc123',
       requestId: 'req_xyz789',
-      duration: 1250
+      duration: 1250,
     },
     {
       id: '2',
@@ -128,7 +136,7 @@ export default function AuditTrailPage() {
       category: 'authentication',
       sessionId: 'sess_def456',
       requestId: 'req_abc123',
-      duration: 850
+      duration: 850,
     },
     {
       id: '3',
@@ -145,11 +153,11 @@ export default function AuditTrailPage() {
       category: 'user_management',
       changes: [
         { field: 'role', oldValue: 'user', newValue: 'editor' },
-        { field: 'permissions', oldValue: 'read', newValue: 'read,write' }
+        { field: 'permissions', oldValue: 'read', newValue: 'read,write' },
       ],
       sessionId: 'sess_ghi789',
       requestId: 'req_def456',
-      duration: 2100
+      duration: 2100,
     },
     {
       id: '4',
@@ -167,7 +175,7 @@ export default function AuditTrailPage() {
       sessionId: 'sess_jkl012',
       requestId: 'req_ghi789',
       duration: 500,
-      errorMessage: 'Invalid password'
+      errorMessage: 'Invalid password',
     },
     {
       id: '5',
@@ -182,12 +190,10 @@ export default function AuditTrailPage() {
       status: 'success',
       severity: 'high',
       category: 'data_modification',
-      changes: [
-        { field: 'status', oldValue: 'published', newValue: 'deleted' }
-      ],
+      changes: [{ field: 'status', oldValue: 'published', newValue: 'deleted' }],
       sessionId: 'sess_mno345',
       requestId: 'req_jkl012',
-      duration: 1800
+      duration: 1800,
     },
     {
       id: '6',
@@ -204,7 +210,7 @@ export default function AuditTrailPage() {
       category: 'api',
       sessionId: 'sess_pqr678',
       requestId: 'req_mno345',
-      duration: 3200
+      duration: 3200,
     },
     {
       id: '7',
@@ -221,12 +227,12 @@ export default function AuditTrailPage() {
       category: 'system_change',
       changes: [
         { field: 'session_timeout', oldValue: '30', newValue: '60' },
-        { field: 'max_upload_size', oldValue: '10485760', newValue: '20971520' }
+        { field: 'max_upload_size', oldValue: '10485760', newValue: '20971520' },
       ],
       sessionId: 'sess_stu901',
       requestId: 'req_pqr678',
-      duration: 1500
-    }
+      duration: 1500,
+    },
   ];
 
   useEffect(() => {
@@ -243,11 +249,12 @@ export default function AuditTrailPage() {
     let filtered = auditLogs;
 
     if (searchTerm) {
-      filtered = filtered.filter(log => 
-        log.user.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        log.action.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        log.resource.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        log.details.toLowerCase().includes(searchTerm.toLowerCase())
+      filtered = filtered.filter(
+        log =>
+          log.user.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          log.action.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          log.resource.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          log.details.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
@@ -284,7 +291,7 @@ export default function AuditTrailPage() {
     { value: 'system_change', label: 'Sistem Değişikliği', icon: Settings },
     { value: 'security', label: 'Güvenlik', icon: Shield },
     { value: 'api', label: 'API', icon: Globe },
-    { value: 'user_management', label: 'Kullanıcı Yönetimi', icon: User }
+    { value: 'user_management', label: 'Kullanıcı Yönetimi', icon: User },
   ];
 
   const getCategoryIcon = (category: string) => {
@@ -295,51 +302,75 @@ export default function AuditTrailPage() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'success':
-        return <Badge className="bg-green-500/20 text-green-400 border-green-500/50">Başarılı</Badge>;
+        return (
+          <Badge className='bg-green-500/20 text-green-400 border-green-500/50'>Başarılı</Badge>
+        );
       case 'failed':
-        return <Badge className="bg-red-500/20 text-red-400 border-red-500/50">Başarısız</Badge>;
+        return <Badge className='bg-red-500/20 text-red-400 border-red-500/50'>Başarısız</Badge>;
       case 'warning':
-        return <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/50">Uyarı</Badge>;
+        return (
+          <Badge className='bg-yellow-500/20 text-yellow-400 border-yellow-500/50'>Uyarı</Badge>
+        );
       default:
-        return <Badge className="bg-gray-500/20 text-gray-400 border-gray-500/50">Bilinmiyor</Badge>;
+        return (
+          <Badge className='bg-gray-500/20 text-gray-400 border-gray-500/50'>Bilinmiyor</Badge>
+        );
     }
   };
 
   const getSeverityBadge = (severity: string) => {
     switch (severity) {
       case 'critical':
-        return <Badge className="bg-red-500/20 text-red-400 border-red-500/50">Kritik</Badge>;
+        return <Badge className='bg-red-500/20 text-red-400 border-red-500/50'>Kritik</Badge>;
       case 'high':
-        return <Badge className="bg-orange-500/20 text-orange-400 border-orange-500/50">Yüksek</Badge>;
+        return (
+          <Badge className='bg-orange-500/20 text-orange-400 border-orange-500/50'>Yüksek</Badge>
+        );
       case 'medium':
-        return <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/50">Orta</Badge>;
+        return (
+          <Badge className='bg-yellow-500/20 text-yellow-400 border-yellow-500/50'>Orta</Badge>
+        );
       case 'low':
-        return <Badge className="bg-green-500/20 text-green-400 border-green-500/50">Düşük</Badge>;
+        return <Badge className='bg-green-500/20 text-green-400 border-green-500/50'>Düşük</Badge>;
       default:
-        return <Badge className="bg-gray-500/20 text-gray-400 border-gray-500/50">Bilinmiyor</Badge>;
+        return (
+          <Badge className='bg-gray-500/20 text-gray-400 border-gray-500/50'>Bilinmiyor</Badge>
+        );
     }
   };
 
   const getActionBadge = (action: string) => {
     switch (action) {
       case 'CREATE':
-        return <Badge className="bg-green-500/20 text-green-400 border-green-500/50">Oluştur</Badge>;
+        return (
+          <Badge className='bg-green-500/20 text-green-400 border-green-500/50'>Oluştur</Badge>
+        );
       case 'READ':
-        return <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/50">Oku</Badge>;
+        return <Badge className='bg-blue-500/20 text-blue-400 border-blue-500/50'>Oku</Badge>;
       case 'UPDATE':
-        return <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/50">Güncelle</Badge>;
+        return (
+          <Badge className='bg-yellow-500/20 text-yellow-400 border-yellow-500/50'>Güncelle</Badge>
+        );
       case 'DELETE':
-        return <Badge className="bg-red-500/20 text-red-400 border-red-500/50">Sil</Badge>;
+        return <Badge className='bg-red-500/20 text-red-400 border-red-500/50'>Sil</Badge>;
       case 'LOGIN':
-        return <Badge className="bg-purple-500/20 text-purple-400 border-purple-500/50">Giriş</Badge>;
+        return (
+          <Badge className='bg-purple-500/20 text-purple-400 border-purple-500/50'>Giriş</Badge>
+        );
       case 'LOGOUT':
-        return <Badge className="bg-gray-500/20 text-gray-400 border-gray-500/50">Çıkış</Badge>;
+        return <Badge className='bg-gray-500/20 text-gray-400 border-gray-500/50'>Çıkış</Badge>;
       case 'API_CALL':
-        return <Badge className="bg-cyan-500/20 text-cyan-400 border-cyan-500/50">API Çağrısı</Badge>;
+        return (
+          <Badge className='bg-cyan-500/20 text-cyan-400 border-cyan-500/50'>API Çağrısı</Badge>
+        );
       case 'SYSTEM_CONFIG':
-        return <Badge className="bg-pink-500/20 text-pink-400 border-pink-500/50">Sistem Ayarı</Badge>;
+        return (
+          <Badge className='bg-pink-500/20 text-pink-400 border-pink-500/50'>Sistem Ayarı</Badge>
+        );
       default:
-        return <Badge className="bg-gray-500/20 text-gray-400 border-gray-500/50">Bilinmiyor</Badge>;
+        return (
+          <Badge className='bg-gray-500/20 text-gray-400 border-gray-500/50'>Bilinmiyor</Badge>
+        );
     }
   };
 
@@ -350,12 +381,14 @@ export default function AuditTrailPage() {
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit',
-      second: '2-digit'
+      second: '2-digit',
     });
   };
 
   const formatDuration = (duration: number) => {
-    if (duration < 1000) return `${duration}ms`;
+    if (duration < 1000) {
+      return `${duration}ms`;
+    }
     return `${(duration / 1000).toFixed(2)}s`;
   };
 
@@ -366,187 +399,212 @@ export default function AuditTrailPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-          <p className="text-white">Audit logları yükleniyor...</p>
+      <div className='min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center'>
+        <div className='text-center'>
+          <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4'></div>
+          <p className='text-white'>Audit logları yükleniyor...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
+    <div className='min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 p-6'>
+      <div className='max-w-7xl mx-auto space-y-6'>
         {/* Header */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <Link href="/tr/admin">
-              <Button variant="outline" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
-                <ArrowLeft className="w-4 h-4 mr-2" />
+        <div className='flex items-center justify-between'>
+          <div className='flex items-center space-x-4'>
+            <Link href='/tr/admin'>
+              <Button
+                variant='outline'
+                className='bg-white/10 border-white/20 text-white hover:bg-white/20'
+              >
+                <ArrowLeft className='w-4 h-4 mr-2' />
                 Dashboard
               </Button>
             </Link>
             <div>
-              <h1 className="text-3xl font-bold text-white">Audit Trail</h1>
-              <p className="text-gray-300">Sistem aktiviteleri ve değişiklik kayıtları</p>
+              <h1 className='text-3xl font-bold text-white'>Audit Trail</h1>
+              <p className='text-gray-300'>Sistem aktiviteleri ve değişiklik kayıtları</p>
             </div>
           </div>
-          <div className="flex items-center space-x-4">
-            <Button 
-              variant="outline" 
-              className="bg-white/10 border-white/20 text-white hover:bg-white/20"
+          <div className='flex items-center space-x-4'>
+            <Button
+              variant='outline'
+              className='bg-white/10 border-white/20 text-white hover:bg-white/20'
               onClick={() => setShowFilters(!showFilters)}
             >
-              <Filter className="w-4 h-4 mr-2" />
+              <Filter className='w-4 h-4 mr-2' />
               Filtreler
             </Button>
-            <Button 
-              variant="outline" 
-              className="bg-white/10 border-white/20 text-white hover:bg-white/20"
+            <Button
+              variant='outline'
+              className='bg-white/10 border-white/20 text-white hover:bg-white/20'
               onClick={handleExportLogs}
             >
-              <Download className="w-4 h-4 mr-2" />
+              <Download className='w-4 h-4 mr-2' />
               Dışa Aktar
             </Button>
-            <Button 
-              className="bg-gradient-to-r from-blue-600 to-purple-600 text-white border-0 hover:from-blue-700 hover:to-purple-700"
-            >
-              <RefreshCw className="w-4 h-4 mr-2" />
+            <Button className='bg-gradient-to-r from-blue-600 to-purple-600 text-white border-0 hover:from-blue-700 hover:to-purple-700'>
+              <RefreshCw className='w-4 h-4 mr-2' />
               Yenile
             </Button>
           </div>
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <Card className="bg-white/10 backdrop-blur-md border-white/20">
-            <div className="p-6">
-              <div className="flex items-center justify-between">
+        <div className='grid grid-cols-1 md:grid-cols-4 gap-6'>
+          <Card className='bg-white/10 backdrop-blur-md border-white/20'>
+            <div className='p-6'>
+              <div className='flex items-center justify-between'>
                 <div>
-                  <p className="text-gray-300 text-sm">Toplam Log</p>
-                  <p className="text-2xl font-bold text-white">{auditLogs.length}</p>
+                  <p className='text-gray-300 text-sm'>Toplam Log</p>
+                  <p className='text-2xl font-bold text-white'>{auditLogs.length}</p>
                 </div>
-                <FileText className="w-8 h-8 text-blue-400" />
+                <FileText className='w-8 h-8 text-blue-400' />
               </div>
             </div>
           </Card>
 
-          <Card className="bg-white/10 backdrop-blur-md border-white/20">
-            <div className="p-6">
-              <div className="flex items-center justify-between">
+          <Card className='bg-white/10 backdrop-blur-md border-white/20'>
+            <div className='p-6'>
+              <div className='flex items-center justify-between'>
                 <div>
-                  <p className="text-gray-300 text-sm">Başarılı</p>
-                  <p className="text-2xl font-bold text-white">{auditLogs.filter(l => l.status === 'success').length}</p>
+                  <p className='text-gray-300 text-sm'>Başarılı</p>
+                  <p className='text-2xl font-bold text-white'>
+                    {auditLogs.filter(l => l.status === 'success').length}
+                  </p>
                 </div>
-                <CheckCircle className="w-8 h-8 text-green-400" />
+                <CheckCircle className='w-8 h-8 text-green-400' />
               </div>
             </div>
           </Card>
 
-          <Card className="bg-white/10 backdrop-blur-md border-white/20">
-            <div className="p-6">
-              <div className="flex items-center justify-between">
+          <Card className='bg-white/10 backdrop-blur-md border-white/20'>
+            <div className='p-6'>
+              <div className='flex items-center justify-between'>
                 <div>
-                  <p className="text-gray-300 text-sm">Başarısız</p>
-                  <p className="text-2xl font-bold text-white">{auditLogs.filter(l => l.status === 'failed').length}</p>
+                  <p className='text-gray-300 text-sm'>Başarısız</p>
+                  <p className='text-2xl font-bold text-white'>
+                    {auditLogs.filter(l => l.status === 'failed').length}
+                  </p>
                 </div>
-                <XCircle className="w-8 h-8 text-red-400" />
+                <XCircle className='w-8 h-8 text-red-400' />
               </div>
             </div>
           </Card>
 
-          <Card className="bg-white/10 backdrop-blur-md border-white/20">
-            <div className="p-6">
-              <div className="flex items-center justify-between">
+          <Card className='bg-white/10 backdrop-blur-md border-white/20'>
+            <div className='p-6'>
+              <div className='flex items-center justify-between'>
                 <div>
-                  <p className="text-gray-300 text-sm">Kritik</p>
-                  <p className="text-2xl font-bold text-white">{auditLogs.filter(l => l.severity === 'critical').length}</p>
+                  <p className='text-gray-300 text-sm'>Kritik</p>
+                  <p className='text-2xl font-bold text-white'>
+                    {auditLogs.filter(l => l.severity === 'critical').length}
+                  </p>
                 </div>
-                <AlertTriangle className="w-8 h-8 text-red-400" />
+                <AlertTriangle className='w-8 h-8 text-red-400' />
               </div>
             </div>
           </Card>
         </div>
 
         {/* Filters */}
-        <Card className="bg-white/10 backdrop-blur-md border-white/20">
-          <div className="p-6">
-            <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
+        <Card className='bg-white/10 backdrop-blur-md border-white/20'>
+          <div className='p-6'>
+            <div className='grid grid-cols-1 md:grid-cols-6 gap-4'>
               <div>
-                <label className="text-white text-sm font-medium mb-2 block">Arama</label>
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <label className='text-white text-sm font-medium mb-2 block'>Arama</label>
+                <div className='relative'>
+                  <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4' />
                   <Input
-                    placeholder="Log ara..."
+                    placeholder='Log ara...'
                     value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="bg-white/10 border-white/20 text-white placeholder-gray-400 pl-10"
+                    onChange={e => setSearchTerm(e.target.value)}
+                    className='bg-white/10 border-white/20 text-white placeholder-gray-400 pl-10'
                   />
                 </div>
               </div>
-              
+
               <div>
-                <label className="text-white text-sm font-medium mb-2 block">Kategori</label>
+                <label className='text-white text-sm font-medium mb-2 block'>Kategori</label>
                 <select
                   value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="w-full bg-white/10 border border-white/20 text-white rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  onChange={e => setSelectedCategory(e.target.value)}
+                  className='w-full bg-white/10 border border-white/20 text-white rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500'
                 >
                   {categories.map(category => (
-                    <option key={category.value} value={category.value} className="bg-gray-800">
+                    <option key={category.value} value={category.value} className='bg-gray-800'>
                       {category.label}
                     </option>
                   ))}
                 </select>
               </div>
-              
+
               <div>
-                <label className="text-white text-sm font-medium mb-2 block">Önem</label>
+                <label className='text-white text-sm font-medium mb-2 block'>Önem</label>
                 <select
                   value={selectedSeverity}
-                  onChange={(e) => setSelectedSeverity(e.target.value)}
-                  className="w-full bg-white/10 border border-white/20 text-white rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  onChange={e => setSelectedSeverity(e.target.value)}
+                  className='w-full bg-white/10 border border-white/20 text-white rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500'
                 >
-                  <option value="all" className="bg-gray-800">Tüm Önemler</option>
-                  <option value="critical" className="bg-gray-800">Kritik</option>
-                  <option value="high" className="bg-gray-800">Yüksek</option>
-                  <option value="medium" className="bg-gray-800">Orta</option>
-                  <option value="low" className="bg-gray-800">Düşük</option>
+                  <option value='all' className='bg-gray-800'>
+                    Tüm Önemler
+                  </option>
+                  <option value='critical' className='bg-gray-800'>
+                    Kritik
+                  </option>
+                  <option value='high' className='bg-gray-800'>
+                    Yüksek
+                  </option>
+                  <option value='medium' className='bg-gray-800'>
+                    Orta
+                  </option>
+                  <option value='low' className='bg-gray-800'>
+                    Düşük
+                  </option>
                 </select>
               </div>
-              
+
               <div>
-                <label className="text-white text-sm font-medium mb-2 block">Durum</label>
+                <label className='text-white text-sm font-medium mb-2 block'>Durum</label>
                 <select
                   value={selectedStatus}
-                  onChange={(e) => setSelectedStatus(e.target.value)}
-                  className="w-full bg-white/10 border border-white/20 text-white rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  onChange={e => setSelectedStatus(e.target.value)}
+                  className='w-full bg-white/10 border border-white/20 text-white rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500'
                 >
-                  <option value="all" className="bg-gray-800">Tüm Durumlar</option>
-                  <option value="success" className="bg-gray-800">Başarılı</option>
-                  <option value="failed" className="bg-gray-800">Başarısız</option>
-                  <option value="warning" className="bg-gray-800">Uyarı</option>
+                  <option value='all' className='bg-gray-800'>
+                    Tüm Durumlar
+                  </option>
+                  <option value='success' className='bg-gray-800'>
+                    Başarılı
+                  </option>
+                  <option value='failed' className='bg-gray-800'>
+                    Başarısız
+                  </option>
+                  <option value='warning' className='bg-gray-800'>
+                    Uyarı
+                  </option>
                 </select>
               </div>
-              
+
               <div>
-                <label className="text-white text-sm font-medium mb-2 block">Başlangıç</label>
+                <label className='text-white text-sm font-medium mb-2 block'>Başlangıç</label>
                 <Input
-                  type="date"
+                  type='date'
                   value={dateRange.start}
-                  onChange={(e) => setDateRange(prev => ({ ...prev, start: e.target.value }))}
-                  className="bg-white/10 border-white/20 text-white"
+                  onChange={e => setDateRange(prev => ({ ...prev, start: e.target.value }))}
+                  className='bg-white/10 border-white/20 text-white'
                 />
               </div>
-              
+
               <div>
-                <label className="text-white text-sm font-medium mb-2 block">Bitiş</label>
+                <label className='text-white text-sm font-medium mb-2 block'>Bitiş</label>
                 <Input
-                  type="date"
+                  type='date'
                   value={dateRange.end}
-                  onChange={(e) => setDateRange(prev => ({ ...prev, end: e.target.value }))}
-                  className="bg-white/10 border-white/20 text-white"
+                  onChange={e => setDateRange(prev => ({ ...prev, end: e.target.value }))}
+                  className='bg-white/10 border-white/20 text-white'
                 />
               </div>
             </div>
@@ -554,96 +612,103 @@ export default function AuditTrailPage() {
         </Card>
 
         {/* Audit Logs List */}
-        <div className="grid grid-cols-1 gap-6">
-          {filteredLogs.map((log) => (
-            <Card key={log.id} className="bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/15 transition-all duration-300">
-              <div className="p-6">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center">
-                      {React.createElement(getCategoryIcon(log.category), { className: "w-6 h-6 text-purple-400" })}
+        <div className='grid grid-cols-1 gap-6'>
+          {filteredLogs.map(log => (
+            <Card
+              key={log.id}
+              className='bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/15 transition-all duration-300'
+            >
+              <div className='p-6'>
+                <div className='flex items-start justify-between'>
+                  <div className='flex items-start space-x-4'>
+                    <div className='w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center'>
+                      {React.createElement(getCategoryIcon(log.category), {
+                        className: 'w-6 h-6 text-purple-400',
+                      })}
                     </div>
-                    
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-3 mb-2">
-                        <h3 className="text-lg font-semibold text-white">{log.action} - {log.resource}</h3>
+
+                    <div className='flex-1'>
+                      <div className='flex items-center space-x-3 mb-2'>
+                        <h3 className='text-lg font-semibold text-white'>
+                          {log.action} - {log.resource}
+                        </h3>
                         {getActionBadge(log.action)}
                         {getStatusBadge(log.status)}
                         {getSeverityBadge(log.severity)}
                       </div>
-                      
-                      <p className="text-gray-300 text-sm mb-3">{log.details}</p>
-                      
-                      <div className="flex items-center space-x-6 text-gray-400 text-sm mb-3">
-                        <div className="flex items-center">
-                          <User className="w-4 h-4 mr-1" />
+
+                      <p className='text-gray-300 text-sm mb-3'>{log.details}</p>
+
+                      <div className='flex items-center space-x-6 text-gray-400 text-sm mb-3'>
+                        <div className='flex items-center'>
+                          <User className='w-4 h-4 mr-1' />
                           {log.user}
                         </div>
-                        <div className="flex items-center">
-                          <Clock className="w-4 h-4 mr-1" />
+                        <div className='flex items-center'>
+                          <Clock className='w-4 h-4 mr-1' />
                           {formatDate(log.timestamp)}
                         </div>
-                        <div className="flex items-center">
-                          <Globe className="w-4 h-4 mr-1" />
+                        <div className='flex items-center'>
+                          <Globe className='w-4 h-4 mr-1' />
                           {log.ipAddress}
                         </div>
                         {log.duration && (
-                          <div className="flex items-center">
-                            <Activity className="w-4 h-4 mr-1" />
+                          <div className='flex items-center'>
+                            <Activity className='w-4 h-4 mr-1' />
                             {formatDuration(log.duration)}
                           </div>
                         )}
                       </div>
-                      
+
                       {log.changes && log.changes.length > 0 && (
-                        <div className="bg-white/5 p-3 rounded-lg mb-3">
-                          <h4 className="text-white text-sm font-semibold mb-2">Değişiklikler:</h4>
-                          <div className="space-y-2">
+                        <div className='bg-white/5 p-3 rounded-lg mb-3'>
+                          <h4 className='text-white text-sm font-semibold mb-2'>Değişiklikler:</h4>
+                          <div className='space-y-2'>
                             {log.changes.map((change, index) => (
-                              <div key={index} className="flex items-center space-x-2 text-sm">
-                                <span className="text-gray-400">{change.field}:</span>
-                                <span className="text-red-400 line-through">{change.oldValue}</span>
-                                <span className="text-gray-400">→</span>
-                                <span className="text-green-400">{change.newValue}</span>
+                              <div key={index} className='flex items-center space-x-2 text-sm'>
+                                <span className='text-gray-400'>{change.field}:</span>
+                                <span className='text-red-400 line-through'>{change.oldValue}</span>
+                                <span className='text-gray-400'>→</span>
+                                <span className='text-green-400'>{change.newValue}</span>
                               </div>
                             ))}
                           </div>
                         </div>
                       )}
-                      
+
                       {log.errorMessage && (
-                        <div className="bg-red-500/10 border border-red-500/20 p-3 rounded-lg mb-3">
-                          <div className="flex items-center space-x-2">
-                            <XCircle className="w-4 h-4 text-red-400" />
-                            <span className="text-red-400 text-sm font-semibold">Hata:</span>
+                        <div className='bg-red-500/10 border border-red-500/20 p-3 rounded-lg mb-3'>
+                          <div className='flex items-center space-x-2'>
+                            <XCircle className='w-4 h-4 text-red-400' />
+                            <span className='text-red-400 text-sm font-semibold'>Hata:</span>
                           </div>
-                          <p className="text-red-300 text-sm mt-1">{log.errorMessage}</p>
+                          <p className='text-red-300 text-sm mt-1'>{log.errorMessage}</p>
                         </div>
                       )}
-                      
-                      <div className="flex items-center space-x-4 text-gray-400 text-xs">
+
+                      <div className='flex items-center space-x-4 text-gray-400 text-xs'>
                         <span>Session: {log.sessionId}</span>
                         <span>Request: {log.requestId}</span>
                         <span>Resource ID: {log.resourceId}</span>
                       </div>
                     </div>
                   </div>
-                  
-                  <div className="flex items-center space-x-2">
-                    <Button 
-                      size="sm" 
-                      variant="outline" 
-                      className="bg-white/10 border-white/20 text-white hover:bg-white/20"
+
+                  <div className='flex items-center space-x-2'>
+                    <Button
+                      size='sm'
+                      variant='outline'
+                      className='bg-white/10 border-white/20 text-white hover:bg-white/20'
                       onClick={() => setSelectedLog(log)}
                     >
-                      <Eye className="w-4 h-4" />
+                      <Eye className='w-4 h-4' />
                     </Button>
-                    <Button 
-                      size="sm" 
-                      variant="outline" 
-                      className="bg-white/10 border-white/20 text-white hover:bg-white/20"
+                    <Button
+                      size='sm'
+                      variant='outline'
+                      className='bg-white/10 border-white/20 text-white hover:bg-white/20'
                     >
-                      <Copy className="w-4 h-4" />
+                      <Copy className='w-4 h-4' />
                     </Button>
                   </div>
                 </div>
@@ -653,19 +718,27 @@ export default function AuditTrailPage() {
         </div>
 
         {filteredLogs.length === 0 && (
-          <Card className="bg-white/10 backdrop-blur-md border-white/20">
-            <div className="p-12 text-center">
-              <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-white mb-2">
-                {searchTerm || selectedCategory !== 'all' || selectedSeverity !== 'all' || selectedStatus !== 'all' ? 'Audit log bulunamadı' : 'Henüz audit log yok'}
+          <Card className='bg-white/10 backdrop-blur-md border-white/20'>
+            <div className='p-12 text-center'>
+              <FileText className='w-16 h-16 text-gray-400 mx-auto mb-4' />
+              <h3 className='text-xl font-semibold text-white mb-2'>
+                {searchTerm ||
+                selectedCategory !== 'all' ||
+                selectedSeverity !== 'all' ||
+                selectedStatus !== 'all'
+                  ? 'Audit log bulunamadı'
+                  : 'Henüz audit log yok'}
               </h3>
-              <p className="text-gray-400 mb-6">
-                {searchTerm || selectedCategory !== 'all' || selectedSeverity !== 'all' || selectedStatus !== 'all'
-                  ? 'Arama kriterlerinize uygun audit log bulunamadı.' 
+              <p className='text-gray-400 mb-6'>
+                {searchTerm ||
+                selectedCategory !== 'all' ||
+                selectedSeverity !== 'all' ||
+                selectedStatus !== 'all'
+                  ? 'Arama kriterlerinize uygun audit log bulunamadı.'
                   : 'Henüz hiç audit log kaydedilmemiş.'}
               </p>
-              <Button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white border-0 hover:from-blue-700 hover:to-purple-700">
-                <RefreshCw className="w-4 h-4 mr-2" />
+              <Button className='bg-gradient-to-r from-blue-600 to-purple-600 text-white border-0 hover:from-blue-700 hover:to-purple-700'>
+                <RefreshCw className='w-4 h-4 mr-2' />
                 Logları Yenile
               </Button>
             </div>

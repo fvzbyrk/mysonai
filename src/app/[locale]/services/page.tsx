@@ -2,7 +2,7 @@ import { Locale } from '@/lib/i18n';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { 
+import {
   Bot,
   Code,
   Cloud,
@@ -19,7 +19,7 @@ import {
   CheckCircle,
   Star,
   Users,
-  Target
+  Target,
 } from 'lucide-react';
 import type { Metadata } from 'next';
 
@@ -59,14 +59,14 @@ const services = [
       'Veri analizi ve makine öğrenmesi',
       'Görüntü ve ses işleme',
       'Doğal dil işleme',
-      'AI stratejisi danışmanlığı'
+      'AI stratejisi danışmanlığı',
     ],
     benefits: [
       'İş süreçlerinde %40 verimlilik artışı',
       'Maliyet tasarrufu',
       'Rekabet avantajı',
-      'Otomatik süreç yönetimi'
-    ]
+      'Otomatik süreç yönetimi',
+    ],
   },
   {
     id: 'classic-it',
@@ -80,14 +80,14 @@ const services = [
       'Veritabanı tasarımı ve yönetimi',
       'Bulut altyapı çözümleri',
       'Siber güvenlik',
-      'Sistem yönetimi'
+      'Sistem yönetimi',
     ],
     benefits: [
       'Güvenilir altyapı',
       'Ölçeklenebilir çözümler',
       '7/24 teknik destek',
-      'Modern teknoloji stack'
-    ]
+      'Modern teknoloji stack',
+    ],
   },
   {
     id: 'software-needs',
@@ -101,14 +101,14 @@ const services = [
       'E-ticaret platformları',
       'Entegrasyon ve otomasyon',
       'Bakım ve destek hizmetleri',
-      'Sistem modernizasyonu'
+      'Sistem modernizasyonu',
     ],
     benefits: [
       'İhtiyaca özel çözümler',
       'Hızlı geliştirme süreci',
       'Kullanıcı dostu arayüzler',
-      'Sürekli güncelleme'
-    ]
+      'Sürekli güncelleme',
+    ],
   },
   {
     id: 'digital-media',
@@ -122,14 +122,14 @@ const services = [
       'Sosyal medya içerikleri',
       'Grafik tasarım',
       'Marka kimliği tasarımı',
-      'İçerik stratejisi'
+      'İçerik stratejisi',
     ],
     benefits: [
       'Profesyonel görsel kimlik',
       'Etkili pazarlama materyalleri',
       'Marka farkındalığı artışı',
-      'Yaratıcı içerik üretimi'
-    ]
+      'Yaratıcı içerik üretimi',
+    ],
   },
   {
     id: 'consulting-education',
@@ -143,14 +143,14 @@ const services = [
       'Hukuk ve ticaret için AI çözümleri',
       'Strateji geliştirme',
       'Teknoloji danışmanlığı',
-      'Ekip eğitimleri'
+      'Ekip eğitimleri',
     ],
     benefits: [
       'Uzman bilgi transferi',
       'Stratejik rehberlik',
       'Ekip yetkinlik artışı',
-      'Rekabet avantajı'
-    ]
+      'Rekabet avantajı',
+    ],
   },
   {
     id: 'security',
@@ -164,15 +164,15 @@ const services = [
       'Güvenlik risk analizi',
       'Güvenlik eğitimleri',
       'İzinsiz giriş tespiti',
-      'Güvenlik politikaları'
+      'Güvenlik politikaları',
     ],
     benefits: [
       'Veri güvenliği garantisi',
       'Risk azaltma',
       'Yasal uyumluluk',
-      'Güvenilir sistemler'
-    ]
-  }
+      'Güvenilir sistemler',
+    ],
+  },
 ];
 
 // Process steps
@@ -181,32 +181,32 @@ const processSteps = [
     step: '01',
     title: 'İhtiyaç Analizi',
     description: 'Projenizin gereksinimlerini detaylı olarak analiz ediyoruz.',
-    icon: Target
+    icon: Target,
   },
   {
     step: '02',
     title: 'Çözüm Tasarımı',
-    description: 'En uygun teknoloji stack\'ini belirleyip çözümü tasarlıyoruz.',
-    icon: Code
+    description: "En uygun teknoloji stack'ini belirleyip çözümü tasarlıyoruz.",
+    icon: Code,
   },
   {
     step: '03',
     title: 'Geliştirme',
     description: 'Agile metodoloji ile hızlı ve kaliteli geliştirme yapıyoruz.',
-    icon: Zap
+    icon: Zap,
   },
   {
     step: '04',
     title: 'Test & Optimizasyon',
     description: 'Kapsamlı testler yapıp performansı optimize ediyoruz.',
-    icon: CheckCircle
+    icon: CheckCircle,
   },
   {
     step: '05',
     title: 'Teslim & Destek',
     description: 'Projeyi teslim edip sürekli destek sağlıyoruz.',
-    icon: Users
-  }
+    icon: Users,
+  },
 ];
 
 function ServicesContent({ params }: { params: { locale: Locale } }) {
@@ -216,14 +216,12 @@ function ServicesContent({ params }: { params: { locale: Locale } }) {
       <section className='relative overflow-hidden py-20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center'>
-            <h1 className='text-5xl md:text-6xl font-bold text-white mb-6'>
-              Hizmetlerimiz
-            </h1>
+            <h1 className='text-5xl md:text-6xl font-bold text-white mb-6'>Hizmetlerimiz</h1>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto mb-8'>
-              AI çözümlerinden klasik bilişim hizmetlerine kadar geniş yelpazede 
-              profesyonel hizmetler sunuyoruz. İşinizi bir üst seviyeye taşıyın.
+              AI çözümlerinden klasik bilişim hizmetlerine kadar geniş yelpazede profesyonel
+              hizmetler sunuyoruz. İşinizi bir üst seviyeye taşıyın.
             </p>
-            
+
             {/* Stats */}
             <div className='grid grid-cols-2 md:grid-cols-4 gap-8 mt-12'>
               <div className='text-center'>
@@ -251,9 +249,7 @@ function ServicesContent({ params }: { params: { locale: Locale } }) {
       <section className='py-20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Hizmet Kategorilerimiz
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>Hizmet Kategorilerimiz</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               Her biri kendi alanında uzmanlaşmış ekibimizle kapsamlı hizmetler sunuyoruz
             </p>
@@ -261,13 +257,18 @@ function ServicesContent({ params }: { params: { locale: Locale } }) {
 
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
             {services.map((service, index) => (
-              <Card key={index} className='bg-white/10 backdrop-blur-md border-white/20 p-8 hover:bg-white/15 transition-all duration-300 group'>
-                <div className={`w-16 h-16 bg-gradient-to-r ${service.color} rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300`}>
+              <Card
+                key={index}
+                className='bg-white/10 backdrop-blur-md border-white/20 p-8 hover:bg-white/15 transition-all duration-300 group'
+              >
+                <div
+                  className={`w-16 h-16 bg-gradient-to-r ${service.color} rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300`}
+                >
                   <service.icon className='w-8 h-8 text-white' />
                 </div>
                 <h3 className='text-2xl font-bold text-white mb-4 text-center'>{service.title}</h3>
                 <p className='text-gray-300 mb-6 text-center'>{service.description}</p>
-                
+
                 <div className='mb-6'>
                   <h4 className='text-lg font-semibold text-white mb-3'>Özellikler:</h4>
                   <ul className='space-y-2'>
@@ -311,9 +312,7 @@ function ServicesContent({ params }: { params: { locale: Locale } }) {
       <section className='py-20 bg-black/20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Çalışma Sürecimiz
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>Çalışma Sürecimiz</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               Her projede standart kalite ve müşteri memnuniyeti için izlediğimiz süreç
             </p>
@@ -338,9 +337,7 @@ function ServicesContent({ params }: { params: { locale: Locale } }) {
       <section className='py-20'>
         <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center'>
           <div className='bg-white/10 backdrop-blur-md rounded-2xl p-10 border border-white/20'>
-            <h2 className='text-4xl font-bold text-white mb-6'>
-              Projenizi Hayata Geçirin
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-6'>Projenizi Hayata Geçirin</h2>
             <p className='text-xl text-gray-300 mb-8'>
               Uzman ekibimizle projenizi planlayın ve başarıya ulaştırın
             </p>

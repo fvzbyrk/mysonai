@@ -20,7 +20,7 @@ const comments: Comment[] = [
     email: 'ahmet@example.com',
     content: 'Çok faydalı bir makale olmuş, teşekkürler!',
     createdAt: '2024-09-18T10:00:00Z',
-    isApproved: true
+    isApproved: true,
   },
   {
     id: '2',
@@ -29,8 +29,8 @@ const comments: Comment[] = [
     email: 'ayse@example.com',
     content: 'AI teknolojileri gerçekten hızla gelişiyor. Bu konuda daha fazla makale bekliyoruz.',
     createdAt: '2024-09-18T11:30:00Z',
-    isApproved: true
-  }
+    isApproved: true,
+  },
 ];
 
 export async function GET(request: NextRequest) {
@@ -50,19 +50,24 @@ export async function GET(request: NextRequest) {
     }
 
     // Sort by creation date (newest first)
-    filteredComments.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    filteredComments.sort(
+      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
 
     return NextResponse.json({
       success: true,
-      data: filteredComments
+      data: filteredComments,
     });
   } catch (error) {
     console.error('Comments API error:', error);
-    return NextResponse.json({
-      success: false,
-      message: 'Failed to fetch comments',
-      error: error instanceof Error ? error.message : 'Unknown error'
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        success: false,
+        message: 'Failed to fetch comments',
+        error: error instanceof Error ? error.message : 'Unknown error',
+      },
+      { status: 500 }
+    );
   }
 }
 
@@ -71,10 +76,13 @@ export async function POST(request: NextRequest) {
     const { postId, author, email, content, parentId } = await request.json();
 
     if (!postId || !author || !email || !content) {
-      return NextResponse.json({
-        success: false,
-        message: 'Missing required fields'
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Missing required fields',
+        },
+        { status: 400 }
+      );
     }
 
     const newComment: Comment = {
@@ -85,7 +93,7 @@ export async function POST(request: NextRequest) {
       content,
       createdAt: new Date().toISOString(),
       isApproved: false, // Comments need approval
-      parentId
+      parentId,
     };
 
     comments.push(newComment);
@@ -93,14 +101,17 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       message: 'Comment submitted successfully',
-      data: newComment
+      data: newComment,
     });
   } catch (error) {
     console.error('Comment creation error:', error);
-    return NextResponse.json({
-      success: false,
-      message: 'Failed to create comment',
-      error: error instanceof Error ? error.message : 'Unknown error'
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        success: false,
+        message: 'Failed to create comment',
+        error: error instanceof Error ? error.message : 'Unknown error',
+      },
+      { status: 500 }
+    );
   }
 }

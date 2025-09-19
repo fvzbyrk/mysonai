@@ -12,13 +12,13 @@ interface TrackableFormProps {
   className?: string;
 }
 
-export function TrackableForm({ 
-  formName, 
-  children, 
+export function TrackableForm({
+  formName,
+  children,
   onSubmit,
   onSuccess,
   onError,
-  className 
+  className,
 }: TrackableFormProps) {
   const { trackFormSubmission, trackEngagement } = useAnalyticsContext();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -26,7 +26,7 @@ export function TrackableForm({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     try {
       trackEngagement('form_submit_start', formName);
       await onSubmit?.(e);
@@ -43,17 +43,9 @@ export function TrackableForm({
   };
 
   return (
-    <form 
-      onSubmit={handleSubmit} 
-      className={className}
-      data-form-name={formName}
-    >
+    <form onSubmit={handleSubmit} className={className} data-form-name={formName}>
       {children}
-      {isSubmitting && (
-        <div className="text-sm text-gray-400 mt-2">
-          Gönderiliyor...
-        </div>
-      )}
+      {isSubmitting && <div className='text-sm text-gray-400 mt-2'>Gönderiliyor...</div>}
     </form>
   );
 }

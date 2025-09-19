@@ -9,13 +9,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     blogPosts: blogPosts.map(post => ({
       slug: post.slug,
       lastmod: post.updatedAt,
-      priority: post.featured ? 0.9 : 0.7
+      priority: post.featured ? 0.9 : 0.7,
     })),
     categories: blogCategories.map(category => ({
       slug: category.slug,
       lastmod: new Date().toISOString(),
-      priority: 0.8
-    }))
+      priority: 0.8,
+    })),
   };
 
   return generateSitemap(config);

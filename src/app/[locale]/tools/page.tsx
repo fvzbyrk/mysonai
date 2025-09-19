@@ -4,12 +4,12 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
-import { 
-  Bot, 
-  Zap, 
-  Shield, 
-  Globe, 
-  Code, 
+import {
+  Bot,
+  Zap,
+  Shield,
+  Globe,
+  Code,
   ArrowRight,
   CheckCircle,
   Star,
@@ -17,7 +17,7 @@ import {
   Lightbulb,
   Sparkles,
   Target,
-  Rocket
+  Rocket,
 } from 'lucide-react';
 import type { Metadata } from 'next';
 
@@ -48,48 +48,28 @@ const toolCategories = [
     title: 'Sohbet & İletişim',
     description: 'AI asistanları ile doğal dilde sohbet edin',
     color: 'from-blue-500 to-cyan-500',
-    tools: [
-      'Gerçek zamanlı sohbet',
-      'Çok dilli destek',
-      'Bağlam koruma',
-      'Emoji ve ifade desteği',
-    ],
+    tools: ['Gerçek zamanlı sohbet', 'Çok dilli destek', 'Bağlam koruma', 'Emoji ve ifade desteği'],
   },
   {
     icon: Code,
     title: 'Kod Geliştirme',
     description: 'Yazılım geliştirme için AI destekli araçlar',
     color: 'from-green-500 to-emerald-500',
-    tools: [
-      'Kod yazma yardımı',
-      'Hata düzeltme',
-      'Kod optimizasyonu',
-      'Dokümantasyon oluşturma',
-    ],
+    tools: ['Kod yazma yardımı', 'Hata düzeltme', 'Kod optimizasyonu', 'Dokümantasyon oluşturma'],
   },
   {
     icon: Lightbulb,
     title: 'İçerik Üretimi',
     description: 'Metin, görsel ve medya içeriği oluşturun',
     color: 'from-purple-500 to-pink-500',
-    tools: [
-      'Makale yazma',
-      'Sosyal medya içeriği',
-      'E-posta şablonları',
-      'Sunum hazırlama',
-    ],
+    tools: ['Makale yazma', 'Sosyal medya içeriği', 'E-posta şablonları', 'Sunum hazırlama'],
   },
   {
     icon: Target,
     title: 'Analiz & Raporlama',
     description: 'Veri analizi ve raporlama araçları',
     color: 'from-orange-500 to-red-500',
-    tools: [
-      'Veri analizi',
-      'Trend analizi',
-      'Rapor oluşturma',
-      'Görselleştirme',
-    ],
+    tools: ['Veri analizi', 'Trend analizi', 'Rapor oluşturma', 'Görselleştirme'],
   },
 ];
 
@@ -97,14 +77,16 @@ const toolCategories = [
 const featuredTools = [
   {
     name: 'Akıllı Chatbot',
-    description: '18 uzman AI asistanı ile doğal dilde sohbet edin. Her asistan kendi alanında uzman.',
+    description:
+      '18 uzman AI asistanı ile doğal dilde sohbet edin. Her asistan kendi alanında uzman.',
     icon: Bot,
     color: 'from-blue-500 to-cyan-500',
     features: ['7/24 kullanılabilir', 'Çok dilli destek', 'Bağlam koruma'],
   },
   {
     name: 'Kod Asistanı',
-    description: 'Yazılım geliştirme sürecinizi hızlandırın. Kod yazma, hata düzeltme ve optimizasyon.',
+    description:
+      'Yazılım geliştirme sürecinizi hızlandırın. Kod yazma, hata düzeltme ve optimizasyon.',
     icon: Code,
     color: 'from-green-500 to-emerald-500',
     features: ['Çoklu dil desteği', 'Hata tespiti', 'Performans optimizasyonu'],
@@ -130,7 +112,7 @@ const toolBenefits = [
   {
     icon: Zap,
     title: 'Hızlı Sonuçlar',
-    description: 'Pi\'den 10x daha hızlı yanıtlar alın. Zamanınızı tasarruf edin.',
+    description: "Pi'den 10x daha hızlı yanıtlar alın. Zamanınızı tasarruf edin.",
   },
   {
     icon: Shield,
@@ -156,14 +138,12 @@ function ToolsContent({ params }: { params: { locale: Locale } }) {
       <section className='relative overflow-hidden py-20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center'>
-            <h1 className='text-5xl md:text-6xl font-bold text-white mb-6'>
-              AI Araçları
-            </h1>
+            <h1 className='text-5xl md:text-6xl font-bold text-white mb-6'>AI Araçları</h1>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto mb-8'>
-              MySonAI'ın güçlü AI araçları ile işinizi kolaylaştırın. 
-              18 uzman asistan ile her türlü görevi hızlı ve etkili şekilde tamamlayın.
+              MySonAI'ın güçlü AI araçları ile işinizi kolaylaştırın. 18 uzman asistan ile her türlü
+              görevi hızlı ve etkili şekilde tamamlayın.
             </p>
-            
+
             {/* Quick Actions */}
             <div className='flex flex-col sm:flex-row gap-4 justify-center mb-8'>
               <Link
@@ -189,9 +169,7 @@ function ToolsContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Araç Kategorileri
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>Araç Kategorileri</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               İhtiyacınıza uygun AI araçlarını keşfedin
             </p>
@@ -199,8 +177,13 @@ function ToolsContent({ params }: { params: { locale: Locale } }) {
 
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
             {toolCategories.map((category, index) => (
-              <Card key={index} className='bg-white/10 backdrop-blur-md border-white/20 p-6 hover:bg-white/15 transition-all duration-300'>
-                <div className={`w-16 h-16 bg-gradient-to-r ${category.color} rounded-full flex items-center justify-center mx-auto mb-4`}>
+              <Card
+                key={index}
+                className='bg-white/10 backdrop-blur-md border-white/20 p-6 hover:bg-white/15 transition-all duration-300'
+              >
+                <div
+                  className={`w-16 h-16 bg-gradient-to-r ${category.color} rounded-full flex items-center justify-center mx-auto mb-4`}
+                >
                   <category.icon className='w-8 h-8 text-white' />
                 </div>
                 <h3 className='text-xl font-bold text-white mb-3 text-center'>{category.title}</h3>
@@ -223,9 +206,7 @@ function ToolsContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16 bg-black/20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Öne Çıkan Araçlar
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>Öne Çıkan Araçlar</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               En popüler ve güçlü AI araçlarımız
             </p>
@@ -233,9 +214,14 @@ function ToolsContent({ params }: { params: { locale: Locale } }) {
 
           <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
             {featuredTools.map((tool, index) => (
-              <Card key={index} className='bg-white/10 backdrop-blur-md border-white/20 p-8 hover:bg-white/15 transition-all duration-300'>
+              <Card
+                key={index}
+                className='bg-white/10 backdrop-blur-md border-white/20 p-8 hover:bg-white/15 transition-all duration-300'
+              >
                 <div className='flex items-start space-x-6'>
-                  <div className={`w-16 h-16 bg-gradient-to-r ${tool.color} rounded-full flex items-center justify-center flex-shrink-0`}>
+                  <div
+                    className={`w-16 h-16 bg-gradient-to-r ${tool.color} rounded-full flex items-center justify-center flex-shrink-0`}
+                  >
                     <tool.icon className='w-8 h-8 text-white' />
                   </div>
                   <div className='flex-1'>
@@ -269,9 +255,7 @@ function ToolsContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Neden MySonAI Araçları?
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>Neden MySonAI Araçları?</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               MySonAI araçlarını benzersiz kılan özellikler
             </p>
@@ -279,7 +263,10 @@ function ToolsContent({ params }: { params: { locale: Locale } }) {
 
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
             {toolBenefits.map((benefit, index) => (
-              <Card key={index} className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'>
+              <Card
+                key={index}
+                className='bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/15 transition-all duration-300'
+              >
                 <div className='w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4'>
                   <benefit.icon className='w-8 h-8 text-white' />
                 </div>
@@ -295,9 +282,7 @@ function ToolsContent({ params }: { params: { locale: Locale } }) {
       <section className='py-16 bg-black/20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold text-white mb-4'>
-              Kullanım Alanları
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-4'>Kullanım Alanları</h2>
             <p className='text-xl text-gray-300 max-w-3xl mx-auto'>
               MySonAI araçları hangi alanlarda kullanılabilir?
             </p>
@@ -341,12 +326,9 @@ function ToolsContent({ params }: { params: { locale: Locale } }) {
       <section className='py-20'>
         <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center'>
           <div className='bg-white/10 backdrop-blur-md rounded-2xl p-10 border border-white/20'>
-            <h2 className='text-4xl font-bold text-white mb-6'>
-              AI Araçlarını Keşfedin
-            </h2>
+            <h2 className='text-4xl font-bold text-white mb-6'>AI Araçlarını Keşfedin</h2>
             <p className='text-xl text-gray-300 mb-8'>
-              MySonAI'ın güçlü AI araçları ile işinizi kolaylaştırın. 
-              Hemen başlayın ve farkı görün!
+              MySonAI'ın güçlü AI araçları ile işinizi kolaylaştırın. Hemen başlayın ve farkı görün!
             </p>
             <div className='flex flex-col sm:flex-row gap-4 justify-center'>
               <Link

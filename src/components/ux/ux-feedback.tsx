@@ -7,20 +7,20 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { 
-  ThumbsUp, 
-  ThumbsDown, 
-  Star, 
-  MessageCircle, 
-  Send, 
-  X, 
+import {
+  ThumbsUp,
+  ThumbsDown,
+  Star,
+  MessageCircle,
+  Send,
+  X,
   CheckCircle,
   AlertCircle,
   Info,
   Heart,
   Smile,
   Frown,
-  Meh
+  Meh,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -51,7 +51,7 @@ export function UXFeedback({
   showComments = true,
   showEmoji = true,
   showQuickActions = true,
-  className
+  className,
 }: UXFeedbackProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [rating, setRating] = useState(0);
@@ -72,7 +72,7 @@ export function UXFeedback({
     getEngagementLevel,
     getBehaviorInsights,
     getRecommendations,
-    getSessionSummary
+    getSessionSummary,
   } = useUXContext();
 
   // Quick action options
@@ -84,7 +84,7 @@ export function UXFeedback({
     'Karmaşık navigasyon',
     'Eksik bilgi',
     'Teknik sorun',
-    'Mükemmel deneyim'
+    'Mükemmel deneyim',
   ];
 
   // Emoji options
@@ -93,7 +93,7 @@ export function UXFeedback({
     { emoji: '😊', label: 'İyi' },
     { emoji: '😐', label: 'Orta' },
     { emoji: '😕', label: 'Kötü' },
-    { emoji: '😢', label: 'Çok kötü' }
+    { emoji: '😢', label: 'Çok kötü' },
   ];
 
   // Handle feedback submission
@@ -113,16 +113,16 @@ export function UXFeedback({
       userAgent: navigator.userAgent,
       screenSize,
       pageUrl: window.location.href,
-      sessionData: getSessionSummary()
+      sessionData: getSessionSummary(),
     };
 
     try {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
+
       onFeedback?.(feedbackData);
       setIsSubmitted(true);
-      
+
       // Reset form after 3 seconds
       setTimeout(() => {
         setIsSubmitted(false);
@@ -141,34 +141,40 @@ export function UXFeedback({
 
   // Handle quick action toggle
   const handleQuickActionToggle = (action: string) => {
-    setQuickActions(prev => 
-      prev.includes(action) 
-        ? prev.filter(a => a !== action)
-        : [...prev, action]
+    setQuickActions(prev =>
+      prev.includes(action) ? prev.filter(a => a !== action) : [...prev, action]
     );
   };
 
   // Get rating color
   const getRatingColor = (rating: number) => {
-    if (rating >= 4) return 'text-green-500';
-    if (rating >= 3) return 'text-yellow-500';
+    if (rating >= 4) {
+      return 'text-green-500';
+    }
+    if (rating >= 3) {
+      return 'text-yellow-500';
+    }
     return 'text-red-500';
   };
 
   // Get rating icon
   const getRatingIcon = (rating: number) => {
-    if (rating >= 4) return <ThumbsUp className="w-5 h-5" />;
-    if (rating >= 3) return <Meh className="w-5 h-5" />;
-    return <ThumbsDown className="w-5 h-5" />;
+    if (rating >= 4) {
+      return <ThumbsUp className='w-5 h-5' />;
+    }
+    if (rating >= 3) {
+      return <Meh className='w-5 h-5' />;
+    }
+    return <ThumbsDown className='w-5 h-5' />;
   };
 
   if (isSubmitted) {
     return (
       <div className={cn('fixed bottom-4 right-4 z-50', className)}>
-        <Card className="bg-green-500 text-white p-4 shadow-lg">
-          <div className="flex items-center">
-            <CheckCircle className="w-5 h-5 mr-2" />
-            <span className="font-semibold">Teşekkürler! Geri bildiriminiz alındı.</span>
+        <Card className='bg-green-500 text-white p-4 shadow-lg'>
+          <div className='flex items-center'>
+            <CheckCircle className='w-5 h-5 mr-2' />
+            <span className='font-semibold'>Teşekkürler! Geri bildiriminiz alındı.</span>
           </div>
         </Card>
       </div>
@@ -186,49 +192,44 @@ export function UXFeedback({
             className
           )}
         >
-          <MessageCircle className="w-5 h-5" />
+          <MessageCircle className='w-5 h-5' />
         </Button>
       )}
 
       {/* Feedback Modal */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-          <Card className="w-full max-w-md bg-white dark:bg-gray-800 shadow-xl">
-            <div className="p-6">
+        <div className='fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50'>
+          <Card className='w-full max-w-md bg-white dark:bg-gray-800 shadow-xl'>
+            <div className='p-6'>
               {/* Header */}
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+              <div className='flex items-center justify-between mb-6'>
+                <h3 className='text-lg font-semibold text-gray-900 dark:text-white'>
                   Deneyiminizi Değerlendirin
                 </h3>
-                <Button
-                  onClick={() => setIsOpen(false)}
-                  variant="ghost"
-                  size="sm"
-                  className="p-1"
-                >
-                  <X className="w-4 h-4" />
+                <Button onClick={() => setIsOpen(false)} variant='ghost' size='sm' className='p-1'>
+                  <X className='w-4 h-4' />
                 </Button>
               </div>
 
               {/* Rating Section */}
               {showRating && (
-                <div className="mb-6">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                <div className='mb-6'>
+                  <label className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3'>
                     Genel değerlendirme
                   </label>
-                  <div className="flex items-center space-x-2">
-                    {[1, 2, 3, 4, 5].map((star) => (
+                  <div className='flex items-center space-x-2'>
+                    {[1, 2, 3, 4, 5].map(star => (
                       <button
                         key={star}
                         onClick={() => setRating(star)}
                         className={cn(
                           'p-1 rounded transition-colors',
-                          star <= rating 
-                            ? 'text-yellow-500 hover:text-yellow-600' 
+                          star <= rating
+                            ? 'text-yellow-500 hover:text-yellow-600'
                             : 'text-gray-300 hover:text-yellow-500'
                         )}
                       >
-                        <Star className="w-6 h-6 fill-current" />
+                        <Star className='w-6 h-6 fill-current' />
                       </button>
                     ))}
                     {rating > 0 && (
@@ -242,12 +243,12 @@ export function UXFeedback({
 
               {/* Emoji Section */}
               {showEmoji && (
-                <div className="mb-6">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                <div className='mb-6'>
+                  <label className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3'>
                     Nasıl hissediyorsunuz?
                   </label>
-                  <div className="flex space-x-2">
-                    {emojiOptions.map((option) => (
+                  <div className='flex space-x-2'>
+                    {emojiOptions.map(option => (
                       <button
                         key={option.emoji}
                         onClick={() => setEmoji(option.emoji)}
@@ -259,7 +260,7 @@ export function UXFeedback({
                         )}
                         title={option.label}
                       >
-                        <span className="text-2xl">{option.emoji}</span>
+                        <span className='text-2xl'>{option.emoji}</span>
                       </button>
                     ))}
                   </div>
@@ -268,12 +269,12 @@ export function UXFeedback({
 
               {/* Quick Actions */}
               {showQuickActions && (
-                <div className="mb-6">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                <div className='mb-6'>
+                  <label className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3'>
                     Hızlı seçenekler
                   </label>
-                  <div className="flex flex-wrap gap-2">
-                    {quickActionOptions.map((action) => (
+                  <div className='flex flex-wrap gap-2'>
+                    {quickActionOptions.map(action => (
                       <button
                         key={action}
                         onClick={() => handleQuickActionToggle(action)}
@@ -293,26 +294,26 @@ export function UXFeedback({
 
               {/* Comments Section */}
               {showComments && (
-                <div className="mb-6">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                <div className='mb-6'>
+                  <label className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3'>
                     Yorumlarınız
                   </label>
                   <Textarea
                     value={comment}
-                    onChange={(e) => setComment(e.target.value)}
-                    placeholder="Deneyiminiz hakkında detaylı yorum yapabilirsiniz..."
-                    className="w-full"
+                    onChange={e => setComment(e.target.value)}
+                    placeholder='Deneyiminiz hakkında detaylı yorum yapabilirsiniz...'
+                    className='w-full'
                     rows={3}
                   />
                 </div>
               )}
 
               {/* Session Info */}
-              <div className="mb-6 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <div className='mb-6 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg'>
+                <h4 className='text-sm font-medium text-gray-700 dark:text-gray-300 mb-2'>
                   Oturum Bilgileri
                 </h4>
-                <div className="text-xs text-gray-600 dark:text-gray-400 space-y-1">
+                <div className='text-xs text-gray-600 dark:text-gray-400 space-y-1'>
                   <div>Sayfa görüntüleme: {pageViews}</div>
                   <div>Etkileşim: {interactions}</div>
                   <div>Kaydırma: %{Math.round(scrollDepth)}</div>
@@ -323,30 +324,28 @@ export function UXFeedback({
               </div>
 
               {/* Submit Button */}
-              <div className="flex space-x-3">
+              <div className='flex space-x-3'>
                 <Button
                   onClick={handleSubmit}
-                  disabled={isSubmitting || (rating === 0 && !comment.trim() && quickActions.length === 0)}
-                  className="flex-1 bg-purple-600 hover:bg-purple-700 text-white"
+                  disabled={
+                    isSubmitting || (rating === 0 && !comment.trim() && quickActions.length === 0)
+                  }
+                  className='flex-1 bg-purple-600 hover:bg-purple-700 text-white'
                 >
                   {isSubmitting ? (
-                    <div className="flex items-center">
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
+                    <div className='flex items-center'>
+                      <div className='w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2' />
                       Gönderiliyor...
                     </div>
                   ) : (
-                    <div className="flex items-center">
-                      <Send className="w-4 h-4 mr-2" />
+                    <div className='flex items-center'>
+                      <Send className='w-4 h-4 mr-2' />
                       Gönder
                     </div>
                   )}
                 </Button>
-                
-                <Button
-                  onClick={() => setIsOpen(false)}
-                  variant="outline"
-                  className="px-4"
-                >
+
+                <Button onClick={() => setIsOpen(false)} variant='outline' className='px-4'>
                   İptal
                 </Button>
               </div>

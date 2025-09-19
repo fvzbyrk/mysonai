@@ -36,7 +36,9 @@ export function useErrorMonitoring() {
 
   // Initialize error monitoring
   const initializeErrorMonitoring = useCallback(() => {
-    if (!analyticsEnabled || typeof window === 'undefined') return;
+    if (!analyticsEnabled || typeof window === 'undefined') {
+      return;
+    }
 
     // Global error handler
     const handleGlobalError = (event: ErrorEvent) => {

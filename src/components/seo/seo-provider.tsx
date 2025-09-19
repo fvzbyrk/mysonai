@@ -32,11 +32,7 @@ const SEOContext = createContext<SEOContextType | undefined>(undefined);
 export function SEOProvider({ children }: { children: ReactNode }) {
   const seo = useSEO();
 
-  return (
-    <SEOContext.Provider value={seo}>
-      {children}
-    </SEOContext.Provider>
-  );
+  return <SEOContext.Provider value={seo}>{children}</SEOContext.Provider>;
 }
 
 export function useSEOContext() {

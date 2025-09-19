@@ -93,7 +93,7 @@ describe('Admin Authentication API', () => {
         });
 
         const response = await POST(request);
-        
+
         if (i < 5) {
           expect(response.status).toBe(401);
         } else {
@@ -121,7 +121,7 @@ describe('Admin Authentication API', () => {
       const request = new NextRequest('http://localhost:3000/api/admin/auth', {
         method: 'GET',
         headers: {
-          'Authorization': 'Bearer invalid-token',
+          Authorization: 'Bearer invalid-token',
         },
       });
 
@@ -153,7 +153,7 @@ describe('Admin Authentication API', () => {
       const verifyRequest = new NextRequest('http://localhost:3000/api/admin/auth', {
         method: 'GET',
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -167,4 +167,3 @@ describe('Admin Authentication API', () => {
     });
   });
 });
-

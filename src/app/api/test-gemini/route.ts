@@ -11,29 +11,35 @@ export async function GET(request: NextRequest) {
   try {
     // Test Gemini availability
     const geminiStatus = await geminiChat.getStatus();
-    
+
     if (!geminiStatus.available) {
-      return NextResponse.json({
-        success: false,
-        message: 'Gemini API not available',
-        error: geminiStatus.error
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Gemini API not available',
+          error: geminiStatus.error,
+        },
+        { status: 400 }
+      );
     }
 
     // Test simple Gemini response
     const testResponse = await geminiChat.generateResponse([
       {
         role: 'user',
-        content: 'Merhaba! Gemini API çalışıyor mu?'
-      }
+        content: 'Merhaba! Gemini API çalışıyor mu?',
+      },
     ]);
 
     if (!testResponse.success) {
-      return NextResponse.json({
-        success: false,
-        message: 'Gemini API test failed',
-        error: testResponse.error
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Gemini API test failed',
+          error: testResponse.error,
+        },
+        { status: 400 }
+      );
     }
 
     return NextResponse.json({
@@ -42,16 +48,19 @@ export async function GET(request: NextRequest) {
       data: {
         response: testResponse.content,
         usage: testResponse.usage,
-        geminiStatus: geminiStatus
-      }
+        geminiStatus: geminiStatus,
+      },
     });
   } catch (error) {
     console.error('Gemini API test error:', error);
-    return NextResponse.json({
-      success: false,
-      message: 'Gemini API test failed',
-      error: error instanceof Error ? error.message : 'Unknown error'
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        success: false,
+        message: 'Gemini API test failed',
+        error: error instanceof Error ? error.message : 'Unknown error',
+      },
+      { status: 500 }
+    );
   }
 }
 
@@ -59,30 +68,36 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const { action } = await request.json();
-    
+
     switch (action) {
       case 'test-hybrid':
         return await testHybridSystem();
-      
+
       case 'test-gemini-news':
         return await testGeminiNews();
-      
+
       case 'test-gemini-blog':
         return await testGeminiBlog();
-      
+
       default:
-        return NextResponse.json({
-          success: false,
-          message: 'Invalid action'
-        }, { status: 400 });
+        return NextResponse.json(
+          {
+            success: false,
+            message: 'Invalid action',
+          },
+          { status: 400 }
+        );
     }
   } catch (error) {
     console.error('Gemini test error:', error);
-    return NextResponse.json({
-      success: false,
-      message: 'Test failed',
-      error: error instanceof Error ? error.message : 'Unknown error'
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        success: false,
+        message: 'Test failed',
+        error: error instanceof Error ? error.message : 'Unknown error',
+      },
+      { status: 500 }
+    );
   }
 }
 
@@ -90,7 +105,7 @@ export async function POST(request: NextRequest) {
 async function testHybridSystem() {
   try {
     const result = await gptGeminiIntegration.generateHybridTechNews();
-    
+
     return NextResponse.json({
       success: result.success,
       message: 'Hybrid system test completed',
@@ -98,16 +113,19 @@ async function testHybridSystem() {
         total: result.total,
         sources: result.sources,
         quality: result.quality,
-        sampleNews: result.data.slice(0, 3) // First 3 news items
-      }
+        sampleNews: result.data.slice(0, 3), // First 3 news items
+      },
     });
   } catch (error) {
     console.error('Hybrid system test error:', error);
-    return NextResponse.json({
-      success: false,
-      message: 'Hybrid system test failed',
-      error: error instanceof Error ? error.message : 'Unknown error'
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        success: false,
+        message: 'Hybrid system test failed',
+        error: error instanceof Error ? error.message : 'Unknown error',
+      },
+      { status: 500 }
+    );
   }
 }
 
@@ -115,22 +133,25 @@ async function testHybridSystem() {
 async function testGeminiNews() {
   try {
     const result = await geminiChat.generateTechNews(['AI', 'Web Development', 'Mobile']);
-    
+
     return NextResponse.json({
       success: result.success,
       message: 'Gemini news test completed',
       data: {
         content: result.content,
-        usage: result.usage
-      }
+        usage: result.usage,
+      },
     });
   } catch (error) {
     console.error('Gemini news test error:', error);
-    return NextResponse.json({
-      success: false,
-      message: 'Gemini news test failed',
-      error: error instanceof Error ? error.message : 'Unknown error'
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        success: false,
+        message: 'Gemini news test failed',
+        error: error instanceof Error ? error.message : 'Unknown error',
+      },
+      { status: 500 }
+    );
   }
 }
 
@@ -138,21 +159,24 @@ async function testGeminiNews() {
 async function testGeminiBlog() {
   try {
     const result = await geminiChat.generateBlogPost('Yapay Zeka ve Gelecek', 'technical');
-    
+
     return NextResponse.json({
       success: result.success,
       message: 'Gemini blog test completed',
       data: {
         content: result.content,
-        usage: result.usage
-      }
+        usage: result.usage,
+      },
     });
   } catch (error) {
     console.error('Gemini blog test error:', error);
-    return NextResponse.json({
-      success: false,
-      message: 'Gemini blog test failed',
-      error: error instanceof Error ? error.message : 'Unknown error'
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        success: false,
+        message: 'Gemini blog test failed',
+        error: error instanceof Error ? error.message : 'Unknown error',
+      },
+      { status: 500 }
+    );
   }
 }

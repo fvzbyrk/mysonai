@@ -26,7 +26,7 @@ export function VirtualScroll<T>({
   onScroll,
   loading = false,
   loadingComponent,
-  emptyComponent
+  emptyComponent,
 }: VirtualScrollProps<T>) {
   const [scrollTop, setScrollTop] = useState(0);
   const [containerWidth, setContainerWidth] = useState(0);
@@ -39,7 +39,7 @@ export function VirtualScroll<T>({
       items.length - 1,
       Math.ceil((scrollTop + containerHeight) / itemHeight) + overscan
     );
-    
+
     return { startIndex, endIndex };
   }, [scrollTop, itemHeight, containerHeight, overscan, items.length]);
 
@@ -95,11 +95,14 @@ export function VirtualScroll<T>({
 
   if (loading) {
     return (
-      <div className={cn('flex items-center justify-center', className)} style={{ height: containerHeight }}>
+      <div
+        className={cn('flex items-center justify-center', className)}
+        style={{ height: containerHeight }}
+      >
         {loadingComponent || (
-          <div className="text-center">
-            <div className="w-8 h-8 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
-            <div className="text-sm text-gray-500">Yükleniyor...</div>
+          <div className='text-center'>
+            <div className='w-8 h-8 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto mb-2'></div>
+            <div className='text-sm text-gray-500'>Yükleniyor...</div>
           </div>
         )}
       </div>
@@ -108,11 +111,14 @@ export function VirtualScroll<T>({
 
   if (items.length === 0) {
     return (
-      <div className={cn('flex items-center justify-center', className)} style={{ height: containerHeight }}>
+      <div
+        className={cn('flex items-center justify-center', className)}
+        style={{ height: containerHeight }}
+      >
         {emptyComponent || (
-          <div className="text-center">
-            <div className="text-4xl mb-4">📝</div>
-            <div className="text-gray-500">Henüz içerik yok</div>
+          <div className='text-center'>
+            <div className='text-4xl mb-4'>📝</div>
+            <div className='text-gray-500'>Henüz içerik yok</div>
           </div>
         )}
       </div>
@@ -141,7 +147,7 @@ export function VirtualScroll<T>({
             <div
               key={visibleRange.startIndex + index}
               style={{ height: itemHeight }}
-              className="flex items-center"
+              className='flex items-center'
             >
               {renderItem(item, visibleRange.startIndex + index)}
             </div>
@@ -174,14 +180,16 @@ export function InfiniteScroll<T>({
   hasMore,
   loading,
   className,
-  threshold = 100
+  threshold = 100,
 }: InfiniteScrollProps<T>) {
   const [scrollTop, setScrollTop] = useState(0);
   const scrollElementRef = useRef<HTMLDivElement>(null);
 
   // Check if we need to load more
   useEffect(() => {
-    if (!hasMore || loading) return;
+    if (!hasMore || loading) {
+      return;
+    }
 
     const totalHeight = items.length * itemHeight;
     const scrollBottom = scrollTop + containerHeight;
@@ -190,7 +198,16 @@ export function InfiniteScroll<T>({
     if (distanceFromBottom < threshold) {
       onLoadMore();
     }
-  }, [scrollTop, items.length, itemHeight, containerHeight, hasMore, loading, threshold, onLoadMore]);
+  }, [
+    scrollTop,
+    items.length,
+    itemHeight,
+    containerHeight,
+    hasMore,
+    loading,
+    threshold,
+    onLoadMore,
+  ]);
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     setScrollTop(e.currentTarget.scrollTop);
@@ -204,25 +221,21 @@ export function InfiniteScroll<T>({
       onScroll={handleScroll}
     >
       {items.map((item, index) => (
-        <div
-          key={index}
-          style={{ height: itemHeight }}
-          className="flex items-center"
-        >
+        <div key={index} style={{ height: itemHeight }} className='flex items-center'>
           {renderItem(item, index)}
         </div>
       ))}
-      
+
       {/* Loading indicator */}
       {loading && (
-        <div className="flex items-center justify-center py-4">
-          <div className="w-6 h-6 border-2 border-purple-600 border-t-transparent rounded-full animate-spin"></div>
+        <div className='flex items-center justify-center py-4'>
+          <div className='w-6 h-6 border-2 border-purple-600 border-t-transparent rounded-full animate-spin'></div>
         </div>
       )}
-      
+
       {/* End of list indicator */}
       {!hasMore && items.length > 0 && (
-        <div className="flex items-center justify-center py-4 text-gray-500 text-sm">
+        <div className='flex items-center justify-center py-4 text-gray-500 text-sm'>
           Tüm içerik yüklendi
         </div>
       )}
@@ -252,7 +265,7 @@ export function VirtualGrid<T>({
   gap = 0,
   overscan = 5,
   renderItem,
-  className
+  className,
 }: VirtualGridProps<T>) {
   const [scrollTop, setScrollTop] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
@@ -270,7 +283,7 @@ export function VirtualGrid<T>({
       totalRows - 1,
       Math.ceil((scrollTop + containerHeight) / (itemHeight + gap)) + overscan
     );
-    
+
     return { startRow, endRow };
   }, [scrollTop, itemHeight, gap, containerHeight, overscan, totalRows]);
 
@@ -306,10 +319,7 @@ export function VirtualGrid<T>({
           }}
         >
           {visibleItems.map((item, index) => (
-            <div
-              key={visibleRange.startRow * itemsPerRow + index}
-              style={{ height: itemHeight }}
-            >
+            <div key={visibleRange.startRow * itemsPerRow + index} style={{ height: itemHeight }}>
               {renderItem(item, visibleRange.startRow * itemsPerRow + index)}
             </div>
           ))}

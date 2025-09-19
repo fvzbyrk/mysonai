@@ -14,8 +14,8 @@ export default function Error({ error, reset }: ErrorProps) {
   }, [error]);
 
   return (
-    <EnhancedError 
-      error={error} 
+    <EnhancedError
+      error={error}
       reset={reset}
       showDetails={process.env.NODE_ENV === 'development'}
     />

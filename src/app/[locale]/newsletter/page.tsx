@@ -14,7 +14,7 @@ export async function generateMetadata({
       ? 'Newsletter - MySonAI | AI Güncellemeleri ve Haberler'
       : 'Newsletter - MySonAI | AI Updates and News',
     description: isTurkish
-      ? 'MySonAI newsletter\'a abone olun. AI güncellemeleri, yeni özellikler ve özel içerikler.'
+      ? "MySonAI newsletter'a abone olun. AI güncellemeleri, yeni özellikler ve özel içerikler."
       : 'Subscribe to MySonAI newsletter. AI updates, new features and exclusive content.',
     keywords: isTurkish
       ? 'newsletter, AI güncellemeleri, AI haberler, abone ol, e-posta bülteni'

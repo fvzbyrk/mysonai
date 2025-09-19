@@ -12,7 +12,7 @@ export function useSecurity() {
     requests: 0,
     limit: 100,
     resetTime: Date.now() + 3600000, // 1 hour
-    blocked: false
+    blocked: false,
   });
   const [suspiciousActivity, setSuspiciousActivity] = useState<SuspiciousActivity[]>([]);
   const [securityHeaders, setSecurityHeaders] = useState<SecurityHeaders>({});
@@ -25,7 +25,7 @@ export function useSecurity() {
     isBot: false,
     confidence: 0,
     botType: null,
-    userAgent: navigator.userAgent
+    userAgent: navigator.userAgent,
   });
   const [geoLocation, setGeoLocation] = useState<GeoLocation | null>(null);
   const [deviceFingerprint, setDeviceFingerprint] = useState<DeviceFingerprint | null>(null);
@@ -34,7 +34,7 @@ export function useSecurity() {
     expiresAt: Date.now() + 3600000,
     ipAddress: '',
     userAgent: navigator.userAgent,
-    lastActivity: Date.now()
+    lastActivity: Date.now(),
   });
 
   // Security threat types
@@ -163,7 +163,7 @@ export function useSecurity() {
     // Monitor security headers
     const checkSecurityHeaders = () => {
       const headers: SecurityHeaders = {};
-      
+
       // Check for security headers in meta tags
       const metaTags = document.querySelectorAll('meta[http-equiv]');
       metaTags.forEach(tag => {
@@ -173,7 +173,7 @@ export function useSecurity() {
           headers[httpEquiv] = content;
         }
       });
-      
+
       setSecurityHeaders(headers);
     };
 
@@ -186,9 +186,9 @@ export function useSecurity() {
         sourceFile: event.sourceFile,
         lineNumber: event.lineNumber,
         columnNumber: event.columnNumber,
-        timestamp: Date.now()
+        timestamp: Date.now(),
       };
-      
+
       setCspViolations(prev => [...prev, violation]);
       addSecurityEvent('csp_violation', 'medium', 'CSP violation detected', violation);
     };
@@ -200,9 +200,9 @@ export function useSecurity() {
         payload,
         source,
         timestamp: Date.now(),
-        blocked: true
+        blocked: true,
       };
-      
+
       setXssAttempts(prev => [...prev, attempt]);
       addSecurityEvent('xss_attempt', 'high', 'XSS attempt detected', attempt);
     };
@@ -214,9 +214,9 @@ export function useSecurity() {
         token,
         source,
         timestamp: Date.now(),
-        blocked: true
+        blocked: true,
       };
-      
+
       setCsrfAttempts(prev => [...prev, attempt]);
       addSecurityEvent('csrf_attempt', 'high', 'CSRF attempt detected', attempt);
     };
@@ -229,9 +229,9 @@ export function useSecurity() {
         payload,
         source,
         timestamp: Date.now(),
-        blocked: true
+        blocked: true,
       };
-      
+
       setInjectionAttempts(prev => [...prev, attempt]);
       addSecurityEvent('injection_attempt', 'critical', 'Injection attempt detected', attempt);
     };
@@ -244,9 +244,9 @@ export function useSecurity() {
         attempts,
         source,
         timestamp: Date.now(),
-        blocked: true
+        blocked: true,
       };
-      
+
       setBruteForceAttempts(prev => [...prev, attempt]);
       addSecurityEvent('brute_force_attempt', 'high', 'Brute force attempt detected', attempt);
     };
@@ -255,21 +255,31 @@ export function useSecurity() {
     const detectBot = () => {
       const userAgent = navigator.userAgent;
       const botPatterns = [
-        /bot/i, /crawler/i, /spider/i, /scraper/i, /curl/i, /wget/i,
-        /python/i, /java/i, /php/i, /ruby/i, /perl/i, /go/i
+        /bot/i,
+        /crawler/i,
+        /spider/i,
+        /scraper/i,
+        /curl/i,
+        /wget/i,
+        /python/i,
+        /java/i,
+        /php/i,
+        /ruby/i,
+        /perl/i,
+        /go/i,
       ];
-      
+
       const isBot = botPatterns.some(pattern => pattern.test(userAgent));
       const confidence = isBot ? 0.8 : 0.2;
       const botType = isBot ? 'automated' : null;
-      
+
       setBotDetection({
         isBot,
         confidence,
         botType,
-        userAgent
+        userAgent,
       });
-      
+
       if (isBot) {
         addSecurityEvent('bot_detected', 'medium', 'Bot detected', { userAgent, confidence });
       }
@@ -283,7 +293,7 @@ export function useSecurity() {
           ...prev,
           requests: 0,
           resetTime: now + 3600000,
-          blocked: false
+          blocked: false,
         }));
       }
     };
@@ -294,40 +304,49 @@ export function useSecurity() {
       let clickCount = 0;
       const clickThreshold = 10;
       const timeWindow = 5000; // 5 seconds
-      
+
       const handleClick = () => {
         clickCount++;
         if (clickCount > clickThreshold) {
-          addSuspiciousActivity('rapid_clicks', 'Rapid clicking detected', 'medium', { clickCount });
+          addSuspiciousActivity('rapid_clicks', 'Rapid clicking detected', 'medium', {
+            clickCount,
+          });
         }
       };
-      
+
       // Check for rapid scrolling
       let scrollCount = 0;
       const scrollThreshold = 20;
-      
+
       const handleScroll = () => {
         scrollCount++;
         if (scrollCount > scrollThreshold) {
-          addSuspiciousActivity('rapid_scrolling', 'Rapid scrolling detected', 'low', { scrollCount });
+          addSuspiciousActivity('rapid_scrolling', 'Rapid scrolling detected', 'low', {
+            scrollCount,
+          });
         }
       };
-      
+
       // Check for rapid form submissions
       let formSubmitCount = 0;
       const formSubmitThreshold = 5;
-      
+
       const handleFormSubmit = () => {
         formSubmitCount++;
         if (formSubmitCount > formSubmitThreshold) {
-          addSuspiciousActivity('rapid_form_submissions', 'Rapid form submissions detected', 'high', { formSubmitCount });
+          addSuspiciousActivity(
+            'rapid_form_submissions',
+            'Rapid form submissions detected',
+            'high',
+            { formSubmitCount }
+          );
         }
       };
-      
+
       document.addEventListener('click', handleClick);
       document.addEventListener('scroll', handleScroll);
       document.addEventListener('submit', handleFormSubmit);
-      
+
       return () => {
         document.removeEventListener('click', handleClick);
         document.removeEventListener('scroll', handleScroll);
@@ -339,18 +358,18 @@ export function useSecurity() {
     checkSecurityHeaders();
     detectBot();
     checkRateLimit();
-    
+
     // Set up event listeners
     document.addEventListener('securitypolicyviolation', handleCSPViolation);
-    
+
     const cleanup = monitorSuspiciousActivity();
-    
+
     // Set up intervals
     const interval = setInterval(() => {
       checkRateLimit();
       updateSecurityScore();
     }, 1000);
-    
+
     return () => {
       document.removeEventListener('securitypolicyviolation', handleCSPViolation);
       cleanup();
@@ -359,42 +378,58 @@ export function useSecurity() {
   }, [rateLimitStatus.resetTime]);
 
   // Add security event
-  const addSecurityEvent = useCallback((type: string, severity: 'low' | 'medium' | 'high' | 'critical', message: string, details: any) => {
-    const event: SecurityEvent = {
-      id: Math.random().toString(36).substr(2, 9),
-      type,
-      severity,
-      message,
-      timestamp: Date.now(),
-      source: window.location.href,
-      details
-    };
-    
-    setSecurityEvents(prev => [...prev, event]);
-    
-    // Update security score
-    updateSecurityScore();
-  }, []);
+  const addSecurityEvent = useCallback(
+    (
+      type: string,
+      severity: 'low' | 'medium' | 'high' | 'critical',
+      message: string,
+      details: any
+    ) => {
+      const event: SecurityEvent = {
+        id: Math.random().toString(36).substr(2, 9),
+        type,
+        severity,
+        message,
+        timestamp: Date.now(),
+        source: window.location.href,
+        details,
+      };
+
+      setSecurityEvents(prev => [...prev, event]);
+
+      // Update security score
+      updateSecurityScore();
+    },
+    []
+  );
 
   // Add suspicious activity
-  const addSuspiciousActivity = useCallback((type: string, description: string, severity: 'low' | 'medium' | 'high' | 'critical', details: any) => {
-    const activity: SuspiciousActivity = {
-      id: Math.random().toString(36).substr(2, 9),
-      type,
-      description,
-      timestamp: Date.now(),
-      severity,
-      details
-    };
-    
-    setSuspiciousActivity(prev => [...prev, activity]);
-    addSecurityEvent('suspicious_activity', severity, description, details);
-  }, [addSecurityEvent]);
+  const addSuspiciousActivity = useCallback(
+    (
+      type: string,
+      description: string,
+      severity: 'low' | 'medium' | 'high' | 'critical',
+      details: any
+    ) => {
+      const activity: SuspiciousActivity = {
+        id: Math.random().toString(36).substr(2, 9),
+        type,
+        description,
+        timestamp: Date.now(),
+        severity,
+        details,
+      };
+
+      setSuspiciousActivity(prev => [...prev, activity]);
+      addSecurityEvent('suspicious_activity', severity, description, details);
+    },
+    [addSecurityEvent]
+  );
 
   // Update security score
   const updateSecurityScore = useCallback(() => {
     let score = 100;
-    
+
     // Deduct points for security events
     securityEvents.forEach(event => {
       switch (event.severity) {
@@ -412,7 +447,7 @@ export function useSecurity() {
           break;
       }
     });
-    
+
     // Deduct points for threats
     threats.forEach(threat => {
       switch (threat.severity) {
@@ -430,17 +465,17 @@ export function useSecurity() {
           break;
       }
     });
-    
+
     // Deduct points for rate limiting
     if (rateLimitStatus.blocked) {
       score -= 15;
     }
-    
+
     // Deduct points for bot detection
     if (botDetection.isBot) {
       score -= 10;
     }
-    
+
     // Deduct points for suspicious activity
     suspiciousActivity.forEach(activity => {
       switch (activity.severity) {
@@ -458,16 +493,16 @@ export function useSecurity() {
           break;
       }
     });
-    
+
     setSecurityScore(Math.max(0, score));
     setIsSecure(score >= 70);
   }, [securityEvents, threats, rateLimitStatus.blocked, botDetection.isBot, suspiciousActivity]);
 
   // Block threat
   const blockThreat = useCallback((threatId: string) => {
-    setThreats(prev => prev.map(threat => 
-      threat.id === threatId ? { ...threat, blocked: true } : threat
-    ));
+    setThreats(prev =>
+      prev.map(threat => (threat.id === threatId ? { ...threat, blocked: true } : threat))
+    );
   }, []);
 
   // Clear security events
@@ -500,7 +535,7 @@ export function useSecurity() {
       securityHeaders,
       sessionSecurity,
       geoLocation,
-      deviceFingerprint
+      deviceFingerprint,
     };
   }, [
     securityScore,
@@ -518,7 +553,7 @@ export function useSecurity() {
     securityHeaders,
     sessionSecurity,
     geoLocation,
-    deviceFingerprint
+    deviceFingerprint,
   ]);
 
   return {
@@ -539,13 +574,13 @@ export function useSecurity() {
     geoLocation,
     deviceFingerprint,
     sessionSecurity,
-    
+
     // Actions
     addSecurityEvent,
     addSuspiciousActivity,
     blockThreat,
     clearSecurityEvents,
     updateSecurityScore,
-    getSecurityReport
+    getSecurityReport,
   };
 }

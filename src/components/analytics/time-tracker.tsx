@@ -23,7 +23,7 @@ export function TimeTracker({ children }: TimeTrackerProps) {
 
     // Track time on page when user leaves
     window.addEventListener('beforeunload', handleBeforeUnload);
-    
+
     // Track time on page after 30 seconds
     const timer = setTimeout(() => {
       if (!hasTracked.current) {

@@ -20,14 +20,8 @@ export function Announcer({ message, priority = 'polite' }: AnnouncerProps) {
   }, [message]);
 
   return (
-    <div
-      aria-live={priority}
-      aria-atomic="true"
-      className="sr-only"
-      role="status"
-    >
+    <div aria-live={priority} aria-atomic='true' className='sr-only' role='status'>
       {announcement}
     </div>
   );
 }
-

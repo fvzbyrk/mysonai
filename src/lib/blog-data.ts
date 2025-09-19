@@ -40,7 +40,7 @@ export const blogCategories: BlogCategory[] = [
     slug: 'ai-teknolojisi',
     description: 'Yapay zeka teknolojileri, makine öğrenmesi ve AI trendleri',
     color: 'from-purple-500 to-pink-500',
-    postCount: 0
+    postCount: 0,
   },
   {
     id: 'business',
@@ -48,7 +48,7 @@ export const blogCategories: BlogCategory[] = [
     slug: 'is-dunyasi',
     description: 'İş süreçleri, dijital dönüşüm ve kurumsal çözümler',
     color: 'from-blue-500 to-cyan-500',
-    postCount: 0
+    postCount: 0,
   },
   {
     id: 'tutorials',
@@ -56,7 +56,7 @@ export const blogCategories: BlogCategory[] = [
     slug: 'egitimler',
     description: 'Pratik rehberler, nasıl yapılır ve öğretici içerikler',
     color: 'from-green-500 to-emerald-500',
-    postCount: 0
+    postCount: 0,
   },
   {
     id: 'case-studies',
@@ -64,7 +64,7 @@ export const blogCategories: BlogCategory[] = [
     slug: 'vaka-calismalari',
     description: 'Gerçek projeler, başarı hikayeleri ve deneyimler',
     color: 'from-orange-500 to-red-500',
-    postCount: 0
+    postCount: 0,
   },
   {
     id: 'news',
@@ -72,17 +72,18 @@ export const blogCategories: BlogCategory[] = [
     slug: 'haberler',
     description: 'Sektör haberleri, güncellemeler ve duyurular',
     color: 'from-indigo-500 to-purple-500',
-    postCount: 0
-  }
+    postCount: 0,
+  },
 ];
 
 // Sample blog posts
 export const blogPosts: BlogPost[] = [
   {
     id: 'ai-gelecegi-2024',
-    title: 'AI\'nin Geleceği: 2024 Yılında Beklenen Trendler',
+    title: "AI'nin Geleceği: 2024 Yılında Beklenen Trendler",
     slug: 'ai-gelecegi-2024',
-    excerpt: '2024 yılında yapay zeka teknolojilerinde yaşanacak gelişmeler ve iş dünyasına etkileri.',
+    excerpt:
+      '2024 yılında yapay zeka teknolojilerinde yaşanacak gelişmeler ve iş dünyasına etkileri.',
     content: `
 # AI'nin Geleceği: 2024 Yılında Beklenen Trendler
 
@@ -127,7 +128,7 @@ MySonAI olarak, bu değişime öncülük ediyor ve müşterilerimize en güncel 
     author: {
       name: 'Dr. Ahmet Yılmaz',
       avatar: 'AY',
-      bio: 'AI araştırmacısı ve MySonAI kurucusu'
+      bio: 'AI araştırmacısı ve MySonAI kurucusu',
     },
     publishedAt: '2024-01-15',
     updatedAt: '2024-01-15',
@@ -137,16 +138,24 @@ MySonAI olarak, bu değişime öncülük ediyor ve müşterilerimize en güncel 
     featured: true,
     image: '/images/blog/ai-future-2024.jpg',
     seo: {
-      title: 'AI\'nin Geleceği: 2024 Yılında Beklenen Trendler | MySonAI Blog',
-      description: '2024 yılında yapay zeka teknolojilerinde yaşanacak gelişmeler ve iş dünyasına etkileri. AI trendleri ve gelecek öngörüleri.',
-      keywords: ['AI geleceği', 'yapay zeka trendleri', '2024 AI', 'makine öğrenmesi', 'AI teknolojileri']
-    }
+      title: "AI'nin Geleceği: 2024 Yılında Beklenen Trendler | MySonAI Blog",
+      description:
+        '2024 yılında yapay zeka teknolojilerinde yaşanacak gelişmeler ve iş dünyasına etkileri. AI trendleri ve gelecek öngörüleri.',
+      keywords: [
+        'AI geleceği',
+        'yapay zeka trendleri',
+        '2024 AI',
+        'makine öğrenmesi',
+        'AI teknolojileri',
+      ],
+    },
   },
   {
     id: 'chatbot-implementasyonu',
     title: 'İşletmeniz İçin Chatbot Nasıl Uygulanır?',
     slug: 'chatbot-implementasyonu',
-    excerpt: 'İşletmeniz için chatbot uygulama sürecinin adım adım rehberi. Planlama, geliştirme ve yayınlama.',
+    excerpt:
+      'İşletmeniz için chatbot uygulama sürecinin adım adım rehberi. Planlama, geliştirme ve yayınlama.',
     content: `
 # İşletmeniz İçin Chatbot Nasıl Uygulanır?
 
@@ -214,7 +223,7 @@ MySonAI olarak, chatbot uygulama sürecinde size rehberlik ediyoruz. Uzman ekibi
     author: {
       name: 'Elif Demir',
       avatar: 'ED',
-      bio: 'UX/UI Tasarımcı ve Chatbot Uzmanı'
+      bio: 'UX/UI Tasarımcı ve Chatbot Uzmanı',
     },
     publishedAt: '2024-01-10',
     updatedAt: '2024-01-10',
@@ -225,13 +234,20 @@ MySonAI olarak, chatbot uygulama sürecinde size rehberlik ediyoruz. Uzman ekibi
     image: '/images/blog/chatbot-implementation.jpg',
     seo: {
       title: 'İşletmeniz İçin Chatbot Nasıl Uygulanır? | MySonAI Blog',
-      description: 'İşletmeniz için chatbot uygulama sürecinin adım adım rehberi. Planlama, geliştirme ve yayınlama süreçleri.',
-      keywords: ['chatbot uygulama', 'chatbot geliştirme', 'müşteri hizmetleri', 'AI chatbot', 'otomasyon']
-    }
+      description:
+        'İşletmeniz için chatbot uygulama sürecinin adım adım rehberi. Planlama, geliştirme ve yayınlama süreçleri.',
+      keywords: [
+        'chatbot uygulama',
+        'chatbot geliştirme',
+        'müşteri hizmetleri',
+        'AI chatbot',
+        'otomasyon',
+      ],
+    },
   },
   {
     id: 'dijital-donusum-rehberi',
-    title: 'KOBİ\'ler İçin Dijital Dönüşüm Rehberi',
+    title: "KOBİ'ler İçin Dijital Dönüşüm Rehberi",
     slug: 'dijital-donusum-rehberi',
     excerpt: 'Küçük ve orta ölçekli işletmeler için dijital dönüşüm sürecinin pratik rehberi.',
     content: `
@@ -295,7 +311,7 @@ MySonAI olarak, KOBİ'lerin dijital dönüşüm yolculuğunda yanlarındayız. S
     author: {
       name: 'Burak Kaya',
       avatar: 'BK',
-      bio: 'Sistem Mimarı ve Dijital Dönüşüm Uzmanı'
+      bio: 'Sistem Mimarı ve Dijital Dönüşüm Uzmanı',
     },
     publishedAt: '2024-01-05',
     updatedAt: '2024-01-05',
@@ -305,11 +321,12 @@ MySonAI olarak, KOBİ'lerin dijital dönüşüm yolculuğunda yanlarındayız. S
     featured: true,
     image: '/images/blog/digital-transformation.jpg',
     seo: {
-      title: 'KOBİ\'ler İçin Dijital Dönüşüm Rehberi | MySonAI Blog',
-      description: 'Küçük ve orta ölçekli işletmeler için dijital dönüşüm sürecinin pratik rehberi. Adım adım uygulama.',
-      keywords: ['dijital dönüşüm', 'KOBİ', 'teknoloji', 'iş süreçleri', 'verimlilik']
-    }
-  }
+      title: "KOBİ'ler İçin Dijital Dönüşüm Rehberi | MySonAI Blog",
+      description:
+        'Küçük ve orta ölçekli işletmeler için dijital dönüşüm sürecinin pratik rehberi. Adım adım uygulama.',
+      keywords: ['dijital dönüşüm', 'KOBİ', 'teknoloji', 'iş süreçleri', 'verimlilik'],
+    },
+  },
 ];
 
 // Utility functions
@@ -335,17 +352,16 @@ export function getRecentBlogPosts(limit: number = 5): BlogPost[] {
 }
 
 export function getBlogPostsByTag(tag: string): BlogPost[] {
-  return blogPosts.filter(post => 
-    post.tags.some(t => t.toLowerCase() === tag.toLowerCase())
-  );
+  return blogPosts.filter(post => post.tags.some(t => t.toLowerCase() === tag.toLowerCase()));
 }
 
 export function searchBlogPosts(query: string): BlogPost[] {
   const lowercaseQuery = query.toLowerCase();
-  return blogPosts.filter(post => 
-    post.title.toLowerCase().includes(lowercaseQuery) ||
-    post.excerpt.toLowerCase().includes(lowercaseQuery) ||
-    post.content.toLowerCase().includes(lowercaseQuery) ||
-    post.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery))
+  return blogPosts.filter(
+    post =>
+      post.title.toLowerCase().includes(lowercaseQuery) ||
+      post.excerpt.toLowerCase().includes(lowercaseQuery) ||
+      post.content.toLowerCase().includes(lowercaseQuery) ||
+      post.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery))
   );
 }

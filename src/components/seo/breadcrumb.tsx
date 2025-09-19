@@ -24,14 +24,14 @@ export function Breadcrumb({
   className,
   showHome = true,
   homeUrl = '/',
-  separator = <ChevronRight className="w-4 h-4" />
+  separator = <ChevronRight className='w-4 h-4' />,
 }: BreadcrumbProps) {
   const { generateBreadcrumbData, addStructuredData } = useSEOContext();
 
   // Generate structured data
   const structuredData = generateBreadcrumbData([
     ...(showHome ? [{ name: 'Ana Sayfa', url: homeUrl }] : []),
-    ...items
+    ...items,
   ]);
 
   // Add structured data to page
@@ -41,38 +41,32 @@ export function Breadcrumb({
 
   const allItems = [
     ...(showHome ? [{ name: 'Ana Sayfa', url: homeUrl, current: false }] : []),
-    ...items
+    ...items,
   ];
 
   return (
-    <nav
-      aria-label="Breadcrumb"
-      className={cn('flex items-center space-x-2 text-sm', className)}
-    >
-      <ol className="flex items-center space-x-2">
+    <nav aria-label='Breadcrumb' className={cn('flex items-center space-x-2 text-sm', className)}>
+      <ol className='flex items-center space-x-2'>
         {allItems.map((item, index) => (
-          <li key={index} className="flex items-center">
+          <li key={index} className='flex items-center'>
             {index > 0 && (
-              <span className="mx-2 text-gray-400" aria-hidden="true">
+              <span className='mx-2 text-gray-400' aria-hidden='true'>
                 {separator}
               </span>
             )}
-            
+
             {item.current ? (
-              <span
-                className="text-gray-500 dark:text-gray-400"
-                aria-current="page"
-              >
+              <span className='text-gray-500 dark:text-gray-400' aria-current='page'>
                 {item.name}
               </span>
             ) : (
               <Link
                 href={item.url}
-                className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors"
+                className='text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors'
               >
                 {index === 0 && showHome ? (
-                  <div className="flex items-center">
-                    <Home className="w-4 h-4 mr-1" />
+                  <div className='flex items-center'>
+                    <Home className='w-4 h-4 mr-1' />
                     {item.name}
                   </div>
                 ) : (
@@ -92,7 +86,7 @@ export function BlogBreadcrumb({
   category,
   categoryUrl,
   title,
-  className
+  className,
 }: {
   category: string;
   categoryUrl: string;
@@ -102,15 +96,10 @@ export function BlogBreadcrumb({
   const items: BreadcrumbItem[] = [
     { name: 'Blog', url: '/blog' },
     { name: category, url: categoryUrl },
-    { name: title, url: '#', current: true }
+    { name: title, url: '#', current: true },
   ];
 
-  return (
-    <Breadcrumb
-      items={items}
-      className={className}
-    />
-  );
+  return <Breadcrumb items={items} className={className} />;
 }
 
 // Breadcrumb for product pages
@@ -120,7 +109,7 @@ export function ProductBreadcrumb({
   subcategory,
   subcategoryUrl,
   productName,
-  className
+  className,
 }: {
   category: string;
   categoryUrl: string;
@@ -132,34 +121,24 @@ export function ProductBreadcrumb({
   const items: BreadcrumbItem[] = [
     { name: category, url: categoryUrl },
     ...(subcategory ? [{ name: subcategory, url: subcategoryUrl! }] : []),
-    { name: productName, url: '#', current: true }
+    { name: productName, url: '#', current: true },
   ];
 
-  return (
-    <Breadcrumb
-      items={items}
-      className={className}
-    />
-  );
+  return <Breadcrumb items={items} className={className} />;
 }
 
 // Breadcrumb for service pages
 export function ServiceBreadcrumb({
   serviceName,
-  className
+  className,
 }: {
   serviceName: string;
   className?: string;
 }) {
   const items: BreadcrumbItem[] = [
     { name: 'Hizmetler', url: '/services' },
-    { name: serviceName, url: '#', current: true }
+    { name: serviceName, url: '#', current: true },
   ];
 
-  return (
-    <Breadcrumb
-      items={items}
-      className={className}
-    />
-  );
+  return <Breadcrumb items={items} className={className} />;
 }
