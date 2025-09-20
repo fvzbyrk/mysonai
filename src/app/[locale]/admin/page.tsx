@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import {
   BarChart3,
@@ -11,9 +10,7 @@ import {
   Settings,
   Bot,
   TrendingUp,
-  Clock,
   CheckCircle,
-  AlertCircle,
   Globe,
   Database,
   Zap,

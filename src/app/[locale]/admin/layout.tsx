@@ -23,6 +23,12 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
     // Check authentication for all other admin pages
     const checkAuth = async () => {
+      // Check if we're in browser environment
+      if (typeof window === 'undefined') {
+        setIsCheckingAuth(false);
+        return;
+      }
+
       const token = localStorage.getItem('admin_token');
 
       if (!token) {
@@ -81,9 +87,5 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     return null; // Will redirect to login
   }
 
-  return (
-    <AdminErrorBoundary>
-      {children}
-    </AdminErrorBoundary>
-  );
+  return <AdminErrorBoundary>{children}</AdminErrorBoundary>;
 }
