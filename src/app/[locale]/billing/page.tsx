@@ -1,407 +1,344 @@
 'use client';
 
-import { useAuth } from '@/contexts/auth-context';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useState } from 'react';
+import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import {
-  CreditCard,
-  Download,
-  Calendar,
-  DollarSign,
-  AlertCircle,
-  CheckCircle,
-  Clock,
-  User,
-  ArrowLeft,
-} from 'lucide-react';
+import { Check, Zap, Users, Crown, Star, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
-import { getStripe } from '@/lib/stripe';
+import { useAuth } from '@/contexts/auth-context';
 
-interface Invoice {
+interface PricingPlan {
   id: string;
-  amount: number;
+  name: string;
+  price: number;
   currency: string;
-  status: string;
-  created: number;
-  period_start: number;
-  period_end: number;
-  invoice_pdf?: string;
+  period: string;
+  description: string;
+  features: string[];
+  popular?: boolean;
+  icon: any;
+  color: string;
 }
 
-interface Subscription {
-  id: string;
-  status: string;
-  current_period_start: number;
-  current_period_end: number;
-  cancel_at_period_end: boolean;
-  plan: string;
-}
+const pricingPlans: PricingPlan[] = [
+  {
+    id: 'free',
+    name: 'Ücretsiz',
+    price: 0,
+    currency: 'TRY',
+    period: 'ay',
+    description: 'Kişisel kullanım için ideal',
+    features: [
+      '50 mesaj/ay',
+      '10,000 token/ay',
+      '10 görsel üretimi/ay',
+      'Temel AI asistanları',
+      'E-posta desteği',
+      'Temel analitikler',
+    ],
+    icon: Users,
+    color: 'from-gray-600 to-gray-700',
+  },
+  {
+    id: 'pro',
+    name: 'Pro',
+    price: 99,
+    currency: 'TRY',
+    period: 'ay',
+    description: 'Profesyoneller için',
+    features: [
+      '500 mesaj/ay',
+      '100,000 token/ay',
+      '100 görsel üretimi/ay',
+      'Tüm AI asistanları',
+      'Öncelikli destek',
+      'Gelişmiş analitikler',
+      'API erişimi',
+      'Özel entegrasyonlar',
+    ],
+    popular: true,
+    icon: Zap,
+    color: 'from-purple-600 to-purple-700',
+  },
+  {
+    id: 'enterprise',
+    name: 'Enterprise',
+    price: 299,
+    currency: 'TRY',
+    period: 'ay',
+    description: 'Büyük ekipler için',
+    features: [
+      'Sınırsız mesaj',
+      'Sınırsız token',
+      'Sınırsız görsel üretimi',
+      'Tüm AI asistanları',
+      '7/24 telefon desteği',
+      'Detaylı raporlama',
+      'Tam API erişimi',
+      'Özel entegrasyonlar',
+      'Dedicated hesap yöneticisi',
+      'Özel eğitimler',
+    ],
+    icon: Crown,
+    color: 'from-orange-600 to-orange-700',
+  },
+];
 
 export default function BillingPage() {
   const { user } = useAuth();
-  const [subscription, setSubscription] = useState<Subscription | null>(null);
-  const [invoices, setInvoices] = useState<Invoice[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [loadingInvoices, setLoadingInvoices] = useState(false);
+  const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
 
-  useEffect(() => {
-    if (user) {
-      fetchSubscription();
-      fetchInvoices();
-    }
-  }, [user]);
+  const currentPlan = user?.plan || 'free';
 
-  const fetchSubscription = async () => {
-    try {
-      const response = await fetch(`/api/subscription?userId=${user?.id}`);
-      const data = await response.json();
-      setSubscription(data.subscription);
-    } catch (error) {
-      console.error('Error fetching subscription:', error);
-    }
+  const handleUpgrade = () => {
+    // Burada Stripe checkout'a yönlendirme yapılacak
+    // window.location.href = `/api/stripe/checkout?plan=${planId}`;
   };
-
-  const fetchInvoices = async () => {
-    setLoadingInvoices(true);
-    try {
-      const response = await fetch(`/api/billing/invoices?userId=${user?.id}`);
-      const data = await response.json();
-      setInvoices(data.invoices || []);
-    } catch (error) {
-      console.error('Error fetching invoices:', error);
-    } finally {
-      setLoadingInvoices(false);
-    }
-  };
-
-  const handleManageSubscription = async () => {
-    if (!user) {
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const response = await fetch('/api/billing/portal', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId: user.id,
-        }),
-      });
-
-      const { url } = await response.json();
-
-      if (url) {
-        window.location.href = url;
-      }
-    } catch (error) {
-      console.error('Error creating portal session:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleUpgrade = async (plan: string) => {
-    if (!user) {
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const response = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          plan: plan,
-          userId: user.id,
-        }),
-      });
-
-      const { sessionId } = await response.json();
-
-      if (sessionId) {
-        const stripe = await getStripe();
-        await stripe?.redirectToCheckout({ sessionId });
-      }
-    } catch (error) {
-      console.error('Error creating checkout session:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const formatDate = (timestamp: number) => {
-    return new Date(timestamp * 1000).toLocaleDateString('tr-TR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-  };
-
-  const formatAmount = (amount: number, currency: string) => {
-    return new Intl.NumberFormat('tr-TR', {
-      style: 'currency',
-      currency: currency.toUpperCase(),
-      minimumFractionDigits: 2,
-    }).format(amount / 100);
-  };
-
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case 'paid':
-        return <Badge className='bg-green-500/20 text-green-400 border-green-500/50'>Ödendi</Badge>;
-      case 'open':
-        return (
-          <Badge className='bg-yellow-500/20 text-yellow-400 border-yellow-500/50'>Beklemede</Badge>
-        );
-      case 'void':
-        return <Badge className='bg-gray-500/20 text-gray-400 border-gray-500/50'>İptal</Badge>;
-      case 'uncollectible':
-        return <Badge className='bg-red-500/20 text-red-400 border-red-500/50'>Ödenmedi</Badge>;
-      default:
-        return <Badge variant='secondary'>{status}</Badge>;
-    }
-  };
-
-  if (!user) {
-    return (
-      <div className='min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-4'>
-        <div className='max-w-md w-full bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 text-center'>
-          <div className='w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-6'>
-            <User className='w-8 h-8 text-purple-400' />
-          </div>
-          <h1 className='text-2xl font-bold text-white mb-4'>Giriş Yapın</h1>
-          <p className='text-gray-300 mb-6'>
-            Fatura yönetimine erişmek için giriş yapmanız gerekiyor.
-          </p>
-          <Link href='/signin'>
-            <Button className='bg-gradient-to-r from-purple-600 to-pink-600 text-white'>
-              Giriş Yap
-            </Button>
-          </Link>
-        </div>
-      </div>
-    );
-  }
 
   return (
-    <div className='min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900'>
-      {/* Header */}
-      <header className='bg-black/20 backdrop-blur-md border-b border-white/10'>
-        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4'>
-          <div className='flex items-center justify-between'>
-            <div className='flex items-center space-x-4'>
-              <Link href='/dashboard' className='text-purple-400 hover:text-purple-300'>
-                <ArrowLeft className='w-6 h-6' />
-              </Link>
-              <div>
-                <h1 className='text-xl font-bold text-white'>Fatura Yönetimi</h1>
-                <p className='text-sm text-gray-300'>Abonelik ve ödeme bilgileriniz</p>
-              </div>
-            </div>
+    <div className='min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6'>
+      <div className='max-w-7xl mx-auto space-y-8'>
+        {/* Header */}
+        <div className='text-center'>
+          <h1 className='text-4xl font-bold text-white mb-4'>Fiyatlandırma</h1>
+          <p className='text-xl text-gray-300 max-w-2xl mx-auto'>
+            İhtiyacınıza uygun planı seçin ve AI asistanlarımızın gücünden tam olarak faydalanın
+          </p>
+        </div>
+
+        {/* Billing Cycle Toggle */}
+        <div className='flex justify-center'>
+          <div className='bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-1'>
+            <button
+              onClick={() => setBillingCycle('monthly')}
+              className={`px-6 py-2 rounded-md transition-all ${
+                billingCycle === 'monthly'
+                  ? 'bg-purple-600 text-white'
+                  : 'text-gray-300 hover:text-white'
+              }`}
+            >
+              Aylık
+            </button>
+            <button
+              onClick={() => setBillingCycle('yearly')}
+              className={`px-6 py-2 rounded-md transition-all ${
+                billingCycle === 'yearly'
+                  ? 'bg-purple-600 text-white'
+                  : 'text-gray-300 hover:text-white'
+              }`}
+            >
+              Yıllık
+              <Badge className='ml-2 bg-green-500/20 text-green-400 border-green-500/50 text-xs'>
+                %20 İndirim
+              </Badge>
+            </button>
           </div>
         </div>
-      </header>
 
-      {/* Main Content */}
-      <main className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
-        <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
-          {/* Subscription Info */}
-          <div className='lg:col-span-2 space-y-6'>
-            <Card className='bg-white/10 backdrop-blur-md border-white/20'>
-              <CardHeader>
-                <CardTitle className='text-white flex items-center'>
-                  <CreditCard className='w-5 h-5 mr-2 text-purple-400' />
-                  Mevcut Abonelik
-                </CardTitle>
-              </CardHeader>
-              <CardContent className='space-y-4'>
-                {subscription ? (
-                  <>
-                    <div className='flex items-center justify-between'>
-                      <div>
-                        <p className='text-white font-medium capitalize'>
-                          {subscription.plan} Plan
-                        </p>
-                        <p className='text-gray-400 text-sm'>
-                          {subscription.plan === 'free'
-                            ? 'Ücretsiz'
-                            : subscription.plan === 'pro'
-                              ? '99₺/ay'
-                              : '299₺/ay'}
-                        </p>
-                      </div>
-                      <div className='flex items-center'>
-                        {subscription.status === 'active' ? (
-                          <CheckCircle className='w-6 h-6 text-green-400' />
-                        ) : (
-                          <AlertCircle className='w-6 h-6 text-yellow-400' />
-                        )}
-                      </div>
-                    </div>
+        {/* Pricing Cards */}
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
+          {pricingPlans.map(plan => {
+            const Icon = plan.icon;
+            const isCurrentPlan = currentPlan === plan.id;
+            const isPopular = plan.popular;
 
-                    <div className='grid grid-cols-2 gap-4 text-sm'>
-                      <div>
-                        <p className='text-gray-400'>Durum</p>
-                        <p className='text-white capitalize'>{subscription.status}</p>
-                      </div>
-                      <div>
-                        <p className='text-gray-400'>Sonraki Ödeme</p>
-                        <p className='text-white'>{formatDate(subscription.current_period_end)}</p>
-                      </div>
-                    </div>
-
-                    {subscription.cancel_at_period_end && (
-                      <div className='bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-3'>
-                        <p className='text-yellow-400 text-sm flex items-center'>
-                          <Clock className='w-4 h-4 mr-2' />
-                          Aboneliğiniz dönem sonunda iptal edilecek
-                        </p>
-                      </div>
-                    )}
-
-                    <div className='flex space-x-2'>
-                      <Button
-                        onClick={handleManageSubscription}
-                        disabled={loading}
-                        className='flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white'
-                      >
-                        {loading ? 'Yükleniyor...' : 'Aboneliği Yönet'}
-                      </Button>
-
-                      {user.plan === 'free' && (
-                        <Button
-                          onClick={() => handleUpgrade('pro')}
-                          disabled={loading}
-                          variant='outline'
-                          className='border-white/20 text-white'
-                        >
-                          Pro'ya Geç
-                        </Button>
-                      )}
-                    </div>
-                  </>
-                ) : (
-                  <div className='text-center py-8'>
-                    <p className='text-gray-400'>Abonelik bilgileri yükleniyor...</p>
+            return (
+              <Card
+                key={plan.id}
+                className={`relative bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/15 transition-all duration-300 ${
+                  isPopular ? 'ring-2 ring-purple-500' : ''
+                } ${isCurrentPlan ? 'ring-2 ring-green-500' : ''}`}
+              >
+                {isPopular && (
+                  <div className='absolute -top-3 left-1/2 transform -translate-x-1/2'>
+                    <Badge className='bg-purple-500 text-white'>
+                      <Star className='w-3 h-3 mr-1' />
+                      En Popüler
+                    </Badge>
                   </div>
                 )}
-              </CardContent>
-            </Card>
 
-            {/* Invoices */}
-            <Card className='bg-white/10 backdrop-blur-md border-white/20'>
-              <CardHeader>
-                <CardTitle className='text-white flex items-center'>
-                  <DollarSign className='w-5 h-5 mr-2 text-purple-400' />
-                  Fatura Geçmişi
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                {loadingInvoices ? (
-                  <div className='text-center py-8'>
-                    <p className='text-gray-400'>Faturalar yükleniyor...</p>
+                {isCurrentPlan && (
+                  <div className='absolute -top-3 left-1/2 transform -translate-x-1/2'>
+                    <Badge className='bg-green-500 text-white'>
+                      <Check className='w-3 h-3 mr-1' />
+                      Mevcut Plan
+                    </Badge>
                   </div>
-                ) : invoices.length > 0 ? (
-                  <div className='space-y-3'>
-                    {invoices.map(invoice => (
-                      <div
-                        key={invoice.id}
-                        className='flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/10'
-                      >
-                        <div className='flex items-center space-x-3'>
-                          <div className='w-10 h-10 bg-purple-500/20 rounded-full flex items-center justify-center'>
-                            <Calendar className='w-5 h-5 text-purple-400' />
-                          </div>
-                          <div>
-                            <p className='text-white font-medium'>
-                              {formatAmount(invoice.amount, invoice.currency)}
-                            </p>
-                            <p className='text-gray-400 text-sm'>{formatDate(invoice.created)}</p>
-                          </div>
-                        </div>
-                        <div className='flex items-center space-x-3'>
-                          {getStatusBadge(invoice.status)}
-                          {invoice.invoice_pdf && (
-                            <Button
-                              size='sm'
-                              variant='outline'
-                              className='border-white/20 text-white'
-                              onClick={() => window.open(invoice.invoice_pdf, '_blank')}
-                            >
-                              <Download className='w-4 h-4 mr-1' />
-                              PDF
-                            </Button>
-                          )}
-                        </div>
+                )}
+
+                <div className='p-8'>
+                  <div className='text-center mb-6'>
+                    <div
+                      className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 bg-gradient-to-r ${plan.color}`}
+                    >
+                      <Icon className='w-8 h-8 text-white' />
+                    </div>
+                    <h3 className='text-2xl font-bold text-white mb-2'>{plan.name}</h3>
+                    <p className='text-gray-300 mb-4'>{plan.description}</p>
+                    <div className='mb-4'>
+                      <span className='text-4xl font-bold text-white'>
+                        {billingCycle === 'yearly' ? Math.round(plan.price * 12 * 0.8) : plan.price}
+                      </span>
+                      <span className='text-gray-300 ml-2'>
+                        {plan.currency}/{billingCycle === 'yearly' ? 'yıl' : plan.period}
+                      </span>
+                    </div>
+                    {billingCycle === 'yearly' && plan.price > 0 && (
+                      <p className='text-green-400 text-sm'>
+                        Aylık {plan.price} {plan.currency} yerine {Math.round(plan.price * 0.8)}{' '}
+                        {plan.currency}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className='space-y-3 mb-8'>
+                    {plan.features.map((feature, index) => (
+                      <div key={index} className='flex items-center space-x-3'>
+                        <Check className='w-5 h-5 text-green-400 flex-shrink-0' />
+                        <span className='text-gray-300'>{feature}</span>
                       </div>
                     ))}
                   </div>
-                ) : (
-                  <div className='text-center py-8'>
-                    <p className='text-gray-400'>Henüz fatura bulunmuyor</p>
-                    <p className='text-gray-500 text-sm mt-1'>Ücretsiz plan kullanıyorsunuz</p>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </div>
 
-          {/* Quick Actions */}
-          <div className='space-y-6'>
-            <Card className='bg-white/10 backdrop-blur-md border-white/20'>
-              <CardHeader>
-                <CardTitle className='text-white'>Hızlı İşlemler</CardTitle>
-              </CardHeader>
-              <CardContent className='space-y-4'>
-                <Button
-                  onClick={handleManageSubscription}
-                  disabled={loading}
-                  className='w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white'
-                >
-                  <CreditCard className='w-4 h-4 mr-2' />
-                  Ödeme Yöntemi Değiştir
-                </Button>
-
-                <Link href='/pricing' className='block'>
-                  <Button variant='outline' className='w-full border-white/20 text-white'>
-                    Planları Karşılaştır
+                  <Button
+                    onClick={handleUpgrade}
+                    disabled={isCurrentPlan}
+                    className={`w-full ${
+                      isCurrentPlan
+                        ? 'bg-gray-600 text-gray-300 cursor-not-allowed'
+                        : isPopular
+                          ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white border-0 hover:from-purple-700 hover:to-pink-700'
+                          : 'bg-white/10 border-white/20 text-white hover:bg-white/20'
+                    }`}
+                  >
+                    {isCurrentPlan ? (
+                      'Mevcut Plan'
+                    ) : (
+                      <>
+                        {plan.price === 0 ? 'Ücretsiz Başla' : 'Planı Seç'}
+                        <ArrowRight className='w-4 h-4 ml-2' />
+                      </>
+                    )}
                   </Button>
-                </Link>
-
-                <Link href='/dashboard' className='block'>
-                  <Button variant='outline' className='w-full border-white/20 text-white'>
-                    Dashboard'a Dön
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-
-            {/* Support */}
-            <Card className='bg-white/10 backdrop-blur-md border-white/20'>
-              <CardHeader>
-                <CardTitle className='text-white'>Destek</CardTitle>
-              </CardHeader>
-              <CardContent className='space-y-3'>
-                <p className='text-gray-300 text-sm'>
-                  Fatura veya ödeme ile ilgili sorularınız için bizimle iletişime geçin.
-                </p>
-                <Link href='/contact' className='block'>
-                  <Button variant='outline' className='w-full border-white/20 text-white'>
-                    İletişime Geç
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-          </div>
+                </div>
+              </Card>
+            );
+          })}
         </div>
-      </main>
+
+        {/* Features Comparison */}
+        <Card className='bg-white/10 backdrop-blur-md border-white/20'>
+          <div className='p-8'>
+            <h3 className='text-2xl font-bold text-white mb-6 text-center'>
+              Özellik Karşılaştırması
+            </h3>
+            <div className='overflow-x-auto'>
+              <table className='w-full'>
+                <thead>
+                  <tr className='border-b border-white/20'>
+                    <th className='text-left text-white py-4'>Özellik</th>
+                    <th className='text-center text-white py-4'>Ücretsiz</th>
+                    <th className='text-center text-white py-4'>Pro</th>
+                    <th className='text-center text-white py-4'>Enterprise</th>
+                  </tr>
+                </thead>
+                <tbody className='space-y-4'>
+                  <tr className='border-b border-white/10'>
+                    <td className='text-gray-300 py-4'>Aylık Mesaj Limiti</td>
+                    <td className='text-center text-gray-300 py-4'>50</td>
+                    <td className='text-center text-gray-300 py-4'>500</td>
+                    <td className='text-center text-gray-300 py-4'>Sınırsız</td>
+                  </tr>
+                  <tr className='border-b border-white/10'>
+                    <td className='text-gray-300 py-4'>Token Limiti</td>
+                    <td className='text-center text-gray-300 py-4'>10K</td>
+                    <td className='text-center text-gray-300 py-4'>100K</td>
+                    <td className='text-center text-gray-300 py-4'>Sınırsız</td>
+                  </tr>
+                  <tr className='border-b border-white/10'>
+                    <td className='text-gray-300 py-4'>Görsel Üretimi</td>
+                    <td className='text-center text-gray-300 py-4'>10</td>
+                    <td className='text-center text-gray-300 py-4'>100</td>
+                    <td className='text-center text-gray-300 py-4'>Sınırsız</td>
+                  </tr>
+                  <tr className='border-b border-white/10'>
+                    <td className='text-gray-300 py-4'>AI Asistanları</td>
+                    <td className='text-center text-gray-300 py-4'>Temel</td>
+                    <td className='text-center text-gray-300 py-4'>Tümü</td>
+                    <td className='text-center text-gray-300 py-4'>Tümü</td>
+                  </tr>
+                  <tr className='border-b border-white/10'>
+                    <td className='text-gray-300 py-4'>Destek</td>
+                    <td className='text-center text-gray-300 py-4'>E-posta</td>
+                    <td className='text-center text-gray-300 py-4'>Öncelikli</td>
+                    <td className='text-center text-gray-300 py-4'>7/24 Telefon</td>
+                  </tr>
+                  <tr>
+                    <td className='text-gray-300 py-4'>API Erişimi</td>
+                    <td className='text-center text-gray-300 py-4'>-</td>
+                    <td className='text-center text-gray-300 py-4'>✓</td>
+                    <td className='text-center text-gray-300 py-4'>✓</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </Card>
+
+        {/* FAQ */}
+        <Card className='bg-white/10 backdrop-blur-md border-white/20'>
+          <div className='p-8'>
+            <h3 className='text-2xl font-bold text-white mb-6 text-center'>Sık Sorulan Sorular</h3>
+            <div className='space-y-6'>
+              <div>
+                <h4 className='text-lg font-semibold text-white mb-2'>
+                  Plan değişikliği nasıl yapılır?
+                </h4>
+                <p className='text-gray-300'>
+                  İstediğiniz zaman planınızı yükseltebilir veya düşürebilirsiniz. Değişiklikler
+                  anında geçerli olur.
+                </p>
+              </div>
+              <div>
+                <h4 className='text-lg font-semibold text-white mb-2'>
+                  Ödeme güvenliği nasıl sağlanıyor?
+                </h4>
+                <p className='text-gray-300'>
+                  Tüm ödemeler Stripe üzerinden güvenli şekilde işlenir. Kart bilgileriniz
+                  saklanmaz.
+                </p>
+              </div>
+              <div>
+                <h4 className='text-lg font-semibold text-white mb-2'>
+                  İptal etme politikası nedir?
+                </h4>
+                <p className='text-gray-300'>
+                  İstediğiniz zaman iptal edebilirsiniz. Ödediğiniz tutarın kullanılmamış kısmı iade
+                  edilir.
+                </p>
+              </div>
+            </div>
+          </div>
+        </Card>
+
+        {/* Contact */}
+        <div className='text-center'>
+          <Card className='bg-white/10 backdrop-blur-md border-white/20 p-8 max-w-2xl mx-auto'>
+            <h3 className='text-xl font-bold text-white mb-4'>Özel İhtiyaçlarınız mı var?</h3>
+            <p className='text-gray-300 mb-6'>
+              Büyük ekipler için özel çözümler sunuyoruz. Bizimle iletişime geçin.
+            </p>
+            <Link href='/tr/contact'>
+              <Button className='bg-gradient-to-r from-purple-600 to-pink-600 text-white border-0 hover:from-purple-700 hover:to-pink-700'>
+                İletişime Geç
+                <ArrowRight className='w-4 h-4 ml-2' />
+              </Button>
+            </Link>
+          </Card>
+        </div>
+      </div>
     </div>
   );
 }

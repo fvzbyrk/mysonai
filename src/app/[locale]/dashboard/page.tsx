@@ -1,244 +1,346 @@
-import { createServerSupabaseClient } from '@/lib/supabase-server';
-import { redirect } from 'next/navigation';
+'use client';
 
-export default async function DashboardPage({ params }: { params: { locale: string } }) {
-  const supabase = createServerSupabaseClient();
+import { useState, useEffect } from 'react';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import {
+  Bot,
+  MessageCircle,
+  BarChart3,
+  Settings,
+  CreditCard,
+  Calendar,
+  Zap,
+  Globe,
+  Bell,
+} from 'lucide-react';
+import Link from 'next/link';
+import { useAuth } from '@/contexts/auth-context';
 
-  // Kullanıcı oturumunu kontrol et
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
+interface DashboardStats {
+  totalMessages: number;
+  monthlyLimit: number;
+  tokensUsed: number;
+  tokensLimit: number;
+  imagesGenerated: number;
+  imagesLimit: number;
+  lastLogin: string;
+  plan: string;
+}
 
-  if (error || !user) {
-    redirect(`/${params.locale}/signin`);
+export default function DashboardPage() {
+  const { user, signOut } = useAuth();
+  const [stats, setStats] = useState<DashboardStats>({
+    totalMessages: 0,
+    monthlyLimit: 50,
+    tokensUsed: 0,
+    tokensLimit: 10000,
+    imagesGenerated: 0,
+    imagesLimit: 10,
+    lastLogin: new Date().toLocaleDateString('tr-TR'),
+    plan: 'free',
+  });
+
+  useEffect(() => {
+    if (user) {
+      setStats(prev => ({
+        ...prev,
+        totalMessages: user.usage?.totalMessages || 0,
+        tokensUsed: user.usage?.totalTokens || 0,
+        imagesGenerated: user.usage?.imagesGenerated || 0,
+        plan: user.plan || 'free',
+        monthlyLimit: user.usage?.monthlyLimit?.messages || 50,
+        tokensLimit: user.usage?.monthlyLimit?.tokens || 10000,
+        imagesLimit: user.usage?.monthlyLimit?.images || 10,
+      }));
+    }
+  }, [user]);
+
+  const quickActions = [
+    {
+      title: 'AI Asistanları',
+      description: '18 uzman AI asistanımızla sohbet edin',
+      icon: Bot,
+      href: '/tr/assistants',
+      color: 'from-purple-600 to-purple-700',
+    },
+    {
+      title: 'Sohbet Geçmişi',
+      description: 'Önceki konuşmalarınızı görüntüleyin',
+      icon: MessageCircle,
+      href: '/tr/chat',
+      color: 'from-blue-600 to-blue-700',
+    },
+    {
+      title: 'Kullanım İstatistikleri',
+      description: 'Detaylı kullanım raporlarınız',
+      icon: BarChart3,
+      href: '/tr/analytics',
+      color: 'from-green-600 to-green-700',
+    },
+    {
+      title: 'Hesap Ayarları',
+      description: 'Profil ve tercihlerinizi düzenleyin',
+      icon: Settings,
+      href: '/tr/settings',
+      color: 'from-gray-600 to-gray-700',
+    },
+  ];
+
+  const recentActivities = [
+    {
+      id: 1,
+      type: 'chat',
+      title: 'Fevzi ile proje yönetimi hakkında konuştunuz',
+      time: '2 saat önce',
+      status: 'success',
+    },
+    {
+      id: 2,
+      type: 'generation',
+      title: 'AI ile kod üretimi yaptınız',
+      time: '4 saat önce',
+      status: 'info',
+    },
+    {
+      id: 3,
+      type: 'login',
+      title: 'Hesabınıza giriş yaptınız',
+      time: '1 gün önce',
+      status: 'success',
+    },
+  ];
+
+  if (!user) {
+    return (
+      <div className='min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center'>
+        <Card className='bg-white/10 backdrop-blur-md border-white/20 p-8 max-w-md w-full mx-4'>
+          <div className='text-center'>
+            <h2 className='text-2xl font-bold text-white mb-4'>Giriş Gerekli</h2>
+            <p className='text-gray-300 mb-6'>
+              Dashboard&apos;a erişmek için giriş yapmanız gerekiyor.
+            </p>
+            <div className='space-y-3'>
+              <Link href='/tr/signin'>
+                <Button className='w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white border-0 hover:from-purple-700 hover:to-pink-700'>
+                  Giriş Yap
+                </Button>
+              </Link>
+              <Link href='/tr/signup'>
+                <Button
+                  variant='outline'
+                  className='w-full bg-white/10 border-white/20 text-white hover:bg-white/20'
+                >
+                  Kayıt Ol
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </Card>
+      </div>
+    );
   }
 
   return (
-    <div className='min-h-screen bg-gradient-to-br from-purple-50 to-blue-50'>
-      <div className='container mx-auto px-4 py-8'>
+    <div className='min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6'>
+      <div className='max-w-7xl mx-auto space-y-6'>
         {/* Header */}
-        <div className='bg-white rounded-lg shadow-lg p-6 mb-8'>
-          <div className='flex items-center justify-between'>
-            <div>
-              <h1 className='text-3xl font-bold text-gray-900'>Hoş Geldiniz, {user.email}!</h1>
-              <p className='text-gray-600 mt-2'>MySonAI Dashboard'ınıza hoş geldiniz</p>
-            </div>
-            <div className='flex items-center space-x-4'>
-              <div className='text-right'>
-                <p className='text-sm text-gray-500'>Kullanıcı ID</p>
-                <p className='text-sm font-mono text-gray-700'>{user.id.slice(0, 8)}...</p>
-              </div>
-              <div className='w-12 h-12 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center'>
-                <span className='text-white font-bold text-lg'>
-                  {user.email?.charAt(0).toUpperCase()}
-                </span>
-              </div>
-            </div>
+        <div className='flex items-center justify-between'>
+          <div>
+            <h1 className='text-3xl font-bold text-white'>Dashboard</h1>
+            <p className='text-gray-300'>Hoş geldiniz, {user.name || user.email}</p>
+          </div>
+          <div className='flex items-center space-x-4'>
+            <Badge className='bg-purple-500/20 text-purple-400 border-purple-500/50'>
+              {stats.plan === 'free'
+                ? 'Ücretsiz Plan'
+                : stats.plan === 'pro'
+                  ? 'Pro Plan'
+                  : 'Enterprise Plan'}
+            </Badge>
+            <Button
+              variant='outline'
+              onClick={() => signOut()}
+              className='bg-white/10 border-white/20 text-white hover:bg-white/20'
+            >
+              Çıkış Yap
+            </Button>
           </div>
         </div>
 
         {/* Stats Cards */}
-        <div className='grid grid-cols-1 md:grid-cols-3 gap-6 mb-8'>
-          <div className='bg-white rounded-lg shadow-lg p-6'>
-            <div className='flex items-center'>
-              <div className='p-3 bg-blue-100 rounded-lg'>
-                <svg
-                  className='w-6 h-6 text-blue-600'
-                  fill='none'
-                  stroke='currentColor'
-                  viewBox='0 0 24 24'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth={2}
-                    d='M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z'
-                  />
-                </svg>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
+          <Card className='bg-white/10 backdrop-blur-md border-white/20'>
+            <div className='p-6'>
+              <div className='flex items-center justify-between'>
+                <div>
+                  <p className='text-gray-300 text-sm'>Bu Ay Mesaj</p>
+                  <p className='text-2xl font-bold text-white'>{stats.totalMessages}</p>
+                </div>
+                <MessageCircle className='w-8 h-8 text-blue-400' />
               </div>
-              <div className='ml-4'>
-                <p className='text-sm font-medium text-gray-600'>Toplam Sohbet</p>
-                <p className='text-2xl font-bold text-gray-900'>0</p>
+              <div className='mt-4'>
+                <div className='w-full bg-gray-700 rounded-full h-2'>
+                  <div
+                    className='bg-blue-400 h-2 rounded-full'
+                    style={{ width: `${(stats.totalMessages / stats.monthlyLimit) * 100}%` }}
+                  ></div>
+                </div>
+                <p className='text-gray-400 text-xs mt-1'>
+                  {stats.monthlyLimit - stats.totalMessages} mesaj kaldı
+                </p>
               </div>
             </div>
-          </div>
+          </Card>
 
-          <div className='bg-white rounded-lg shadow-lg p-6'>
-            <div className='flex items-center'>
-              <div className='p-3 bg-green-100 rounded-lg'>
-                <svg
-                  className='w-6 h-6 text-green-600'
-                  fill='none'
-                  stroke='currentColor'
-                  viewBox='0 0 24 24'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth={2}
-                    d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
-                  />
-                </svg>
+          <Card className='bg-white/10 backdrop-blur-md border-white/20'>
+            <div className='p-6'>
+              <div className='flex items-center justify-between'>
+                <div>
+                  <p className='text-gray-300 text-sm'>Token Kullanımı</p>
+                  <p className='text-2xl font-bold text-white'>
+                    {stats.tokensUsed.toLocaleString()}
+                  </p>
+                </div>
+                <Zap className='w-8 h-8 text-yellow-400' />
               </div>
-              <div className='ml-4'>
-                <p className='text-sm font-medium text-gray-600'>Başarılı İşlem</p>
-                <p className='text-2xl font-bold text-gray-900'>0</p>
+              <div className='mt-4'>
+                <div className='w-full bg-gray-700 rounded-full h-2'>
+                  <div
+                    className='bg-yellow-400 h-2 rounded-full'
+                    style={{ width: `${(stats.tokensUsed / stats.tokensLimit) * 100}%` }}
+                  ></div>
+                </div>
+                <p className='text-gray-400 text-xs mt-1'>
+                  {stats.tokensLimit - stats.tokensUsed} token kaldı
+                </p>
               </div>
             </div>
-          </div>
+          </Card>
 
-          <div className='bg-white rounded-lg shadow-lg p-6'>
-            <div className='flex items-center'>
-              <div className='p-3 bg-purple-100 rounded-lg'>
-                <svg
-                  className='w-6 h-6 text-purple-600'
-                  fill='none'
-                  stroke='currentColor'
-                  viewBox='0 0 24 24'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth={2}
-                    d='M13 10V3L4 14h7v7l9-11h-7z'
-                  />
-                </svg>
+          <Card className='bg-white/10 backdrop-blur-md border-white/20'>
+            <div className='p-6'>
+              <div className='flex items-center justify-between'>
+                <div>
+                  <p className='text-gray-300 text-sm'>Görsel Üretimi</p>
+                  <p className='text-2xl font-bold text-white'>{stats.imagesGenerated}</p>
+                </div>
+                <Globe className='w-8 h-8 text-green-400' />
               </div>
-              <div className='ml-4'>
-                <p className='text-sm font-medium text-gray-600'>Kullanılan Token</p>
-                <p className='text-2xl font-bold text-gray-900'>0</p>
+              <div className='mt-4'>
+                <div className='w-full bg-gray-700 rounded-full h-2'>
+                  <div
+                    className='bg-green-400 h-2 rounded-full'
+                    style={{ width: `${(stats.imagesGenerated / stats.imagesLimit) * 100}%` }}
+                  ></div>
+                </div>
+                <p className='text-gray-400 text-xs mt-1'>
+                  {stats.imagesLimit - stats.imagesGenerated} görsel kaldı
+                </p>
               </div>
             </div>
-          </div>
+          </Card>
+
+          <Card className='bg-white/10 backdrop-blur-md border-white/20'>
+            <div className='p-6'>
+              <div className='flex items-center justify-between'>
+                <div>
+                  <p className='text-gray-300 text-sm'>Son Giriş</p>
+                  <p className='text-2xl font-bold text-white'>{stats.lastLogin}</p>
+                </div>
+                <Calendar className='w-8 h-8 text-purple-400' />
+              </div>
+              <div className='mt-4'>
+                <p className='text-gray-400 text-xs'>Hesabınız aktif</p>
+              </div>
+            </div>
+          </Card>
         </div>
 
         {/* Quick Actions */}
-        <div className='bg-white rounded-lg shadow-lg p-6 mb-8'>
-          <h2 className='text-xl font-bold text-gray-900 mb-4'>Hızlı İşlemler</h2>
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
-            <a
-              href={`/${params.locale}/demo`}
-              className='flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors'
-            >
-              <div className='p-2 bg-blue-100 rounded-lg mr-3'>
-                <svg
-                  className='w-5 h-5 text-blue-600'
-                  fill='none'
-                  stroke='currentColor'
-                  viewBox='0 0 24 24'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth={2}
-                    d='M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z'
-                  />
-                </svg>
-              </div>
-              <div>
-                <p className='font-medium text-gray-900'>Demo Sohbet</p>
-                <p className='text-sm text-gray-600'>AI asistanlarla sohbet et</p>
-              </div>
-            </a>
-
-            <a
-              href={`/${params.locale}/assistants`}
-              className='flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors'
-            >
-              <div className='p-2 bg-green-100 rounded-lg mr-3'>
-                <svg
-                  className='w-5 h-5 text-green-600'
-                  fill='none'
-                  stroke='currentColor'
-                  viewBox='0 0 24 24'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth={2}
-                    d='M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z'
-                  />
-                </svg>
-              </div>
-              <div>
-                <p className='font-medium text-gray-900'>Asistanlar</p>
-                <p className='text-sm text-gray-600'>18 uzman AI asistan</p>
-              </div>
-            </a>
-
-            <a
-              href={`/${params.locale}/pricing`}
-              className='flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors'
-            >
-              <div className='p-2 bg-purple-100 rounded-lg mr-3'>
-                <svg
-                  className='w-5 h-5 text-purple-600'
-                  fill='none'
-                  stroke='currentColor'
-                  viewBox='0 0 24 24'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth={2}
-                    d='M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1'
-                  />
-                </svg>
-              </div>
-              <div>
-                <p className='font-medium text-gray-900'>Fiyatlandırma</p>
-                <p className='text-sm text-gray-600'>Plan seçenekleri</p>
-              </div>
-            </a>
-
-            <a
-              href={`/${params.locale}/contact`}
-              className='flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors'
-            >
-              <div className='p-2 bg-orange-100 rounded-lg mr-3'>
-                <svg
-                  className='w-5 h-5 text-orange-600'
-                  fill='none'
-                  stroke='currentColor'
-                  viewBox='0 0 24 24'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth={2}
-                    d='M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z'
-                  />
-                </svg>
-              </div>
-              <div>
-                <p className='font-medium text-gray-900'>İletişim</p>
-                <p className='text-sm text-gray-600'>Destek ve yardım</p>
-              </div>
-            </a>
-          </div>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
+          {quickActions.map((action, index) => (
+            <Link key={index} href={action.href}>
+              <Card className='bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/15 transition-all duration-300 cursor-pointer group'>
+                <div className='p-6'>
+                  <div className='flex items-center space-x-4'>
+                    <div
+                      className={`w-12 h-12 rounded-lg flex items-center justify-center bg-gradient-to-r ${action.color}`}
+                    >
+                      <action.icon className='w-6 h-6 text-white' />
+                    </div>
+                    <div className='flex-1'>
+                      <h3 className='text-lg font-semibold text-white group-hover:text-purple-300 transition-colors'>
+                        {action.title}
+                      </h3>
+                      <p className='text-gray-300 text-sm'>{action.description}</p>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </Link>
+          ))}
         </div>
 
-        {/* Recent Activity */}
-        <div className='bg-white rounded-lg shadow-lg p-6'>
-          <h2 className='text-xl font-bold text-gray-900 mb-4'>Son Aktiviteler</h2>
-          <div className='text-center py-8'>
-            <svg
-              className='w-12 h-12 text-gray-400 mx-auto mb-4'
-              fill='none'
-              stroke='currentColor'
-              viewBox='0 0 24 24'
-            >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth={2}
-                d='M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2'
-              />
-            </svg>
-            <p className='text-gray-500'>Henüz aktivite yok</p>
-            <p className='text-sm text-gray-400 mt-1'>AI asistanlarla sohbet etmeye başlayın</p>
-          </div>
+        {/* Recent Activities */}
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
+          <Card className='bg-white/10 backdrop-blur-md border-white/20'>
+            <div className='p-6'>
+              <h3 className='text-lg font-semibold text-white mb-4'>Son Aktiviteler</h3>
+              <div className='space-y-4'>
+                {recentActivities.map(activity => (
+                  <div key={activity.id} className='flex items-center space-x-3'>
+                    <div
+                      className={`w-2 h-2 rounded-full ${
+                        activity.status === 'success'
+                          ? 'bg-green-400'
+                          : activity.status === 'warning'
+                            ? 'bg-yellow-400'
+                            : 'bg-blue-400'
+                      }`}
+                    />
+                    <div className='flex-1'>
+                      <p className='text-white text-sm'>{activity.title}</p>
+                      <p className='text-gray-400 text-xs'>{activity.time}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Card>
+
+          <Card className='bg-white/10 backdrop-blur-md border-white/20'>
+            <div className='p-6'>
+              <h3 className='text-lg font-semibold text-white mb-4'>Hızlı İşlemler</h3>
+              <div className='space-y-3'>
+                <Link href='/tr/billing'>
+                  <Button className='w-full bg-gradient-to-r from-green-600 to-green-700 text-white border-0 hover:from-green-700 hover:to-green-800'>
+                    <CreditCard className='w-4 h-4 mr-2' />
+                    Plan Yükselt
+                  </Button>
+                </Link>
+                <Link href='/tr/settings'>
+                  <Button
+                    variant='outline'
+                    className='w-full bg-white/10 border-white/20 text-white hover:bg-white/20'
+                  >
+                    <Settings className='w-4 h-4 mr-2' />
+                    Ayarlar
+                  </Button>
+                </Link>
+                <Link href='/tr/contact'>
+                  <Button
+                    variant='outline'
+                    className='w-full bg-white/10 border-white/20 text-white hover:bg-white/20'
+                  >
+                    <Bell className='w-4 h-4 mr-2' />
+                    Destek
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </Card>
         </div>
       </div>
     </div>
