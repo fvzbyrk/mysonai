@@ -3,7 +3,9 @@ import { SignJWT, jwtVerify } from 'jose';
 
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'fvzbyrk';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Pinar2009+';
-const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET || 'your-secret-key');
+const JWT_SECRET = new TextEncoder().encode(
+  process.env.JWT_SECRET || 'mysonai-super-secret-jwt-key-2024'
+);
 
 // Rate limiting for failed attempts
 const failedAttempts = new Map<string, { count: number; lastAttempt: number }>();
