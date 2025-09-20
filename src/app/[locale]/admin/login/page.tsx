@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Lock, Eye, EyeOff } from 'lucide-react';
-import { cn } from '@/lib/utils';
 
 export default function AdminLoginPage() {
   const [username, setUsername] = useState('');
@@ -34,7 +33,7 @@ export default function AdminLoginPage() {
       if (result.success) {
         // Store auth token in localStorage
         localStorage.setItem('admin_token', result.token);
-        router.push('/tr/admin/auto-blog');
+        router.push('/tr/admin');
       } else {
         setError(result.message || 'Giriş başarısız');
       }
