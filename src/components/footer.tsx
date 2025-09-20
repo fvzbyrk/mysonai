@@ -3,44 +3,78 @@
 import Link from 'next/link';
 import { Bot, Github, Twitter, Linkedin, Mail } from 'lucide-react';
 import { usePathname } from 'next/navigation';
-import { Locale, getLocaleFromPathname } from '@/lib/i18n';
-import { t } from '@/lib/translations';
+import { getLocaleFromPathname } from '@/lib/i18n';
 
 export function Footer() {
   const pathname = usePathname();
   const locale = getLocaleFromPathname(pathname) || 'tr';
 
-  const footerLinks = {
-    services: [
-      { name: 'AI Çözümleri', href: `/${locale}/services#ai-solutions` },
-      { name: 'Klasik Bilişim', href: `/${locale}/services#classic-it` },
-      { name: 'Yazılım İhtiyaçları', href: `/${locale}/services#software-needs` },
-      { name: 'Dijital Medya', href: `/${locale}/services#digital-media` },
-      { name: 'Danışmanlık & Eğitim', href: `/${locale}/services#consulting-education` },
-    ],
-    solutions: [
-      { name: 'MySon Video', href: `/${locale}/solutions#myson-video` },
-      { name: 'MySon Firmatch', href: `/${locale}/solutions#myson-firmatch` },
-      { name: 'MySon Avukat', href: `/${locale}/solutions#myson-avukat` },
-      { name: 'MySon Kids', href: `/${locale}/solutions#myson-kids` },
-      { name: 'MySon Education', href: `/${locale}/solutions#myson-education` },
-      { name: 'MySon Music', href: `/${locale}/solutions#myson-music` },
-    ],
-    company: [
-      { name: 'Hakkımızda', href: `/${locale}/about` },
-      { name: 'Hizmetler', href: `/${locale}/services` },
-      { name: 'Çözümler', href: `/${locale}/solutions` },
-      { name: 'Demo', href: `/${locale}/demo` },
-      { name: 'Referanslar', href: `/${locale}/references` },
-      { name: 'İletişim', href: `/${locale}/contact` },
-    ],
-    legal: [
-      { name: 'Gizlilik Politikası', href: `/${locale}/privacy` },
-      { name: 'Kullanım Şartları', href: `/${locale}/terms` },
-      { name: 'Çerez Politikası', href: `/${locale}/cookies` },
-      { name: 'KVKK', href: `/${locale}/gdpr` },
-    ],
-  };
+  const footerLinks =
+    locale === 'en'
+      ? {
+          services: [
+            { name: 'AI Solutions', href: `/${locale}/services#ai-solutions` },
+            { name: 'Classic IT', href: `/${locale}/services#classic-it` },
+            { name: 'Software Needs', href: `/${locale}/services#software-needs` },
+            { name: 'Digital Media', href: `/${locale}/services#digital-media` },
+            { name: 'Consulting & Education', href: `/${locale}/services#consulting-education` },
+          ],
+          solutions: [
+            { name: 'MySon Video', href: `/${locale}/solutions#myson-video` },
+            { name: 'MySon Firmatch', href: `/${locale}/solutions#myson-firmatch` },
+            { name: 'MySon Avukat', href: `/${locale}/solutions#myson-avukat` },
+            { name: 'MySon Kids', href: `/${locale}/solutions#myson-kids` },
+            { name: 'MySon Education', href: `/${locale}/solutions#myson-education` },
+            { name: 'MySon Music', href: `/${locale}/solutions#myson-music` },
+          ],
+          company: [
+            { name: 'About', href: `/${locale}/about` },
+            { name: 'Services', href: `/${locale}/services` },
+            { name: 'Solutions', href: `/${locale}/solutions` },
+            { name: 'Demo', href: `/${locale}/demo` },
+            { name: 'Sub-Brands', href: `/${locale}/brands` },
+            { name: 'References', href: `/${locale}/references` },
+            { name: 'Contact', href: `/${locale}/contact` },
+          ],
+          legal: [
+            { name: 'Privacy Policy', href: `/${locale}/privacy` },
+            { name: 'Terms of Use', href: `/${locale}/terms` },
+            { name: 'Cookie Policy', href: `/${locale}/cookies` },
+            { name: 'GDPR', href: `/${locale}/gdpr` },
+          ],
+        }
+      : {
+          services: [
+            { name: 'AI Çözümleri', href: `/${locale}/services#ai-solutions` },
+            { name: 'Klasik Bilişim', href: `/${locale}/services#classic-it` },
+            { name: 'Yazılım İhtiyaçları', href: `/${locale}/services#software-needs` },
+            { name: 'Dijital Medya', href: `/${locale}/services#digital-media` },
+            { name: 'Danışmanlık & Eğitim', href: `/${locale}/services#consulting-education` },
+          ],
+          solutions: [
+            { name: 'MySon Video', href: `/${locale}/solutions#myson-video` },
+            { name: 'MySon Firmatch', href: `/${locale}/solutions#myson-firmatch` },
+            { name: 'MySon Avukat', href: `/${locale}/solutions#myson-avukat` },
+            { name: 'MySon Kids', href: `/${locale}/solutions#myson-kids` },
+            { name: 'MySon Education', href: `/${locale}/solutions#myson-education` },
+            { name: 'MySon Music', href: `/${locale}/solutions#myson-music` },
+          ],
+          company: [
+            { name: 'Hakkımızda', href: `/${locale}/about` },
+            { name: 'Hizmetler', href: `/${locale}/services` },
+            { name: 'Çözümler', href: `/${locale}/solutions` },
+            { name: 'Demo', href: `/${locale}/demo` },
+            { name: 'Alt Markalar', href: `/${locale}/brands` },
+            { name: 'Referanslar', href: `/${locale}/references` },
+            { name: 'İletişim', href: `/${locale}/contact` },
+          ],
+          legal: [
+            { name: 'Gizlilik Politikası', href: `/${locale}/privacy` },
+            { name: 'Kullanım Şartları', href: `/${locale}/terms` },
+            { name: 'Çerez Politikası', href: `/${locale}/cookies` },
+            { name: 'KVKK', href: `/${locale}/gdpr` },
+          ],
+        };
 
   return (
     <footer className='bg-gray-900 text-white'>

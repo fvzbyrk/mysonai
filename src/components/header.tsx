@@ -14,39 +14,76 @@ export function Header() {
   const pathname = usePathname();
   const locale = getLocaleFromPathname(pathname) || 'tr';
 
-  const navigation = [
-    { name: 'Ana Sayfa', href: `/${locale}`, feature: null },
-    { name: 'Hakkımızda', href: `/${locale}/about`, feature: null },
-    {
-      name: 'Hizmetler',
-      href: `/${locale}/services`,
-      feature: null,
-      dropdown: [
-        { name: 'AI Çözümleri', href: `/${locale}/services#ai-solutions` },
-        { name: 'Klasik Bilişim', href: `/${locale}/services#classic-it` },
-        { name: 'Yazılım İhtiyaçları', href: `/${locale}/services#software-needs` },
-        { name: 'Dijital Medya', href: `/${locale}/services#digital-media` },
-        { name: 'Danışmanlık & Eğitim', href: `/${locale}/services#consulting-education` },
-        { name: 'Güvenlik', href: `/${locale}/services#security` },
-      ],
-    },
-    {
-      name: 'Çözümler',
-      href: `/${locale}/solutions`,
-      feature: null,
-      dropdown: [
-        { name: 'MySon Video', href: `/${locale}/solutions#myson-video` },
-        { name: 'MySon Firmatch', href: `/${locale}/solutions#myson-firmatch` },
-        { name: 'MySon Avukat', href: `/${locale}/solutions#myson-avukat` },
-        { name: 'MySon Kids', href: `/${locale}/solutions#myson-kids` },
-        { name: 'MySon Education', href: `/${locale}/solutions#myson-education` },
-        { name: 'MySon Music', href: `/${locale}/solutions#myson-music` },
-      ],
-    },
-    { name: 'Demo', href: `/${locale}/demo`, feature: 'demo' },
-    { name: 'Referanslar', href: `/${locale}/references`, feature: null },
-    { name: 'İletişim', href: `/${locale}/contact`, feature: 'contact' },
-  ];
+  const navigation =
+    locale === 'en'
+      ? [
+          { name: 'Home', href: `/${locale}`, feature: null },
+          { name: 'About', href: `/${locale}/about`, feature: null },
+          {
+            name: 'Services',
+            href: `/${locale}/services`,
+            feature: null,
+            dropdown: [
+              { name: 'AI Solutions', href: `/${locale}/services#ai-solutions` },
+              { name: 'Classic IT', href: `/${locale}/services#classic-it` },
+              { name: 'Software Needs', href: `/${locale}/services#software-needs` },
+              { name: 'Digital Media', href: `/${locale}/services#digital-media` },
+              { name: 'Consulting & Education', href: `/${locale}/services#consulting-education` },
+              { name: 'Security', href: `/${locale}/services#security` },
+            ],
+          },
+          {
+            name: 'Solutions',
+            href: `/${locale}/solutions`,
+            feature: null,
+            dropdown: [
+              { name: 'MySon Video', href: `/${locale}/solutions#myson-video` },
+              { name: 'MySon Firmatch', href: `/${locale}/solutions#myson-firmatch` },
+              { name: 'MySon Avukat', href: `/${locale}/solutions#myson-avukat` },
+              { name: 'MySon Kids', href: `/${locale}/solutions#myson-kids` },
+              { name: 'MySon Education', href: `/${locale}/solutions#myson-education` },
+              { name: 'MySon Music', href: `/${locale}/solutions#myson-music` },
+            ],
+          },
+          { name: 'Demo', href: `/${locale}/demo`, feature: 'demo' },
+          { name: 'Sub-Brands', href: `/${locale}/brands`, feature: null },
+          { name: 'References', href: `/${locale}/references`, feature: null },
+          { name: 'Contact', href: `/${locale}/contact`, feature: 'contact' },
+        ]
+      : [
+          { name: 'Ana Sayfa', href: `/${locale}`, feature: null },
+          { name: 'Hakkımızda', href: `/${locale}/about`, feature: null },
+          {
+            name: 'Hizmetler',
+            href: `/${locale}/services`,
+            feature: null,
+            dropdown: [
+              { name: 'AI Çözümleri', href: `/${locale}/services#ai-solutions` },
+              { name: 'Klasik Bilişim', href: `/${locale}/services#classic-it` },
+              { name: 'Yazılım İhtiyaçları', href: `/${locale}/services#software-needs` },
+              { name: 'Dijital Medya', href: `/${locale}/services#digital-media` },
+              { name: 'Danışmanlık & Eğitim', href: `/${locale}/services#consulting-education` },
+              { name: 'Güvenlik', href: `/${locale}/services#security` },
+            ],
+          },
+          {
+            name: 'Çözümler',
+            href: `/${locale}/solutions`,
+            feature: null,
+            dropdown: [
+              { name: 'MySon Video', href: `/${locale}/solutions#myson-video` },
+              { name: 'MySon Firmatch', href: `/${locale}/solutions#myson-firmatch` },
+              { name: 'MySon Avukat', href: `/${locale}/solutions#myson-avukat` },
+              { name: 'MySon Kids', href: `/${locale}/solutions#myson-kids` },
+              { name: 'MySon Education', href: `/${locale}/solutions#myson-education` },
+              { name: 'MySon Music', href: `/${locale}/solutions#myson-music` },
+            ],
+          },
+          { name: 'Demo', href: `/${locale}/demo`, feature: 'demo' },
+          { name: 'Alt Markalar', href: `/${locale}/brands`, feature: null },
+          { name: 'Referanslar', href: `/${locale}/references`, feature: null },
+          { name: 'İletişim', href: `/${locale}/contact`, feature: 'contact' },
+        ];
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
