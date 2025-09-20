@@ -87,6 +87,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
   // Show loading while checking auth
   if (isCheckingAuth) {
+    console.log('Showing loading screen, isCheckingAuth:', isCheckingAuth);
     return (
       <div className='min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center'>
         <div className='text-center'>
@@ -99,8 +100,15 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
   // Show login redirect if not authenticated (except for login page)
   if (!isAuthenticated && pathname !== '/tr/admin/login' && pathname !== '/en/admin/login') {
+    console.log(
+      'Not authenticated, redirecting to login. isAuthenticated:',
+      isAuthenticated,
+      'pathname:',
+      pathname
+    );
     return null; // Will redirect to login
   }
 
+  console.log('Rendering admin content. isAuthenticated:', isAuthenticated, 'pathname:', pathname);
   return <AdminErrorBoundary>{children}</AdminErrorBoundary>;
 }
