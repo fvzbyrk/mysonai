@@ -15,8 +15,8 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
   useEffect(() => {
-    // Skip auth check for login page
-    if (pathname === '/tr/admin/login') {
+    // Skip auth check for login page (both TR and EN)
+    if (pathname === '/tr/admin/login' || pathname === '/en/admin/login') {
       setIsCheckingAuth(false);
       return;
     }
@@ -33,7 +33,9 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
       if (!token) {
         console.log('No admin token found, redirecting to login');
-        router.push('/tr/admin/login');
+        // Determine correct login path based on current locale
+        const loginPath = pathname.startsWith('/en') ? '/en/admin/login' : '/tr/admin/login';
+        router.push(loginPath);
         return;
       }
 
@@ -56,12 +58,16 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         } else {
           console.log('Authentication failed, redirecting to login');
           localStorage.removeItem('admin_token');
-          router.push('/tr/admin/login');
+          // Determine correct login path based on current locale
+          const loginPath = pathname.startsWith('/en') ? '/en/admin/login' : '/tr/admin/login';
+          router.push(loginPath);
         }
       } catch (error) {
         console.error('Authentication error:', error);
         localStorage.removeItem('admin_token');
-        router.push('/tr/admin/login');
+        // Determine correct login path based on current locale
+        const loginPath = pathname.startsWith('/en') ? '/en/admin/login' : '/tr/admin/login';
+        router.push(loginPath);
       } finally {
         setIsCheckingAuth(false);
       }

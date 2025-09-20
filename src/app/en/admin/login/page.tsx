@@ -33,14 +33,13 @@ export default function AdminLoginPage() {
       if (result.success) {
         // Store auth token in localStorage
         localStorage.setItem('admin_token', result.token);
-        // Redirect to admin dashboard (determine locale from current path)
-        const adminPath = window.location.pathname.startsWith('/en') ? '/en/admin' : '/tr/admin';
-        router.push(adminPath);
+        // Redirect to admin dashboard
+        router.push('/en/admin');
       } else {
-        setError(result.message || 'Giriş başarısız');
+        setError(result.message || 'Login failed');
       }
     } catch (error) {
-      setError('Bağlantı hatası');
+      setError('Connection error');
     } finally {
       setIsLoading(false);
     }
@@ -54,21 +53,21 @@ export default function AdminLoginPage() {
             <div className='w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-4'>
               <Lock className='w-8 h-8 text-purple-400' />
             </div>
-            <h1 className='text-2xl font-bold text-white mb-2'>Admin Girişi</h1>
-            <p className='text-gray-300'>MySonAI yönetim paneline erişim</p>
+            <h1 className='text-2xl font-bold text-white mb-2'>Admin Login</h1>
+            <p className='text-gray-300'>MySonAI Admin Panel Access</p>
           </div>
 
           <form onSubmit={handleLogin} className='space-y-6'>
             <div>
               <Label htmlFor='username' className='text-white text-sm font-medium'>
-                Kullanıcı Adı
+                Username
               </Label>
               <Input
                 id='username'
                 type='text'
                 value={username}
                 onChange={e => setUsername(e.target.value)}
-                placeholder='Kullanıcı adınızı girin'
+                placeholder='Enter your username'
                 className='bg-white/10 border-white/20 text-white placeholder-gray-400 mt-2'
                 required
               />
@@ -76,7 +75,7 @@ export default function AdminLoginPage() {
 
             <div>
               <Label htmlFor='password' className='text-white text-sm font-medium'>
-                Şifre
+                Password
               </Label>
               <div className='relative mt-2'>
                 <Input
@@ -84,7 +83,7 @@ export default function AdminLoginPage() {
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={e => setPassword(e.target.value)}
-                  placeholder='Şifrenizi girin'
+                  placeholder='Enter your password'
                   className='bg-white/10 border-white/20 text-white placeholder-gray-400 pr-10'
                   required
                 />
@@ -112,16 +111,16 @@ export default function AdminLoginPage() {
               {isLoading ? (
                 <div className='flex items-center'>
                   <div className='animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2'></div>
-                  Giriş yapılıyor...
+                  Logging in...
                 </div>
               ) : (
-                'Giriş Yap'
+                'Login'
               )}
             </Button>
           </form>
 
           <div className='mt-6 text-center'>
-            <p className='text-gray-400 text-sm'>Bu alan sadece yetkili personel içindir</p>
+            <p className='text-gray-400 text-sm'>This area is for authorized personnel only</p>
           </div>
         </div>
       </Card>

@@ -17,6 +17,8 @@ export async function POST(request: NextRequest) {
     const { username, password } = await request.json();
     const clientIP = request.ip || request.headers.get('x-forwarded-for') || 'unknown';
 
+    console.log('Admin login attempt:', { username, clientIP });
+
     // Check rate limiting
     const now = Date.now();
     const attempts = failedAttempts.get(clientIP);
@@ -75,6 +77,8 @@ export async function POST(request: NextRequest) {
       .setIssuedAt()
       .setExpirationTime('24h')
       .sign(JWT_SECRET);
+
+    console.log('Admin login successful:', { username, clientIP });
 
     return NextResponse.json({
       success: true,
