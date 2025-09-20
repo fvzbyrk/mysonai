@@ -1,330 +1,100 @@
 'use client';
 
-import { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useMemo } from 'react';
+import { FixedSizeList as List } from 'react-window';
 import { cn } from '@/lib/utils';
 
 interface VirtualScrollProps<T> {
   items: T[];
+  height: number;
   itemHeight: number;
-  containerHeight: number;
-  overscan?: number;
-  renderItem: (item: T, index: number) => React.ReactNode;
+  renderItem: (props: { index: number; style: React.CSSProperties; item: T }) => React.ReactNode;
   className?: string;
-  onScroll?: (scrollTop: number) => void;
-  loading?: boolean;
-  loadingComponent?: React.ReactNode;
-  emptyComponent?: React.ReactNode;
+  overscanCount?: number;
+  onScroll?: (scrollOffset: number) => void;
 }
 
 export function VirtualScroll<T>({
   items,
+  height,
   itemHeight,
-  containerHeight,
-  overscan = 5,
   renderItem,
   className,
+  overscanCount = 5,
   onScroll,
-  loading = false,
-  loadingComponent,
-  emptyComponent,
 }: VirtualScrollProps<T>) {
-  const [scrollTop, setScrollTop] = useState(0);
-  const [containerWidth, setContainerWidth] = useState(0);
-  const scrollElementRef = useRef<HTMLDivElement>(null);
+  const itemData = useMemo(() => items, [items]);
 
-  // Calculate visible range
-  const visibleRange = useMemo(() => {
-    const startIndex = Math.max(0, Math.floor(scrollTop / itemHeight) - overscan);
-    const endIndex = Math.min(
-      items.length - 1,
-      Math.ceil((scrollTop + containerHeight) / itemHeight) + overscan
-    );
-
-    return { startIndex, endIndex };
-  }, [scrollTop, itemHeight, containerHeight, overscan, items.length]);
-
-  // Get visible items
-  const visibleItems = useMemo(() => {
-    return items.slice(visibleRange.startIndex, visibleRange.endIndex + 1);
-  }, [items, visibleRange]);
-
-  // Calculate total height
-  const totalHeight = items.length * itemHeight;
-
-  // Handle scroll
-  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    const newScrollTop = e.currentTarget.scrollTop;
-    setScrollTop(newScrollTop);
-    onScroll?.(newScrollTop);
+  const Row = ({ index, style }: { index: number; style: React.CSSProperties }) => {
+    const item = itemData[index];
+    return renderItem({ index, style, item });
   };
-
-  // Handle resize
-  useEffect(() => {
-    const handleResize = () => {
-      if (scrollElementRef.current) {
-        setContainerWidth(scrollElementRef.current.clientWidth);
-      }
-    };
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Scroll to specific item
-  const scrollToItem = (index: number) => {
-    if (scrollElementRef.current) {
-      const targetScrollTop = index * itemHeight;
-      scrollElementRef.current.scrollTop = targetScrollTop;
-    }
-  };
-
-  // Scroll to top
-  const scrollToTop = () => {
-    if (scrollElementRef.current) {
-      scrollElementRef.current.scrollTop = 0;
-    }
-  };
-
-  // Scroll to bottom
-  const scrollToBottom = () => {
-    if (scrollElementRef.current) {
-      scrollElementRef.current.scrollTop = totalHeight;
-    }
-  };
-
-  if (loading) {
-    return (
-      <div
-        className={cn('flex items-center justify-center', className)}
-        style={{ height: containerHeight }}
-      >
-        {loadingComponent || (
-          <div className='text-center'>
-            <div className='w-8 h-8 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto mb-2'></div>
-            <div className='text-sm text-gray-500'>Yükleniyor...</div>
-          </div>
-        )}
-      </div>
-    );
-  }
-
-  if (items.length === 0) {
-    return (
-      <div
-        className={cn('flex items-center justify-center', className)}
-        style={{ height: containerHeight }}
-      >
-        {emptyComponent || (
-          <div className='text-center'>
-            <div className='text-4xl mb-4'>📝</div>
-            <div className='text-gray-500'>Henüz içerik yok</div>
-          </div>
-        )}
-      </div>
-    );
-  }
 
   return (
-    <div
-      ref={scrollElementRef}
-      className={cn('overflow-auto', className)}
-      style={{ height: containerHeight }}
-      onScroll={handleScroll}
-    >
-      {/* Virtual spacer for total height */}
-      <div style={{ height: totalHeight, position: 'relative' }}>
-        {/* Visible items */}
-        <div
-          style={{
-            position: 'absolute',
-            top: visibleRange.startIndex * itemHeight,
-            left: 0,
-            right: 0,
-          }}
-        >
-          {visibleItems.map((item, index) => (
-            <div
-              key={visibleRange.startIndex + index}
-              style={{ height: itemHeight }}
-              className='flex items-center'
-            >
-              {renderItem(item, visibleRange.startIndex + index)}
-            </div>
-          ))}
-        </div>
-      </div>
+    <div className={cn('w-full', className)}>
+      <List
+        height={height}
+        itemCount={items.length}
+        itemSize={itemHeight}
+        itemData={itemData}
+        overscanCount={overscanCount}
+        onScroll={onScroll}
+      >
+        {Row}
+      </List>
     </div>
   );
 }
 
-// Infinite scroll component
-interface InfiniteScrollProps<T> {
+// Infinite scroll variant
+interface InfiniteVirtualScrollProps<T> {
   items: T[];
+  height: number;
   itemHeight: number;
-  containerHeight: number;
-  renderItem: (item: T, index: number) => React.ReactNode;
-  onLoadMore: () => void;
-  hasMore: boolean;
-  loading: boolean;
+  renderItem: (props: { index: number; style: React.CSSProperties; item: T }) => React.ReactNode;
   className?: string;
-  threshold?: number;
+  hasNextPage: boolean;
+  isNextPageLoading: boolean;
+  loadNextPage: () => void;
+  overscanCount?: number;
 }
 
-export function InfiniteScroll<T>({
+export function InfiniteVirtualScroll<T>({
   items,
+  height,
   itemHeight,
-  containerHeight,
-  renderItem,
-  onLoadMore,
-  hasMore,
-  loading,
-  className,
-  threshold = 100,
-}: InfiniteScrollProps<T>) {
-  const [scrollTop, setScrollTop] = useState(0);
-  const scrollElementRef = useRef<HTMLDivElement>(null);
-
-  // Check if we need to load more
-  useEffect(() => {
-    if (!hasMore || loading) {
-      return;
-    }
-
-    const totalHeight = items.length * itemHeight;
-    const scrollBottom = scrollTop + containerHeight;
-    const distanceFromBottom = totalHeight - scrollBottom;
-
-    if (distanceFromBottom < threshold) {
-      onLoadMore();
-    }
-  }, [
-    scrollTop,
-    items.length,
-    itemHeight,
-    containerHeight,
-    hasMore,
-    loading,
-    threshold,
-    onLoadMore,
-  ]);
-
-  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    setScrollTop(e.currentTarget.scrollTop);
-  };
-
-  return (
-    <div
-      ref={scrollElementRef}
-      className={cn('overflow-auto', className)}
-      style={{ height: containerHeight }}
-      onScroll={handleScroll}
-    >
-      {items.map((item, index) => (
-        <div key={index} style={{ height: itemHeight }} className='flex items-center'>
-          {renderItem(item, index)}
-        </div>
-      ))}
-
-      {/* Loading indicator */}
-      {loading && (
-        <div className='flex items-center justify-center py-4'>
-          <div className='w-6 h-6 border-2 border-purple-600 border-t-transparent rounded-full animate-spin'></div>
-        </div>
-      )}
-
-      {/* End of list indicator */}
-      {!hasMore && items.length > 0 && (
-        <div className='flex items-center justify-center py-4 text-gray-500 text-sm'>
-          Tüm içerik yüklendi
-        </div>
-      )}
-    </div>
-  );
-}
-
-// Virtual grid component
-interface VirtualGridProps<T> {
-  items: T[];
-  itemWidth: number;
-  itemHeight: number;
-  containerWidth: number;
-  containerHeight: number;
-  gap?: number;
-  overscan?: number;
-  renderItem: (item: T, index: number) => React.ReactNode;
-  className?: string;
-}
-
-export function VirtualGrid<T>({
-  items,
-  itemWidth,
-  itemHeight,
-  containerWidth,
-  containerHeight,
-  gap = 0,
-  overscan = 5,
   renderItem,
   className,
-}: VirtualGridProps<T>) {
-  const [scrollTop, setScrollTop] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0);
-  const scrollElementRef = useRef<HTMLDivElement>(null);
+  hasNextPage,
+  isNextPageLoading,
+  loadNextPage,
+  overscanCount = 5,
+}: InfiniteVirtualScrollProps<T>) {
+  const itemData = useMemo(() => items, [items]);
 
-  // Calculate grid dimensions
-  const itemsPerRow = Math.floor((containerWidth + gap) / (itemWidth + gap));
-  const totalRows = Math.ceil(items.length / itemsPerRow);
-  const totalHeight = totalRows * (itemHeight + gap);
-
-  // Calculate visible range
-  const visibleRange = useMemo(() => {
-    const startRow = Math.max(0, Math.floor(scrollTop / (itemHeight + gap)) - overscan);
-    const endRow = Math.min(
-      totalRows - 1,
-      Math.ceil((scrollTop + containerHeight) / (itemHeight + gap)) + overscan
-    );
-
-    return { startRow, endRow };
-  }, [scrollTop, itemHeight, gap, containerHeight, overscan, totalRows]);
-
-  // Get visible items
-  const visibleItems = useMemo(() => {
-    const startIndex = visibleRange.startRow * itemsPerRow;
-    const endIndex = Math.min(items.length, (visibleRange.endRow + 1) * itemsPerRow);
-    return items.slice(startIndex, endIndex);
-  }, [items, visibleRange, itemsPerRow]);
-
-  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    setScrollTop(e.currentTarget.scrollTop);
-    setScrollLeft(e.currentTarget.scrollLeft);
+  const Row = ({ index, style }: { index: number; style: React.CSSProperties }) => {
+    const item = itemData[index];
+    return renderItem({ index, style, item });
   };
 
+  const itemCount = hasNextPage ? items.length + 1 : items.length;
+
   return (
-    <div
-      ref={scrollElementRef}
-      className={cn('overflow-auto', className)}
-      style={{ height: containerHeight, width: containerWidth }}
-      onScroll={handleScroll}
-    >
-      <div style={{ height: totalHeight, position: 'relative' }}>
-        <div
-          style={{
-            position: 'absolute',
-            top: visibleRange.startRow * (itemHeight + gap),
-            left: 0,
-            right: 0,
-            display: 'grid',
-            gridTemplateColumns: `repeat(${itemsPerRow}, ${itemWidth}px)`,
-            gap: `${gap}px`,
-          }}
-        >
-          {visibleItems.map((item, index) => (
-            <div key={visibleRange.startRow * itemsPerRow + index} style={{ height: itemHeight }}>
-              {renderItem(item, visibleRange.startRow * itemsPerRow + index)}
-            </div>
-          ))}
-        </div>
-      </div>
+    <div className={cn('w-full', className)}>
+      <List
+        height={height}
+        itemCount={itemCount}
+        itemSize={itemHeight}
+        itemData={itemData}
+        overscanCount={overscanCount}
+        onItemsRendered={({ visibleStopIndex }) => {
+          if (visibleStopIndex >= items.length - 1 && hasNextPage && !isNextPageLoading) {
+            loadNextPage();
+          }
+        }}
+      >
+        {Row}
+      </List>
     </div>
   );
 }

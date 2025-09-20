@@ -79,6 +79,14 @@ export default function AdminDashboard() {
       stats: `${stats.publishedPosts} yayınlandı`,
     },
     {
+      title: 'Sayfa Yönetimi',
+      description: 'Tüm sayfaları yönet ve düzenle',
+      icon: Globe,
+      href: '/tr/admin/pages',
+      color: 'from-indigo-600 to-indigo-700',
+      stats: 'Sayfa kontrolü',
+    },
+    {
       title: 'AI Blog Üretimi',
       description: 'Otomatik makale üretimi ve yönetimi',
       icon: Bot,

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
+import { AdminErrorBoundary } from '@/components/admin-error-boundary';
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -80,5 +81,9 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     return null; // Will redirect to login
   }
 
-  return <>{children}</>;
+  return (
+    <AdminErrorBoundary>
+      {children}
+    </AdminErrorBoundary>
+  );
 }

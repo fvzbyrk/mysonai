@@ -240,3 +240,4 @@ class BlogStorage {
 
 // Singleton instance
 export const blogStorage = new BlogStorage();
+

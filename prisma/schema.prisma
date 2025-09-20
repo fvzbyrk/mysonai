@@ -1,0 +1,238 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                    String    @id @default(cuid())
+  email                 String    @unique
+  name                  String?
+  avatar                String?
+  plan                  Plan      @default(FREE)
+  stripeCustomerId      String?   @unique @map("stripe_customer_id")
+  stripeSubscriptionId String?   @unique @map("stripe_subscription_id")
+  usage                 Json      @default("{\"totalMessages\": 0, \"totalTokens\": 0, \"imagesGenerated\": 0, \"lastResetDate\": null, \"monthlyLimit\": {\"messages\": 50, \"tokens\": 10000, \"images\": 10}}")
+  createdAt             DateTime  @default(now()) @map("created_at")
+  updatedAt             DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  chatSessions          ChatSession[]
+  chatMessages          ChatMessage[]
+  usageLogs             UsageLog[]
+  notifications         Notification[]
+  pages                 Page[]
+  pageVersions          PageVersion[]
+  pageComments          PageComment[]
+  adminLogs             AdminLog[]
+
+  @@map("users")
+}
+
+model ChatSession {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  title     String?
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  user     User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages ChatMessage[]
+
+  @@map("chat_sessions")
+}
+
+model ChatMessage {
+  id        String   @id @default(cuid())
+  sessionId String   @map("session_id")
+  userId    String   @map("user_id")
+  content   String
+  sender    Sender
+  agent     String?
+  tokens    Int      @default(0)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  session ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  user    User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("chat_messages")
+}
+
+model UsageLog {
+  id         String   @id @default(cuid())
+  userId     String   @map("user_id")
+  action     String
+  tokensUsed Int      @default(0) @map("tokens_used")
+  metadata   Json?
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("usage_logs")
+}
+
+model Notification {
+  id      String    @id @default(cuid())
+  userId  String    @map("user_id")
+  type    String
+  subject String
+  content String
+  sentAt  DateTime  @default(now()) @map("sent_at")
+  readAt  DateTime? @map("read_at")
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+}
+
+model Page {
+  id              String      @id @default(cuid())
+  title           String
+  slug            String      @unique
+  content         String
+  excerpt         String?
+  status          PageStatus  @default(DRAFT)
+  visibility      Visibility  @default(PUBLIC)
+  password        String?
+  seoTitle        String?     @map("seo_title")
+  seoDescription  String?     @map("seo_description")
+  seoKeywords     String[]    @map("seo_keywords")
+  featuredImage   String?     @map("featured_image")
+  category        String      @default("Genel")
+  tags            String[]
+  authorId        String?     @map("author_id")
+  views           Int         @default(0)
+  publishedAt     DateTime?   @map("published_at")
+  createdAt       DateTime    @default(now()) @map("created_at")
+  updatedAt       DateTime    @updatedAt @map("updated_at")
+
+  // Relations
+  author     User?           @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  versions   PageVersion[]
+  comments   PageComment[]
+  analytics  PageAnalytics[]
+
+  @@map("pages")
+}
+
+model PageVersion {
+  id            String   @id @default(cuid())
+  pageId        String   @map("page_id")
+  versionNumber Int      @map("version_number")
+  title         String
+  content       String
+  authorId      String?  @map("author_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  // Relations
+  page   Page  @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  author User? @relation(fields: [authorId], references: [id], onDelete: SetNull)
+
+  @@unique([pageId, versionNumber])
+  @@map("page_versions")
+}
+
+model PageComment {
+  id        String         @id @default(cuid())
+  pageId    String         @map("page_id")
+  userId    String         @map("user_id")
+  parentId  String?        @map("parent_id")
+  content   String
+  status    CommentStatus @default(PENDING)
+  createdAt DateTime       @default(now()) @map("created_at")
+  updatedAt DateTime       @updatedAt @map("updated_at")
+
+  // Relations
+  page   Page         @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  user   User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  parent PageComment? @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies PageComment[] @relation("CommentReplies")
+
+  @@map("page_comments")
+}
+
+model PageAnalytics {
+  id           String   @id @default(cuid())
+  pageId       String   @map("page_id")
+  date         DateTime @db.Date
+  views        Int      @default(0)
+  uniqueViews  Int      @default(0) @map("unique_views")
+  timeOnPage   Int      @default(0) @map("time_on_page")
+  bounceRate   Decimal  @default(0) @map("bounce_rate") @db.Decimal(5, 2)
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  // Relations
+  page Page @relation(fields: [pageId], references: [id], onDelete: Cascade)
+
+  @@unique([pageId, date])
+  @@map("page_analytics")
+}
+
+model AdminLog {
+  id           String   @id @default(cuid())
+  adminId      String   @map("admin_id")
+  action       String
+  resourceType String   @map("resource_type")
+  resourceId   String?  @map("resource_id")
+  oldValues    Json?    @map("old_values")
+  newValues    Json?    @map("new_values")
+  ipAddress    String?  @map("ip_address")
+  userAgent    String?  @map("user_agent")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  // Relations
+  admin User @relation(fields: [adminId], references: [id], onDelete: Cascade)
+
+  @@map("admin_logs")
+}
+
+// Enums
+enum Plan {
+  FREE
+  PRO
+  ENTERPRISE
+
+  @@map("plan")
+}
+
+enum Sender {
+  USER
+  AI
+
+  @@map("sender")
+}
+
+enum PageStatus {
+  PUBLISHED
+  DRAFT
+  ARCHIVED
+
+  @@map("page_status")
+}
+
+enum Visibility {
+  PUBLIC
+  PRIVATE
+  PASSWORD
+
+  @@map("visibility")
+}
+
+enum CommentStatus {
+  APPROVED
+  PENDING
+  REJECTED
+
+  @@map("comment_status")
+}

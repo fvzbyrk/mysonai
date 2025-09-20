@@ -52,11 +52,11 @@ Kıdemli Proje Yöneticisi ve Takım Lideri. Ekipleri yönetir, projeleri başar
 ## Kurallar
 - Türkçe yanıtla
 - Liderlik odaklı ve motivasyonel ton kullan
-- Maksimum 8 cümle
+- Detaylı ve kapsamlı yanıtlar ver
 - PM terimlerini açıkla
-- JSON formatında yanıt ver: {answer, rationale, actions, citations}
-- Teknik implementasyon yapma
-- Hukuki danışmanlık verme`,
+- Pratik öneriler ve uygulanabilir çözümler sun
+- Bilimsel temelli yaklaşım sergile
+- Yönlendirme yapma, kendi uzmanlık alanında yardım et`,
     capabilities: ['Proje Yönetimi', 'Ekip Liderliği', 'Strateji Geliştirme', 'Risk Analizi'],
   },
   {
@@ -84,11 +84,11 @@ Yaratıcı ürün stratejisti ve UX uzmanı. Kullanıcı ihtiyaçlarını analiz
 ## Kurallar
 - Türkçe yanıtla
 - Yaratıcı ve kullanıcı odaklı ton kullan
-- Maksimum 8 cümle
+- Detaylı ve kapsamlı yanıtlar ver
 - UX terimlerini açıkla
-- JSON formatında yanıt ver: {answer, rationale, actions, citations}
-- Teknik implementasyon yapma
-- Hukuki danışmanlık verme`,
+- Pratik öneriler ve uygulanabilir çözümler sun
+- Bilimsel temelli yaklaşım sergile
+- Yönlendirme yapma, kendi uzmanlık alanında yardım et`,
     capabilities: ['Ürün Stratejisi', 'UX/UI Tasarımı', 'Kullanıcı Araştırması', 'Pazar Analizi'],
   },
   {
@@ -116,11 +116,11 @@ Analitik sistem mimarı ve teknoloji uzmanı. En uygun teknoloji stack'ini belir
 ## Kurallar
 - Türkçe yanıtla
 - Analitik ve teknik ton kullan
-- Maksimum 8 cümle
+- Detaylı ve kapsamlı yanıtlar ver
 - Teknoloji terimlerini açıkla
-- JSON formatında yanıt ver: {answer, rationale, actions, citations}
-- Kod implementasyonu yapma
-- Hukuki danışmanlık verme`,
+- Pratik öneriler ve uygulanabilir çözümler sun
+- Bilimsel temelli yaklaşım sergile
+- Yönlendirme yapma, kendi uzmanlık alanında yardım et`,
     capabilities: ['Sistem Mimarisi', 'Teknoloji Seçimi', 'Ölçeklenebilirlik', 'Güvenlik Analizi'],
   },
   {
@@ -148,11 +148,11 @@ Yetenekli yazılım geliştirici ve kod uzmanı. Temiz, optimize ve sürdürüle
 ## Kurallar
 - Türkçe yanıtla
 - Pratik ve teknik ton kullan
-- Maksimum 8 cümle
+- Detaylı ve kapsamlı yanıtlar ver
 - Teknik terimleri açıkla
-- JSON formatında yanıt ver: {answer, rationale, actions, citations}
-- Sistem mimarisi kararları verme
-- Hukuki danışmanlık verme`,
+- Pratik öneriler ve uygulanabilir çözümler sun
+- Bilimsel temelli yaklaşım sergile
+- Yönlendirme yapma, kendi uzmanlık alanında yardım et`,
     capabilities: [
       'Frontend Geliştirme',
       'Backend Geliştirme',
@@ -427,11 +427,13 @@ Deneyimli diyetisyen ve beslenme uzmanı. Sağlıklı beslenme planları, kilo y
 ## Kurallar
 - Türkçe yanıtla
 - Empatik ve sağlık odaklı ton kullan
-- Maksimum 8 cümle
+- Detaylı ve kapsamlı yanıtlar ver
 - Beslenme terimlerini açıkla
-- JSON formatında yanıt ver: {calories, macros, meals, recommendations}
+- Pratik öneriler ve uygulanabilir çözümler sun
 - Tıbbi tanı koymamaya dikkat et
-- Bilimsel ve kanıta dayalı önerilerde bulun`,
+- Bilimsel ve kanıta dayalı önerilerde bulun
+- Kişiselleştirilmiş yaklaşım sergile
+- Yönlendirme yapma, kendi uzmanlık alanında yardım et`,
     capabilities: ['Beslenme Planlaması', 'Diyet Danışmanlığı', 'Sağlıklı Yaşam', 'Kilo Yönetimi'],
   },
   {
@@ -564,11 +566,12 @@ Empatik psikolog ve danışman. Ruh sağlığı değerlendirmesi, stres yönetim
 ## Kurallar
 - Türkçe yanıtla
 - Samimi ve motivasyonel ton kullan ("Kardeşim", "Aslanım")
-- Maksimum 8 cümle
+- Detaylı ve kapsamlı yanıtlar ver
 - Fitness terimlerini açıkla
-- JSON formatında yanıt ver: {program, exercises, duration, intensity}
-- Sadece fitness, spor, antrenman konularında yardım et
-- Beslenme konularında Nur'a yönlendir`,
+- Pratik öneriler ve uygulanabilir çözümler sun
+- Bilimsel temelli yaklaşım sergile
+- Kişiselleştirilmiş programlar hazırla
+- Yönlendirme yapma, kendi uzmanlık alanında yardım et`,
     capabilities: [
       'Keşkesiz Yaşam Platformu Kurucusu',
       'Ege Üniversitesi Beden Eğitimi Öğretmenliği',
@@ -810,200 +813,289 @@ export function getAgentRecommendation(currentAgentId: string, userQuery: string
     return null;
   }
 
-  // Tacettin için özel kural: Hukuki konularda yönlendirme yapma
-  if (currentAgentId === 'tacettin') {
-    const query = userQuery.toLowerCase();
-    const hasLegalKeywords =
-      query.includes('dava') ||
-      query.includes('dilekçe') ||
-      query.includes('mahkeme') ||
-      query.includes('hukuk') ||
-      query.includes('jandarma') ||
-      query.includes('idare') ||
-      query.includes('astsubay') ||
-      query.includes('temin') ||
-      query.includes('avukat') ||
-      query.includes('yasal') ||
-      query.includes('normlar') ||
-      query.includes('hiyerarşi') ||
-      query.includes('anayasa') ||
-      query.includes('kanun') ||
-      query.includes('mevzuat') ||
-      query.includes('hukuki') ||
-      query.includes('sözleşme') ||
-      query.includes('kvkk') ||
-      query.includes('ticaret hukuku') ||
-      query.includes('hukuki danışmanlık');
-
-    if (hasLegalKeywords) {
-      return null; // Yönlendirme yapma - kendi uzmanlık alanında
-    }
-  }
-
-  // Diğer ajanlar için de kendi uzmanlık alanlarında yönlendirme yapmama kuralı
-  if (currentAgent) {
-    const query = userQuery.toLowerCase();
-    const isInExpertise = currentAgent.expertise.some(expertise =>
-      query.includes(expertise.toLowerCase())
-    );
-
-    if (isInExpertise) {
-      return null; // Kendi uzmanlık alanında yönlendirme yapma
-    }
-  }
-
-  // Kullanıcı sorgusunu analiz et ve uygun asistanı bul
+  // Yönlendirme yapmama kuralı: Mevcut asistan kendi alanında yardım etsin
+  // Sadece çok spesifik ve net uzmanlık gerektiren durumlarda yönlendir
+  
   const query = userQuery.toLowerCase();
+  
+  // Tüm AI asistanları için semantik analiz bazlı uzmanlık alanları
+  const expertisePatterns = [
+    {
+      agent: 'fevzi',
+      domain: 'proje yönetimi',
+      intentPatterns: [
+        'proje planlama', 'proje yönetimi', 'ekip yönetimi', 'proje koordinasyonu',
+        'milestone takibi', 'risk analizi', 'kaynak planlama', 'proje stratejisi',
+        'proje liderliği', 'proje koordinatörü', 'proje müdürü'
+      ],
+      contextKeywords: ['proje', 'yönetim', 'planlama', 'ekip', 'koordinasyon', 'risk'],
+      questionTypes: ['proje', 'yönetim', 'planlama', 'ekip']
+    },
+    {
+      agent: 'elif',
+      domain: 'ürün yönetimi ve ux',
+      intentPatterns: [
+        'ürün stratejisi', 'ux tasarımı', 'kullanıcı deneyimi', 'ürün yol haritası',
+        'kullanıcı araştırması', 'pazar analizi', 'ürün geliştirme', 'ui tasarımı',
+        'ürün müdürü', 'ux uzmanı', 'ürün tasarımı'
+      ],
+      contextKeywords: ['ürün', 'ux', 'ui', 'kullanıcı', 'deneyim', 'tasarım', 'pazar'],
+      questionTypes: ['ürün', 'ux', 'tasarım', 'kullanıcı']
+    },
+    {
+      agent: 'burak',
+      domain: 'sistem mimarisi',
+      intentPatterns: [
+        'sistem mimarisi', 'teknoloji seçimi', 'altyapı tasarımı', 'ölçeklenebilirlik',
+        'güvenlik analizi', 'performans optimizasyonu', 'sistem tasarımı',
+        'mimari kararlar', 'teknoloji mimarı', 'sistem uzmanı'
+      ],
+      contextKeywords: ['sistem', 'mimari', 'teknoloji', 'altyapı', 'ölçeklenebilirlik', 'güvenlik'],
+      questionTypes: ['sistem', 'mimari', 'teknoloji', 'altyapı']
+    },
+    {
+      agent: 'ayse',
+      domain: 'yazılım geliştirme',
+      intentPatterns: [
+        'kod yazma', 'programlama', 'yazılım geliştirme', 'api geliştirme',
+        'frontend geliştirme', 'backend geliştirme', 'kod optimizasyonu',
+        'test yazma', 'yazılım mühendisi', 'geliştirici'
+      ],
+      contextKeywords: ['kod', 'programlama', 'geliştirme', 'api', 'frontend', 'backend'],
+      questionTypes: ['kod', 'programlama', 'geliştirme', 'api']
+    },
+    {
+      agent: 'deniz-analist',
+      domain: 'veri analizi',
+      intentPatterns: [
+        'veri analizi', 'istatistiksel analiz', 'veri görselleştirme', 'performans optimizasyonu',
+        'raporlama', 'veri uzmanı', 'analitik', 'veri bilimi', 'istatistik'
+      ],
+      contextKeywords: ['veri', 'analiz', 'istatistik', 'rapor', 'optimizasyon', 'analitik'],
+      questionTypes: ['veri', 'analiz', 'istatistik', 'rapor']
+    },
+    {
+      agent: 'zeynep',
+      domain: 'e-ticaret ve pazarlama',
+      intentPatterns: [
+        'e-ticaret stratejisi', 'online pazarlama', 'dijital pazarlama', 'satış stratejisi',
+        'pazarlama kampanyası', 'e-ticaret uzmanı', 'pazarlama uzmanı', 'satış uzmanı'
+      ],
+      contextKeywords: ['e-ticaret', 'pazarlama', 'satış', 'online', 'dijital', 'kampanya'],
+      questionTypes: ['e-ticaret', 'pazarlama', 'satış', 'online']
+    },
+    {
+      agent: 'can',
+      domain: 'grafik tasarım',
+      intentPatterns: [
+        'logo tasarımı', 'görsel kimlik', 'marka tasarımı', 'grafik tasarımı',
+        'ui tasarımı', 'web tasarımı', 'tasarım uzmanı', 'grafik tasarımcı',
+        'marka kimliği', 'görsel tasarım'
+      ],
+      contextKeywords: ['logo', 'tasarım', 'grafik', 'marka', 'görsel', 'kimlik'],
+      questionTypes: ['logo', 'tasarım', 'grafik', 'marka']
+    },
+    {
+      agent: 'mert',
+      domain: 'seo ve dijital pazarlama',
+      intentPatterns: [
+        'seo optimizasyonu', 'dijital pazarlama', 'arama motoru optimizasyonu',
+        'içerik stratejisi', 'seo uzmanı', 'dijital pazarlama uzmanı',
+        'arama optimizasyonu', 'seo stratejisi'
+      ],
+      contextKeywords: ['seo', 'dijital', 'arama', 'içerik', 'optimizasyon', 'pazarlama'],
+      questionTypes: ['seo', 'dijital', 'arama', 'içerik']
+    },
+    {
+      agent: 'seda',
+      domain: 'müşteri hizmetleri',
+      intentPatterns: [
+        'müşteri hizmetleri', 'müşteri desteği', 'müşteri deneyimi', 'iletişim',
+        'müşteri memnuniyeti', 'destek uzmanı', 'müşteri temsilcisi',
+        'müşteri ilişkileri', 'hizmet kalitesi'
+      ],
+      contextKeywords: ['müşteri', 'destek', 'hizmet', 'iletişim', 'deneyim', 'memnuniyet'],
+      questionTypes: ['müşteri', 'destek', 'hizmet', 'iletişim']
+    },
+    {
+      agent: 'ahmet',
+      domain: 'finansal analiz',
+      intentPatterns: [
+        'finansal analiz', 'bütçe planlama', 'maliyet analizi', 'roi hesaplama',
+        'finansal raporlama', 'finansal uzman', 'mali analiz', 'bütçe uzmanı',
+        'finansal planlama', 'maliyet optimizasyonu'
+      ],
+      contextKeywords: ['finans', 'bütçe', 'maliyet', 'roi', 'mali', 'analiz'],
+      questionTypes: ['finans', 'bütçe', 'maliyet', 'roi']
+    },
+    {
+      agent: 'tacettin',
+      domain: 'hukuk',
+      intentPatterns: [
+        'dava açmak', 'mahkemeye gitmek', 'avukat tutmak', 'hukuki danışmanlık',
+        'sözleşme hazırlamak', 'kvkk uyumluluğu', 'hukuki süreç', 'yasal işlem',
+        'dilekçe yazmak', 'hukuki belge', 'kanun maddesi', 'mevzuat',
+        'hukuki tavsiye', 'yasal danışmanlık', 'hukuki süreç'
+      ],
+      contextKeywords: ['hukuk', 'yasal', 'kanun', 'dava', 'mahkeme', 'avukat', 'mevzuat'],
+      questionTypes: ['nasıl', 'ne yapmalı', 'hangi süreç', 'hukuki süreç']
+    },
+    {
+      agent: 'nur',
+      domain: 'beslenme ve diyet',
+      intentPatterns: [
+        'diyet planı', 'beslenme programı', 'kalori hesaplama', 'besin değeri analizi',
+        'sağlıklı beslenme planı', 'kilo verme programı', 'beslenme danışmanlığı',
+        'diyetisyen danışmanlığı', 'beslenme uzmanı', 'beslenme planı'
+      ],
+      contextKeywords: ['diyet planı', 'beslenme programı', 'kalori hesaplama', 'besin değeri'],
+      questionTypes: ['diyet', 'beslenme', 'kalori', 'besin']
+    },
+    {
+      agent: 'emre',
+      domain: 'eğitim ve öğrenme',
+      intentPatterns: [
+        'öğrenme stratejileri', 'kişisel gelişim', 'hedef belirleme', 'motivasyon',
+        'zaman yönetimi', 'verimlilik', 'eğitim koçluğu', 'öğrenme uzmanı',
+        'kişisel gelişim uzmanı', 'eğitim danışmanı'
+      ],
+      contextKeywords: ['öğrenme', 'gelişim', 'hedef', 'motivasyon', 'verimlilik', 'eğitim'],
+      questionTypes: ['öğrenme', 'gelişim', 'hedef', 'motivasyon']
+    },
+    {
+      agent: 'aylin',
+      domain: 'akademik eğitim',
+      intentPatterns: [
+        'akademik eğitim', 'müfredat geliştirme', 'öğretim yöntemleri', 'değerlendirme',
+        'eğitim programı', 'akademik uzman', 'eğitim uzmanı', 'müfredat uzmanı',
+        'öğretim tasarımı', 'eğitim teknolojisi'
+      ],
+      contextKeywords: ['akademik', 'müfredat', 'öğretim', 'eğitim', 'değerlendirme'],
+      questionTypes: ['akademik', 'müfredat', 'öğretim', 'eğitim']
+    },
+    {
+      agent: 'deniz',
+      domain: 'psikoloji ve ruh sağlığı',
+      intentPatterns: [
+        'ruh sağlığı', 'psikolojik danışmanlık', 'stres yönetimi', 'motivasyon',
+        'kişisel gelişim', 'psikolojik destek', 'ruh sağlığı uzmanı', 'psikolog',
+        'psikolojik danışman', 'terapi'
+      ],
+      contextKeywords: ['psikoloji', 'ruh sağlığı', 'stres', 'motivasyon', 'terapi'],
+      questionTypes: ['psikoloji', 'ruh sağlığı', 'stres', 'motivasyon']
+    },
+    {
+      agent: 'erdem',
+      domain: 'fitness ve spor',
+      intentPatterns: [
+        'fitness programı', 'antrenman planı', 'kas geliştirme', 'kardio egzersizi',
+        'spor antrenmanı', 'fitness koçluğu', 'performans artırma', 'sporcu beslenmesi',
+        'antrenman programı', 'fitness eğitimi', 'spor programı'
+      ],
+      contextKeywords: ['fitness programı', 'antrenman planı', 'kas geliştirme', 'spor antrenmanı'],
+      questionTypes: ['fitness', 'antrenman', 'spor', 'kas']
+    },
+    {
+      agent: 'melis',
+      domain: 'yaşam koçluğu',
+      intentPatterns: [
+        'yaşam koçluğu', 'kişisel gelişim', 'hedef belirleme', 'motivasyon',
+        'yaşam dengesi', 'kişisel koçluk', 'yaşam koçu', 'kişisel danışman',
+        'yaşam danışmanlığı', 'kişisel gelişim uzmanı'
+      ],
+      contextKeywords: ['yaşam', 'koçluk', 'gelişim', 'hedef', 'motivasyon', 'denge'],
+      questionTypes: ['yaşam', 'koçluk', 'gelişim', 'hedef']
+    },
+    {
+      agent: 'pinar',
+      domain: 'müzik ve sanat',
+      intentPatterns: [
+        'müzik teorisi öğrenmek', 'enstrüman çalmak', 'kompozisyon yapmak',
+        'piyano dersi', 'gitar öğrenmek', 'keman çalmak', 'müzik prodüksiyonu',
+        'sanat tarihi', 'müzik eğitimi', 'enstrüman eğitimi', 'müzik dersi'
+      ],
+      contextKeywords: ['müzik teorisi', 'enstrüman', 'kompozisyon', 'piyano', 'gitar', 'keman'],
+      questionTypes: ['müzik', 'enstrüman', 'çalmak', 'öğrenmek']
+    },
+    {
+      agent: 'can',
+      domain: 'siber güvenlik',
+      intentPatterns: [
+        'siber saldırı', 'güvenlik açığı', 'penetrasyon testi', 'hack saldırısı',
+        'malware temizleme', 'firewall kurulumu', 'veri şifreleme', 'güvenlik analizi',
+        'etik hacking', 'siber güvenlik uzmanı', 'güvenlik testi'
+      ],
+      contextKeywords: ['siber güvenlik', 'hack', 'malware', 'firewall', 'güvenlik açığı'],
+      questionTypes: ['güvenlik', 'koruma', 'saldırı', 'hack']
+    },
+    {
+      agent: 'selin',
+      domain: 'insan kaynakları',
+      intentPatterns: [
+        'insan kaynakları', 'kariyer danışmanlığı', 'işe alım', 'performans değerlendirme',
+        'ekip yönetimi', 'çalışan gelişimi', 'ik uzmanı', 'kariyer uzmanı',
+        'insan kaynakları uzmanı', 'kariyer danışmanı'
+      ],
+      contextKeywords: ['ik', 'insan kaynakları', 'kariyer', 'işe alım', 'performans', 'ekip'],
+      questionTypes: ['ik', 'kariyer', 'işe alım', 'performans']
+    }
+  ];
 
-  // Anahtar kelime eşleştirmeleri
-  const keywordMappings: { [key: string]: string } = {
-    // Tasarım ve görsel
-    tasarım: 'can',
-    logo: 'can',
-    görsel: 'can',
-    ui: 'can',
-    ux: 'can',
-    marka: 'can',
-    grafik: 'can',
-    'web tasarım': 'can',
-
-    // Teknik ve kod
-    kod: 'ayse',
-    programlama: 'ayse',
-    geliştirme: 'ayse',
-    api: 'ayse',
-    frontend: 'ayse',
-    backend: 'ayse',
-    yazılım: 'ayse',
-
-    // Sistem ve mimari
-    mimari: 'burak',
-    sistem: 'burak',
-    teknoloji: 'burak',
-    altyapı: 'burak',
-    güvenlik: 'burak',
-
-    // Ürün ve strateji
-    ürün: 'elif',
-    strateji: 'elif',
-    kullanıcı: 'elif',
-    deneyim: 'elif',
-    pazar: 'elif',
-
-    // Proje yönetimi
-    proje: 'fevzi',
-    yönetim: 'fevzi',
-    planlama: 'fevzi',
-    ekip: 'fevzi',
-
-    // Veri ve analiz
-    veri: 'deniz-analist',
-    analiz: 'deniz-analist',
-    istatistik: 'deniz-analist',
-    rapor: 'deniz-analist',
-
-    // E-ticaret ve pazarlama
-    'e-ticaret': 'zeynep',
-    pazarlama: 'zeynep',
-    satış: 'zeynep',
-    online: 'zeynep',
-
-    // SEO ve dijital
-    seo: 'mert',
-    dijital: 'mert',
-    arama: 'mert',
-    içerik: 'mert',
-
-    // Müşteri hizmetleri
-    müşteri: 'seda',
-    destek: 'seda',
-    hizmet: 'seda',
-    iletişim: 'seda',
-
-    // Finans
-    finans: 'ahmet',
-    bütçe: 'ahmet',
-    maliyet: 'ahmet',
-    roi: 'ahmet',
-
-    // Hukuki
-    hukuki: 'tacettin',
-    sözleşme: 'tacettin',
-    kvkk: 'tacettin',
-    normlar: 'tacettin',
-    hiyerarşi: 'tacettin',
-    anayasa: 'tacettin',
-    yasal: 'tacettin',
-
-    // Sağlık ve beslenme
-    beslenme: 'nur',
-    diyet: 'nur',
-    sağlık: 'nur',
-    kilo: 'nur',
-
-    // Eğitim
-    eğitim: 'emre',
-    öğrenme: 'emre',
-    öğretim: 'aylin',
-    akademik: 'aylin',
-    müfredat: 'aylin',
-
-    // Psikoloji
-    psikoloji: 'deniz',
-    'ruh sağlığı': 'deniz',
-    stres: 'deniz',
-    motivasyon: 'deniz',
-
-    // Fitness
-    fitness: 'erdem',
-    spor: 'erdem',
-    egzersiz: 'erdem',
-    antrenman: 'erdem',
-
-    // Yaşam koçluğu
-    yaşam: 'melis',
-    koçluk: 'melis',
-    hedef: 'melis',
-    gelişim: 'melis',
-
-    // Müzik ve sanat
-    müzik: 'pinar',
-    sanat: 'pinar',
-    enstrüman: 'pinar',
-    kompozisyon: 'pinar',
-
-    // Siber güvenlik
-    güvenlik: 'can',
-    siber: 'can',
-    hacker: 'can',
-    'veri koruma': 'can',
-    penetrasyon: 'can',
-    'güvenlik açığı': 'can',
-    firewall: 'can',
-    şifreleme: 'can',
-
-    // İnsan kaynakları
-    ik: 'selin',
-    'insan kaynakları': 'selin',
-    kariyer: 'selin',
-    'işe alım': 'selin',
-    performans: 'selin',
-    ekip: 'selin',
-    çalışan: 'selin',
-    yetenek: 'selin',
+  // Semantik analiz fonksiyonu
+  const analyzeIntent = (query: string, expertise: any) => {
+    // 1. Intent patternları kontrol et (en güçlü sinyal)
+    const intentMatch = expertise.intentPatterns.some(pattern => 
+      query.includes(pattern)
+    );
+    
+    // 2. Context keywords kontrol et (orta güçlü sinyal)
+    const contextMatch = expertise.contextKeywords.some(keyword => 
+      query.includes(keyword)
+    );
+    
+    // 3. Question types kontrol et (zayıf sinyal)
+    const questionMatch = expertise.questionTypes.some(type => 
+      query.includes(type)
+    );
+    
+    // Skorlama sistemi
+    let score = 0;
+    if (intentMatch) score += 3; // En güçlü sinyal
+    if (contextMatch) score += 2; // Orta güçlü sinyal
+    if (questionMatch) score += 1; // Zayıf sinyal
+    
+    return { score, intentMatch, contextMatch, questionMatch };
   };
 
-  // En uygun asistanı bul
-  for (const [keyword, agentId] of Object.entries(keywordMappings)) {
-    if (query.includes(keyword) && agentId !== currentAgentId) {
-      const recommendedAgent = getAgentById(agentId);
+  // Mevcut asistanın uzmanlık alanında mı kontrol et
+  const currentAgentExpertise = expertisePatterns.find(exp => exp.agent === currentAgentId);
+  if (currentAgentExpertise) {
+    const currentAnalysis = analyzeIntent(query, currentAgentExpertise);
+    
+    // Eğer mevcut asistanın alanında güçlü bir sinyal varsa yönlendirme yapma
+    if (currentAnalysis.score >= 2) {
+      return null; // Kendi uzmanlık alanında, yönlendirme yapma
+    }
+  }
+
+  // Diğer uzmanlık alanlarını kontrol et
+  let bestMatch = { agent: null as AIAgent | null, score: 0 };
+  
+  for (const expertise of expertisePatterns) {
+    if (expertise.agent === currentAgentId) continue; // Kendi alanını atla
+    
+    const analysis = analyzeIntent(query, expertise);
+    
+    // Sadece güçlü sinyaller için yönlendirme yap
+    if (analysis.score >= 3 && analysis.score > bestMatch.score) {
+      const recommendedAgent = getAgentById(expertise.agent);
       if (recommendedAgent) {
-        return recommendedAgent;
+        bestMatch = { agent: recommendedAgent, score: analysis.score };
       }
     }
   }
-
-  return null;
+  
+  return bestMatch.agent;
 }
 
 export function generateAgentRedirectMessage(
@@ -1011,12 +1103,12 @@ export function generateAgentRedirectMessage(
   recommendedAgent: AIAgent,
   userQuery: string
 ): string {
-  return `Bu konuda size yardımcı olmaya çalışayım. Eğer daha spesifik bir uzmanlık alanına ihtiyacınız olursa, **${recommendedAgent.name}** (${recommendedAgent.role}) bu konuda daha detaylı bilgi verebilir.
+  // Sadece çok spesifik uzmanlık gerektiren durumlarda yönlendirme mesajı göster
+  return `Bu konu ${recommendedAgent.name} (${recommendedAgent.role}) uzmanlık alanında. Size daha iyi yardımcı olabilir:
 
-**İsteğe bağlı olarak ${recommendedAgent.name} ile de konuşabilirsiniz:**
-🔗 [${recommendedAgent.name} ile sohbet et](/${currentAgent.id === 'tr' ? 'tr' : 'en'}/demo?agent=${recommendedAgent.id})
+🔗 [${recommendedAgent.name} ile konuş](/${currentAgent.id === 'tr' ? 'tr' : 'en'}/demo?agent=${recommendedAgent.id})
 
-Ama önce size elimden geldiğince yardımcı olmaya çalışayım. Ne yapmak istiyorsunuz?`;
+Yoksa ben de elimden geldiğince yardımcı olmaya çalışayım. Ne yapmak istiyorsunuz?`;
 }
 
 export function getAgentContactInfo(agentId: string): {
