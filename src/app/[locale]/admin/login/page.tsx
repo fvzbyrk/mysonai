@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -14,7 +13,6 @@ export default function AdminLoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,7 +41,8 @@ export default function AdminLoginPage() {
         // Redirect to admin dashboard (determine locale from current path)
         const adminPath = window.location.pathname.startsWith('/en') ? '/en/admin' : '/tr/admin';
         console.log('Redirecting to:', adminPath);
-        router.push(adminPath);
+        // Use window.location.href for hard redirect
+        window.location.href = adminPath;
       } else {
         console.log('Login failed:', result.message);
         setError(result.message || 'Giriş başarısız');

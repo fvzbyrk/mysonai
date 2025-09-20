@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -14,7 +13,6 @@ export default function AdminLoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,7 +32,7 @@ export default function AdminLoginPage() {
         // Store auth token in localStorage
         localStorage.setItem('admin_token', result.token);
         // Redirect to admin dashboard
-        router.push('/en/admin');
+        window.location.href = '/en/admin';
       } else {
         setError(result.message || 'Login failed');
       }
