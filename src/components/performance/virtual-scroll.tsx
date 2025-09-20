@@ -1,17 +1,17 @@
 'use client';
 
 import React, { useMemo } from 'react';
-import { FixedSizeList as List } from 'react-window';
+import { FixedSizeList } from 'react-window';
 import { cn } from '@/lib/utils';
 
 interface VirtualScrollProps<T> {
   items: T[];
   height: number;
   itemHeight: number;
-  renderItem: (props: { index: number; style: React.CSSProperties; item: T }) => React.ReactNode;
+  renderItem: ({ index, style, item }: { index: number; style: React.CSSProperties; item: T }) => React.ReactNode;
   className?: string;
   overscanCount?: number;
-  onScroll?: (scrollOffset: number) => void;
+  onScroll?: (_scrollOffset: number) => void;
 }
 
 export function VirtualScroll<T>({
@@ -32,7 +32,7 @@ export function VirtualScroll<T>({
 
   return (
     <div className={cn('w-full', className)}>
-      <List
+      <FixedSizeList
         height={height}
         itemCount={items.length}
         itemSize={itemHeight}
@@ -41,7 +41,7 @@ export function VirtualScroll<T>({
         onScroll={onScroll}
       >
         {Row}
-      </List>
+      </FixedSizeList>
     </div>
   );
 }
@@ -51,7 +51,7 @@ interface InfiniteVirtualScrollProps<T> {
   items: T[];
   height: number;
   itemHeight: number;
-  renderItem: (props: { index: number; style: React.CSSProperties; item: T }) => React.ReactNode;
+  renderItem: ({ index, style, item }: { index: number; style: React.CSSProperties; item: T }) => React.ReactNode;
   className?: string;
   hasNextPage: boolean;
   isNextPageLoading: boolean;
@@ -81,7 +81,7 @@ export function InfiniteVirtualScroll<T>({
 
   return (
     <div className={cn('w-full', className)}>
-      <List
+      <FixedSizeList
         height={height}
         itemCount={itemCount}
         itemSize={itemHeight}
@@ -94,7 +94,7 @@ export function InfiniteVirtualScroll<T>({
         }}
       >
         {Row}
-      </List>
+      </FixedSizeList>
     </div>
   );
 }

@@ -135,7 +135,7 @@ export default function AdvancedSettingsPage() {
       id: '4',
       category: 'api',
       name: 'Gemini API Key',
-      value: 'AIzaSyDLoh3uLwjswAG5hkQ5STJxvqwVxQAjS-E',
+      value: process.env.GEMINI_API_KEY || 'your_gemini_api_key_here',
       type: 'password',
       description: 'Google Gemini API anahtarı',
       isRequired: true,

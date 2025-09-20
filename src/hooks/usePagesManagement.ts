@@ -9,9 +9,9 @@ import {
   useAdminStats,
   usePageActions,
   useFilterActions,
-  useStatsActions,
-  useNotificationActions
+  useStatsActions
 } from '@/stores/admin-store';
+import { useNotificationActions } from '@/stores/ui-store';
 import { adminApi, type CreatePageData, type UpdatePageData } from '@/lib/services/admin-api';
 
 interface UsePagesManagementOptions {
