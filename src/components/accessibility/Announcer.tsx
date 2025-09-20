@@ -25,4 +25,3 @@ export function Announcer({ message, priority = 'polite' }: AnnouncerProps) {
     </div>
   );
 }
-

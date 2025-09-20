@@ -32,7 +32,7 @@ class BlogStorage {
     try {
       await fs.mkdir(this.dataDir, { recursive: true });
     } catch (error) {
-      console.error('Error creating data directory:', error);
+      // console.error('Error creating data directory:', error);
     }
   }
 
@@ -46,7 +46,7 @@ class BlogStorage {
       if (error instanceof Error && 'code' in error && error.code === 'ENOENT') {
         return [];
       }
-      console.error('Error reading posts file:', error);
+      // console.error('Error reading posts file:', error);
       return [];
     }
   }
@@ -56,7 +56,7 @@ class BlogStorage {
       await this.ensureDataDir();
       await fs.writeFile(this.postsFile, JSON.stringify(posts, null, 2), 'utf-8');
     } catch (error) {
-      console.error('Error writing posts file:', error);
+      // console.error('Error writing posts file:', error);
       throw error;
     }
   }
@@ -182,7 +182,8 @@ class BlogStorage {
           title: 'Günün Tech Gelişmeleri - 18.09.2025',
           content: `
             <h2>Yapay Zeka ve Gelecek</h2>
-            <p>Bugün yapay zeka alanında önemli gelişmeler yaşandı. OpenAI'nin yeni GPT-5 modeli duyuruldu ve performans testleri başladı.</p>
+            <p>Bugün yapay zeka alanında önemli gelişmeler yaşandı. 
+            OpenAI'nin yeni GPT-5 modeli duyuruldu ve performans testleri başladı.</p>
             
             <h3>Öne Çıkan Gelişmeler:</h3>
             <ul>
@@ -192,7 +193,8 @@ class BlogStorage {
               <li>AI güvenlik standartları</li>
             </ul>
             
-            <p>Bu gelişmeler, yapay zeka teknolojisinin geleceğini şekillendirecek önemli adımlar olarak değerlendiriliyor.</p>
+            <p>Bu gelişmeler, yapay zeka teknolojisinin geleceğini şekillendirecek 
+            önemli adımlar olarak değerlendiriliyor.</p>
           `,
           status: 'published',
           publishedAt: '2024-09-18T09:00:00Z',
@@ -240,4 +242,3 @@ class BlogStorage {
 
 // Singleton instance
 export const blogStorage = new BlogStorage();
-

@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { blogStorage } from '@/lib/blog-storage';
 
-export async function POST(request: NextRequest) {
+export async function POST() {
   try {
     const backupFile = await blogStorage.backupPosts();
 
@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Backup error:', error);
+    // console.error('Backup error:', error);
     return NextResponse.json(
       {
         success: false,
@@ -39,7 +39,7 @@ export async function GET() {
       },
     });
   } catch (error) {
-    console.error('Blog stats error:', error);
+    // console.error('Blog stats error:', error);
     return NextResponse.json(
       {
         success: false,
@@ -50,4 +50,3 @@ export async function GET() {
     );
   }
 }
-

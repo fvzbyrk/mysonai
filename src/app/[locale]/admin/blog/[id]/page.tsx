@@ -16,6 +16,7 @@ import {
   ExternalLink,
 } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useParams } from 'next/navigation';
 
 interface BlogPost {
@@ -44,7 +45,7 @@ export default function BlogPostDetailPage() {
 
   useEffect(() => {
     loadPost();
-  }, [postId]);
+  }, [postId, loadPost]);
 
   const loadPost = async () => {
     try {
@@ -55,10 +56,10 @@ export default function BlogPostDetailPage() {
       if (data.success && data.data.post) {
         setPost(data.data.post);
       } else {
-        console.error('Failed to load post:', data.message);
+        // console.error('Failed to load post:', data.message);
       }
     } catch (error) {
-      console.error('Error loading post:', error);
+      // console.error('Error loading post:', error);
     } finally {
       setIsLoading(false);
     }
@@ -93,7 +94,7 @@ export default function BlogPostDetailPage() {
         alert('Makale silinirken hata oluştu: ' + data.message);
       }
     } catch (error) {
-      console.error('Error deleting post:', error);
+      // console.error('Error deleting post:', error);
       alert('Makale silinirken hata oluştu');
     } finally {
       setIsDeleting(false);
@@ -267,9 +268,11 @@ export default function BlogPostDetailPage() {
             {/* Image */}
             {post.imageUrl && (
               <div className='mb-6'>
-                <img
+                <Image
                   src={post.imageUrl}
                   alt={post.imageAlt || post.title}
+                  width={800}
+                  height={256}
                   className='w-full h-64 object-cover rounded-lg'
                 />
               </div>
@@ -305,4 +308,3 @@ export default function BlogPostDetailPage() {
     </div>
   );
 }
-

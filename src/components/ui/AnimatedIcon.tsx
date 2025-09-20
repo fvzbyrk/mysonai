@@ -105,4 +105,3 @@ export function KidsIcon({ className }: { className?: string }) {
     </AnimatedIcon>
   );
 }
-

@@ -5,7 +5,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, Save, Eye, Tag, Image as ImageIcon } from 'lucide-react';
+import { ArrowLeft, Save, Tag } from 'lucide-react';
 import Link from 'next/link';
 
 export default function NewBlogPostPage() {
@@ -53,7 +53,7 @@ export default function NewBlogPostPage() {
         alert('Makale oluşturulurken hata oluştu: ' + data.message);
       }
     } catch (error) {
-      console.error('Error creating post:', error);
+      // console.error('Error creating post:', error);
       alert('Makale oluşturulurken hata oluştu');
     } finally {
       setIsSaving(false);
@@ -273,4 +273,3 @@ export default function NewBlogPostPage() {
     </div>
   );
 }
-

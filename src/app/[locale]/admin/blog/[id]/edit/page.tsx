@@ -5,7 +5,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, Save, Eye, Calendar, Tag, User, Clock, Image as ImageIcon } from 'lucide-react';
+import { ArrowLeft, Save, Tag } from 'lucide-react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
@@ -58,7 +58,7 @@ export default function BlogPostEditPage() {
 
   useEffect(() => {
     loadPost();
-  }, [postId]);
+  }, [postId, loadPost]);
 
   const loadPost = async () => {
     try {
@@ -81,10 +81,10 @@ export default function BlogPostEditPage() {
           imageAlt: postData.imageAlt || '',
         });
       } else {
-        console.error('Failed to load post:', data.message);
+        // console.error('Failed to load post:', data.message);
       }
     } catch (error) {
-      console.error('Error loading post:', error);
+      // console.error('Error loading post:', error);
     } finally {
       setIsLoading(false);
     }
@@ -116,7 +116,7 @@ export default function BlogPostEditPage() {
         alert('Makale güncellenirken hata oluştu: ' + data.message);
       }
     } catch (error) {
-      console.error('Error updating post:', error);
+      // console.error('Error updating post:', error);
       alert('Makale güncellenirken hata oluştu');
     } finally {
       setIsSaving(false);
@@ -371,4 +371,3 @@ export default function BlogPostEditPage() {
     </div>
   );
 }
-
