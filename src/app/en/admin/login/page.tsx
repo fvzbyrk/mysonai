@@ -22,19 +22,8 @@ export default function AdminLoginPage() {
     try {
       console.log('=== LOGIN START ===');
       console.log('Username:', username);
-      console.log('Password length:', password.length);
+      console.log('Password:', password);
 
-      // Test API endpoint first
-      console.log('Testing API endpoint...');
-      const testResponse = await fetch('/api/admin/auth', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: 'test', password: 'test' }),
-      });
-      console.log('Test response status:', testResponse.status);
-
-      // Real login attempt
-      console.log('Attempting real login...');
       const response = await fetch('/api/admin/auth', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -42,21 +31,12 @@ export default function AdminLoginPage() {
       });
 
       console.log('Response status:', response.status);
-      console.log('Response headers:', Object.fromEntries(response.headers.entries()));
-
       const result = await response.json();
       console.log('Response result:', result);
 
       if (result.success) {
-        console.log('Login successful, storing token...');
+        console.log('Login successful!');
         localStorage.setItem('admin_token', result.token);
-        console.log('Token stored:', result.token.substring(0, 20) + '...');
-
-        // Test token storage
-        const storedToken = localStorage.getItem('admin_token');
-        console.log('Stored token verified:', !!storedToken);
-
-        // Redirect to admin dashboard
         window.location.href = '/en/admin';
       } else {
         console.log('Login failed:', result.message);
@@ -64,12 +44,9 @@ export default function AdminLoginPage() {
       }
     } catch (error) {
       console.error('Login error:', error);
-      console.error('Error type:', typeof error);
-      console.error('Error message:', error.message);
-      setError('Connection error: ' + error.message);
+      setError('Connection error');
     } finally {
       setIsLoading(false);
-      console.log('=== LOGIN END ===');
     }
   };
 
@@ -82,7 +59,7 @@ export default function AdminLoginPage() {
               <Lock className='w-8 h-8 text-purple-400' />
             </div>
             <h1 className='text-2xl font-bold text-white mb-2'>Admin Login</h1>
-            <p className='text-gray-300'>MySonAI Admin Panel Access</p>
+            <p className='text-gray-300'>Access MySonAI administration panel</p>
           </div>
 
           <form onSubmit={handleLogin} className='space-y-6'>

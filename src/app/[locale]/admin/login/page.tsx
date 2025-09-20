@@ -22,19 +22,8 @@ export default function AdminLoginPage() {
     try {
       console.log('=== LOGIN START ===');
       console.log('Username:', username);
-      console.log('Password length:', password.length);
+      console.log('Password:', password);
 
-      // Test API endpoint first
-      console.log('Testing API endpoint...');
-      const testResponse = await fetch('/api/admin/auth', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: 'test', password: 'test' }),
-      });
-      console.log('Test response status:', testResponse.status);
-
-      // Real login attempt
-      console.log('Attempting real login...');
       const response = await fetch('/api/admin/auth', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -42,36 +31,22 @@ export default function AdminLoginPage() {
       });
 
       console.log('Response status:', response.status);
-      console.log('Response headers:', Object.fromEntries(response.headers.entries()));
-
       const result = await response.json();
       console.log('Response result:', result);
 
       if (result.success) {
-        console.log('Login successful, storing token...');
+        console.log('Login successful!');
         localStorage.setItem('admin_token', result.token);
-        console.log('Token stored:', result.token.substring(0, 20) + '...');
-
-        // Test token storage
-        const storedToken = localStorage.getItem('admin_token');
-        console.log('Stored token verified:', !!storedToken);
-
-        // Redirect to admin dashboard
-        const adminPath = window.location.pathname.startsWith('/en') ? '/en/admin' : '/tr/admin';
-        console.log('Redirecting to:', adminPath);
-        window.location.href = adminPath;
+        window.location.href = '/tr/admin';
       } else {
         console.log('Login failed:', result.message);
         setError(result.message || 'Giriş başarısız');
       }
     } catch (error) {
       console.error('Login error:', error);
-      console.error('Error type:', typeof error);
-      console.error('Error message:', error.message);
-      setError('Bağlantı hatası: ' + error.message);
+      setError('Bağlantı hatası');
     } finally {
       setIsLoading(false);
-      console.log('=== LOGIN END ===');
     }
   };
 
