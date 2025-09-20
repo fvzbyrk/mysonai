@@ -30,9 +30,9 @@ export default function CoNestPage() {
       title: 'Kullanıcı Yönetimi',
       items: [
         'Güvenli Kayıt/Giriş - E-posta, Google, Apple',
-        'Çoklu Profil - Anne-baba ve çocuk profilleri',
+        'Esnek Aile Yapısı - Tek ebeveyn veya çift ebeveyn',
+        'Çoklu Çocuk Desteği - 1 veya daha fazla çocuk takibi',
         'Detaylı Profil Bilgileri - İş saatleri, acil durum',
-        'Çoklu Çocuk Desteği - Birden fazla çocuk takibi',
         'Güvenli Şifre - Güçlü şifre politikası',
       ],
     },
@@ -73,10 +73,10 @@ export default function CoNestPage() {
       icon: <MessageCircle className='w-6 h-6' />,
       title: 'Sosyal Topluluk',
       items: [
+        'Tek Ebeveyn Destek Grupları - Deneyim paylaşımı',
         'Yaş Grupları - İlkokul Ebeveynleri, Sporcu Çocuklar',
         'İlgi Alanları - Hobi ve aktivite bazlı gruplar',
         'Konum Bazlı - Yakındaki ebeveynler',
-        'Destek Grupları - Nöbetçi Ebeveynler, Tek Ebeveyn',
         'Forum Sistemi - Soru-cevap, deneyim paylaşımı',
       ],
     },
@@ -111,6 +111,17 @@ export default function CoNestPage() {
         'Güvenlik Kontrolü - Çocuk okuldan çıkış bildirimi',
         'Acil Durum İletişim - Hızlı erişim bilgileri',
         'Konum Paylaşımı - İsteğe bağlı yakınlık',
+      ],
+    },
+    {
+      icon: <Heart className='w-6 h-6' />,
+      title: 'Tek Ebeveyn Desteği',
+      items: [
+        'Esnek Çalışma Saatleri - İş programına uygun planlama',
+        'Acil Durum Planları - Tek başına kalma durumları',
+        'Destek Ağı - Yakındaki diğer tek ebeveynler',
+        'Maliyet Optimizasyonu - Bütçe dostu aktiviteler',
+        'Zaman Yönetimi - Verimli günlük rutinler',
       ],
     },
   ];
@@ -187,8 +198,9 @@ export default function CoNestPage() {
           </p>
 
           <p className='text-lg text-gray-500 mb-12 max-w-4xl mx-auto'>
-            Aile organizasyonu ve çocuk gelişimi takibi için kapsamlı platform. Gamification, sosyal
-            topluluk ve akıllı bildirimler ile aile yaşamınızı kolaylaştırın.
+            Tek ebeveyn veya çift ebeveyn aileler için tasarlanmış kapsamlı platform. Bir veya
+            birden fazla çocuğunuzun gelişimini takip edin, günlük planlarınızı organize edin.
+            Gamification, sosyal topluluk ve akıllı bildirimler ile aile yaşamınızı kolaylaştırın.
           </p>
 
           <div className='flex flex-col sm:flex-row gap-4 justify-center'>

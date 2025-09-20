@@ -30,9 +30,9 @@ export default function CoNestPage() {
       title: 'User Management',
       items: [
         'Secure Registration/Login - Email, Google, Apple',
-        'Multiple Profiles - Parent and child profiles separately',
+        'Flexible Family Structure - Single-parent or dual-parent',
+        'Multiple Children Support - Track 1 or more children',
         'Detailed Profile Information - Work hours, emergency contacts',
-        'Multiple Children Support - Track multiple children',
         'Secure Password - Strong password policy',
       ],
     },
@@ -73,10 +73,10 @@ export default function CoNestPage() {
       icon: <MessageCircle className='w-6 h-6' />,
       title: 'Social Community',
       items: [
+        'Single Parent Support Groups - Experience sharing',
         'Age Groups - Elementary Parents, Athlete Children',
         'Interest Areas - Hobby and activity-based groups',
         'Location-Based - Nearby parents',
-        'Support Groups - On-call Parents, Single Parent',
         'Forum System - Q&A, experience sharing',
       ],
     },
@@ -111,6 +111,17 @@ export default function CoNestPage() {
         'Security Control - Child school exit notification',
         'Emergency Communication - Quick access information',
         'Location Sharing - Optional proximity feature',
+      ],
+    },
+    {
+      icon: <Heart className='w-6 h-6' />,
+      title: 'Single Parent Support',
+      items: [
+        'Flexible Work Hours - Planning according to work schedule',
+        'Emergency Plans - Situations when alone',
+        'Support Network - Nearby other single parents',
+        'Cost Optimization - Budget-friendly activities',
+        'Time Management - Efficient daily routines',
       ],
     },
   ];
@@ -193,8 +204,9 @@ export default function CoNestPage() {
           </p>
 
           <p className='text-lg text-gray-500 mb-12 max-w-4xl mx-auto'>
-            Comprehensive platform for family organization and child development tracking. Simplify
-            your family life with gamification, social community and smart notifications.
+            Comprehensive platform designed for single-parent or dual-parent families. Track the
+            development of one or more children, organize your daily plans. Simplify your family
+            life with gamification, social community and smart notifications.
           </p>
 
           <div className='flex flex-col sm:flex-row gap-4 justify-center'>
