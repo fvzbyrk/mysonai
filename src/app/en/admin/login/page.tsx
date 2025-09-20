@@ -20,26 +20,56 @@ export default function AdminLoginPage() {
     setError('');
 
     try {
+      console.log('=== LOGIN START ===');
+      console.log('Username:', username);
+      console.log('Password length:', password.length);
+
+      // Test API endpoint first
+      console.log('Testing API endpoint...');
+      const testResponse = await fetch('/api/admin/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: 'test', password: 'test' }),
+      });
+      console.log('Test response status:', testResponse.status);
+
+      // Real login attempt
+      console.log('Attempting real login...');
       const response = await fetch('/api/admin/auth', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
       });
 
+      console.log('Response status:', response.status);
+      console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+
       const result = await response.json();
+      console.log('Response result:', result);
 
       if (result.success) {
-        // Store auth token in localStorage
+        console.log('Login successful, storing token...');
         localStorage.setItem('admin_token', result.token);
+        console.log('Token stored:', result.token.substring(0, 20) + '...');
+
+        // Test token storage
+        const storedToken = localStorage.getItem('admin_token');
+        console.log('Stored token verified:', !!storedToken);
+
         // Redirect to admin dashboard
         window.location.href = '/en/admin';
       } else {
+        console.log('Login failed:', result.message);
         setError(result.message || 'Login failed');
       }
     } catch (error) {
-      setError('Connection error');
+      console.error('Login error:', error);
+      console.error('Error type:', typeof error);
+      console.error('Error message:', error.message);
+      setError('Connection error: ' + error.message);
     } finally {
       setIsLoading(false);
+      console.log('=== LOGIN END ===');
     }
   };
 

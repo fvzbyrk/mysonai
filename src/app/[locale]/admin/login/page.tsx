@@ -20,8 +20,21 @@ export default function AdminLoginPage() {
     setError('');
 
     try {
-      console.log('Attempting login with:', { username, password: '***' });
+      console.log('=== LOGIN START ===');
+      console.log('Username:', username);
+      console.log('Password length:', password.length);
 
+      // Test API endpoint first
+      console.log('Testing API endpoint...');
+      const testResponse = await fetch('/api/admin/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: 'test', password: 'test' }),
+      });
+      console.log('Test response status:', testResponse.status);
+
+      // Real login attempt
+      console.log('Attempting real login...');
       const response = await fetch('/api/admin/auth', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -29,19 +42,23 @@ export default function AdminLoginPage() {
       });
 
       console.log('Response status:', response.status);
+      console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+
       const result = await response.json();
       console.log('Response result:', result);
 
       if (result.success) {
         console.log('Login successful, storing token...');
-        // Store auth token in localStorage
         localStorage.setItem('admin_token', result.token);
-        console.log('Token stored, redirecting...');
+        console.log('Token stored:', result.token.substring(0, 20) + '...');
 
-        // Redirect to admin dashboard (determine locale from current path)
+        // Test token storage
+        const storedToken = localStorage.getItem('admin_token');
+        console.log('Stored token verified:', !!storedToken);
+
+        // Redirect to admin dashboard
         const adminPath = window.location.pathname.startsWith('/en') ? '/en/admin' : '/tr/admin';
         console.log('Redirecting to:', adminPath);
-        // Use window.location.href for hard redirect
         window.location.href = adminPath;
       } else {
         console.log('Login failed:', result.message);
@@ -49,9 +66,12 @@ export default function AdminLoginPage() {
       }
     } catch (error) {
       console.error('Login error:', error);
-      setError('Bağlantı hatası');
+      console.error('Error type:', typeof error);
+      console.error('Error message:', error.message);
+      setError('Bağlantı hatası: ' + error.message);
     } finally {
       setIsLoading(false);
+      console.log('=== LOGIN END ===');
     }
   };
 
