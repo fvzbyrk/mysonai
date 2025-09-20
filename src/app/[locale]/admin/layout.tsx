@@ -15,26 +15,34 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
   useEffect(() => {
+    console.log('Admin layout useEffect triggered, pathname:', pathname);
+
     // Skip auth check for login page (both TR and EN)
     if (pathname === '/tr/admin/login' || pathname === '/en/admin/login') {
+      console.log('Login page detected, skipping auth check');
       setIsCheckingAuth(false);
       return;
     }
 
     // Check authentication for all other admin pages
     const checkAuth = async () => {
+      console.log('Starting auth check...');
+
       // Check if we're in browser environment
       if (typeof window === 'undefined') {
+        console.log('Server-side rendering, skipping auth check');
         setIsCheckingAuth(false);
         return;
       }
 
       const token = localStorage.getItem('admin_token');
+      console.log('Token found:', !!token);
 
       if (!token) {
         console.log('No admin token found, redirecting to login');
         // Determine correct login path based on current locale
         const loginPath = pathname.startsWith('/en') ? '/en/admin/login' : '/tr/admin/login';
+        console.log('Redirecting to:', loginPath);
         router.push(loginPath);
         return;
       }
@@ -53,7 +61,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         console.log('Auth result:', result);
 
         if (result.success) {
-          console.log('Authentication successful');
+          console.log('Authentication successful, setting authenticated to true');
           setIsAuthenticated(true);
         } else {
           console.log('Authentication failed, redirecting to login');
@@ -69,6 +77,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         const loginPath = pathname.startsWith('/en') ? '/en/admin/login' : '/tr/admin/login';
         router.push(loginPath);
       } finally {
+        console.log('Auth check completed, setting isCheckingAuth to false');
         setIsCheckingAuth(false);
       }
     };
@@ -89,7 +98,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   }
 
   // Show login redirect if not authenticated (except for login page)
-  if (!isAuthenticated && pathname !== '/tr/admin/login') {
+  if (!isAuthenticated && pathname !== '/tr/admin/login' && pathname !== '/en/admin/login') {
     return null; // Will redirect to login
   }
 
