@@ -21,6 +21,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     if (pathname === '/tr/admin/login' || pathname === '/en/admin/login') {
       console.log('Login page detected, skipping auth check');
       setIsCheckingAuth(false);
+      setIsAuthenticated(false);
       return;
     }
 
