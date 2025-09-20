@@ -22,24 +22,34 @@ export default function AdminLoginPage() {
     setError('');
 
     try {
+      console.log('Attempting login with:', { username, password: '***' });
+
       const response = await fetch('/api/admin/auth', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
       });
 
+      console.log('Response status:', response.status);
       const result = await response.json();
+      console.log('Response result:', result);
 
       if (result.success) {
+        console.log('Login successful, storing token...');
         // Store auth token in localStorage
         localStorage.setItem('admin_token', result.token);
+        console.log('Token stored, redirecting...');
+
         // Redirect to admin dashboard (determine locale from current path)
         const adminPath = window.location.pathname.startsWith('/en') ? '/en/admin' : '/tr/admin';
+        console.log('Redirecting to:', adminPath);
         router.push(adminPath);
       } else {
+        console.log('Login failed:', result.message);
         setError(result.message || 'Giriş başarısız');
       }
     } catch (error) {
+      console.error('Login error:', error);
       setError('Bağlantı hatası');
     } finally {
       setIsLoading(false);
